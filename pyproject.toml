@@ -1,0 +1,117 @@
+[build-system]
+requires = [
+    "setuptools>=63.0.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "leaf-focus"
+description = "A command line program to extract structured text from pdf files."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Development Status :: 3 - Alpha",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Utilities",
+]
+dynamic = [
+    "version",
+    "dependencies",
+    "optional-dependencies",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/anotherbyte-net/leaf-focus"
+"Changelog" = "https://github.com/anotherbyte-net/leaf-focus/blob/main/CHANGELOG.md"
+"Source" = "https://github.com/anotherbyte-net/leaf-focus"
+"Tracker" = "https://github.com/anotherbyte-net/leaf-focus/issues"
+
+[project.scripts]
+leaf-focus = 'manage:main'
+
+[tool.setuptools.packages.find]
+where = [
+    "src",
+]
+include = [
+    "leaf_focus",
+]
+
+[tool.setuptools.dynamic]
+version = { file = [
+    "VERSION",
+] }
+dependencies = { file = [
+    "requirements.txt",
+] }
+
+[tool.setuptools.dynamic.optional-dependencies]
+dev = { file = [
+    "requirements-dev.txt",
+] }
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra --quiet"
+pythonpath = [
+    "src",
+]
+testpaths = [
+    "tests",
+]
+
+[tool.coverage.run]
+# "Specifying the source option enables coverage.py to report on unexecuted files,
+# since it can search the source tree for files that haven’t been measured at all."
+source = [
+    'src',
+]
+omit = [
+    '*/site-packages/*',
+    'tests/*',
+]
+
+[tool.coverage.report]
+skip_empty = true
+
+[tool.coverage.html]
+directory = "coverage-html"
+
+[tool.isort]
+profile = "black"
+src_paths = [
+    "src",
+]
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+isolated_build = True
+# envlist = py38,py39,py310,py311-dev
+envlist = py310
+toxworkdir = {homedir}/tox-app
+
+[testenv]
+recreate = true
+deps =
+    -rrequirements.txt
+    -rrequirements-dev.txt
+commands =
+    coverage run -m pytest
+    # black --check src
+    # flake8 src --count --show-source --statistics
+    # pydocstyle src
+    # mypy src
+    # pylint src
+    # pyright src
+"""
+
+[tool.pydocstyle]
+ignore = 'D104'
+
+[tool.mypy]
+ignore_missing_imports = true
