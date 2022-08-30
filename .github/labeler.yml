@@ -1,0 +1,12 @@
+documentation:
+  - docs/**/*
+
+dependencies:
+  - requirements.txt
+  - requirements-dev.txt
+  - docs/requirements.txt
+  - pyproject.toml
+  - MANIFEST.in
+
+tests:
+  - tests/**/*
