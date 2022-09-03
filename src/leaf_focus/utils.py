@@ -1,108 +1,57 @@
-import dataclasses
+import pathlib
+import platform
 import typing
-from xml.etree.ElementTree import Element
+from datetime import datetime
 
 
-@dataclasses.dataclass
-class XmlElement:
-    """
-    A simple xml element.
+def parse_date(value: str) -> typing.Optional[datetime]:
+    """Parse a date from a string."""
 
-    <tag attrib>text<child/>...</tag>tail
-    """
-
-    attrib: typing.Collection[typing.Tuple[str, str, str]]
-    tag: str
-    ns: str
-    text: str
-    tail: str
-    children: typing.Collection["XmlElement"]
-
-    def to_dict(self):
-        result = {"name": self.tag.strip()}
-
-        value = ((self.text or "").strip() + " " + (self.tail or "").strip()).strip()
-        if value:
-            result["value"] = value
-
-        attributes = {k.strip(): (v or "").strip() for n, k, v, in self.attrib}
-        if attributes:
-            result["attributes"] = attributes
-
-        children = [i.to_dict() for i in self.children]
-        if children:
-            result["children"] = children
-
-        return result
-
-    def __str__(self):
-        tag1 = (self.tag or "").strip()
-        tag2 = f"</{tag1}>"
-        text = (self.text or "").strip()
-        tail = (self.tail or "").strip()
-
-        count = len(self.children)
-        if count == 0:
-            children = ""
-        elif count == 1:
-            children = "(1 child)"
-        else:
-            children = f"({count} children)"
-
-        if text and children:
-            children = " " + children
-
-        if not text and not children:
-            tag2 = ""
-
-        count_attrib = len(self.attrib)
-        if count_attrib == 0:
-            attrib = ""
-        elif count_attrib == 1:
-            attrib = " (1 attribute)"
-        else:
-            attrib = f" ({count} attributes)"
-
-        return f"<{tag1}{attrib}>{text}{children}{tag2}{tail}"
+    formats = [
+        # e.g. 'Thu Aug 13 11:09:00 2020'
+        "%a %b %d %H:%M:%S %Y",
+    ]
+    for fmt in formats:
+        try:
+            return datetime.strptime(value, fmt)
+        except ValueError:
+            pass
+    return None
 
 
-def xml_to_dict(element: Element):
-    """turn xml into nested dicts"""
+def validate(name: str, value, expected: typing.List):
+    """Validate that a value is one of the expected values."""
 
-    attrib = element.attrib or {}
-    tag = element.tag
-    text = element.text
-    tail = element.tail
-    children = []
-
-    for child in element:
-        children.append(xml_to_dict(child))
-
-    tag_ns, tag_name = xml_tag_ns(tag)
-
-    attrib_ns = []
-    for k, v in attrib.items():
-        ns, t = xml_tag_ns(k)
-        attrib_ns.append((ns, t, v))
-
-    item = XmlElement(
-        attrib=attrib_ns,
-        tag=tag_name,
-        ns=tag_ns,
-        text=text,
-        tail=tail,
-        children=children,
-    )
-
-    return item
+    if value is not None and value not in expected:
+        opts = ", ".join(sorted([str(i) for i in expected]))
+        raise ValueError(f"Invalid {name} '{value}'. Expected one of '{opts}'.")
 
 
-def xml_tag_ns(value: str):
-    if "}" in value:
-        ns, name = value.rsplit("}", maxsplit=1)
-        ns = ns.strip("{}")
-    else:
-        ns = ""
-        name = value
+def select_exe(path: pathlib.Path) -> pathlib.Path:
+    """Select the executable path based on the platform."""
 
-    return ns, name
+    if platform.system() == "Windows":
+        path = path.with_suffix(".exe")
+
+    if not path.exists():
+        raise FileNotFoundError(str(path))
+
+    return path
+
+
+def output_root(
+    output_type: str,
+    output_path: pathlib.Path,
+    additional: typing.Optional[typing.Collection[str]] = None,
+):
+    file_date = datetime.utcnow().isoformat(timespec="seconds").replace(":", "-")
+
+    add_str = "-".join([i.strip("-") for i in (additional or [])])
+    add_str = add_str.replace(".", "-").replace("_", "-")
+
+    items = [i for i in [file_date, output_type, add_str] if i]
+
+    name = "-".join(items)
+    output = output_path / name
+
+    return output

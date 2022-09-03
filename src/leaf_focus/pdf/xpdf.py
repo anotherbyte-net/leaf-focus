@@ -1,12 +1,12 @@
 import dataclasses
 import pathlib
-import platform
 import subprocess
 import typing
 from datetime import datetime
-from defusedxml import ElementTree as ET
-from leaf_focus import model
-from leaf_focus.utils import xml_to_dict
+from defusedxml import ElementTree
+
+from leaf_focus import utils, xml
+from leaf_focus.pdf import model
 
 
 class XpdfProgram:
@@ -47,13 +47,13 @@ class XpdfProgram:
 
         # validation
         enc = xpdf_args.encoding
-        self.validate("text encoding", enc, self.OPTS_TEXT_ENCODING)
+        utils.validate("text encoding", enc, self.OPTS_TEXT_ENCODING)
 
         if not pdf_path.exists():
             raise FileNotFoundError(str(pdf_path))
 
         # build command
-        exe_path = self.select_exe(self._directory / "pdfinfo")
+        exe_path = utils.select_exe(self._directory / "pdfinfo")
         cmd = [str(exe_path)]
 
         cmd_args = self.build_cmd(xpdf_args)
@@ -95,7 +95,7 @@ class XpdfProgram:
             if field.type == str or str in typing.get_args(field.type):
                 value = value.strip()
             elif field.type == datetime or datetime in typing.get_args(field.type):
-                value = self.parse_date(value.strip())
+                value = utils.parse_date(value.strip())
             elif field.type == bool or bool in typing.get_args(field.type):
                 value = value.strip().lower() == "yes"
             elif field.type == int or int in typing.get_args(field.type):
@@ -111,8 +111,8 @@ class XpdfProgram:
         if metadata_line_index is not None:
             start = metadata_line_index + 1
             metadata = "\n".join(lines[start:])
-            root = ET.fromstring(metadata)
-            data["metadata"] = xml_to_dict(root).to_dict()
+            root = ElementTree.fromstring(metadata)
+            data["metadata"] = xml.xml_to_dict(root).to_dict()
 
         return model.XpdfInfoResult(**data)
 
@@ -133,20 +133,19 @@ class XpdfProgram:
 
         # validation
         eol = xpdf_args.line_end_type
-        self.validate("end of line", eol, self.OPTS_TEXT_LINE_ENDING)
+        utils.validate("end of line", eol, self.OPTS_TEXT_LINE_ENDING)
 
         if not pdf_path.exists():
             raise FileNotFoundError(str(pdf_path))
 
         # build command
-        exe_path = self.select_exe(self._directory / "pdftotext")
+        exe_path = utils.select_exe(self._directory / "pdftotext")
 
         cmd = [str(exe_path)]
         cmd_args = self.build_cmd(xpdf_args)
 
-        output_file = self.output_root("output", output_path, cmd_args).with_suffix(
-            ".txt"
-        )
+        output_file = utils.output_root("output", output_path, cmd_args)
+        output_file = output_file.with_suffix(".txt")
         cmd.extend(cmd_args + [str(pdf_path), str(output_file)])
 
         # execute program
@@ -180,27 +179,27 @@ class XpdfProgram:
         """
         # validation
         rot = xpdf_args.rotation
-        self.validate("rotation", rot, self.OPTS_IMAGE_ROTATION)
+        utils.validate("rotation", rot, self.OPTS_IMAGE_ROTATION)
 
         ft = xpdf_args.free_type
-        self.validate("freetype", ft, self.OPTS_IMAGE_FREETYPE)
+        utils.validate("freetype", ft, self.OPTS_IMAGE_FREETYPE)
 
         aa = xpdf_args.anti_aliasing
-        self.validate("anti-aliasing", aa, self.OPTS_IMAGE_ANTI_ALIAS)
+        utils.validate("anti-aliasing", aa, self.OPTS_IMAGE_ANTI_ALIAS)
 
         aav = xpdf_args.anti_aliasing
-        self.validate("vector anti-aliasing", aav, self.OPTS_IMAGE_VEC_ANTI_ALIAS)
+        utils.validate("vector anti-aliasing", aav, self.OPTS_IMAGE_VEC_ANTI_ALIAS)
 
         if not pdf_path.exists():
             raise FileNotFoundError(str(pdf_path))
 
         # build command
-        exe_path = self.select_exe(self._directory / "pdftopng")
+        exe_path = utils.select_exe(self._directory / "pdftopng")
         cmd = [str(exe_path)]
 
         cmd_args = self.build_cmd(xpdf_args)
 
-        output_dir = self.output_root("output", output_path, cmd_args)
+        output_dir = utils.output_root("output", output_path, cmd_args)
         cmd.extend(cmd_args + [str(pdf_path), str(output_dir)])
 
         # execute program
@@ -220,34 +219,6 @@ class XpdfProgram:
             output_dir=output_dir,
             output_files=output_files,
         )
-
-    def parse_date(self, value: str) -> typing.Optional[datetime]:
-        """Parse a date from a string."""
-        formats = [
-            # e.g. 'Thu Aug 13 11:09:00 2020'
-            "%a %b %d %H:%M:%S %Y",
-        ]
-        for fmt in formats:
-            try:
-                return datetime.strptime(value, fmt)
-            except ValueError:
-                pass
-        return None
-
-    def validate(self, name: str, value, expected: typing.List):
-        """Validate that a value is one of the expected values."""
-        if value is not None and value not in expected:
-            opts = ", ".join(sorted([str(i) for i in expected]))
-            raise ValueError(f"Invalid {name} '{value}'. Expected one of '{opts}'.")
-
-    def select_exe(self, path: pathlib.Path) -> pathlib.Path:
-        if platform.system() == "Windows":
-            path = path.with_suffix(".exe")
-
-        if not path.exists():
-            raise FileNotFoundError(str(path))
-
-        return path
 
     def build_cmd(self, tool_args):
         """Build the command arguments from a data class."""
@@ -299,21 +270,3 @@ class XpdfProgram:
                 )
 
         return cmd_args
-
-    def output_root(
-        self,
-        output_type: str,
-        output_path: pathlib.Path,
-        cmd_args: typing.Collection[str],
-    ):
-        file_date = datetime.utcnow().isoformat(timespec="seconds").replace(":", "-")
-
-        cmd_str = "-".join([i.strip("-") for i in cmd_args])
-        cmd_str = cmd_str.replace(".", "-").replace("_", "-")
-
-        items = [i for i in [file_date, output_type, cmd_str] if i]
-
-        name = "-".join(items)
-        output = output_path / name
-
-        return output

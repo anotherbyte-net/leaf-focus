@@ -4,7 +4,8 @@ import pathlib
 import sys
 import typing
 
-from leaf_focus import app, model
+from leaf_focus import app
+from leaf_focus.pdf import model
 
 """Command line for leaf focus."""
 

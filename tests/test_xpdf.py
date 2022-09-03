@@ -5,9 +5,7 @@ from importlib.resources import path
 
 import pytest
 
-from leaf_focus import model, program
-
-test_file = ("tests.resources", "452.06-win10-win8-win7-release-notes.pdf")
+from leaf_focus.pdf import model, xpdf
 
 
 @pytest.mark.skipif(
@@ -15,12 +13,12 @@ test_file = ("tests.resources", "452.06-win10-win8-win7-release-notes.pdf")
     or not pathlib.Path(os.getenv("XPDF_EXE_DIR")).exists(),
     reason="Requires xpdf executable pdfinfo",
 )
-def test_xpdf_info():
-    with path(*test_file) as p:
+def test_xpdf_info(test_pdf_doc_info):
+    with path(*test_pdf_doc_info) as p:
         pdf_path = p
 
     exe_dir = pathlib.Path(os.getenv("XPDF_EXE_DIR"))
-    prog = program.XpdfProgram(exe_dir)
+    prog = xpdf.XpdfProgram(exe_dir)
     args = model.XpdfInfoArgs(include_page_bounding_boxes=True, include_metadata=True)
     result = prog.info(pdf_path, args)
 
@@ -119,8 +117,8 @@ def test_xpdf_info():
     or not pathlib.Path(os.getenv("XPDF_EXE_DIR")).exists(),
     reason="Requires xpdf executable pdftotext",
 )
-def test_xpdf_text(tmp_path):
-    with path(*test_file) as p:
+def test_xpdf_text(test_pdf_doc_info, tmp_path):
+    with path(*test_pdf_doc_info) as p:
         pdf_path = p
 
     output_path = tmp_path / "output-dir"
@@ -128,7 +126,7 @@ def test_xpdf_text(tmp_path):
 
     exe_dir = pathlib.Path(os.getenv("XPDF_EXE_DIR"))
 
-    prog = program.XpdfProgram(exe_dir)
+    prog = xpdf.XpdfProgram(exe_dir)
     args = model.XpdfTextArgs(
         line_end_type="dos",
         use_verbose=True,
@@ -150,8 +148,8 @@ def test_xpdf_text(tmp_path):
     os.getenv("TEST_INCLUDE_SLOW") != "true",
     reason="This is a slow test, specify env var 'TEST_INCLUDE_SLOW=true' to run it",
 )
-def test_xpdf_image(tmp_path):
-    with path(*test_file) as p:
+def test_xpdf_image(test_pdf_doc_info, tmp_path):
+    with path(*test_pdf_doc_info) as p:
         pdf_path = p
 
     output_path = tmp_path / "output-dir"
@@ -159,7 +157,7 @@ def test_xpdf_image(tmp_path):
 
     exe_dir = pathlib.Path(os.getenv("XPDF_EXE_DIR"))
 
-    prog = program.XpdfProgram(exe_dir)
+    prog = xpdf.XpdfProgram(exe_dir)
     args = model.XpdfImageArgs()
     result = prog.image(pdf_path, output_path, args)
 

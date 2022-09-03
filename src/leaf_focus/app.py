@@ -2,7 +2,7 @@ import logging
 import pathlib
 import typing
 
-from leaf_focus import model
+from leaf_focus.pdf import model
 
 logger = logging.getLogger("leaf_focus.app")
 

@@ -1,1 +1,4 @@
 keras-ocr~=0.9.1
+tensorflow~=2.9.1
+defusedxml~=0.7.1
+pyoxidizer~=0.22.0
