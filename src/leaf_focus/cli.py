@@ -1,14 +1,12 @@
+"""Command line for leaf focus."""
+
 import argparse
 import logging
 import pathlib
 import sys
 import typing
 
-import leaf_focus.utils
 from leaf_focus import app, utils
-from leaf_focus.pdf import model
-
-"""Command line for leaf focus."""
 
 
 def main(args: typing.Optional[typing.List[str]] = None) -> int:
@@ -19,7 +17,6 @@ def main(args: typing.Optional[typing.List[str]] = None) -> int:
     :return: Program exit code.
     :rtype: int
     """
-
     if args is None:
         args = sys.argv[1:]
 
@@ -96,17 +93,17 @@ def main(args: typing.Optional[typing.List[str]] = None) -> int:
             log_level=parsed_args.log_level,
         )
 
-        logging.getLogger().setLevel(app_args.log_level.upper())
+        logging.getLogger().setLevel((app_args.log_level or "info").upper())
 
         result = app_inst.run(app_args)
         return 0 if result is True else 1
 
-    except leaf_focus.utils.LeafFocusException as e:
-        logger.error(f"Error: {e.__class__.__name__} - {str(e)}")
+    except utils.LeafFocusException as error:
+        logger.error("Error: %s - %s", error.__class__.__name__, str(error))
         return 1
 
-    except Exception as e:
-        logger.error(f"Error: {e.__class__.__name__} - {str(e)}")
+    except Exception as error:  # noqa: W0703
+        logger.error("Error: %s - %s", error.__class__.__name__, str(error))
         return 2
 
 

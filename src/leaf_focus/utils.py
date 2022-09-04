@@ -1,3 +1,5 @@
+"""Small utility functions."""
+
 import dataclasses
 import json
 import pathlib
@@ -6,19 +8,23 @@ import typing
 import datetime
 from xml.etree.ElementTree import Element
 
-from importlib.metadata import distribution, PackageNotFoundError
 from importlib.resources import path
 
+from importlib_metadata import distribution, PackageNotFoundError
 
-def get_name_dash():
+
+def get_name_dash() -> str:
+    """Get the package name with word separated by dashes."""
     return "leaf-focus"
 
 
-def get_name_under():
+def get_name_under() -> str:
+    """Get the package name with word separated by underscores."""
     return "leaf_focus"
 
 
-def get_version():
+def get_version() -> typing.Optional[str]:
+    """Get the package version."""
     try:
         dist = distribution(get_name_dash())
         return dist.version
@@ -26,24 +32,16 @@ def get_version():
         pass
 
     try:
-        with path(get_name_under(), "cli.py") as p:
-            return (p.parent.parent.parent / "VERSION").read_text().strip()
+        with path(get_name_under(), "cli.py") as file_path:
+            return (file_path.parent.parent.parent / "VERSION").read_text().strip()
     except FileNotFoundError:
         pass
 
     return None
 
 
-def get_user_agent():
-    product = get_name_dash()
-    version = get_version() or "no-version"
-    url = "https://github.com/anotherbyte-net/steady-ground"
-    return f"{product}/{version} (+{url})"
-
-
 def parse_date(value: str) -> typing.Optional[datetime.datetime]:
     """Parse a date from a string."""
-
     formats = [
         # e.g. 'Thu Aug 13 11:09:00 2020'
         "%a %b %d %H:%M:%S %Y",
@@ -56,9 +54,8 @@ def parse_date(value: str) -> typing.Optional[datetime.datetime]:
     return None
 
 
-def validate(name: str, value, expected: typing.List):
+def validate(name: str, value, expected: typing.List) -> None:
     """Validate that a value is one of the expected values."""
-
     if value is not None and value not in expected:
         opts = ", ".join(sorted([str(i) for i in expected]))
         raise LeafFocusException(f"Invalid {name} '{value}'. Expected one of '{opts}'.")
@@ -67,6 +64,7 @@ def validate(name: str, value, expected: typing.List):
 def validate_path(
     name: str, value: pathlib.Path, must_exist: bool = False
 ) -> pathlib.Path:
+    """Validate a path."""
     if not value:
         raise LeafFocusException(f"Must provide path {name}.")
 
@@ -83,7 +81,6 @@ def validate_path(
 
 def select_exe(value: pathlib.Path) -> pathlib.Path:
     """Select the executable path based on the platform."""
-
     if platform.system() == "Windows":
         value = value.with_suffix(".exe")
 
@@ -99,7 +96,8 @@ def output_root(
     output_type: str,
     output_path: pathlib.Path,
     additional: typing.Optional[typing.Collection[str]] = None,
-):
+) -> pathlib.Path:
+    """Build the path to the output."""
     name_parts = [input_file.stem, output_type]
     name_parts.extend(additional or [])
     name_parts = [str(i) for i in name_parts if i]
@@ -113,11 +111,14 @@ def output_root(
 
 
 class CustomJsonEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, (datetime.datetime, datetime.date, datetime.time)):
-            return obj.isoformat()
+    """A custom json encoder."""
 
-        return super(CustomJsonEncoder, self).default(obj)
+    def default(self, o):
+        """Conversion used by default."""
+        if isinstance(o, (datetime.datetime, datetime.date, datetime.time)):
+            return o.isoformat()
+
+        return super().default(o)
 
 
 @dataclasses.dataclass
@@ -130,13 +131,14 @@ class XmlElement:
 
     attrib: typing.Collection[typing.Tuple[str, str, str]]
     tag: str
-    ns: str
+    name_space: str
     text: str
     tail: str
     children: typing.Collection["XmlElement"]
 
-    def to_dict(self):
-        result = {"name": self.tag.strip()}
+    def to_dict(self) -> typing.Dict:
+        """Convert xml element to a dict."""
+        result: typing.Dict[str, typing.Any] = {"name": self.tag.strip()}
 
         value = ((self.text or "").strip() + " " + (self.tail or "").strip()).strip()
         if value:
@@ -153,6 +155,7 @@ class XmlElement:
         return result
 
     def __str__(self):
+        """Convert to a string."""
         tag1 = (self.tag or "").strip()
         tag2 = f"</{tag1}>"
         text = (self.text or "").strip()
@@ -183,9 +186,8 @@ class XmlElement:
         return f"<{tag1}{attrib}>{text}{children}{tag2}{tail}"
 
 
-def xml_to_dict(element: Element):
-    """turn xml into nested dicts"""
-
+def xml_to_element(element: Element) -> XmlElement:
+    """Convert xml into nested dicts."""
     attrib = element.attrib or {}
     tag = element.tag
     text = element.text
@@ -193,19 +195,19 @@ def xml_to_dict(element: Element):
     children = []
 
     for child in element:
-        children.append(xml_to_dict(child))
+        children.append(xml_to_element(child))
 
     tag_ns, tag_name = xml_tag_ns(tag)
 
     attrib_ns = []
-    for k, v in attrib.items():
-        ns, t = xml_tag_ns(k)
-        attrib_ns.append((ns, t, v))
+    for key, value in attrib.items():
+        extracted_ns, extracted_tag = xml_tag_ns(key)
+        attrib_ns.append((extracted_ns, extracted_tag, value))
 
     item = XmlElement(
         attrib=attrib_ns,
         tag=tag_name,
-        ns=tag_ns,
+        name_space=tag_ns,
         text=text,
         tail=tail,
         children=children,
@@ -214,16 +216,24 @@ def xml_to_dict(element: Element):
     return item
 
 
-def xml_tag_ns(value: str):
+def xml_tag_ns(value: str) -> typing.Tuple[str, str]:
+    """
+    Get the XML namespace and name.
+
+    :param value: The combined namespace and name
+    :return: The separate namespace and name
+    """
     if "}" in value:
-        ns, name = value.rsplit("}", maxsplit=1)
-        ns = ns.strip("{}")
+        name_space, name = value.rsplit("}", maxsplit=1)
+        name_space = name_space.strip("{}")
     else:
-        ns = ""
+        name_space = ""
         name = value
 
-    return ns, name
+    return name_space, name
 
 
 class LeafFocusException(Exception):
+    """A custom error."""
+
     pass

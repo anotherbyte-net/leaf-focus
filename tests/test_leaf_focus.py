@@ -3,11 +3,13 @@ import os
 import pathlib
 import platform
 import shutil
+import sys
 from datetime import datetime
 from importlib.resources import path
 
 import pytest
 
+from leaf_focus import utils
 from leaf_focus.cli import main
 from leaf_focus.ocr.keras_ocr import OpticalCharacterRecognition
 from leaf_focus.ocr.model import TextItem
@@ -196,25 +198,32 @@ def test_keras_ocr_image(resource_example1, tmp_path, capsys):
     output_path.mkdir(exist_ok=True, parents=True)
 
     prog = OpticalCharacterRecognition()
-    result = prog.recognise_text(image_file, output_path)
 
-    expected_lines = 33
-    expected_items = 300
-    assert len(result.items) == expected_lines
-    assert len([item for line in result.items for item in line]) == expected_items
+    if sys.version_info.major == 3 and sys.version_info.minor > 9:
+        with pytest.raises(
+            utils.LeafFocusException, match="Cannot run ocr on this Python version."
+        ):
+            prog.recognise_text(image_file, output_path)
 
-    loaded_items = list(TextItem.load(result.predictions_file))
-    loaded_items = TextItem.order_text_lines(loaded_items)
+    else:
+        result = prog.recognise_text(image_file, output_path)
+        expected_lines = 33
+        expected_items = 300
+        assert len(result.items) == expected_lines
+        assert len([item for line in result.items for item in line]) == expected_items
 
-    assert len(loaded_items) == expected_lines
-    assert len([item for line in loaded_items for item in line]) == expected_items
+        loaded_items = list(TextItem.load(result.predictions_file))
+        loaded_items = TextItem.order_text_lines(loaded_items)
 
-    stdout, stderr = capsys.readouterr()
+        assert len(loaded_items) == expected_lines
+        assert len([item for line in loaded_items for item in line]) == expected_items
 
-    assert "craft_mlt_25k.h5" in stdout
-    assert "crnn_kurapan.h5" in stdout
+        stdout, stderr = capsys.readouterr()
 
-    assert stderr == ""
+        assert "craft_mlt_25k.h5" in stdout
+        assert "crnn_kurapan.h5" in stdout
+
+        assert stderr == ""
 
 
 def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1):

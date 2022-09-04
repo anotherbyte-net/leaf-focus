@@ -1,3 +1,4 @@
+"""OCR using keras-ocr."""
 import logging
 import os
 import pathlib
@@ -12,10 +13,13 @@ logger = logging.getLogger(__name__)
 
 
 class OpticalCharacterRecognition:
+    """OCR implementation using keras-ocr."""
+
     def __init__(self):
         self._pipeline = None
 
-    def create_engine(self):
+    def create_engine(self) -> None:
+        """Create the OCR engine."""
         if self._pipeline is not None:
             return
 
@@ -33,13 +37,18 @@ class OpticalCharacterRecognition:
         }
         os.environ["TF_CPP_MIN_LOG_LEVEL"] = tf_log_level_map.get(log_level)
 
-        import tensorflow as tf
+        import tensorflow as tf  # noqa: C0415
 
         # also set the tf logger level
 
         tf.get_logger().setLevel(log_level)
 
-        import keras_ocr
+        try:
+            import keras_ocr  # noqa: C0415
+        except ModuleNotFoundError as e:
+            msg = "Cannot run ocr on this Python version."
+            logger.error(msg)
+            raise utils.LeafFocusException(msg) from e
 
         # TODO: allow using local weights files for detector
         # detector_weights_path = ""
@@ -68,7 +77,7 @@ class OpticalCharacterRecognition:
     def recognise_text(
         self, image_file: pathlib.Path, output_dir: pathlib.Path
     ) -> model.KerasOcrResult:
-
+        """Recognise text in an image file."""
         if not image_file:
             raise utils.LeafFocusException("Must supply image file.")
         if not output_dir:
@@ -104,7 +113,13 @@ class OpticalCharacterRecognition:
         logger.debug(
             f"Creating predictions and annotations files for '{image_file.stem}'."
         )
-        import keras_ocr
+
+        try:
+            import keras_ocr
+        except ModuleNotFoundError as e:
+            msg = "Cannot run ocr on this Python version."
+            logger.error(msg)
+            raise utils.LeafFocusException(msg) from e
 
         self.create_engine()
 
@@ -120,7 +135,7 @@ class OpticalCharacterRecognition:
         for image, predictions in zip(images, prediction_groups):
             self.save_figure(annotations_file, image, predictions)
 
-            items = list(self.convert_predictions(predictions))
+            items = self.convert_predictions(predictions)
             self.save_items(predictions_file, [item for line in items for item in line])
             result.items = items
 
@@ -131,7 +146,7 @@ class OpticalCharacterRecognition:
         annotation_file: pathlib.Path,
         image: typing.Optional[np.ndarray],
         predictions: typing.List[typing.Tuple[typing.Any, typing.Any]],
-    ):
+    ) -> None:
         """Save the annotated image."""
 
         if not annotation_file:
@@ -146,14 +161,20 @@ class OpticalCharacterRecognition:
 
         logger.info(f"Saving OCR image to '{annotation_file}'.")
 
-        import matplotlib.pyplot as plt
+        import matplotlib.pyplot as plt  # noqa: C0415
 
         annotation_file.parent.mkdir(exist_ok=True, parents=True)
 
-        fig, ax = plt.subplots(figsize=(20, 20))
-        import keras_ocr
+        fig, axis = plt.subplots(figsize=(20, 20))
 
-        keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=ax)
+        try:
+            import keras_ocr  # noqa: C0415
+        except ModuleNotFoundError as e:
+            msg = "Cannot run ocr on this Python version."
+            logger.error(msg)
+            raise utils.LeafFocusException(msg) from e
+
+        keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)
         fig.savefig(str(annotation_file))
         plt.close(fig)
 
@@ -177,7 +198,7 @@ class OpticalCharacterRecognition:
         self,
         items_file: pathlib.Path,
         items: typing.Iterable[model.TextItem],
-    ):
+    ) -> None:
         """Save items to csv file."""
         if not items_file:
             raise utils.LeafFocusException("Must supply predictions file.")
@@ -190,6 +211,7 @@ class OpticalCharacterRecognition:
         model.TextItem.save(items_file, items_list)
 
     def _build_name(self, prefix: str, middle: str, suffix: str):
+        """Build the file name."""
         prefix = prefix.strip("-")
         middle = middle.strip("-")
         suffix = suffix if suffix.startswith(".") else "." + suffix

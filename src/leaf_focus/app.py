@@ -1,3 +1,5 @@
+"""Main application."""
+
 import dataclasses
 import datetime
 import logging
@@ -9,11 +11,13 @@ from leaf_focus import utils
 from leaf_focus.ocr import keras_ocr
 from leaf_focus.pdf import model, xpdf
 
+
 logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
 class AppArgs:
+    """Arguments for running the application."""
 
     input_pdf: pathlib.Path
     """path to the pdf file"""
@@ -46,7 +50,6 @@ class App:
 
         :param exe_dir: path to the directory containing the executable files
         """
-
         self._exe_dir = exe_dir
 
     def run(self, app_args: AppArgs) -> bool:
@@ -57,7 +60,6 @@ class App:
         :return: return true if the text extraction succeeded, otherwise false
         :rtype: bool
         """
-
         timestamp_start = datetime.datetime.utcnow()
         logger.info("Starting leaf-focus")
 
@@ -70,10 +72,10 @@ class App:
 
         # create the output directory
         if not output_dir.is_dir():
-            logger.warning(f"Creating output directory '{output_dir}'.")
+            logger.warning("Creating output directory '%s'.", output_dir)
             output_dir.mkdir(exist_ok=True, parents=True)
         else:
-            logger.info(f"Using output directory '{output_dir}'.")
+            logger.info("Using output directory '%s'.", output_dir)
 
         # run the pdf text extraction
         xpdf_prog = xpdf.XpdfProgram(self._exe_dir)
@@ -109,10 +111,15 @@ class App:
 
         timestamp_finish = datetime.datetime.utcnow()
         program_duration = timestamp_finish - timestamp_start
-        logger.info(f"Finished (duration {program_duration})")
+        logger.info("Finished (duration %s)", program_duration)
         return True
 
-    def get_line_ending(self):
+    def get_line_ending(self) -> str:
+        """
+        Get the line endings based on the current platform.
+
+        :return: the line ending style
+        """
         opts = {
             "Linux": "unix",
             "Darwin": "mac",

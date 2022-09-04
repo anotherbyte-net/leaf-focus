@@ -17,7 +17,7 @@ class XpdfArgs:
     """
     Specify the owner password for the PDF file.
     Providing this will bypass all security restrictions.
-    
+
     -opw <string>          : owner password (for encrypted files)
     """
 
@@ -26,7 +26,7 @@ class XpdfArgs:
     )
     """
     Specify the user password for the PDF file.
-    
+
     -upw <string>          : user password (for encrypted files)
     '"""
 
@@ -35,7 +35,7 @@ class XpdfArgs:
     )
     """
     Specifies the first page to convert.
-    
+
     -f <int>               : first page to convert
     """
 
@@ -44,7 +44,7 @@ class XpdfArgs:
     )
     """
     Specifies the last page to convert.
-    
+
     -l <int>               : last page to convert
     """
 
@@ -62,7 +62,7 @@ class XpdfArgs:
     )
     """
     Read config-file in place of ~/.xpdfrc or the system-wide config file.
-    
+
     -cfg <string>     : configuration file to use in place of .xpdfrc
     """
 
@@ -71,20 +71,22 @@ class XpdfArgs:
     )
     """
     Print copyright and version information.
-    
+
     -v                : print copyright and version info
     """
 
 
 @dataclasses.dataclass
 class XpdfInfoArgs(XpdfArgs):
+    """Arguments for xpdf pdfinfo program."""
+
     include_page_bounding_boxes: typing.Optional[bool] = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-box", "cmd_type": "bool"}}, default=False
     )
     """
-    Prints the page box bounding boxes: 
+    Prints the page box bounding boxes:
     MediaBox, CropBox, BleedBox, TrimBox, and ArtBox.
-    
+
     -box              : print the page bounding boxes
     """
 
@@ -94,7 +96,7 @@ class XpdfInfoArgs(XpdfArgs):
     """
     Prints document-level metadata.
     This is the "Metadata" stream from the PDF file’s Catalog object.
-    
+
     -meta             : print the document metadata (XML)
     """
 
@@ -103,7 +105,7 @@ class XpdfInfoArgs(XpdfArgs):
     )
     """
     Prints the raw (undecoded) date strings, directly from the PDF file.
-    
+
     -rawdates         : print the undecoded date strings directly from the PDF file
     """
 
@@ -113,7 +115,7 @@ class XpdfInfoArgs(XpdfArgs):
     """
     Sets the encoding to use for text output.
     The encoding−name must be defined with the unicodeMap command.
-    This defaults to "Latin1" (which is a built-in encoding). 
+    This defaults to "Latin1" (which is a built-in encoding).
 
     -enc <string>          : output text encoding name
     """
@@ -121,6 +123,8 @@ class XpdfInfoArgs(XpdfArgs):
 
 @dataclasses.dataclass
 class XpdfInfoResult:
+    """Result from xpdf pdfinfo program."""
+
     # pdf info
     title: typing.Optional[str] = dataclasses.field(
         metadata={"leaf_focus": {"name": "Title"}}
@@ -196,11 +200,13 @@ class XpdfInfoResult:
 
 @dataclasses.dataclass
 class XpdfTextArgs(XpdfArgs):
+    """Arguments for xpdf pdftotext program."""
+
     use_original_layout: typing.Optional[bool] = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-layout", "cmd_type": "bool"}}, default=False
     )
     """
-    Maintain (as best as possible) the original physical layout of the text. 
+    Maintain (as best as possible) the original physical layout of the text.
 
     -layout                : maintain original physical layout
     """
@@ -230,10 +236,10 @@ class XpdfTextArgs(XpdfArgs):
         metadata={"leaf_focus": {"cmd": "-table", "cmd_type": "bool"}}, default=False
     )
     """
-    Table mode is similar to physical layout mode, but optimized for tabular data, 
-    with the goal of keeping rows and columns aligned 
+    Table mode is similar to physical layout mode, but optimized for tabular data,
+    with the goal of keeping rows and columns aligned
     (at the expense of inserting extra whitespace).
-    If the −fixed option is given, character spacing within 
+    If the −fixed option is given, character spacing within
     each line will be determined by the specified character pitch.
 
     -table                 : similar to -layout, but optimized for tables
@@ -271,7 +277,7 @@ class XpdfTextArgs(XpdfArgs):
     )
     """
     Text which is hidden because of clipping is removed before doing layout,
-    and then added back in. This can be helpful for tables where 
+    and then added back in. This can be helpful for tables where
     clipped (invisible) text would overlap the next column.
 
     -clip                  : separate clipped text
@@ -281,7 +287,7 @@ class XpdfTextArgs(XpdfArgs):
         metadata={"leaf_focus": {"cmd": "-nodiag", "cmd_type": "bool"}}, default=False
     )
     """
-    Diagonal text, i.e., text that is not close to one of 
+    Diagonal text, i.e., text that is not close to one of
     the 0, 90, 180, or 270 degree axes, is discarded.
     This is useful to skip watermarks drawn on top of body text, etc.
 
@@ -292,7 +298,7 @@ class XpdfTextArgs(XpdfArgs):
         metadata={"leaf_focus": {"cmd": "-nopgbrk", "cmd_type": "bool"}}, default=False
     )
     """
-    Don't insert a page break (form feed character) at the 
+    Don't insert a page break (form feed character) at the
     end of each page.
 
     -nopgbrk               : don't insert a page break at the end of each page
@@ -320,7 +326,7 @@ class XpdfTextArgs(XpdfArgs):
         metadata={"leaf_focus": {"cmd": "-fixed", "cmd_type": "single"}}, default=None
     )
     """
-    Specify the character pitch (character width), in points, 
+    Specify the character pitch (character width), in points,
     for physical layout, table, or line printer mode.
     This is ignored in all other modes.
 
@@ -352,7 +358,7 @@ class XpdfTextArgs(XpdfArgs):
     )
     """
     Specifies the left margin, in points.
-    Text in the left margin 
+    Text in the left margin
     (i.e., within that many points of the left edge of the page) is discarded.
     The default value is zero.
 
@@ -364,7 +370,7 @@ class XpdfTextArgs(XpdfArgs):
     )
     """
     Specifies the right margin, in points.
-    Text in the right margin (i.e., within that many points of the 
+    Text in the right margin (i.e., within that many points of the
     right edge of the page) is discarded.
     The default value is zero.
 
@@ -376,7 +382,7 @@ class XpdfTextArgs(XpdfArgs):
     )
     """
     Specifies the top margin, in points.
-    Text in the top margin (i.e., within that many points of the top 
+    Text in the top margin (i.e., within that many points of the top
     edge of the page) is discarded.
     The default value is zero.
 
@@ -388,7 +394,7 @@ class XpdfTextArgs(XpdfArgs):
     )
     """
     Specifies the bottom margin, in points.
-    Text in the bottom margin (i.e., within that many points of the 
+    Text in the bottom margin (i.e., within that many points of the
     bottom edge of the page) is discarded.
     The default value is zero.
 
@@ -398,6 +404,8 @@ class XpdfTextArgs(XpdfArgs):
 
 @dataclasses.dataclass
 class XpdfTextResult:
+    """Result for xpdf pdftotext program."""
+
     output_path: pathlib.Path
     stdout: typing.Collection[str] = dataclasses.field(default_factory=list)
     stderr: typing.Collection[str] = dataclasses.field(default_factory=list)
@@ -405,6 +413,8 @@ class XpdfTextResult:
 
 @dataclasses.dataclass
 class XpdfImageArgs(XpdfArgs):
+    """Arguments for xpdf pdftopng program."""
+
     resolution: typing.Optional[int] = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-r", "cmd_type": "single"}}, default=150
     )
@@ -435,7 +445,7 @@ class XpdfImageArgs(XpdfArgs):
     )
     """
     Generate an alpha channel in the PNG file.
-    This is only useful with PDF files that have been constructed 
+    This is only useful with PDF files that have been constructed
     with a transparent background.
     The −alpha flag cannot be used with −mono.
 
@@ -451,7 +461,7 @@ class XpdfImageArgs(XpdfArgs):
     -rot <int>        : set page rotation: 0, 90, 180, or 270
     """
 
-    free_type: typing.Optional[int] = dataclasses.field(
+    free_type: typing.Optional[str] = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-freetype", "cmd_type": "single"}},
         default="yes",
     )
@@ -461,7 +471,7 @@ class XpdfImageArgs(XpdfArgs):
 
     -freetype <string>: enable FreeType font rasterizer: yes, no
     """
-    anti_aliasing: typing.Optional[int] = dataclasses.field(
+    anti_aliasing: typing.Optional[str] = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-aa", "cmd_type": "single"}}, default="yes"
     )
     """
@@ -470,7 +480,7 @@ class XpdfImageArgs(XpdfArgs):
 
     -aa <string>      : enable font anti-aliasing: yes, no
     """
-    vector_anti_aliasing: typing.Optional[int] = dataclasses.field(
+    vector_anti_aliasing: typing.Optional[str] = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-aaVector", "cmd_type": "single"}},
         default="yes",
     )
@@ -484,6 +494,8 @@ class XpdfImageArgs(XpdfArgs):
 
 @dataclasses.dataclass
 class XpdfImageResult:
+    """Result for xpdf pdftopng program."""
+
     output_dir: pathlib.Path
     output_files: typing.Collection[pathlib.Path]
     stdout: typing.Collection[str] = dataclasses.field(default_factory=list)

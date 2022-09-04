@@ -1,3 +1,5 @@
+"""Text extraction from pdf using xpdf tools."""
+
 import dataclasses
 import json
 import logging
@@ -6,6 +8,12 @@ import subprocess
 import typing
 from datetime import datetime
 from defusedxml import ElementTree
+
+try:
+    from typing import get_args
+except ImportError:
+    from typing_inspect import get_args
+
 
 from leaf_focus import utils
 from leaf_focus.pdf import model
@@ -44,15 +52,13 @@ class XpdfProgram:
         output_dir: pathlib.Path,
         xpdf_args: model.XpdfInfoArgs,
     ) -> model.XpdfInfoResult:
-        """
-        Get information from a pdf file.
+        """Get information from a pdf file.
 
         :param pdf_path: path to the pdf file
         :param output_dir: directory to save pdf info file
         :param xpdf_args: xpdf tool arguments
         :return: pdf file information
         """
-
         # validation
         enc = xpdf_args.encoding
         utils.validate("text encoding", enc, self.OPTS_TEXT_ENCODING)
@@ -66,8 +72,8 @@ class XpdfProgram:
 
         if output_file.exists():
             logger.info("Loading existing pdf info file.")
-            with open(output_file, "rt") as f:
-                return model.XpdfInfoResult(**json.load(f))
+            with open(output_file, "rt", encoding="utf-8") as info_file:
+                return model.XpdfInfoResult(**json.load(info_file))
 
         logger.info("Extracting pdf info and saving to file.")
 
@@ -86,12 +92,10 @@ class XpdfProgram:
         )
         lines = result.stdout.splitlines()
 
-        fields_map = dict(
-            [
-                (field.metadata.get("leaf_focus", {}).get("name"), field)
-                for field in dataclasses.fields(model.XpdfInfoResult)
-            ]
-        )
+        fields_map = {
+            field.metadata.get("leaf_focus", {}).get("name"): field
+            for field in dataclasses.fields(model.XpdfInfoResult)
+        }
         metadata_line_index: typing.Optional[int] = None
 
         data = {i.name: None for i in fields_map.values()}
@@ -100,6 +104,7 @@ class XpdfProgram:
                 metadata_line_index = index
                 break
 
+            value: typing.Any = None
             key, value = line.split(":", maxsplit=1)
             key = key.strip()
 
@@ -111,13 +116,13 @@ class XpdfProgram:
             if data.get(data_key) is not None:
                 raise ValueError(f"Duplicate pdf info key '{key}' in '{pdf_path}'.")
 
-            if field.type == str or str in typing.get_args(field.type):
+            if field.type == str or str in get_args(field.type):
                 value = value.strip()
-            elif field.type == datetime or datetime in typing.get_args(field.type):
+            elif field.type == datetime or datetime in get_args(field.type):
                 value = utils.parse_date(value.strip())
-            elif field.type == bool or bool in typing.get_args(field.type):
+            elif field.type == bool or bool in get_args(field.type):
                 value = value.strip().lower() == "yes"
-            elif field.type == int or int in typing.get_args(field.type):
+            elif field.type == int or int in get_args(field.type):
                 if data_key == "file_size_bytes":
                     value = value.replace(" bytes", "")
                 value = int(value.strip().lower())
@@ -131,10 +136,10 @@ class XpdfProgram:
             start = metadata_line_index + 1
             metadata = "\n".join(lines[start:])
             root = ElementTree.fromstring(metadata)
-            data["metadata"] = utils.xml_to_dict(root).to_dict()
+            data["metadata"] = utils.xml_to_element(root).to_dict()
 
         if output_dir and output_dir.exists():
-            logger.debug(f"Saving pdf info to '{output_file}'.")
+            logger.debug("Saving pdf info to '%s'.", output_file)
             output_file.write_text(
                 json.dumps(data, indent=2, cls=utils.CustomJsonEncoder)
             )
@@ -173,7 +178,7 @@ class XpdfProgram:
 
         # check if embedded text file already exists
         if output_file.exists():
-            logger.info(f"Loading extracted embedded text from existing file.")
+            logger.info("Loading extracted embedded text from existing file.")
             return model.XpdfTextResult(
                 stdout=[],
                 stderr=[],
@@ -197,7 +202,7 @@ class XpdfProgram:
             text=True,
         )
 
-        logger.debug(f"Saving pdf embedded text to '{output_file}'.")
+        logger.debug("Saving pdf embedded text to '%s'.", output_file)
 
         return model.XpdfTextResult(
             stdout=(result.stdout or "").splitlines(),
@@ -223,14 +228,16 @@ class XpdfProgram:
         rot = xpdf_args.rotation
         utils.validate("rotation", rot, self.OPTS_IMAGE_ROTATION)
 
-        ft = xpdf_args.free_type
-        utils.validate("freetype", ft, self.OPTS_IMAGE_FREETYPE)
+        free_type = xpdf_args.free_type
+        utils.validate("freetype", free_type, self.OPTS_IMAGE_FREETYPE)
 
-        aa = xpdf_args.anti_aliasing
-        utils.validate("anti-aliasing", aa, self.OPTS_IMAGE_ANTI_ALIAS)
+        anti_alias = xpdf_args.anti_aliasing
+        utils.validate("anti-aliasing", anti_alias, self.OPTS_IMAGE_ANTI_ALIAS)
 
-        aav = xpdf_args.anti_aliasing
-        utils.validate("vector anti-aliasing", aav, self.OPTS_IMAGE_VEC_ANTI_ALIAS)
+        anti_alias_vec = xpdf_args.anti_aliasing
+        utils.validate(
+            "vector anti-aliasing", anti_alias_vec, self.OPTS_IMAGE_VEC_ANTI_ALIAS
+        )
 
         if not pdf_path.exists():
             msg = f"Pdf file not found '{pdf_path}'."
@@ -244,8 +251,8 @@ class XpdfProgram:
         output_type = "page-image"
         output_dir = utils.output_root(pdf_path, output_type, output_path, cmd_args)
 
-        for p in output_dir.parent.iterdir():
-            if not p.name.startswith(output_dir.name):
+        for pdf_image_file in output_dir.parent.iterdir():
+            if not pdf_image_file.name.startswith(output_dir.name):
                 continue
 
             logger.info("Found existing pdf images.")
@@ -269,7 +276,7 @@ class XpdfProgram:
             text=True,
         )
 
-        logger.debug(f"Created pdf page images using prefix '{output_dir}'.")
+        logger.debug("Created pdf page images using prefix '%s'.", output_dir)
 
         output_files = self.find_images(output_dir)
 
@@ -332,21 +339,22 @@ class XpdfProgram:
         return cmd_args
 
     def find_images(self, output_dir: pathlib.Path):
+        """Find image files in a directory."""
         output_files = []
-        for p in output_dir.parent.iterdir():
-            if not p.is_file():
+        for file_path in output_dir.parent.iterdir():
+            if not file_path.is_file():
                 continue
-            if not p.name.startswith(output_dir.stem):
+            if not file_path.name.startswith(output_dir.stem):
                 continue
-            if p.suffix != ".png":
+            if file_path.suffix != ".png":
                 continue
-            if len(p.stem) < 7:
+            if len(file_path.stem) < 7:
                 continue
-            if p.stem[-7] != "-":
+            if file_path.stem[-7] != "-":
                 continue
-            if not all(i.isdigit() for i in p.stem[-6:]):
+            if not all(i.isdigit() for i in file_path.stem[-6:]):
                 continue
-            output_files.append(p)
+            output_files.append(file_path)
 
         if not output_files:
             logger.warning("No page images found.")

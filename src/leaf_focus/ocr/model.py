@@ -32,27 +32,27 @@ class TextItem:
     line_order: typing.Optional[int] = None
 
     @property
-    def top_left(self):
+    def top_left(self) -> typing.Tuple[float, float]:
         """The top left point."""
         return self.top_left_x, self.top_left_y
 
     @property
-    def top_right(self):
+    def top_right(self) -> typing.Tuple[float, float]:
         """The top right point."""
         return self.top_right_x, self.top_right_y
 
     @property
-    def bottom_right(self):
+    def bottom_right(self) -> typing.Tuple[float, float]:
         """The bottom right point."""
         return self.bottom_right_x, self.bottom_right_y
 
     @property
-    def bottom_left(self):
+    def bottom_left(self) -> typing.Tuple[float, float]:
         """The bottom left point."""
         return self.bottom_left_x, self.bottom_left_y
 
     @property
-    def top_length(self):
+    def top_length(self) -> float:
         # Get the length of the hypotenuse side.
         side1 = abs(self.top_right_x - self.top_left_x)
         side2 = abs(self.top_right_y - self.top_left_y)
@@ -61,7 +61,7 @@ class TextItem:
         return math.sqrt(pow(side1, 2) + pow(side2, 2))
 
     @property
-    def left_length(self):
+    def left_length(self) -> float:
         # Get the length of the hypotenuse side.
         side1 = abs(self.top_left_y - self.bottom_left_y)
         side2 = abs(self.top_left_x - self.bottom_left_x)
@@ -70,7 +70,7 @@ class TextItem:
         return math.sqrt(pow(side1, 2) + pow(side2, 2))
 
     @property
-    def line_bounds(self):
+    def line_bounds(self) -> typing.Tuple[float, float]:
         """Line bounds from top of text to bottom of text."""
         top_bound = min(
             [self.top_left_y, self.top_right_y, self.bottom_left_y, self.bottom_right_y]
@@ -80,7 +80,7 @@ class TextItem:
         )
         return top_bound, bottom_bound
 
-    def is_same_line(self, other: "TextItem"):
+    def is_same_line(self, other: "TextItem") -> bool:
         """
         Check if other found text overlaps this found text.
         Calculated as the midpoint +- 1/3 of the height of the text
@@ -104,7 +104,7 @@ class TextItem:
         return self_top <= other_bottom and other_top <= self_bottom
 
     @property
-    def slope_top_left_right(self):
+    def slope_top_left_right(self) -> float:
         """The slope of the top of the rectangle."""
         return self._slope(
             self.top_left_x,
@@ -114,7 +114,7 @@ class TextItem:
         )
 
     @property
-    def slope_top_right_left(self):
+    def slope_top_right_left(self) -> float:
         """The slope of the top of the rectangle."""
         return self._slope(
             self.top_right_x,
@@ -124,7 +124,7 @@ class TextItem:
         )
 
     @property
-    def slope_left_top_bottom(self):
+    def slope_left_top_bottom(self) -> float:
         """The slope of the left of the rectangle."""
         return self._slope(
             self.top_left_x,
@@ -134,7 +134,7 @@ class TextItem:
         )
 
     @property
-    def slope_left_bottom_top(self):
+    def slope_left_bottom_top(self) -> float:
         """The slope of the left of the rectangle."""
         return self._slope(
             self.bottom_left_x,
@@ -144,7 +144,7 @@ class TextItem:
         )
 
     @property
-    def slope_bottom_left_right(self):
+    def slope_bottom_left_right(self) -> float:
         """The slope of the bottom of the rectangle."""
         return self._slope(
             self.bottom_left_x,
@@ -154,7 +154,7 @@ class TextItem:
         )
 
     @property
-    def slope_bottom_right_left(self):
+    def slope_bottom_right_left(self) -> float:
         """The slope of the bottom of the rectangle."""
         return self._slope(
             self.bottom_right_x,
@@ -164,7 +164,7 @@ class TextItem:
         )
 
     @property
-    def slope_right_top_bottom(self):
+    def slope_right_top_bottom(self) -> float:
         """The slope of the right of the rectangle."""
         return self._slope(
             self.top_right_x,
@@ -174,7 +174,7 @@ class TextItem:
         )
 
     @property
-    def slope_right_bottom_top(self):
+    def slope_right_bottom_top(self) -> float:
         """The slope of the right of the rectangle."""
         return self._slope(
             self.bottom_right_x,
@@ -184,7 +184,7 @@ class TextItem:
         )
 
     @property
-    def is_horizontal_level(self):
+    def is_horizontal_level(self) -> bool:
         """Is side-to-side slope approximately horizontal?"""
         # -0.1 -> 0.1 is strictly horizontal
         # give a bit of buffer
@@ -192,17 +192,17 @@ class TextItem:
         return -buffer <= self.slope_top_left_right <= buffer
 
     @property
-    def is_vertical_level(self):
+    def is_vertical_level(self) -> bool:
         """Is the top-to-bottom slope approximately vertical?"""
         # -0.1 -> 0.1 is strictly vertical
         # give a bit of buffer
         return self.slope_left_top_bottom == math.inf
 
     @classmethod
-    def save(cls, path: pathlib.Path, items: typing.List["TextItem"]):
+    def save(cls, path: pathlib.Path, items: typing.List["TextItem"]) -> None:
         """Save found text items to a file."""
 
-        logger.debug(f"Saving {len(items)} OCR items.")
+        logger.debug("Saving %s OCR items.", len(items))
 
         fields = [
             "text",
@@ -217,25 +217,25 @@ class TextItem:
             "bottom_left_x",
             "bottom_left_y",
         ]
-        with open(path, "wt", newline="", encoding="utf8") as f:
-            writer = csv.DictWriter(f, fields)
+        with open(path, "wt", newline="", encoding="utf8") as file_path:
+            writer = csv.DictWriter(file_path, fields)
             writer.writeheader()
             sorted_items = sorted(
                 items, key=lambda i: (i.line_number or 0, i.line_order or 0)
             )
             writer.writerows([dataclasses.asdict(i) for i in sorted_items])
 
-        logger.debug(f"Saved OCR items to '{path}'.")
+        logger.debug("Saved OCR items to '%s'.", path)
 
     @classmethod
-    def load(cls, path: pathlib.Path):
+    def load(cls, path: pathlib.Path) -> typing.Generator["TextItem", typing.Any, None]:
         """Load found text items from a file."""
 
-        logger.debug(f"Loading OCR items.")
+        logger.debug("Loading OCR items.")
         count = 0
 
-        with open(path, "rt", encoding="utf8") as f:
-            reader = csv.DictReader(f)
+        with open(path, "rt", encoding="utf8") as file_path:
+            reader = csv.DictReader(file_path)
             for row in reader:
                 line_number = row.get("line_number", "").strip()
                 line_number = int(line_number) if line_number != "" else None
@@ -259,7 +259,7 @@ class TextItem:
                     bottom_left_y=float(row["bottom_left_y"]),
                 )
 
-        logger.debug(f"Loaded {count} OCR items from '{path}'.")
+        logger.debug("Loaded %s OCR items from '%s'.", count, path)
 
     @classmethod
     def from_prediction(
@@ -289,7 +289,9 @@ class TextItem:
         )
 
     @classmethod
-    def order_text_lines(cls, items: typing.Iterable["TextItem"]):
+    def order_text_lines(
+        cls, items: typing.Iterable["TextItem"]
+    ) -> typing.List[typing.List["TextItem"]]:
         """Put items into lines of text (top -> bottom, left -> right)."""
         if not items:
             items = []
@@ -297,7 +299,7 @@ class TextItem:
         logger.debug("Arranging text into lines.")
 
         lines = []
-        current_line = []
+        current_line: typing.List[TextItem] = []
         for item in items:
             if not item.is_horizontal_level:
                 # exclude items that are too sloped
@@ -330,7 +332,18 @@ class TextItem:
         return lines
 
     @property
-    def to_prediction(self):
+    def to_prediction(
+        self,
+    ) -> typing.Tuple[
+        str,
+        typing.Tuple[
+            typing.Tuple[float, float],
+            typing.Tuple[float, float],
+            typing.Tuple[float, float],
+            typing.Tuple[float, float],
+        ],
+    ]:
+        """Convert to prediction format."""
         return (
             self.text,
             (
@@ -341,7 +354,8 @@ class TextItem:
             ),
         )
 
-    def _slope(self, x1, y1, x2, y2):
+    def _slope(self, x1, y1, x2, y2) -> float:
+        """Get the slope of a line."""
         y_diff = y2 - y1
         x_diff = x2 - x1
         try:
@@ -349,7 +363,8 @@ class TextItem:
         except ZeroDivisionError:
             return math.inf if y_diff >= 0 else -math.inf
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Convert to a string."""
         line_info = f"({self.line_number or 0}:{self.line_order})"
         pos_info = f"[top left:{self.top_left}, top slope: {self.slope_top_left_right}]"
         return f"{self.text} {line_info} {pos_info}"
@@ -357,6 +372,8 @@ class TextItem:
 
 @dataclasses.dataclass
 class KerasOcrResult:
+    """Result from running keras-ocr."""
+
     output_dir: pathlib.Path
     annotations_file: pathlib.Path
     predictions_file: pathlib.Path

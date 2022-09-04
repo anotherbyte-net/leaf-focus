@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 name = "leaf-focus"
 description = "Extract structured text from pdf files."
 readme = "README.md"
-requires-python = ">=3.7,<3.10"
+requires-python = ">=3.7"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: Apache Software License",
@@ -91,15 +91,14 @@ src_paths = [
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-# envlist = py38,py39,py310,py311-dev
-envlist = py310
+envlist = py37,py38,py39,py310,py311
 toxworkdir = {homedir}/tox-app
 
 [testenv]
-recreate = true
+# recreate = true
 deps =
-    -rrequirements.txt
-    -rrequirements-dev.txt
+    -r requirements.txt
+    -r requirements-dev.txt
 commands =
     coverage run -m pytest
     # black --check src
@@ -108,6 +107,9 @@ commands =
     # mypy src
     # pylint src
     # pyright src
+setenv   =
+    TEST_XPDF_EXE_DIR = {env:TEST_XPDF_EXE_DIR:}
+    TEST_INCLUDE_SLOW = {env:TEST_INCLUDE_SLOW:}
 """
 
 [tool.pydocstyle]
