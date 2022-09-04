@@ -1,0 +1,107 @@
+{
+  "title": "BkNVR450_Win7.book",
+  "subject": null,
+  "keywords": null,
+  "author": "ccampa",
+  "creator": "FrameMaker 2019.0.4",
+  "producer": "Acrobat Distiller 20.0 (Windows)",
+  "creation_date": "2020-08-13T11:09:00",
+  "modification_date": "2020-08-14T14:58:43",
+  "tagged": false,
+  "form": "none",
+  "pages": 42,
+  "encrypted": false,
+  "page_size": "612 x 792 pts (letter) (rotated 0 degrees)",
+  "media_box": null,
+  "crop_box": null,
+  "bleed_box": null,
+  "trim_box": null,
+  "art_box": null,
+  "file_size_bytes": 275855,
+  "optimized": true,
+  "pdf_version": "1.5",
+  "metadata": {
+    "name": "xmpmeta",
+    "attributes": {
+      "xmptk": "Adobe XMP Core 5.6-c017 91.164374, 2020/03/05-20:41:30"
+    },
+    "children": [
+      {
+        "name": "RDF",
+        "children": [
+          {
+            "name": "Description",
+            "attributes": {
+              "about": ""
+            },
+            "children": [
+              {
+                "name": "CreatorTool",
+                "value": "FrameMaker 2019.0.4"
+              },
+              {
+                "name": "ModifyDate",
+                "value": "2020-08-14T14:58:43-07:00"
+              },
+              {
+                "name": "CreateDate",
+                "value": "2020-08-13T11:09Z"
+              },
+              {
+                "name": "MetadataDate",
+                "value": "2020-08-14T14:58:43-07:00"
+              },
+              {
+                "name": "format",
+                "value": "application/pdf"
+              },
+              {
+                "name": "title",
+                "children": [
+                  {
+                    "name": "Alt",
+                    "children": [
+                      {
+                        "name": "li",
+                        "value": "BkNVR450_Win7.book",
+                        "attributes": {
+                          "lang": "x-default"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "creator",
+                "children": [
+                  {
+                    "name": "Seq",
+                    "children": [
+                      {
+                        "name": "li",
+                        "value": "ccampa"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Producer",
+                "value": "Acrobat Distiller 20.0 (Windows)"
+              },
+              {
+                "name": "DocumentID",
+                "value": "uuid:00610876-6f52-4cf5-80eb-06b821bd1586"
+              },
+              {
+                "name": "InstanceID",
+                "value": "uuid:155960e2-0900-46e3-8d6c-c02b0a9feb4e"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,11 +1,10 @@
 import dataclasses
+import logging
 import pathlib
 import typing
 from datetime import datetime
 
-
-class LeafFocusException(Exception):
-    pass
+logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass

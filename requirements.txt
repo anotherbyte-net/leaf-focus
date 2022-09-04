@@ -1,4 +1,11 @@
+# ocr
 keras-ocr~=0.9.1
-tensorflow~=2.9.1
+tensorflow~=2.9.2
+numpy~=1.23.2
+matplotlib~=3.5.3
+
+# xml
 defusedxml~=0.7.1
+
+# packaging
 pyoxidizer~=0.22.0

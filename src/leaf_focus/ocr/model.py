@@ -4,8 +4,9 @@ import logging
 import math
 import pathlib
 import typing
-from pathlib import Path
-from typing import Any, List, Optional
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
@@ -27,8 +28,8 @@ class TextItem:
     bottom_left_x: float
     bottom_left_y: float
 
-    line_number: Optional[int] = None
-    line_order: Optional[int] = None
+    line_number: typing.Optional[int] = None
+    line_order: typing.Optional[int] = None
 
     @property
     def top_left(self):
@@ -198,10 +199,10 @@ class TextItem:
         return self.slope_left_top_bottom == math.inf
 
     @classmethod
-    def save(cls, path: Path, items: List["TextItem"]):
+    def save(cls, path: pathlib.Path, items: typing.List["TextItem"]):
         """Save found text items to a file."""
-        logger = logging.getLogger(cls.__name__)
-        logger.debug(f"Saving {len(items)} OCR items to '{path}'.")
+
+        logger.debug(f"Saving {len(items)} OCR items.")
 
         fields = [
             "text",
@@ -227,10 +228,10 @@ class TextItem:
         logger.debug(f"Saved OCR items to '{path}'.")
 
     @classmethod
-    def load(cls, path: Path):
+    def load(cls, path: pathlib.Path):
         """Load found text items from a file."""
-        logger = logging.getLogger(cls.__name__)
-        logger.debug(f"Loading OCR items from '{path}'.")
+
+        logger.debug(f"Loading OCR items.")
         count = 0
 
         with open(path, "rt", encoding="utf8") as f:
@@ -261,7 +262,9 @@ class TextItem:
         logger.debug(f"Loaded {count} OCR items from '{path}'.")
 
     @classmethod
-    def from_prediction(cls, prediction: tuple[Any, Any]) -> "TextItem":
+    def from_prediction(
+        cls, prediction: typing.Tuple[typing.Any, typing.Any]
+    ) -> "TextItem":
         """
         Convert from (text, box) to item.
         Box is (top left, top right, bottom right, bottom left).
@@ -284,6 +287,47 @@ class TextItem:
             bottom_left_x=bottom_left_x,
             bottom_left_y=bottom_left_y,
         )
+
+    @classmethod
+    def order_text_lines(cls, items: typing.Iterable["TextItem"]):
+        """Put items into lines of text (top -> bottom, left -> right)."""
+        if not items:
+            items = []
+
+        logger.debug("Arranging text into lines.")
+
+        lines = []
+        current_line = []
+        for item in items:
+            if not item.is_horizontal_level:
+                # exclude items that are too sloped
+                continue
+
+            if len(current_line) < 1:
+                current_line.append(item)
+
+            elif any([item.is_same_line(i) for i in current_line]):
+                current_line.append(item)
+
+            elif len(current_line) > 0:
+                # store current line
+                current_line = sorted(current_line, key=lambda x: x.top_left)
+                lines.append(current_line)
+
+                # create new line
+                current_line = [item]
+
+        # include last items
+        if len(current_line) > 0:
+            lines.append(current_line)
+
+        # update items to set line number and line order
+        for line_index, line in enumerate(lines):
+            for item_index, item in enumerate(line):
+                item.line_number = line_index + 1
+                item.line_order = item_index + 1
+
+        return lines
 
     @property
     def to_prediction(self):

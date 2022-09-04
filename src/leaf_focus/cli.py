@@ -4,7 +4,8 @@ import pathlib
 import sys
 import typing
 
-from leaf_focus import app
+import leaf_focus.utils
+from leaf_focus import app, utils
 from leaf_focus.pdf import model
 
 """Command line for leaf focus."""
@@ -23,18 +24,18 @@ def main(args: typing.Optional[typing.List[str]] = None) -> int:
         args = sys.argv[1:]
 
     logging.basicConfig(
-        format="[%(asctime)s] [%(levelname)s:] %(message)s", level=logging.INFO
+        format="%(asctime)s [%(levelname)-8s] %(message)s", level=logging.DEBUG
     )
-    logger = logging.getLogger("leaf_focus")
+    logger = logging.getLogger(__name__)
 
     parser = argparse.ArgumentParser(
         prog="leaf-focus",
         description="Extract structured text from a pdf file.",
     )
     parser.add_argument(
-        "exe_dir",
-        type=pathlib.Path,
-        help="path to the directory containing xpdf executable files",
+        "--version",
+        action="version",
+        version=f"%(prog)s {utils.get_version()}",
     )
     parser.add_argument(
         "input_pdf",
@@ -46,18 +47,61 @@ def main(args: typing.Optional[typing.List[str]] = None) -> int:
         type=pathlib.Path,
         help="path to the directory to save the extracted text files",
     )
+    parser.add_argument(
+        "--exe-dir",
+        type=pathlib.Path,
+        help="path to the directory containing xpdf executable files",
+    )
+    parser.add_argument(
+        "--page-images",
+        action="store_true",
+        help="save each page of the pdf as a separate image",
+    )
+    parser.add_argument(
+        "--ocr",
+        action="store_true",
+        help="run optical character recognition on each page of the pdf",
+    )
+    parser.add_argument(
+        "--first",
+        type=int,
+        default=None,
+        help="the first pdf page to process",
+    )
+    parser.add_argument(
+        "--last",
+        type=int,
+        default=None,
+        help="the last pdf page to process",
+    )
+    parser.add_argument(
+        "--log-level",
+        default="info",
+        choices=["debug", "info", "warning", "error", "critical"],
+        help="the log level: debug, info, warning, error, critical",
+    )
+
     parsed_args = parser.parse_args(args)
 
     app_inst = app.App(exe_dir=parsed_args.exe_dir)
 
     try:
-        result = app_inst.run(
+        app_args = app.AppArgs(
             input_pdf=parsed_args.input_pdf,
             output_dir=parsed_args.output_dir,
+            first_page=parsed_args.first,
+            last_page=parsed_args.last,
+            save_page_images=parsed_args.page_images,
+            run_ocr=parsed_args.ocr,
+            log_level=parsed_args.log_level,
         )
-        return 0 if result else 1
 
-    except model.LeafFocusException as e:
+        logging.getLogger().setLevel(app_args.log_level.upper())
+
+        result = app_inst.run(app_args)
+        return 0 if result is True else 1
+
+    except leaf_focus.utils.LeafFocusException as e:
         logger.error(f"Error: {e.__class__.__name__} - {str(e)}")
         return 1
 

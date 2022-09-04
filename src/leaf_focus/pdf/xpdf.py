@@ -1,12 +1,16 @@
 import dataclasses
+import json
+import logging
 import pathlib
 import subprocess
 import typing
 from datetime import datetime
 from defusedxml import ElementTree
 
-from leaf_focus import utils, xml
+from leaf_focus import utils
 from leaf_focus.pdf import model
+
+logger = logging.getLogger(__name__)
 
 
 class XpdfProgram:
@@ -35,12 +39,16 @@ class XpdfProgram:
         self._directory = directory
 
     def info(
-        self, pdf_path: pathlib.Path, xpdf_args: model.XpdfInfoArgs
+        self,
+        pdf_path: pathlib.Path,
+        output_dir: pathlib.Path,
+        xpdf_args: model.XpdfInfoArgs,
     ) -> model.XpdfInfoResult:
         """
         Get information from a pdf file.
 
         :param pdf_path: path to the pdf file
+        :param output_dir: directory to save pdf info file
         :param xpdf_args: xpdf tool arguments
         :return: pdf file information
         """
@@ -50,7 +58,18 @@ class XpdfProgram:
         utils.validate("text encoding", enc, self.OPTS_TEXT_ENCODING)
 
         if not pdf_path.exists():
-            raise FileNotFoundError(str(pdf_path))
+            msg = f"Pdf file not found '{pdf_path}'."
+            raise utils.LeafFocusException(msg) from FileNotFoundError(pdf_path)
+
+        output_file = utils.output_root(pdf_path, "info", output_dir)
+        output_file = output_file.with_suffix(".json")
+
+        if output_file.exists():
+            logger.info("Loading existing pdf info file.")
+            with open(output_file, "rt") as f:
+                return model.XpdfInfoResult(**json.load(f))
+
+        logger.info("Extracting pdf info and saving to file.")
 
         # build command
         exe_path = utils.select_exe(self._directory / "pdfinfo")
@@ -112,7 +131,13 @@ class XpdfProgram:
             start = metadata_line_index + 1
             metadata = "\n".join(lines[start:])
             root = ElementTree.fromstring(metadata)
-            data["metadata"] = xml.xml_to_dict(root).to_dict()
+            data["metadata"] = utils.xml_to_dict(root).to_dict()
+
+        if output_dir and output_dir.exists():
+            logger.debug(f"Saving pdf info to '{output_file}'.")
+            output_file.write_text(
+                json.dumps(data, indent=2, cls=utils.CustomJsonEncoder)
+            )
 
         return model.XpdfInfoResult(**data)
 
@@ -136,16 +161,31 @@ class XpdfProgram:
         utils.validate("end of line", eol, self.OPTS_TEXT_LINE_ENDING)
 
         if not pdf_path.exists():
-            raise FileNotFoundError(str(pdf_path))
+            msg = f"Pdf file not found '{pdf_path}'."
+            raise utils.LeafFocusException(msg) from FileNotFoundError(str(pdf_path))
 
         # build command
+
+        cmd_args = self.build_cmd(xpdf_args)
+
+        output_file = utils.output_root(pdf_path, "output", output_path, cmd_args)
+        output_file = output_file.with_suffix(".txt")
+
+        # check if embedded text file already exists
+        if output_file.exists():
+            logger.info(f"Loading extracted embedded text from existing file.")
+            return model.XpdfTextResult(
+                stdout=[],
+                stderr=[],
+                output_path=output_file,
+            )
+
+        logger.info("Extracting pdf embedded text and saving to file.")
+
         exe_path = utils.select_exe(self._directory / "pdftotext")
 
         cmd = [str(exe_path)]
-        cmd_args = self.build_cmd(xpdf_args)
 
-        output_file = utils.output_root("output", output_path, cmd_args)
-        output_file = output_file.with_suffix(".txt")
         cmd.extend(cmd_args + [str(pdf_path), str(output_file)])
 
         # execute program
@@ -156,6 +196,8 @@ class XpdfProgram:
             timeout=30,
             text=True,
         )
+
+        logger.debug(f"Saving pdf embedded text to '{output_file}'.")
 
         return model.XpdfTextResult(
             stdout=(result.stdout or "").splitlines(),
@@ -191,15 +233,31 @@ class XpdfProgram:
         utils.validate("vector anti-aliasing", aav, self.OPTS_IMAGE_VEC_ANTI_ALIAS)
 
         if not pdf_path.exists():
-            raise FileNotFoundError(str(pdf_path))
+            msg = f"Pdf file not found '{pdf_path}'."
+            raise utils.LeafFocusException(msg) from FileNotFoundError(str(pdf_path))
+
+        logger.info("Saving each pdf page as an image.")
 
         # build command
+        cmd_args = self.build_cmd(xpdf_args)
+
+        output_type = "page-image"
+        output_dir = utils.output_root(pdf_path, output_type, output_path, cmd_args)
+
+        for p in output_dir.parent.iterdir():
+            if not p.name.startswith(output_dir.name):
+                continue
+
+            logger.info("Found existing pdf images.")
+
+            output_files = self.find_images(output_dir)
+            return model.XpdfImageResult(
+                stdout=[], stderr=[], output_dir=output_dir, output_files=output_files
+            )
+
         exe_path = utils.select_exe(self._directory / "pdftopng")
         cmd = [str(exe_path)]
 
-        cmd_args = self.build_cmd(xpdf_args)
-
-        output_dir = utils.output_root("output", output_path, cmd_args)
         cmd.extend(cmd_args + [str(pdf_path), str(output_dir)])
 
         # execute program
@@ -210,9 +268,11 @@ class XpdfProgram:
             timeout=30,
             text=True,
         )
-        output_files = [
-            i for i in output_dir.parent.iterdir() if i.is_file() and i.suffix == ".png"
-        ]
+
+        logger.debug(f"Created pdf page images using prefix '{output_dir}'.")
+
+        output_files = self.find_images(output_dir)
+
         return model.XpdfImageResult(
             stdout=(result.stdout or "").splitlines(),
             stderr=(result.stderr or "").splitlines(),
@@ -255,13 +315,13 @@ class XpdfProgram:
                     )
 
                 if value is True:
-                    cmd_args.extend([cmd_key])
+                    cmd_args.extend([str(cmd_key)])
 
             elif cmd_type == "single":
                 if field_default is None and value is not None:
-                    cmd_args.extend([cmd_key, value])
+                    cmd_args.extend([str(cmd_key), str(value)])
                 elif field_default != value:
-                    cmd_args.extend([cmd_key, value])
+                    cmd_args.extend([str(cmd_key), str(value)])
 
             else:
                 raise ValueError(
@@ -270,3 +330,25 @@ class XpdfProgram:
                 )
 
         return cmd_args
+
+    def find_images(self, output_dir: pathlib.Path):
+        output_files = []
+        for p in output_dir.parent.iterdir():
+            if not p.is_file():
+                continue
+            if not p.name.startswith(output_dir.stem):
+                continue
+            if p.suffix != ".png":
+                continue
+            if len(p.stem) < 7:
+                continue
+            if p.stem[-7] != "-":
+                continue
+            if not all(i.isdigit() for i in p.stem[-6:]):
+                continue
+            output_files.append(p)
+
+        if not output_files:
+            logger.warning("No page images found.")
+
+        return output_files

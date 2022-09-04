@@ -2,10 +2,15 @@ import pytest
 
 
 @pytest.fixture
-def test_pdf_doc_info():
-    return ("tests.resources", "452.06-win10-win8-win7-release-notes.pdf")
-
-
-@pytest.fixture
-def test_pdf_page_image_info():
-    return ("tests.resources", "452.06-win10-win8-win7-release-notes-page-22.png")
+def resource_example1():
+    orig = "452.06-win10-win8-win7-release-notes"
+    norm = "452-06-win10-win8-win7-release-notes"
+    return {
+        "package": "tests.resources.example1",
+        "pdf": f"{orig}.pdf",
+        "page_22_image": f"{norm}-page-image-gray-000022.png",
+        "info": f"{norm}-info.json",
+        "embedded_text": f"{norm}-output-layout-eol-dos.txt",
+        "page_22_annotations": f"{norm}-page-image-gray-000022-annotations.png",
+        "page_22_predictions": f"{norm}-page-image-gray-000022-predictions.csv",
+    }

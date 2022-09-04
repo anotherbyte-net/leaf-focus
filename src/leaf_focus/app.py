@@ -1,10 +1,40 @@
+import dataclasses
+import datetime
 import logging
 import pathlib
+import platform
 import typing
 
-from leaf_focus.pdf import model
+from leaf_focus import utils
+from leaf_focus.ocr import keras_ocr
+from leaf_focus.pdf import model, xpdf
 
-logger = logging.getLogger("leaf_focus.app")
+logger = logging.getLogger(__name__)
+
+
+@dataclasses.dataclass
+class AppArgs:
+
+    input_pdf: pathlib.Path
+    """path to the pdf file"""
+
+    output_dir: pathlib.Path
+    """path to the output directory to save text files"""
+
+    first_page: typing.Optional[int] = None
+    """the first pdf page to process"""
+
+    last_page: typing.Optional[int] = None
+    """the last pdf page to process"""
+
+    save_page_images: bool = False
+    """save each page of the pdf to a separate image"""
+
+    run_ocr: bool = False
+    """run OCR over each page of the pdf"""
+
+    log_level: typing.Optional[str] = None
+    """the log level"""
 
 
 class App:
@@ -19,18 +49,24 @@ class App:
 
         self._exe_dir = exe_dir
 
-    def run(self, input_pdf: pathlib.Path, output_dir: pathlib.Path) -> bool:
+    def run(self, app_args: AppArgs) -> bool:
         """
         Run the application.
 
-        :param input_pdf: path to the pdf file
-        :param output_dir: path to the output directory to save text files
+        :param app_args: the application arguments
         :return: return true if the text extraction succeeded, otherwise false
         :rtype: bool
         """
 
+        timestamp_start = datetime.datetime.utcnow()
         logger.info("Starting leaf-focus")
-        input_pdf, output_dir = self.validate(input_pdf, output_dir)
+
+        input_pdf = utils.validate_path(
+            "input pdf", app_args.input_pdf, must_exist=True
+        )
+        output_dir = utils.validate_path(
+            "output directory", app_args.output_dir, must_exist=False
+        )
 
         # create the output directory
         if not output_dir.is_dir():
@@ -39,38 +75,49 @@ class App:
         else:
             logger.info(f"Using output directory '{output_dir}'.")
 
-        # TODO: implement the text extraction
+        # run the pdf text extraction
+        xpdf_prog = xpdf.XpdfProgram(self._exe_dir)
 
-        logger.info("Finished")
+        # pdf file info
+        xpdf_info_args = model.XpdfInfoArgs(
+            include_metadata=True,
+            first_page=app_args.first_page,
+            last_page=app_args.last_page,
+        )
+        xpdf_prog.info(input_pdf, output_dir, xpdf_info_args)
+
+        # pdf embedded text
+        xpdf_text_args = model.XpdfTextArgs(
+            line_end_type=self.get_line_ending(),
+            use_original_layout=True,
+            first_page=app_args.first_page,
+            last_page=app_args.last_page,
+        )
+        xpdf_prog.text(input_pdf, output_dir, xpdf_text_args)
+
+        # pdf page image
+        xpdf_image = None
+        if app_args.save_page_images or app_args.run_ocr:
+            xpdf_image_args = model.XpdfImageArgs(use_grayscale=True)
+            xpdf_image = xpdf_prog.image(input_pdf, output_dir, xpdf_image_args)
+
+        # pdf page image ocr
+        if app_args.run_ocr and xpdf_image:
+            keras_ocr_prog = keras_ocr.OpticalCharacterRecognition()
+            for xpdf_image_file in xpdf_image.output_files:
+                keras_ocr_prog.recognise_text(xpdf_image_file, output_dir)
+
+        timestamp_finish = datetime.datetime.utcnow()
+        program_duration = timestamp_finish - timestamp_start
+        logger.info(f"Finished (duration {program_duration})")
         return True
 
-    def validate(
-        self, input_pdf: pathlib.Path, output_dir: pathlib.Path
-    ) -> typing.Tuple[pathlib.Path, pathlib.Path]:
-        """
-        Validate the input and output paths.
+    def get_line_ending(self):
+        opts = {
+            "Linux": "unix",
+            "Darwin": "mac",
+            "Windows": "dos",
+        }
+        plat = platform.system()
 
-        :param input_pdf: path to the pdf file
-        :param output_dir: path to the output directory to save text files
-        :return: returns the normalised input and output paths
-        :rtype: typing.Tuple[pathlib.Path, pathlib.Path]
-        """
-
-        if not self._exe_dir or not self._exe_dir.exists():
-            raise model.LeafFocusException(
-                f"Could not find the exe dir: '{self._exe_dir}'."
-            )
-        self._exe_dir = self._exe_dir.resolve()
-
-        if not input_pdf or not input_pdf.exists():
-            raise model.LeafFocusException(
-                f"Could not find the input pdf file: '{input_pdf}'."
-            )
-        input_pdf = input_pdf.resolve()
-
-        if not output_dir:
-            raise model.LeafFocusException("Must provide the output directory.")
-
-        output_dir = output_dir.absolute()
-
-        return input_pdf, output_dir
+        return opts[plat]
