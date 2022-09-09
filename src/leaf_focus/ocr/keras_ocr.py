@@ -50,7 +50,7 @@ class OpticalCharacterRecognition:
             logger.error(msg)
             raise utils.LeafFocusException(msg) from e
 
-        # TODO: allow using local weights files for detector
+        # TODO: allow specifying path to weights files for detector
         # detector_weights_path = ""
         # detector = keras_ocr.detection.Detector(weights=None)
         # detector.model = keras_ocr.detection.build_keras_model(
@@ -59,7 +59,7 @@ class OpticalCharacterRecognition:
         # detector.model.compile(loss="mse", optimizer="adam")
         detector = None
 
-        # TODO: allow using local weights files for recogniser
+        # TODO: allow specifying path to weights files for recogniser
         # recognizer_weights_path = ""
         # recognizer = keras_ocr.recognition.Recognizer(
         #     alphabet=keras_ocr.recognition.DEFAULT_ALPHABET, weights=None
@@ -161,7 +161,10 @@ class OpticalCharacterRecognition:
 
         logger.info(f"Saving OCR image to '{annotation_file}'.")
 
-        import matplotlib.pyplot as plt  # noqa: C0415
+        import matplotlib  # noqa: C0415
+        from matplotlib import pyplot as plt  # noqa: C0415
+
+        matplotlib.use("agg")
 
         annotation_file.parent.mkdir(exist_ok=True, parents=True)
 

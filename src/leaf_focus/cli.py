@@ -46,6 +46,7 @@ def main(args: typing.Optional[typing.List[str]] = None) -> int:
     )
     parser.add_argument(
         "--exe-dir",
+        required=True,
         type=pathlib.Path,
         help="path to the directory containing xpdf executable files",
     )

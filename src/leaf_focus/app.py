@@ -50,6 +50,8 @@ class App:
 
         :param exe_dir: path to the directory containing the executable files
         """
+        if not exe_dir or not exe_dir.exists() or not exe_dir.is_dir():
+            raise NotADirectoryError(f"The path '{exe_dir or ''}' is not a directory.")
         self._exe_dir = exe_dir
 
     def run(self, app_args: AppArgs) -> bool:

@@ -1,0 +1,1744 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>leaf_focus.pdf.model API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}#lunr-search{width:100%;font-size:1em;padding:6px 9px 5px 9px;border:1px solid silver}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>leaf_focus.pdf.model</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/e71cc464cfcff762b6e6954b83b42a0d9559a65b/src/leaf_focus/pdf/model.py#L1-L502" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">import dataclasses
+import logging
+import pathlib
+import typing
+from datetime import datetime
+
+logger = logging.getLogger(__name__)
+
+
+@dataclasses.dataclass
+class XpdfArgs:
+    &#34;&#34;&#34;xpdf arguments common to all commands&#34;&#34;&#34;
+
+    owner_password: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-opw&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Specify the owner password for the PDF file.
+    Providing this will bypass all security restrictions.
+
+    -opw &lt;string&gt;          : owner password (for encrypted files)
+    &#34;&#34;&#34;
+
+    user_password: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-upw&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Specify the user password for the PDF file.
+
+    -upw &lt;string&gt;          : user password (for encrypted files)
+    &#39;&#34;&#34;&#34;
+
+    first_page: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-f&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Specifies the first page to convert.
+
+    -f &lt;int&gt;               : first page to convert
+    &#34;&#34;&#34;
+
+    last_page: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-l&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Specifies the last page to convert.
+
+    -l &lt;int&gt;               : last page to convert
+    &#34;&#34;&#34;
+
+    use_verbose: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-verbose&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Print a status message (to stdout) before processing each page.
+
+    -verbose               : print per-page status information
+    &#34;&#34;&#34;
+
+    config_file: typing.Optional[pathlib.Path] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-cfg&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Read config-file in place of ~/.xpdfrc or the system-wide config file.
+
+    -cfg &lt;string&gt;     : configuration file to use in place of .xpdfrc
+    &#34;&#34;&#34;
+
+    program_info: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-v&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Print copyright and version information.
+
+    -v                : print copyright and version info
+    &#34;&#34;&#34;
+
+
+@dataclasses.dataclass
+class XpdfInfoArgs(XpdfArgs):
+    &#34;&#34;&#34;Arguments for xpdf pdfinfo program.&#34;&#34;&#34;
+
+    include_page_bounding_boxes: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-box&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Prints the page box bounding boxes:
+    MediaBox, CropBox, BleedBox, TrimBox, and ArtBox.
+
+    -box              : print the page bounding boxes
+    &#34;&#34;&#34;
+
+    include_metadata: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-meta&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Prints document-level metadata.
+    This is the &#34;Metadata&#34; stream from the PDF file’s Catalog object.
+
+    -meta             : print the document metadata (XML)
+    &#34;&#34;&#34;
+
+    include_raw_dates: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-rawdates&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Prints the raw (undecoded) date strings, directly from the PDF file.
+
+    -rawdates         : print the undecoded date strings directly from the PDF file
+    &#34;&#34;&#34;
+
+    encoding: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-enc&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=&#34;Latin1&#34;
+    )
+    &#34;&#34;&#34;
+    Sets the encoding to use for text output.
+    The encoding−name must be defined with the unicodeMap command.
+    This defaults to &#34;Latin1&#34; (which is a built-in encoding).
+
+    -enc &lt;string&gt;          : output text encoding name
+    &#34;&#34;&#34;
+
+
+@dataclasses.dataclass
+class XpdfInfoResult:
+    &#34;&#34;&#34;Result from xpdf pdfinfo program.&#34;&#34;&#34;
+
+    # pdf info
+    title: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Title&#34;}}
+    )
+    subject: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Subject&#34;}}
+    )
+    keywords: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Keywords&#34;}}
+    )
+    author: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Author&#34;}}
+    )
+    creator: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Creator&#34;}}
+    )
+    producer: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Producer&#34;}}
+    )
+    creation_date: typing.Optional[datetime] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;CreationDate&#34;}}
+    )
+    modification_date: typing.Optional[datetime] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;ModDate&#34;}}
+    )
+
+    # addtional info
+    tagged: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Tagged&#34;}}
+    )
+    form: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Form&#34;}}
+    )
+    pages: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Pages&#34;}}
+    )
+    encrypted: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Encrypted&#34;}}
+    )
+    page_size: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Page size&#34;}}
+    )
+    media_box: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;MediaBox&#34;}}
+    )
+    crop_box: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;CropBox&#34;}}
+    )
+    bleed_box: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;BleedBox&#34;}}
+    )
+    trim_box: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;TrimBox&#34;}}
+    )
+    art_box: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;ArtBox&#34;}}
+    )
+    file_size_bytes: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;File size&#34;}}
+    )
+    optimized: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Optimized&#34;}}
+    )
+    pdf_version: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;PDF version&#34;}}
+    )
+
+    # xml metadata
+    metadata: typing.Optional[dict] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Metadata&#34;}}
+    )
+
+
+@dataclasses.dataclass
+class XpdfTextArgs(XpdfArgs):
+    &#34;&#34;&#34;Arguments for xpdf pdftotext program.&#34;&#34;&#34;
+
+    use_original_layout: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-layout&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Maintain (as best as possible) the original physical layout of the text.
+
+    -layout                : maintain original physical layout
+    &#34;&#34;&#34;
+
+    use_simple_layout: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-simple&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    optimized for simple one-column pages.
+    This mode will do a better job of maintaining horizontal spacing,
+    but it will only work properly with a single column of text.
+
+    -simple                : simple one-column page layout
+    &#34;&#34;&#34;
+
+    use_simple2_layout: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-simple2&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    handles slightly rotated text (e.g., OCR output) better.
+    Only works for pages with a single column of text.
+
+    -simple2               : simple one-column page layout, version 2
+    &#34;&#34;&#34;
+
+    use_table_layout: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-table&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Table mode is similar to physical layout mode, but optimized for tabular data,
+    with the goal of keeping rows and columns aligned
+    (at the expense of inserting extra whitespace).
+    If the −fixed option is given, character spacing within
+    each line will be determined by the specified character pitch.
+
+    -table                 : similar to -layout, but optimized for tables
+    &#34;&#34;&#34;
+
+    use_line_printer: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-lineprinter&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}},
+        default=False,
+    )
+    &#34;&#34;&#34;
+    Line printer mode uses a strict fixed-character-pitch and -height layout.
+    That is, the page is broken into a grid, and characters are placed into that grid.
+    If the grid spacing is too small for the actual characters,
+    the result is extra whitespace.
+    If the grid spacing is too large, the result is missing whitespace.
+    The grid spacing can be specified using the −fixed and −linespacing options.
+    If one or both are not given on the command line,
+    pdftotext will attempt to compute appropriate value(s).
+
+    -lineprinter           : use strict fixed-pitch/height layout
+    &#34;&#34;&#34;
+
+    use_raw_string_order: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-raw&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Keep the text in content stream order.
+    Depending on how the PDF file was generated, this may or may not be useful.
+
+    -raw                   : keep strings in content stream order
+    &#34;&#34;&#34;
+
+    use_text_clip: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-clip&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Text which is hidden because of clipping is removed before doing layout,
+    and then added back in. This can be helpful for tables where
+    clipped (invisible) text would overlap the next column.
+
+    -clip                  : separate clipped text
+    &#34;&#34;&#34;
+
+    use_no_diag: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-nodiag&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Diagonal text, i.e., text that is not close to one of
+    the 0, 90, 180, or 270 degree axes, is discarded.
+    This is useful to skip watermarks drawn on top of body text, etc.
+
+    -nodiag                : discard diagonal text
+    &#34;&#34;&#34;
+
+    use_no_page_break: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-nopgbrk&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Don&#39;t insert a page break (form feed character) at the
+    end of each page.
+
+    -nopgbrk               : don&#39;t insert a page break at the end of each page
+    &#34;&#34;&#34;
+
+    use_bom: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-nom&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Insert a Unicode byte order marker (BOM) at the start of the text output.
+
+    -bom                   : insert a Unicode BOM at the start of the text file
+    &#34;&#34;&#34;
+
+    use_verbose: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-verbose&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Print a status message (to stdout) before processing each page.
+
+    -verbose               : print per-page status information
+    &#34;&#34;&#34;
+
+    fixed_text_number: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-fixed&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Specify the character pitch (character width), in points,
+    for physical layout, table, or line printer mode.
+    This is ignored in all other modes.
+
+    -fixed &lt;number&gt;        : assume fixed-pitch (or tabular) text
+    &#34;&#34;&#34;
+
+    line_space_number: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-linespacing&#34;, &#34;cmd_type&#34;: &#34;single&#34;}},
+        default=None,
+    )
+    &#34;&#34;&#34;
+    Specify the line spacing, in points, for line printer mode.
+    This is ignored in all other modes.
+
+    -linespacing &lt;number&gt;  : fixed line spacing for LinePrinter mode
+    &#34;&#34;&#34;
+
+    line_end_type: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-eol&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Sets the end-of-line convention to use for text output.
+
+    -eol &lt;string&gt;          : output end-of-line convention (unix, dos, or mac)
+    &#34;&#34;&#34;
+
+    margin_left_number: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-marginl&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=0
+    )
+    &#34;&#34;&#34;
+    Specifies the left margin, in points.
+    Text in the left margin
+    (i.e., within that many points of the left edge of the page) is discarded.
+    The default value is zero.
+
+    -marginl &lt;number&gt;      : left page margin
+    &#34;&#34;&#34;
+
+    margin_right_number: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-marginr&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=0
+    )
+    &#34;&#34;&#34;
+    Specifies the right margin, in points.
+    Text in the right margin (i.e., within that many points of the
+    right edge of the page) is discarded.
+    The default value is zero.
+
+    -marginr &lt;number&gt;      : right page margin
+    &#34;&#34;&#34;
+
+    margin_topnumber: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-margint&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=0
+    )
+    &#34;&#34;&#34;
+    Specifies the top margin, in points.
+    Text in the top margin (i.e., within that many points of the top
+    edge of the page) is discarded.
+    The default value is zero.
+
+    -margint &lt;number&gt;      : top page margin
+    &#34;&#34;&#34;
+
+    margin_bottom_number: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-marginb&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=0
+    )
+    &#34;&#34;&#34;
+    Specifies the bottom margin, in points.
+    Text in the bottom margin (i.e., within that many points of the
+    bottom edge of the page) is discarded.
+    The default value is zero.
+
+    -marginb &lt;number&gt;      : bottom page margin
+    &#34;&#34;&#34;
+
+
+@dataclasses.dataclass
+class XpdfTextResult:
+    &#34;&#34;&#34;Result for xpdf pdftotext program.&#34;&#34;&#34;
+
+    output_path: pathlib.Path
+    stdout: typing.Collection[str] = dataclasses.field(default_factory=list)
+    stderr: typing.Collection[str] = dataclasses.field(default_factory=list)
+
+
+@dataclasses.dataclass
+class XpdfImageArgs(XpdfArgs):
+    &#34;&#34;&#34;Arguments for xpdf pdftopng program.&#34;&#34;&#34;
+
+    resolution: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-r&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=150
+    )
+    &#34;&#34;&#34;
+    Specifies the resolution, in DPI. The default is 150 DPI.
+
+    -r &lt;number&gt;       : resolution, in DPI (default is 150)
+    &#34;&#34;&#34;
+    use_monochrome: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-mono&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Generate a monochrome image (instead of a color image).
+
+    -mono             : generate a monochrome PNG file
+    &#34;&#34;&#34;
+
+    use_grayscale: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-gray&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Generate a grayscale image (instead of a color image).
+
+    -gray             : generate a grayscale PNG file
+    &#34;&#34;&#34;
+    use_alpha_channel: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-alpha&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Generate an alpha channel in the PNG file.
+    This is only useful with PDF files that have been constructed
+    with a transparent background.
+    The −alpha flag cannot be used with −mono.
+
+    -alpha            : include an alpha channel in the PNG file
+    &#34;&#34;&#34;
+
+    rotation: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-rot&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Rotate pages by 0 (the default), 90, 180, or 270 degrees.
+
+    -rot &lt;int&gt;        : set page rotation: 0, 90, 180, or 270
+    &#34;&#34;&#34;
+
+    free_type: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-freetype&#34;, &#34;cmd_type&#34;: &#34;single&#34;}},
+        default=&#34;yes&#34;,
+    )
+    &#34;&#34;&#34;
+    Enable or disable FreeType (a TrueType / Type 1 font rasterizer).
+    This defaults to &#34;yes&#34;.
+
+    -freetype &lt;string&gt;: enable FreeType font rasterizer: yes, no
+    &#34;&#34;&#34;
+    anti_aliasing: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-aa&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=&#34;yes&#34;
+    )
+    &#34;&#34;&#34;
+    Enable or disable font anti-aliasing.
+    This defaults to &#34;yes&#34;.
+
+    -aa &lt;string&gt;      : enable font anti-aliasing: yes, no
+    &#34;&#34;&#34;
+    vector_anti_aliasing: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-aaVector&#34;, &#34;cmd_type&#34;: &#34;single&#34;}},
+        default=&#34;yes&#34;,
+    )
+    &#34;&#34;&#34;
+    Enable or disable vector anti-aliasing.
+    This defaults to &#34;yes&#34;.
+
+     -aaVector &lt;string&gt;: enable vector anti-aliasing: yes, no
+    &#34;&#34;&#34;
+
+
+@dataclasses.dataclass
+class XpdfImageResult:
+    &#34;&#34;&#34;Result for xpdf pdftopng program.&#34;&#34;&#34;
+
+    output_dir: pathlib.Path
+    output_files: typing.Collection[pathlib.Path]
+    stdout: typing.Collection[str] = dataclasses.field(default_factory=list)
+    stderr: typing.Collection[str] = dataclasses.field(default_factory=list)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="leaf_focus.pdf.model.XpdfArgs"><code class="flex name class">
+<span>class <span class="ident">XpdfArgs</span></span>
+<span>(</span><span>owner_password: Optional[str] = None, user_password: Optional[str] = None, first_page: Optional[int] = None, last_page: Optional[int] = None, use_verbose: Optional[bool] = False, config_file: Optional[pathlib.Path] = None, program_info: Optional[bool] = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>xpdf arguments common to all commands</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/e71cc464cfcff762b6e6954b83b42a0d9559a65b/src/leaf_focus/pdf/model.py#L10-L76" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@dataclasses.dataclass
+class XpdfArgs:
+    &#34;&#34;&#34;xpdf arguments common to all commands&#34;&#34;&#34;
+
+    owner_password: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-opw&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Specify the owner password for the PDF file.
+    Providing this will bypass all security restrictions.
+
+    -opw &lt;string&gt;          : owner password (for encrypted files)
+    &#34;&#34;&#34;
+
+    user_password: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-upw&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Specify the user password for the PDF file.
+
+    -upw &lt;string&gt;          : user password (for encrypted files)
+    &#39;&#34;&#34;&#34;
+
+    first_page: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-f&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Specifies the first page to convert.
+
+    -f &lt;int&gt;               : first page to convert
+    &#34;&#34;&#34;
+
+    last_page: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-l&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Specifies the last page to convert.
+
+    -l &lt;int&gt;               : last page to convert
+    &#34;&#34;&#34;
+
+    use_verbose: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-verbose&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Print a status message (to stdout) before processing each page.
+
+    -verbose               : print per-page status information
+    &#34;&#34;&#34;
+
+    config_file: typing.Optional[pathlib.Path] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-cfg&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Read config-file in place of ~/.xpdfrc or the system-wide config file.
+
+    -cfg &lt;string&gt;     : configuration file to use in place of .xpdfrc
+    &#34;&#34;&#34;
+
+    program_info: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-v&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Print copyright and version information.
+
+    -v                : print copyright and version info
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="leaf_focus.pdf.model.XpdfImageArgs" href="#leaf_focus.pdf.model.XpdfImageArgs">XpdfImageArgs</a></li>
+<li><a title="leaf_focus.pdf.model.XpdfInfoArgs" href="#leaf_focus.pdf.model.XpdfInfoArgs">XpdfInfoArgs</a></li>
+<li><a title="leaf_focus.pdf.model.XpdfTextArgs" href="#leaf_focus.pdf.model.XpdfTextArgs">XpdfTextArgs</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="leaf_focus.pdf.model.XpdfArgs.config_file"><code class="name">var <span class="ident">config_file</span> : Optional[pathlib.Path]</code></dt>
+<dd>
+<div class="desc"><p>Read config-file in place of ~/.xpdfrc or the system-wide config file.</p>
+<p>-cfg <string>
+: configuration file to use in place of .xpdfrc</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfArgs.first_page"><code class="name">var <span class="ident">first_page</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Specifies the first page to convert.</p>
+<p>-f <int>
+: first page to convert</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfArgs.last_page"><code class="name">var <span class="ident">last_page</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Specifies the last page to convert.</p>
+<p>-l <int>
+: last page to convert</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfArgs.owner_password"><code class="name">var <span class="ident">owner_password</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"><p>Specify the owner password for the PDF file.
+Providing this will bypass all security restrictions.</p>
+<p>-opw <string>
+: owner password (for encrypted files)</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfArgs.program_info"><code class="name">var <span class="ident">program_info</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Print copyright and version information.</p>
+<p>-v
+: print copyright and version info</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfArgs.use_verbose"><code class="name">var <span class="ident">use_verbose</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Print a status message (to stdout) before processing each page.</p>
+<p>-verbose
+: print per-page status information</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfArgs.user_password"><code class="name">var <span class="ident">user_password</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"><p>Specify the user password for the PDF file.</p>
+<p>-upw <string>
+: user password (for encrypted files)
+'</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageArgs"><code class="flex name class">
+<span>class <span class="ident">XpdfImageArgs</span></span>
+<span>(</span><span>owner_password: Optional[str] = None, user_password: Optional[str] = None, first_page: Optional[int] = None, last_page: Optional[int] = None, use_verbose: Optional[bool] = False, config_file: Optional[pathlib.Path] = None, program_info: Optional[bool] = False, resolution: Optional[int] = 150, use_monochrome: Optional[bool] = False, use_grayscale: Optional[bool] = False, use_alpha_channel: Optional[bool] = False, rotation: Optional[int] = None, free_type: Optional[str] = 'yes', anti_aliasing: Optional[str] = 'yes', vector_anti_aliasing: Optional[str] = 'yes')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Arguments for xpdf pdftopng program.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/e71cc464cfcff762b6e6954b83b42a0d9559a65b/src/leaf_focus/pdf/model.py#L414-L492" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@dataclasses.dataclass
+class XpdfImageArgs(XpdfArgs):
+    &#34;&#34;&#34;Arguments for xpdf pdftopng program.&#34;&#34;&#34;
+
+    resolution: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-r&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=150
+    )
+    &#34;&#34;&#34;
+    Specifies the resolution, in DPI. The default is 150 DPI.
+
+    -r &lt;number&gt;       : resolution, in DPI (default is 150)
+    &#34;&#34;&#34;
+    use_monochrome: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-mono&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Generate a monochrome image (instead of a color image).
+
+    -mono             : generate a monochrome PNG file
+    &#34;&#34;&#34;
+
+    use_grayscale: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-gray&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Generate a grayscale image (instead of a color image).
+
+    -gray             : generate a grayscale PNG file
+    &#34;&#34;&#34;
+    use_alpha_channel: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-alpha&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Generate an alpha channel in the PNG file.
+    This is only useful with PDF files that have been constructed
+    with a transparent background.
+    The −alpha flag cannot be used with −mono.
+
+    -alpha            : include an alpha channel in the PNG file
+    &#34;&#34;&#34;
+
+    rotation: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-rot&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Rotate pages by 0 (the default), 90, 180, or 270 degrees.
+
+    -rot &lt;int&gt;        : set page rotation: 0, 90, 180, or 270
+    &#34;&#34;&#34;
+
+    free_type: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-freetype&#34;, &#34;cmd_type&#34;: &#34;single&#34;}},
+        default=&#34;yes&#34;,
+    )
+    &#34;&#34;&#34;
+    Enable or disable FreeType (a TrueType / Type 1 font rasterizer).
+    This defaults to &#34;yes&#34;.
+
+    -freetype &lt;string&gt;: enable FreeType font rasterizer: yes, no
+    &#34;&#34;&#34;
+    anti_aliasing: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-aa&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=&#34;yes&#34;
+    )
+    &#34;&#34;&#34;
+    Enable or disable font anti-aliasing.
+    This defaults to &#34;yes&#34;.
+
+    -aa &lt;string&gt;      : enable font anti-aliasing: yes, no
+    &#34;&#34;&#34;
+    vector_anti_aliasing: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-aaVector&#34;, &#34;cmd_type&#34;: &#34;single&#34;}},
+        default=&#34;yes&#34;,
+    )
+    &#34;&#34;&#34;
+    Enable or disable vector anti-aliasing.
+    This defaults to &#34;yes&#34;.
+
+     -aaVector &lt;string&gt;: enable vector anti-aliasing: yes, no
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="leaf_focus.pdf.model.XpdfArgs" href="#leaf_focus.pdf.model.XpdfArgs">XpdfArgs</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="leaf_focus.pdf.model.XpdfImageArgs.anti_aliasing"><code class="name">var <span class="ident">anti_aliasing</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"><p>Enable or disable font anti-aliasing.
+This defaults to "yes".</p>
+<p>-aa <string>
+: enable font anti-aliasing: yes, no</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageArgs.free_type"><code class="name">var <span class="ident">free_type</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"><p>Enable or disable FreeType (a TrueType / Type 1 font rasterizer).
+This defaults to "yes".</p>
+<p>-freetype <string>: enable FreeType font rasterizer: yes, no</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageArgs.resolution"><code class="name">var <span class="ident">resolution</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Specifies the resolution, in DPI. The default is 150 DPI.</p>
+<p>-r <number>
+: resolution, in DPI (default is 150)</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageArgs.rotation"><code class="name">var <span class="ident">rotation</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Rotate pages by 0 (the default), 90, 180, or 270 degrees.</p>
+<p>-rot <int>
+: set page rotation: 0, 90, 180, or 270</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageArgs.use_alpha_channel"><code class="name">var <span class="ident">use_alpha_channel</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Generate an alpha channel in the PNG file.
+This is only useful with PDF files that have been constructed
+with a transparent background.
+The −alpha flag cannot be used with −mono.</p>
+<p>-alpha
+: include an alpha channel in the PNG file</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageArgs.use_grayscale"><code class="name">var <span class="ident">use_grayscale</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Generate a grayscale image (instead of a color image).</p>
+<p>-gray
+: generate a grayscale PNG file</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageArgs.use_monochrome"><code class="name">var <span class="ident">use_monochrome</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Generate a monochrome image (instead of a color image).</p>
+<p>-mono
+: generate a monochrome PNG file</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageArgs.vector_anti_aliasing"><code class="name">var <span class="ident">vector_anti_aliasing</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"><p>Enable or disable vector anti-aliasing.
+This defaults to "yes".</p>
+<p>-aaVector <string>: enable vector anti-aliasing: yes, no</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="leaf_focus.pdf.model.XpdfArgs" href="#leaf_focus.pdf.model.XpdfArgs">XpdfArgs</a></b></code>:
+<ul class="hlist">
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.config_file" href="#leaf_focus.pdf.model.XpdfArgs.config_file">config_file</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.first_page" href="#leaf_focus.pdf.model.XpdfArgs.first_page">first_page</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.last_page" href="#leaf_focus.pdf.model.XpdfArgs.last_page">last_page</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.owner_password" href="#leaf_focus.pdf.model.XpdfArgs.owner_password">owner_password</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.program_info" href="#leaf_focus.pdf.model.XpdfArgs.program_info">program_info</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.use_verbose" href="#leaf_focus.pdf.model.XpdfArgs.use_verbose">use_verbose</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.user_password" href="#leaf_focus.pdf.model.XpdfArgs.user_password">user_password</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageResult"><code class="flex name class">
+<span>class <span class="ident">XpdfImageResult</span></span>
+<span>(</span><span>output_dir: pathlib.Path, output_files: Collection[pathlib.Path], stdout: Collection[str] = &lt;factory&gt;, stderr: Collection[str] = &lt;factory&gt;)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Result for xpdf pdftopng program.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/e71cc464cfcff762b6e6954b83b42a0d9559a65b/src/leaf_focus/pdf/model.py#L495-L502" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@dataclasses.dataclass
+class XpdfImageResult:
+    &#34;&#34;&#34;Result for xpdf pdftopng program.&#34;&#34;&#34;
+
+    output_dir: pathlib.Path
+    output_files: typing.Collection[pathlib.Path]
+    stdout: typing.Collection[str] = dataclasses.field(default_factory=list)
+    stderr: typing.Collection[str] = dataclasses.field(default_factory=list)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="leaf_focus.pdf.model.XpdfImageResult.output_dir"><code class="name">var <span class="ident">output_dir</span> : pathlib.Path</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageResult.output_files"><code class="name">var <span class="ident">output_files</span> : Collection[pathlib.Path]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageResult.stderr"><code class="name">var <span class="ident">stderr</span> : Collection[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfImageResult.stdout"><code class="name">var <span class="ident">stdout</span> : Collection[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoArgs"><code class="flex name class">
+<span>class <span class="ident">XpdfInfoArgs</span></span>
+<span>(</span><span>owner_password: Optional[str] = None, user_password: Optional[str] = None, first_page: Optional[int] = None, last_page: Optional[int] = None, use_verbose: Optional[bool] = False, config_file: Optional[pathlib.Path] = None, program_info: Optional[bool] = False, include_page_bounding_boxes: Optional[bool] = False, include_metadata: Optional[bool] = False, include_raw_dates: Optional[bool] = False, encoding: Optional[str] = 'Latin1')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Arguments for xpdf pdfinfo program.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/e71cc464cfcff762b6e6954b83b42a0d9559a65b/src/leaf_focus/pdf/model.py#L79-L121" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@dataclasses.dataclass
+class XpdfInfoArgs(XpdfArgs):
+    &#34;&#34;&#34;Arguments for xpdf pdfinfo program.&#34;&#34;&#34;
+
+    include_page_bounding_boxes: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-box&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Prints the page box bounding boxes:
+    MediaBox, CropBox, BleedBox, TrimBox, and ArtBox.
+
+    -box              : print the page bounding boxes
+    &#34;&#34;&#34;
+
+    include_metadata: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-meta&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Prints document-level metadata.
+    This is the &#34;Metadata&#34; stream from the PDF file’s Catalog object.
+
+    -meta             : print the document metadata (XML)
+    &#34;&#34;&#34;
+
+    include_raw_dates: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-rawdates&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Prints the raw (undecoded) date strings, directly from the PDF file.
+
+    -rawdates         : print the undecoded date strings directly from the PDF file
+    &#34;&#34;&#34;
+
+    encoding: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-enc&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=&#34;Latin1&#34;
+    )
+    &#34;&#34;&#34;
+    Sets the encoding to use for text output.
+    The encoding−name must be defined with the unicodeMap command.
+    This defaults to &#34;Latin1&#34; (which is a built-in encoding).
+
+    -enc &lt;string&gt;          : output text encoding name
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="leaf_focus.pdf.model.XpdfArgs" href="#leaf_focus.pdf.model.XpdfArgs">XpdfArgs</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="leaf_focus.pdf.model.XpdfInfoArgs.encoding"><code class="name">var <span class="ident">encoding</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"><p>Sets the encoding to use for text output.
+The encoding−name must be defined with the unicodeMap command.
+This defaults to "Latin1" (which is a built-in encoding).</p>
+<p>-enc <string>
+: output text encoding name</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoArgs.include_metadata"><code class="name">var <span class="ident">include_metadata</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Prints document-level metadata.
+This is the "Metadata" stream from the PDF file’s Catalog object.</p>
+<p>-meta
+: print the document metadata (XML)</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoArgs.include_page_bounding_boxes"><code class="name">var <span class="ident">include_page_bounding_boxes</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Prints the page box bounding boxes:
+MediaBox, CropBox, BleedBox, TrimBox, and ArtBox.</p>
+<p>-box
+: print the page bounding boxes</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoArgs.include_raw_dates"><code class="name">var <span class="ident">include_raw_dates</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Prints the raw (undecoded) date strings, directly from the PDF file.</p>
+<p>-rawdates
+: print the undecoded date strings directly from the PDF file</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="leaf_focus.pdf.model.XpdfArgs" href="#leaf_focus.pdf.model.XpdfArgs">XpdfArgs</a></b></code>:
+<ul class="hlist">
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.config_file" href="#leaf_focus.pdf.model.XpdfArgs.config_file">config_file</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.first_page" href="#leaf_focus.pdf.model.XpdfArgs.first_page">first_page</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.last_page" href="#leaf_focus.pdf.model.XpdfArgs.last_page">last_page</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.owner_password" href="#leaf_focus.pdf.model.XpdfArgs.owner_password">owner_password</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.program_info" href="#leaf_focus.pdf.model.XpdfArgs.program_info">program_info</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.use_verbose" href="#leaf_focus.pdf.model.XpdfArgs.use_verbose">use_verbose</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.user_password" href="#leaf_focus.pdf.model.XpdfArgs.user_password">user_password</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult"><code class="flex name class">
+<span>class <span class="ident">XpdfInfoResult</span></span>
+<span>(</span><span>title: Optional[str], subject: Optional[str], keywords: Optional[str], author: Optional[str], creator: Optional[str], producer: Optional[str], creation_date: Optional[datetime.datetime], modification_date: Optional[datetime.datetime], tagged: Optional[bool], form: Optional[str], pages: Optional[int], encrypted: Optional[bool], page_size: Optional[str], media_box: Optional[str], crop_box: Optional[str], bleed_box: Optional[str], trim_box: Optional[str], art_box: Optional[str], file_size_bytes: Optional[int], optimized: Optional[bool], pdf_version: Optional[str], metadata: Optional[dict])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Result from xpdf pdfinfo program.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/e71cc464cfcff762b6e6954b83b42a0d9559a65b/src/leaf_focus/pdf/model.py#L124-L198" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@dataclasses.dataclass
+class XpdfInfoResult:
+    &#34;&#34;&#34;Result from xpdf pdfinfo program.&#34;&#34;&#34;
+
+    # pdf info
+    title: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Title&#34;}}
+    )
+    subject: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Subject&#34;}}
+    )
+    keywords: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Keywords&#34;}}
+    )
+    author: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Author&#34;}}
+    )
+    creator: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Creator&#34;}}
+    )
+    producer: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Producer&#34;}}
+    )
+    creation_date: typing.Optional[datetime] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;CreationDate&#34;}}
+    )
+    modification_date: typing.Optional[datetime] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;ModDate&#34;}}
+    )
+
+    # addtional info
+    tagged: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Tagged&#34;}}
+    )
+    form: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Form&#34;}}
+    )
+    pages: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Pages&#34;}}
+    )
+    encrypted: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Encrypted&#34;}}
+    )
+    page_size: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Page size&#34;}}
+    )
+    media_box: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;MediaBox&#34;}}
+    )
+    crop_box: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;CropBox&#34;}}
+    )
+    bleed_box: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;BleedBox&#34;}}
+    )
+    trim_box: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;TrimBox&#34;}}
+    )
+    art_box: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;ArtBox&#34;}}
+    )
+    file_size_bytes: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;File size&#34;}}
+    )
+    optimized: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Optimized&#34;}}
+    )
+    pdf_version: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;PDF version&#34;}}
+    )
+
+    # xml metadata
+    metadata: typing.Optional[dict] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;name&#34;: &#34;Metadata&#34;}}
+    )</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.art_box"><code class="name">var <span class="ident">art_box</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.author"><code class="name">var <span class="ident">author</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.bleed_box"><code class="name">var <span class="ident">bleed_box</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.creation_date"><code class="name">var <span class="ident">creation_date</span> : Optional[datetime.datetime]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.creator"><code class="name">var <span class="ident">creator</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.crop_box"><code class="name">var <span class="ident">crop_box</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.encrypted"><code class="name">var <span class="ident">encrypted</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.file_size_bytes"><code class="name">var <span class="ident">file_size_bytes</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.form"><code class="name">var <span class="ident">form</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.keywords"><code class="name">var <span class="ident">keywords</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.media_box"><code class="name">var <span class="ident">media_box</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.metadata"><code class="name">var <span class="ident">metadata</span> : Optional[dict]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.modification_date"><code class="name">var <span class="ident">modification_date</span> : Optional[datetime.datetime]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.optimized"><code class="name">var <span class="ident">optimized</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.page_size"><code class="name">var <span class="ident">page_size</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.pages"><code class="name">var <span class="ident">pages</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.pdf_version"><code class="name">var <span class="ident">pdf_version</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.producer"><code class="name">var <span class="ident">producer</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.subject"><code class="name">var <span class="ident">subject</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.tagged"><code class="name">var <span class="ident">tagged</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.title"><code class="name">var <span class="ident">title</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfInfoResult.trim_box"><code class="name">var <span class="ident">trim_box</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs"><code class="flex name class">
+<span>class <span class="ident">XpdfTextArgs</span></span>
+<span>(</span><span>owner_password: Optional[str] = None, user_password: Optional[str] = None, first_page: Optional[int] = None, last_page: Optional[int] = None, use_verbose: Optional[bool] = False, config_file: Optional[pathlib.Path] = None, program_info: Optional[bool] = False, use_original_layout: Optional[bool] = False, use_simple_layout: Optional[bool] = False, use_simple2_layout: Optional[bool] = False, use_table_layout: Optional[bool] = False, use_line_printer: Optional[bool] = False, use_raw_string_order: Optional[bool] = False, use_text_clip: Optional[bool] = False, use_no_diag: Optional[bool] = False, use_no_page_break: Optional[bool] = False, use_bom: Optional[bool] = False, fixed_text_number: Optional[int] = None, line_space_number: Optional[int] = None, line_end_type: Optional[str] = None, margin_left_number: Optional[int] = 0, margin_right_number: Optional[int] = 0, margin_topnumber: Optional[int] = 0, margin_bottom_number: Optional[int] = 0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Arguments for xpdf pdftotext program.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/e71cc464cfcff762b6e6954b83b42a0d9559a65b/src/leaf_focus/pdf/model.py#L201-L402" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@dataclasses.dataclass
+class XpdfTextArgs(XpdfArgs):
+    &#34;&#34;&#34;Arguments for xpdf pdftotext program.&#34;&#34;&#34;
+
+    use_original_layout: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-layout&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Maintain (as best as possible) the original physical layout of the text.
+
+    -layout                : maintain original physical layout
+    &#34;&#34;&#34;
+
+    use_simple_layout: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-simple&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    optimized for simple one-column pages.
+    This mode will do a better job of maintaining horizontal spacing,
+    but it will only work properly with a single column of text.
+
+    -simple                : simple one-column page layout
+    &#34;&#34;&#34;
+
+    use_simple2_layout: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-simple2&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    handles slightly rotated text (e.g., OCR output) better.
+    Only works for pages with a single column of text.
+
+    -simple2               : simple one-column page layout, version 2
+    &#34;&#34;&#34;
+
+    use_table_layout: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-table&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Table mode is similar to physical layout mode, but optimized for tabular data,
+    with the goal of keeping rows and columns aligned
+    (at the expense of inserting extra whitespace).
+    If the −fixed option is given, character spacing within
+    each line will be determined by the specified character pitch.
+
+    -table                 : similar to -layout, but optimized for tables
+    &#34;&#34;&#34;
+
+    use_line_printer: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-lineprinter&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}},
+        default=False,
+    )
+    &#34;&#34;&#34;
+    Line printer mode uses a strict fixed-character-pitch and -height layout.
+    That is, the page is broken into a grid, and characters are placed into that grid.
+    If the grid spacing is too small for the actual characters,
+    the result is extra whitespace.
+    If the grid spacing is too large, the result is missing whitespace.
+    The grid spacing can be specified using the −fixed and −linespacing options.
+    If one or both are not given on the command line,
+    pdftotext will attempt to compute appropriate value(s).
+
+    -lineprinter           : use strict fixed-pitch/height layout
+    &#34;&#34;&#34;
+
+    use_raw_string_order: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-raw&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Keep the text in content stream order.
+    Depending on how the PDF file was generated, this may or may not be useful.
+
+    -raw                   : keep strings in content stream order
+    &#34;&#34;&#34;
+
+    use_text_clip: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-clip&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Text which is hidden because of clipping is removed before doing layout,
+    and then added back in. This can be helpful for tables where
+    clipped (invisible) text would overlap the next column.
+
+    -clip                  : separate clipped text
+    &#34;&#34;&#34;
+
+    use_no_diag: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-nodiag&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Diagonal text, i.e., text that is not close to one of
+    the 0, 90, 180, or 270 degree axes, is discarded.
+    This is useful to skip watermarks drawn on top of body text, etc.
+
+    -nodiag                : discard diagonal text
+    &#34;&#34;&#34;
+
+    use_no_page_break: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-nopgbrk&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Don&#39;t insert a page break (form feed character) at the
+    end of each page.
+
+    -nopgbrk               : don&#39;t insert a page break at the end of each page
+    &#34;&#34;&#34;
+
+    use_bom: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-nom&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Insert a Unicode byte order marker (BOM) at the start of the text output.
+
+    -bom                   : insert a Unicode BOM at the start of the text file
+    &#34;&#34;&#34;
+
+    use_verbose: typing.Optional[bool] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-verbose&#34;, &#34;cmd_type&#34;: &#34;bool&#34;}}, default=False
+    )
+    &#34;&#34;&#34;
+    Print a status message (to stdout) before processing each page.
+
+    -verbose               : print per-page status information
+    &#34;&#34;&#34;
+
+    fixed_text_number: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-fixed&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Specify the character pitch (character width), in points,
+    for physical layout, table, or line printer mode.
+    This is ignored in all other modes.
+
+    -fixed &lt;number&gt;        : assume fixed-pitch (or tabular) text
+    &#34;&#34;&#34;
+
+    line_space_number: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-linespacing&#34;, &#34;cmd_type&#34;: &#34;single&#34;}},
+        default=None,
+    )
+    &#34;&#34;&#34;
+    Specify the line spacing, in points, for line printer mode.
+    This is ignored in all other modes.
+
+    -linespacing &lt;number&gt;  : fixed line spacing for LinePrinter mode
+    &#34;&#34;&#34;
+
+    line_end_type: typing.Optional[str] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-eol&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
+    )
+    &#34;&#34;&#34;
+    Sets the end-of-line convention to use for text output.
+
+    -eol &lt;string&gt;          : output end-of-line convention (unix, dos, or mac)
+    &#34;&#34;&#34;
+
+    margin_left_number: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-marginl&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=0
+    )
+    &#34;&#34;&#34;
+    Specifies the left margin, in points.
+    Text in the left margin
+    (i.e., within that many points of the left edge of the page) is discarded.
+    The default value is zero.
+
+    -marginl &lt;number&gt;      : left page margin
+    &#34;&#34;&#34;
+
+    margin_right_number: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-marginr&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=0
+    )
+    &#34;&#34;&#34;
+    Specifies the right margin, in points.
+    Text in the right margin (i.e., within that many points of the
+    right edge of the page) is discarded.
+    The default value is zero.
+
+    -marginr &lt;number&gt;      : right page margin
+    &#34;&#34;&#34;
+
+    margin_topnumber: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-margint&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=0
+    )
+    &#34;&#34;&#34;
+    Specifies the top margin, in points.
+    Text in the top margin (i.e., within that many points of the top
+    edge of the page) is discarded.
+    The default value is zero.
+
+    -margint &lt;number&gt;      : top page margin
+    &#34;&#34;&#34;
+
+    margin_bottom_number: typing.Optional[int] = dataclasses.field(
+        metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-marginb&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=0
+    )
+    &#34;&#34;&#34;
+    Specifies the bottom margin, in points.
+    Text in the bottom margin (i.e., within that many points of the
+    bottom edge of the page) is discarded.
+    The default value is zero.
+
+    -marginb &lt;number&gt;      : bottom page margin
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="leaf_focus.pdf.model.XpdfArgs" href="#leaf_focus.pdf.model.XpdfArgs">XpdfArgs</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.fixed_text_number"><code class="name">var <span class="ident">fixed_text_number</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Specify the character pitch (character width), in points,
+for physical layout, table, or line printer mode.
+This is ignored in all other modes.</p>
+<p>-fixed <number>
+: assume fixed-pitch (or tabular) text</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.line_end_type"><code class="name">var <span class="ident">line_end_type</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"><p>Sets the end-of-line convention to use for text output.</p>
+<p>-eol <string>
+: output end-of-line convention (unix, dos, or mac)</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.line_space_number"><code class="name">var <span class="ident">line_space_number</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Specify the line spacing, in points, for line printer mode.
+This is ignored in all other modes.</p>
+<p>-linespacing <number>
+: fixed line spacing for LinePrinter mode</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.margin_bottom_number"><code class="name">var <span class="ident">margin_bottom_number</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Specifies the bottom margin, in points.
+Text in the bottom margin (i.e., within that many points of the
+bottom edge of the page) is discarded.
+The default value is zero.</p>
+<p>-marginb <number>
+: bottom page margin</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.margin_left_number"><code class="name">var <span class="ident">margin_left_number</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Specifies the left margin, in points.
+Text in the left margin
+(i.e., within that many points of the left edge of the page) is discarded.
+The default value is zero.</p>
+<p>-marginl <number>
+: left page margin</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.margin_right_number"><code class="name">var <span class="ident">margin_right_number</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Specifies the right margin, in points.
+Text in the right margin (i.e., within that many points of the
+right edge of the page) is discarded.
+The default value is zero.</p>
+<p>-marginr <number>
+: right page margin</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.margin_topnumber"><code class="name">var <span class="ident">margin_topnumber</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Specifies the top margin, in points.
+Text in the top margin (i.e., within that many points of the top
+edge of the page) is discarded.
+The default value is zero.</p>
+<p>-margint <number>
+: top page margin</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.use_bom"><code class="name">var <span class="ident">use_bom</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Insert a Unicode byte order marker (BOM) at the start of the text output.</p>
+<p>-bom
+: insert a Unicode BOM at the start of the text file</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.use_line_printer"><code class="name">var <span class="ident">use_line_printer</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Line printer mode uses a strict fixed-character-pitch and -height layout.
+That is, the page is broken into a grid, and characters are placed into that grid.
+If the grid spacing is too small for the actual characters,
+the result is extra whitespace.
+If the grid spacing is too large, the result is missing whitespace.
+The grid spacing can be specified using the −fixed and −linespacing options.
+If one or both are not given on the command line,
+pdftotext will attempt to compute appropriate value(s).</p>
+<p>-lineprinter
+: use strict fixed-pitch/height layout</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.use_no_diag"><code class="name">var <span class="ident">use_no_diag</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Diagonal text, i.e., text that is not close to one of
+the 0, 90, 180, or 270 degree axes, is discarded.
+This is useful to skip watermarks drawn on top of body text, etc.</p>
+<p>-nodiag
+: discard diagonal text</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.use_no_page_break"><code class="name">var <span class="ident">use_no_page_break</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Don't insert a page break (form feed character) at the
+end of each page.</p>
+<p>-nopgbrk
+: don't insert a page break at the end of each page</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.use_original_layout"><code class="name">var <span class="ident">use_original_layout</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Maintain (as best as possible) the original physical layout of the text.</p>
+<p>-layout
+: maintain original physical layout</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.use_raw_string_order"><code class="name">var <span class="ident">use_raw_string_order</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Keep the text in content stream order.
+Depending on how the PDF file was generated, this may or may not be useful.</p>
+<p>-raw
+: keep strings in content stream order</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.use_simple2_layout"><code class="name">var <span class="ident">use_simple2_layout</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>handles slightly rotated text (e.g., OCR output) better.
+Only works for pages with a single column of text.</p>
+<p>-simple2
+: simple one-column page layout, version 2</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.use_simple_layout"><code class="name">var <span class="ident">use_simple_layout</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>optimized for simple one-column pages.
+This mode will do a better job of maintaining horizontal spacing,
+but it will only work properly with a single column of text.</p>
+<p>-simple
+: simple one-column page layout</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.use_table_layout"><code class="name">var <span class="ident">use_table_layout</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Table mode is similar to physical layout mode, but optimized for tabular data,
+with the goal of keeping rows and columns aligned
+(at the expense of inserting extra whitespace).
+If the −fixed option is given, character spacing within
+each line will be determined by the specified character pitch.</p>
+<p>-table
+: similar to -layout, but optimized for tables</p></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.use_text_clip"><code class="name">var <span class="ident">use_text_clip</span> : Optional[bool]</code></dt>
+<dd>
+<div class="desc"><p>Text which is hidden because of clipping is removed before doing layout,
+and then added back in. This can be helpful for tables where
+clipped (invisible) text would overlap the next column.</p>
+<p>-clip
+: separate clipped text</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="leaf_focus.pdf.model.XpdfArgs" href="#leaf_focus.pdf.model.XpdfArgs">XpdfArgs</a></b></code>:
+<ul class="hlist">
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.config_file" href="#leaf_focus.pdf.model.XpdfArgs.config_file">config_file</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.first_page" href="#leaf_focus.pdf.model.XpdfArgs.first_page">first_page</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.last_page" href="#leaf_focus.pdf.model.XpdfArgs.last_page">last_page</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.owner_password" href="#leaf_focus.pdf.model.XpdfArgs.owner_password">owner_password</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.program_info" href="#leaf_focus.pdf.model.XpdfArgs.program_info">program_info</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.use_verbose" href="#leaf_focus.pdf.model.XpdfArgs.use_verbose">use_verbose</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.user_password" href="#leaf_focus.pdf.model.XpdfArgs.user_password">user_password</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextResult"><code class="flex name class">
+<span>class <span class="ident">XpdfTextResult</span></span>
+<span>(</span><span>output_path: pathlib.Path, stdout: Collection[str] = &lt;factory&gt;, stderr: Collection[str] = &lt;factory&gt;)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Result for xpdf pdftotext program.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/e71cc464cfcff762b6e6954b83b42a0d9559a65b/src/leaf_focus/pdf/model.py#L405-L411" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@dataclasses.dataclass
+class XpdfTextResult:
+    &#34;&#34;&#34;Result for xpdf pdftotext program.&#34;&#34;&#34;
+
+    output_path: pathlib.Path
+    stdout: typing.Collection[str] = dataclasses.field(default_factory=list)
+    stderr: typing.Collection[str] = dataclasses.field(default_factory=list)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="leaf_focus.pdf.model.XpdfTextResult.output_path"><code class="name">var <span class="ident">output_path</span> : pathlib.Path</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextResult.stderr"><code class="name">var <span class="ident">stderr</span> : Collection[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.pdf.model.XpdfTextResult.stdout"><code class="name">var <span class="ident">stdout</span> : Collection[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<form>
+<input id="lunr-search" name="q" placeholder="🔎 Search ..." aria-label="Search"
+disabled minlength="2">
+</form>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" integrity="sha512-j1u8eUJ4f23xPPxwOrLUPQaCD2dwzNqqmDDcWS4deWsMv2ohLqmXXuP3hU7g8TyzbMSakP/mMqoNBYWj8AEIFg==" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js" integrity="sha512-plGUER9JkeEWPPqQBE4sdLqBoQug5Ap+BCGMc7bJ8BXkm+VVj6QzkpBz5Yv2yPkkq+cqg9IpkBaGCas6uDbW8g==" crossorigin></script>
+<style>
+.modal-dialog iframe {
+width: 100vw;
+height: calc(100vh - 80px);
+}
+@media screen and (min-width: 700px) {
+.modal-dialog iframe {
+width: 70vw;
+height: 80vh;
+}
+}
+.modal-dialog .tingle-modal-box {width: auto;}
+.modal-dialog .tingle-modal-box__content {padding: 0;}
+</style>
+<script>
+const input = document.getElementById('lunr-search');
+input.disabled = false;
+input.form.addEventListener('submit', (ev) => {
+ev.preventDefault();
+const url = new URL(window.location);
+url.searchParams.set('q', input.value);
+history.replaceState({}, null, url.toString());
+search(input.value);
+});
+const query = new URL(window.location).searchParams.get('q');
+if (query)
+search(query);
+function search(query) {
+const url = '../../doc-search.html#' + encodeURIComponent(query);
+new tingle.modal({
+cssClass: ['modal-dialog'],
+onClose: () => {
+const url = new URL(window.location);
+url.searchParams.delete('q');
+history.replaceState({}, null, url.toString());
+setTimeout(() => input.focus(), 100);
+}
+}).setContent('<iframe src="' + url + '"></iframe>').open();
+}
+</script>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="leaf_focus.pdf" href="index.html">leaf_focus.pdf</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="leaf_focus.pdf.model.XpdfArgs" href="#leaf_focus.pdf.model.XpdfArgs">XpdfArgs</a></code></h4>
+<ul class="two-column">
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.config_file" href="#leaf_focus.pdf.model.XpdfArgs.config_file">config_file</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.first_page" href="#leaf_focus.pdf.model.XpdfArgs.first_page">first_page</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.last_page" href="#leaf_focus.pdf.model.XpdfArgs.last_page">last_page</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.owner_password" href="#leaf_focus.pdf.model.XpdfArgs.owner_password">owner_password</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.program_info" href="#leaf_focus.pdf.model.XpdfArgs.program_info">program_info</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.use_verbose" href="#leaf_focus.pdf.model.XpdfArgs.use_verbose">use_verbose</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfArgs.user_password" href="#leaf_focus.pdf.model.XpdfArgs.user_password">user_password</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="leaf_focus.pdf.model.XpdfImageArgs" href="#leaf_focus.pdf.model.XpdfImageArgs">XpdfImageArgs</a></code></h4>
+<ul class="">
+<li><code><a title="leaf_focus.pdf.model.XpdfImageArgs.anti_aliasing" href="#leaf_focus.pdf.model.XpdfImageArgs.anti_aliasing">anti_aliasing</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfImageArgs.free_type" href="#leaf_focus.pdf.model.XpdfImageArgs.free_type">free_type</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfImageArgs.resolution" href="#leaf_focus.pdf.model.XpdfImageArgs.resolution">resolution</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfImageArgs.rotation" href="#leaf_focus.pdf.model.XpdfImageArgs.rotation">rotation</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfImageArgs.use_alpha_channel" href="#leaf_focus.pdf.model.XpdfImageArgs.use_alpha_channel">use_alpha_channel</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfImageArgs.use_grayscale" href="#leaf_focus.pdf.model.XpdfImageArgs.use_grayscale">use_grayscale</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfImageArgs.use_monochrome" href="#leaf_focus.pdf.model.XpdfImageArgs.use_monochrome">use_monochrome</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfImageArgs.vector_anti_aliasing" href="#leaf_focus.pdf.model.XpdfImageArgs.vector_anti_aliasing">vector_anti_aliasing</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="leaf_focus.pdf.model.XpdfImageResult" href="#leaf_focus.pdf.model.XpdfImageResult">XpdfImageResult</a></code></h4>
+<ul class="">
+<li><code><a title="leaf_focus.pdf.model.XpdfImageResult.output_dir" href="#leaf_focus.pdf.model.XpdfImageResult.output_dir">output_dir</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfImageResult.output_files" href="#leaf_focus.pdf.model.XpdfImageResult.output_files">output_files</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfImageResult.stderr" href="#leaf_focus.pdf.model.XpdfImageResult.stderr">stderr</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfImageResult.stdout" href="#leaf_focus.pdf.model.XpdfImageResult.stdout">stdout</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="leaf_focus.pdf.model.XpdfInfoArgs" href="#leaf_focus.pdf.model.XpdfInfoArgs">XpdfInfoArgs</a></code></h4>
+<ul class="">
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoArgs.encoding" href="#leaf_focus.pdf.model.XpdfInfoArgs.encoding">encoding</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoArgs.include_metadata" href="#leaf_focus.pdf.model.XpdfInfoArgs.include_metadata">include_metadata</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoArgs.include_page_bounding_boxes" href="#leaf_focus.pdf.model.XpdfInfoArgs.include_page_bounding_boxes">include_page_bounding_boxes</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoArgs.include_raw_dates" href="#leaf_focus.pdf.model.XpdfInfoArgs.include_raw_dates">include_raw_dates</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="leaf_focus.pdf.model.XpdfInfoResult" href="#leaf_focus.pdf.model.XpdfInfoResult">XpdfInfoResult</a></code></h4>
+<ul class="two-column">
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.art_box" href="#leaf_focus.pdf.model.XpdfInfoResult.art_box">art_box</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.author" href="#leaf_focus.pdf.model.XpdfInfoResult.author">author</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.bleed_box" href="#leaf_focus.pdf.model.XpdfInfoResult.bleed_box">bleed_box</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.creation_date" href="#leaf_focus.pdf.model.XpdfInfoResult.creation_date">creation_date</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.creator" href="#leaf_focus.pdf.model.XpdfInfoResult.creator">creator</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.crop_box" href="#leaf_focus.pdf.model.XpdfInfoResult.crop_box">crop_box</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.encrypted" href="#leaf_focus.pdf.model.XpdfInfoResult.encrypted">encrypted</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.file_size_bytes" href="#leaf_focus.pdf.model.XpdfInfoResult.file_size_bytes">file_size_bytes</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.form" href="#leaf_focus.pdf.model.XpdfInfoResult.form">form</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.keywords" href="#leaf_focus.pdf.model.XpdfInfoResult.keywords">keywords</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.media_box" href="#leaf_focus.pdf.model.XpdfInfoResult.media_box">media_box</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.metadata" href="#leaf_focus.pdf.model.XpdfInfoResult.metadata">metadata</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.modification_date" href="#leaf_focus.pdf.model.XpdfInfoResult.modification_date">modification_date</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.optimized" href="#leaf_focus.pdf.model.XpdfInfoResult.optimized">optimized</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.page_size" href="#leaf_focus.pdf.model.XpdfInfoResult.page_size">page_size</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.pages" href="#leaf_focus.pdf.model.XpdfInfoResult.pages">pages</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.pdf_version" href="#leaf_focus.pdf.model.XpdfInfoResult.pdf_version">pdf_version</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.producer" href="#leaf_focus.pdf.model.XpdfInfoResult.producer">producer</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.subject" href="#leaf_focus.pdf.model.XpdfInfoResult.subject">subject</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.tagged" href="#leaf_focus.pdf.model.XpdfInfoResult.tagged">tagged</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.title" href="#leaf_focus.pdf.model.XpdfInfoResult.title">title</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfInfoResult.trim_box" href="#leaf_focus.pdf.model.XpdfInfoResult.trim_box">trim_box</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="leaf_focus.pdf.model.XpdfTextArgs" href="#leaf_focus.pdf.model.XpdfTextArgs">XpdfTextArgs</a></code></h4>
+<ul class="">
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.fixed_text_number" href="#leaf_focus.pdf.model.XpdfTextArgs.fixed_text_number">fixed_text_number</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.line_end_type" href="#leaf_focus.pdf.model.XpdfTextArgs.line_end_type">line_end_type</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.line_space_number" href="#leaf_focus.pdf.model.XpdfTextArgs.line_space_number">line_space_number</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.margin_bottom_number" href="#leaf_focus.pdf.model.XpdfTextArgs.margin_bottom_number">margin_bottom_number</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.margin_left_number" href="#leaf_focus.pdf.model.XpdfTextArgs.margin_left_number">margin_left_number</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.margin_right_number" href="#leaf_focus.pdf.model.XpdfTextArgs.margin_right_number">margin_right_number</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.margin_topnumber" href="#leaf_focus.pdf.model.XpdfTextArgs.margin_topnumber">margin_topnumber</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.use_bom" href="#leaf_focus.pdf.model.XpdfTextArgs.use_bom">use_bom</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.use_line_printer" href="#leaf_focus.pdf.model.XpdfTextArgs.use_line_printer">use_line_printer</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.use_no_diag" href="#leaf_focus.pdf.model.XpdfTextArgs.use_no_diag">use_no_diag</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.use_no_page_break" href="#leaf_focus.pdf.model.XpdfTextArgs.use_no_page_break">use_no_page_break</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.use_original_layout" href="#leaf_focus.pdf.model.XpdfTextArgs.use_original_layout">use_original_layout</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.use_raw_string_order" href="#leaf_focus.pdf.model.XpdfTextArgs.use_raw_string_order">use_raw_string_order</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.use_simple2_layout" href="#leaf_focus.pdf.model.XpdfTextArgs.use_simple2_layout">use_simple2_layout</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.use_simple_layout" href="#leaf_focus.pdf.model.XpdfTextArgs.use_simple_layout">use_simple_layout</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.use_table_layout" href="#leaf_focus.pdf.model.XpdfTextArgs.use_table_layout">use_table_layout</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.use_text_clip" href="#leaf_focus.pdf.model.XpdfTextArgs.use_text_clip">use_text_clip</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="leaf_focus.pdf.model.XpdfTextResult" href="#leaf_focus.pdf.model.XpdfTextResult">XpdfTextResult</a></code></h4>
+<ul class="">
+<li><code><a title="leaf_focus.pdf.model.XpdfTextResult.output_path" href="#leaf_focus.pdf.model.XpdfTextResult.output_path">output_path</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextResult.stderr" href="#leaf_focus.pdf.model.XpdfTextResult.stderr">stderr</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextResult.stdout" href="#leaf_focus.pdf.model.XpdfTextResult.stdout">stdout</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

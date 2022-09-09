@@ -37,8 +37,9 @@ leaf-focus = 'leaf_focus.cli:main'
 where = [
     "src",
 ]
+# include and exclude accept strings representing glob patterns.
 include = [
-    "leaf_focus",
+    "leaf_focus*",
 ]
 
 [tool.setuptools.dynamic]
@@ -95,12 +96,13 @@ envlist = py37,py38,py39,py310,py311
 toxworkdir = {homedir}/tox-app
 
 [testenv]
-# recreate = true
+recreate = true
 deps =
     -r requirements.txt
     -r requirements-dev.txt
 commands =
     coverage run -m pytest
+    leaf-focus --help
     # black --check src
     # flake8 src --count --show-source --statistics
     # pydocstyle src
