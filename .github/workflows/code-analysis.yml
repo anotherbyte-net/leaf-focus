@@ -57,6 +57,7 @@ jobs:
 
       - name: Run Snyk over the runtime dependencies
         run: snyk test --sarif-file-output=snyk-requirements.sarif --command=python --file=requirements.txt --package-manager=pip --skip-unresolved
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
@@ -67,6 +68,7 @@ jobs:
 
       - name: Run Snyk over the developmnet dependencies
         run: snyk test --sarif-file-output=snyk-requirements-dev.sarif --command=python --file=requirements-dev.txt --package-manager=pip --skip-unresolved
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
