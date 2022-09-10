@@ -20,8 +20,6 @@ updates:
     schedule:
       interval: "weekly"
     target-branch: "main"
-    labels:
-      - "pip dependencies"
     commit-message:
       prefix: "pip stable"
       prefix-development: "pip dev"
