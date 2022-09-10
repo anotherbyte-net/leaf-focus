@@ -37,8 +37,8 @@ jobs:
       - name: Run tests and linters
         run: |
           echo "::group::Tests - Run tests with coverage"
-          python -X dev -m coverage run -m pytest --tb=line --doctest-modules \
-            --junitxml=artifacts-${{ matrix.python-version }}/pytest-coverage.xml || true
+          python -X dev -m pytest --doctest-modules --junitxml=pytest-coverage-${{ matrix.python-version }}.xml \
+            --cov-report=term-missing:skip-covered --cov=src/ tests/ | tee pytest-coverage-${{ matrix.python-version }}.txt
           echo "::endgroup::"
           
           echo "::group::Tests - Coverage report"
@@ -110,6 +110,12 @@ jobs:
           echo "::group::Build package"
           python -m build --sdist --wheel --outdir dist/ .
           echo "::endgroup::"
+
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@v1
+        with:
+          pytest-coverage-path: ./pytest-coverage-${{ matrix.python-version }}.txt
+          junitxml-path: ./pytest-coverage-${{ matrix.python-version }}.xml
 
 # TODO
 #      - name: Publish distribution always to Test PyPI
