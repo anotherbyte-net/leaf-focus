@@ -10,6 +10,10 @@ Install from PyPI using pip:
 pip install leaf-focus
 ```
 
+[![PyPI](https://img.shields.io/pypi/v/leaf-focus)](https://pypi.org/project/leaf-focus/)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/leaf-focus)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/anotherbyte-net/leaf-focus/Create%20Package/main)
+
 Download the [Xpdf command line tools](https://www.xpdfreader.com/download.html) and extract the executable files.
 
 Provide the directory containing the executable files as `--exe-dir`.
