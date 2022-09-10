@@ -1,0 +1,1481 @@
+  Release 450 Driver for Windows, Version
+  452.06
+
+      Windows 10 / Windows 8.1 / Windows 8 / Windows 7
+
+   Release Notes
+
+RN-08399-452.06_v01 | August 17, 2020
+                                                    TABLE OF CONTENTS
+
+1 Introduction to Release Notes.......................................................................................1
+   Structure of the Document ............................................................................................1
+   Changes in this Edition ..................................................................................................1
+
+2 Release 450 Driver Changes ........................................................................................2
+   Version 452.06 WHQL Highlights ...................................................................................3
+       Requirement for Obtaining NVIDIA Drivers for
+
+Windows 7............................................................................................................................3
+       Existing Support ........................................................................................................3
+       Software Module Versions ........................................................................................3
+       What's New in Version 452.06 WHQL .......................................................................4
+       What's New in Release 450 ......................................................................................5
+       Discontinued Support ...............................................................................................6
+       Limitations in This Release ......................................................................................7
+
+   Changes and Fixed Issues in Version 452.06 ................................................................9
+       Fixed Issues in this Release .....................................................................................9
+
+   Open Issues in Version 452.06 WHQL..........................................................................10
+       Windows 7 Issues ....................................................................................................10
+       Windows 10 Issues ..................................................................................................10
+
+   Issues Not Caused by NVIDIA Drivers.........................................................................12
+       Windows 10 Considerations....................................................................................12
+       Windows 7 Considerations......................................................................................12
+       Operating System Issues ........................................................................................13
+       Application Issues ...................................................................................................13
+
+3 The Release 450 Driver ..............................................................................................14
+   About the Release 450 Driver ......................................................................................14
+   Driver Security..............................................................................................................15
+       Restricting/Enabling Access to GPU Performance Counters ...............................15
+   Advanced Driver Information .......................................................................................16
+       Updating the NVIDIA VirtualLink PPC Firmware ...................................................16
+       Differing GPU Voltages in SLI Mode .......................................................................16
+       3D Compatibility Mode ............................................................................................16
+       Help for Resizing Your HDTV Desktop ....................................................................17
+       Understanding the NVIDIA System Information Window>DirectX Information ....18
+   Known Product Limitations .........................................................................................20
+       Issues Installing the NVIDIA Control Panel from the Windows Store...................21
+       Windowed NVIDIA G-SYNC is Disabled for Multi-monitor System Video Playback21
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | ii
+                                                    TABLE OF CONTENTS
+
+       GPU Temperature Reported Incorrectly on Optimus Systems..............................22
+       Damaged or Missing WMI Service Prevents NVIDIA Driver Installation...............22
+       Screen Turns Black During Clean Driver Overinstall on Windows 8.1 Optimus
+Notebook ..........................................................................................................................23
+       Total Available Graphics Memory Reported Incorrectly ........................................23
+       Increasing 4-way SLI/Multi-GPU Performance .....................................................24
+       No PhysX Acceleration Using the GPU...................................................................24
+       NVIDIA PhysX Software Cannot Be Installed/Uninstalled in Windows Safe Mode25
+       Do Not Use Windows Rollback for Graphics Drivers.............................................25
+       Uninstalling Drivers Using Device Manager is Not Supported .............................25
+       Changing Primary Display Across SLI GPUs Slower Than Expected ..................26
+       Using HDMI Audio with Displays That Have a High Native Resolution.................26
+       Using HDMI/DisplayPort Audio in Dualview or Clone Mode..................................27
+       Flat Panel Scaling Controls Not Functional for Some TV Modes and Displays ...27
+       GPU Runs at a High Performance Level in Multi-display Modes ........................28
+       1280 × 1024 @ 60 Hz Not Available on BenQ FP241W Monitors ............................28
+   Hardware and Software Support .................................................................................29
+       Supported Operating Systems................................................................................29
+       Support for OpenCL 1.2 ..........................................................................................29
+       Supported NVIDIA Desktop Products.....................................................................29
+       Supported NVIDIA Notebook Products ..................................................................31
+       Supported Languages.............................................................................................32
+   Driver Installation.........................................................................................................34
+       Minimum Hard Disk Space .....................................................................................34
+       Before You Begin .....................................................................................................34
+       Installation Instructions .........................................................................................34
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | iii
+                                                            LIST OF TABLES
+
+Table 3.1 Supported NVIDIA Desktop GPUs ................................................ 29
+Table 3.2 Supported NVIDIA Notebook GPUs .............................................. 31
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | iv
+Chapter 1. Introduction to Release Notes
+
+This edition of Release Notes describes the Release 450 family of NVIDIA® graphics drivers
+(versions 450.xx to 454.xx) for Microsoft® Windows® 7 and later1. NVIDIA provides these notes to
+describe performance improvements and bug fixes in each documented version of the driver.
+
+Structure of the Document
+
+This document is organized in the following sections:
+ "Release 450 Driver Changes" on page 2 gives a summary of changes, and fixed and open
+
+    issues in this version.
+ "The Release 450 Driver" on page 14 describes the NVIDIA products and languages supported
+
+    by this driver, the system requirements, and how to install the driver.
+
+Changes in this Edition
+
+This edition of the Release Notes for Windows includes information about NVIDIA graphics driver
+version 452.06 WHQL and lists changes made to the driver since driver version 446.14.
+These changes are discussed beginning with the chapter "Release 450 Driver Changes" on
+page 2.
+
+1. Includes Windows 7, Windows 8, Windows 8.1, and Windows 10.
+
+Release 450 Driver for Windows, Version 452.06                  RN-08399-452.06_v01 | 1
+Chapter 2. Release 450 Driver Changes
+
+This chapter describes open issues for version 452.06 WHQL, and resolved issues and driver
+enhancements for versions of the Release 450 driver up to version 452.06 WHQL
+The chapter contains these sections:
+ "Version 452.06 WHQL Highlights" on page 3'
+ "Changes and Fixed Issues in Version 452.06" on page 9
+ "Open Issues in Version 452.06 WHQL" on page 10
+ "Issues Not Caused by NVIDIA Drivers" on page 12
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 2
+                                                                                                         Chapter 2. : RELEASE 450 DRIVER CHANGES
+
+Version 452.06 WHQL Highlights
+
+This section provides highlights of version 452.06 WHQL of the NVIDIA Release 450 Driver for
+Windows 7, Windows 8, Windows 8.1, and Windows 101.
+ Requirement for Obtaining NVIDIA Drivers for Windows 7
+ Existing Support
+ Software Module Versions
+ What's New in Version 452.06 WHQL
+ What's New in Release 450
+ Discontinued Support
+ Limitations in This Release
+
+Requirement for Obtaining NVIDIA Drivers for
+Windows 7
+
+Microsoft now provides only SHA-2 signed drivers. If your Windows 7 system is NOT equipped to
+detect SHA-2, you need to install the SHA-2 update support patches. For details as well as access
+to SHA-2 update support patches, see the Microsoft KBA "2019 SHA-2 Code Signing Support
+requirement for Windows and WSUS".
+
+Existing Support
+
+This release supports the following APIs:
+ Open Computing Language (OpenCLTM software) 1.2 for NVIDIA® KeplerTM and later GPUs
+ OpenGL® 4.6
+ Vulkan® 1.2
+ DirectX 11
+ DirectX 12 (Windows 10)
+
+Software Module Versions
+
+ nView - 200.75
+ HD Audio Driver - 1.3.38.34
+ NVIDIA PhysX System Software - 9.19.0218
+
+1. Includes support for Windows 10 May 2020 Update (Version 2004)
+
+Release 450 Driver for Windows, Version 452.06                     RN-08399-452.06_v01 | 3
+                                                                                                         Chapter 2. : RELEASE 450 DRIVER CHANGES
+
+ GeForce Experience - 3.20.4.14
+ CUDA - 11.0
+ Standard NVIDIA Control Panel - 8.1.940.0
+ DCH NVIDIA Control Panel - 8.1.958.0
+
+What's New in Version 452.06 WHQL
+
+GeForce Game Ready Driver
+
+Game Ready Drivers provide the best possible gaming experience for all major new releases.
+Prior to a new title launching, our driver team is working up until the last minute to ensure every
+performance tweak and bug fix is included for the best gameplay on day-1.
+
+Game Ready for Microsoft Flight Simulator
+
+This new Game Ready Driver provides the latest performance optimizations, profiles, and bug
+fixes for Microsoft Flight Simulator. In addition, this release also provides optimal support for the
+World of Warcraft: Shadowlands pre-patch on the public test realm as well as for A Total War
+Saga: TROY and Tony Hawk's Pro Skater 1 + 2.
+
+Learn more in our Game Ready Driver article.
+
+New Features and Other Changes
+
+ Adds support for new G-SYNC compatible monitors.
+    Select the driver version under the Driver Needed column to display new monitors supported
+    in that driver.
+
+ See "Changes and Fixed Issues in Version 452.06" on page 9 and also "What's New in Release
+    450" on page 5.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 4
+                                                                                                         Chapter 2. : RELEASE 450 DRIVER CHANGES
+
+What's New in Release 450
+
+New Features and Other Changes
+
+ Supports DirectX 12 Ultimate
+ Supports Vulkan 1.2
+ Supports hardware-accelerated GPU Scheduling.
+ Supports CUDA 11.0.
+ Added security updates for driver components.
+
+    · Version 451.48 introduced security updates for driver components.
+
+        See the NVIDIA Security Bulletin 5031 for details.
+    See also the section "Driver Security" on page 15 for actions to take to mitigate
+    vulnerabilities.
+
+Application Profiles
+
+Added or updated the following SLI profiles:
+
+    · DCL - The Game (NVIDIA Turing GPUs and later)
+    · Jiu Xiao
+    · Monster Energy Supercross 2 - The Official Videogame (NVIDIA Turing GPUs and
+
+        later)
+
+    · MORDHAU (NVIDIA Turing GPUs and later)
+    · Overpass (NVIDIA Turing GPUs and later)
+    · Planetside 2 (DirectX 11)
+    · Sniper Elite V2 Remastered
+    · Spyro Reignited Trilogy (NVIDIA Turing GPUs and later)
+    · Surviving The Aftermath
+    · System Shock (NVIDIA Turing GPUs and later)
+    · The Fisherman - Fishing Planet (NVIDIA Turing GPUs and later
+    · Warhammer Underworlds: Online
+    · Wolcen: Lords of Mayhem
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 5
+                                                                                                         Chapter 2. : RELEASE 450 DRIVER CHANGES
+
+Discontinued Support
+
+ 3D Vision
+    Beginning with Release 430, the NVIDIA driver no longer supports the following 3D Vision
+    technologies and features:
+
+    · NVIDIA 3D Stereoscopic Driver, including the 3D Vision driver and USB (emitter) driver
+    · NVAPI-based stereo APIs for Direct3D applications.
+
+ NVIDIA Kepler GPUs for Notebooks
+    Beginning with Release 430, the NVIDIA driver no longer supports NVIDIA GPUs for notebooks
+    based on the Kepler architecture.
+
+ 32-bit Operating Systems
+    Beginning with Release 396, NVIDIA is no longer releasing Game Ready drivers for 32-bit
+    operating systems for any GPU architecture.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 6
+                                                                                                         Chapter 2. : RELEASE 450 DRIVER CHANGES
+
+Limitations in This Release
+
+The following features are not currently supported or have limited support in this driver release:
+
+Image Sharpening Feature
+
+NVIDI A Control Panel Image sharpening controls, including GPU upscaling, are introduced in the
+R440 driver. Currently, the following limitations apply.
+ Scaling is not supported on MSHybrid systems.
+ HDR displays driven by pre-Turing GPUs will not support scaling
+ Scaling will not work with VR
+ Scaling will not work with displays using YUV420 format.
+ Scaling uses aspect ratio scaling and will not use integer scaling
+ Sharpening will not work with HDR displays
+ GPU scaling engages when games are played only in full-screen mode, and not in windowed
+
+    or borderless windowed mode.
+ Some G-SYNC displays have a 6-tap/64-phase scaler which scales better than that offered by
+
+    Turing's 5-tap/32-phase scaler.
+ To avoid accidentally triggering scaling by applications or DWM, first change to the desired (<
+
+    native) resolution from the NVIDIA Control Panel and then launch the application.
+ Turing's 5-tap upscaler may not engage on certain monitors depending on the monitor's
+
+    vblank timing.
+ Turing's 5-tap upscaler may not engage if the input resolution is greater than 2560px in either
+
+    the x or y dimension.
+ Scaling is turned off automatically when switching display devices.
+ "Restore Defaults" option in the control panel currently does not revert the upscaling
+
+    resolution.
+
+Behavior Change in NvEncCreateBitstreamBuffer API of Video
+Codec SDK
+
+In the NVIDIA driver, Release 415 and later, the behavior of the Video Codec SDK API
+(NvEncCreateBitstreamBuffer) has been changed to return NV_ENC_ERR_UNIMPLEMENTED instead
+of NV_ENC_SUCCESS when the encoder instance is configured to run in the motion estimation-only
+mode. As an indirect consequence of this change, the AppEncME sample application from the
+Video Codec SDK prior to SDK version 8.2.16 will crash due to a bug in the NvEncoder class.
+
+The latest version of the SDK fixes this bug that affects the AppEncME sample application. NVIDIA
+recommends downloading the latest version from https://developer.nvidia.com/nvidia-video-
+codec-sdk.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 7
+                                                                                                         Chapter 2. : RELEASE 450 DRIVER CHANGES
+
+Connecting Displays to NVIDIA Turing GPUs in SLI Mode
+
+To use SLI with NVIDIA Turing GPUs, all displays must be connected to the master GPU.
+
+Turing GPU Driver Installation on Windows 10
+
+Drivers for Turing GPUs will not be installed on systems with Windows 10 RS2 or earlier. This
+includes Windows 10 Threshold 1, Threshold 2, Redstone 1, and Redstone 2 operating systems.
+
+Crescent Bay and OSVR Headsets on Multiple GPU Systems
+
+With Release 367 and future NVIDIA drivers, Crescent Bay and Open Source Virtual Reality
+development kit headsets will not work with VRWorks Direct Mode in systems that contain GPUs
+from multiple vendors (for example, NVIDIA and Intel). For such systems, please disable the Intel
+integrated graphics (from the system BIOS) in order to use Direct Mode.
+
+Experimental OpenCL 2.0 Features
+
+Select features in OpenCL 2.0 are available in the driver for evaluation purposes only. The
+following are the features as well as a description of known issues with these features in the
+driver:
+ Device side enqueue
+
+    ·The current implementation is limited to 64-bit platforms only.
+    ·OpenCL 2.0 allows kernels to be enqueued with global_work_size larger than the compute
+
+        capability of the NVIDIA GPU. The current implementation supports only combinations of
+        global_work_size and local_work_size that are within the compute capability of the NVIDIA
+        GPU.
+        The maximum supported CUDA grid and block size of NVIDIA GPUs is available at http://
+        docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#compute-capabilities. For
+        a given grid dimension, the global_work_size can be determined by CUDA grid size x CUDA
+        block size.
+
+    ·For executing kernels (whether from the host or the device), OpenCL 2.0 supports non-
+
+        uniform ND-ranges where global_work_size does not need to be divisible by the
+        local_work_size. This capability is not yet supported in the NVIDIA driver, and therefore not
+        supported for device side kernel enqueues.
+ Shared virtual memory
+
+    ·The current implementation of shared virtual memory is limited to 64-bit platforms only.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 8
+                                                                                                    Changes and Fixed Issues in Version 452.06
+
+Changes and Fixed Issues in Version 452.06
+
+The following sections list the important changes and the most common issues resolved in this
+version. This list is only a subset of the total number of changes made in this driver version. The
+NVIDIA bug number is provided for reference.
+
+Fixed Issues in this Release
+
+ [Shadow of the Tomb Raider][DirectX 12]: The game may crash when launched if Hardware-
+    accelerated GPU scheduling is enabled. [3037544]
+
+ [Death Stranding]: Texture corruption may be observed during gameplay on GeForce GTX 16/
+    RTX 20 series GPUs. [200631405]
+
+ [Path of Exile]: Black square corruption appears around characters.[3038439]
+ [Sonic & All Stars Racing Transformed]: The game crashes when playing in a water level.
+
+    [3028931]
+ [Forza Motorsport 7]: The game starts to stutter after racing a few laps. [3035005]
+ [Zhan Ge Jing Ji Chang]: Corruption occurs in the game when played in the Tencent mobile
+
+    game simulator. [200631684]
+ Several games randomly freeze for a few seconds during gameplay. Affected games include
+
+    Assassin's Creed Origins, Planetside 2, Assassin's Creed III, Assassin's Creed Odyssey, and
+    Assassin's Creed Syndicate. [3038632]
+ The NVIDIA Control Panel does not display the native resolution of some HDTVs if the timings
+    are invalid. [3060459]
+ Some displays may show a green tint when Windows Night Light is enabled. [3038686]
+ Snow appears on the display upon waking up the HDMI monitor. [3039265]
+ [Notebook][Turing] Display may show pixelated corruption on waking notebook from long
+    display off [200633139]
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 9
+                                                                                                              Open Issues in Version 452.06 WHQL
+
+Open Issues in Version 452.06 WHQL
+
+As with every released driver, version 452.06 WHQL of the Release 450 driver has open issues and
+enhancement requests associated with it. This section includes lists of issues that are either not
+fixed or not implemented in this version. Some problems listed may not have been thoroughly
+investigated and, in fact, may not be NVIDIA issues. Others may have workaround solutions.
+
+            Note: You may encounter issues installing the NVIDIA Control Panel
+            from the Windows Store. See "Issues Installing the NVIDIA Control Panel
+            from the Windows Store" on page 21 for more information.
+
+For notebook computers, issues can be system-specific and may not be seen on your particular
+notebook.
+
+Windows 7 Issues
+
+ [Notebook][H-Clone]: With the integrated graphics processor as the clone source, display
+    settings cannot be changed from the NVIDIA Control Panel. [200594188]
+
+Windows 10 Issues
+
+ [SLI][Red Dead Redemption 2]: With SLI enabled, the game may crash with ERR_GFX_STATE
+    error pointing to nvlddmkm.sys after pressing [Alt]+[Tab].[3083589]
+
+ [SLI][G-SYNC][Red Dead Redemption 2 Vulkan]: With SLI + G-SYNC enabled, the games
+    display corruption and a blank screen.[200645671]
+
+ [SLI][World of Warcraft Shadowlands]: Character images may flicker when SLI is enabled.
+    [200647193]
+
+ [World of Warcraft Shadowlands]: When run at frame rates greater than 60 FPS with high
+    display settings, moving characters display minute twitching/stuttering. [200647563]
+
+ [Sunset Overdrive]: The game may display random green corruption if Depth of Field is
+    enabled from in-game settings. [2750770]
+
+ [VR}: HDCP errors occur with Valve Index VR. [2967616]
+ [Call of Duty - Warzone]: Freestyle does not work. (200593020)
+ [Call of Duty: Modern Warfare]: Game may randomly show large frame rate drop with ray
+
+    tracing enabled [3050468]
+ [Forza Motorsport 7]: The curb may display a black strip during a race on certain tracks.
+
+    [2781776]
+ [Fortnite]: Blue-screen crash occurs pointing to nvlddmkm.sys when playing the game at 4K
+
+    resolution. [200645328]
+    To work around, set the resolution to lower than 4k.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 10
+                                                                                                              Open Issues in Version 452.06 WHQL
+
+ [Zombie Army: Dead War 4][Ansel/Freestyle]: The Ansel & Freestyle tabs are unselectable.
+    [2810884]
+    You may encounter issues installing the NVIDIA Control Panel from the Windows Store. See
+    "Issues Installing the NVIDIA Control Panel from the Windows Store" on page 21 for more
+    information.
+
+ Video playback on the secondary display lags/freezes while playing a game on the primary
+    display if Hardware-accelerated GPU Scheduling is enabled [200586262]
+
+ [Notebook][H-Clone]: With the integrated graphics processor as the clone source, display
+    settings cannot be changed from the NVIDIA Control Panel. [200594188]
+
+ [Notebook]: Some Pascal-based notebooks w/ high refresh rate displays may randomly drop
+    to 60Hz during gameplay. [3009452]
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 11
+                                                            Issues Not Caused by NVIDIA Drivers
+
+Issues Not Caused by NVIDIA Drivers
+
+This section lists issues that are not due to the NVIDIA driver as well as features that are not
+meant to be supported by the NVIDIA driver.
+ "Windows 10 Considerations" on page 12
+ "Windows 7 Considerations" on page 12
+ "Operating System Issues" on page 13
+ "Application Issues" on page 13
+
+Windows 10 Considerations
+
+Cross-adapter Clone Mode
+
+Under Windows 10, clone mode across graphics processors is handled by the Windows OS, and
+not by the NVIDIA driver. Consequently, there are no controls for cross-adapter clone mode in the
+NVIDIA Control Panel under Windows 10.
+
+Functionality of some display controls in the NVIDIA Control Panel may be affected if cross-
+adapter clone mode is enabled through the Windows Control Panel. In this case, use the Windows
+Control Panel to adjust display settings.
+
+Optimus Systems
+
+Because cross-adapter clone mode is handled by the Windows 10 OS, there are no display
+controls in the NVIDIA Control Panel if no display is connected to the NVIDIA GPU on Optimus
+notebooks.
+
+Windows 7 Considerations
+
+Hotplug Action
+
+Under Windows 7, the default settings are not applied when a new display is hotplugged, and
+there is no message balloon alert stating that a new display was detected. All display connection
+and detection events are handled through the Windows 7 Connecting and Configuring Displays
+(CCD) mechanism.
+
+NVIDIA Control Panel Rotate Display Page
+
+The rotation radio button labels are consistent with the Microsoft panel
+
+Table 2.1 NVIDIA Control Panel Rotation Page Radio Buttons
+
+Clockwise Rotation  Windows 7 Label
+
+0 degrees           Landscape
+90 degrees          Portrait
+
+Release 450 Driver for Windows, Version 452.06              RN-08399-452.06_v01 | 12
+                                                            Issues Not Caused by NVIDIA Drivers
+
+Table 2.1 NVIDIA Control Panel Rotation Page Radio Buttons
+
+Clockwise Rotation  Windows 7 Label
+
+180 degrees         Landscape (flipped)
+270 degrees         Portrait (flipped)
+
+Limitation
+
+ When switching the refresh rate from 59 Hz to 60Hz, the refresh rate remains at 59 Hz.
+    See the Microsoft KB article KB2006076 at http://support.microsoft.com/kb/2006076.
+
+Operating System Issues
+
+ [Windows 10 Fall Creators Update][HDTV]: 12 bpc is automatically applied even on HDTVs that
+    support only 8 bpc, resulting in a scrambled display. [2007663]
+
+    To work around, open the NVIDIA Control Panel->Change Resolution page, select "Use NVIDIA
+    color settings", then set the Output color depth to 8 bpc.
+ When upgrading from Windows 7 to Windows 8, the system fails to retrieve the installed
+    WHQL display driver. [1024416]
+
+    See the Microsoft KB article KB2743349 http://support.microsoft.com/kb/2743349.
+
+Application Issues
+
+Fixed Frame Rate Games
+
+Some games and applications are designed to run at a fixed frame rate, and consequently do not
+take advantage of NVIDIA G-Sync. To prevent issues, G-Sync may be disabled for those
+applications.
+
+Release 450 Driver for Windows, Version 452.06              RN-08399-452.06_v01 | 13
+Chapter 3. The Release 450 Driver
+
+This chapter covers the following main topics:
+ "About the Release 450 Driver" on page 14
+ "Driver Security" on page 15
+ "Advanced Driver Information" on page 16
+ "Known Product Limitations" on page 20
+ "Hardware and Software Support" on page 29
+ "Driver Installation" on page 34
+
+About the Release 450 Driver
+
+This driver release is from the Release 450 family of drivers (versions 450.xx to 454.xx). See
+"Supported NVIDIA Desktop Products" on page 29 and "Supported NVIDIA Notebook Products" on
+page 31 for current products supported in this release.
+As part of the NVIDIA Notebook Driver Program, this is a reference driver that can be installed on
+supported NVIDIA notebook GPUs. However, please note that your notebook original equipment
+manufacturer (OEM) provides certified drivers for your specific notebook on their website. NVIDIA
+recommends that you check with your notebook OEM about recommended software updates for
+your notebook. OEMs may not provide technical support for issues that arise from the use of this
+driver.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 14
+                                                                                                                                          Driver Security
+
+Driver Security
+
+Follow these safe computing practices:
+ Only download or execute content and programs from trusted third parties.
+ Run your system and programs with the least privilege necessary. Users should run without
+
+    administrator rights whenever possible.
+ When running as administrator, do not elevate UAC privileges for activities or programs that
+
+    don't need them.
+
+This section describes additional actions to take to mitigate specific known security issues.
+
+Restricting/Enabling Access to GPU Performance
+Counters
+
+The NVIDIA graphics driver contains a vulnerability (CVE-2018-6260) that may allow access to
+application data processed on the GPU through a side channel exposed by the GPU performance
+counters. GPU performance counters are needed by developers in order to use NVIDIA developer
+tools such as CUPTI, Nsight Graphics, and Nsight Compute. In order to address CVE-2018-6260
+the driver (starting with version 419.67) automatically disables access for non-admin users.
+For more information about CVE-2018-6260 visit the NVIDIA Security Bulletin 4772.
+Access to GPU performance counters can be enabled for non-admin users who need to use
+NVIDIA developer tools. Enabling access to GPU performance counters can be accomplished
+through the NVIDIA Control Panel->Developer->Manage GPU Performance Counters page. Refer to
+the Developer->Manage GPU Performance Counters section of the NVIDIA Control Panel Help for
+instructions.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 15
+                                                                                                                        Advanced Driver Information
+
+Advanced Driver Information
+
+This section contains the following additional information about the driver:
+ Updating the NVIDIA VirtualLink PPC Firmware
+ Differing GPU Voltages in SLI Mode
+ 3D Compatibility Mode
+ Help for Resizing Your HDTV Desktop
+ Understanding the NVIDIA System Information Window>DirectX Information
+
+Updating the NVIDIA VirtualLink PPC Firmware
+
+You can update the NVIDIA VirtualLink PPC firmware from the NVIDIA Control Panel by clicking
+Update from the top menu and then selecting Update VirtualLink firmware.
+
+The following is a description of the changes made in the latest version.
+
+Version 3.2.8 (Notebook)
+
+The following are the changes and fixed issues in the NVIDIA VirtualLink PPC firmware version
+3.2.8.
+ [USBC Notebook] [VirtualLink]: Some USB bus-powered type-C monitors won't light up until
+
+    Windows boots. [2524391]
+ [USBC Notebook] [VirtualLink] Some USB Type-C to HDMI dongles may not work. [200474652]
+ [USBC Notebook] [VirtualLink] USB-C SuperSpeed does not work with Type-C hub which
+
+    supports multiple (DisplayPort and USB) Alternate Modes. [200482972]
+
+Differing GPU Voltages in SLI Mode
+
+When non-identical GPUs are used in SLI mode, they may run at different voltages. This occurs
+because the GPU clocks are kept as close as possible, and the clock of the higher performance
+GPU is limited by that of the other. One benefit is that the higher performance GPU saves power by
+running at slightly reduced voltages.
+
+An end-user gains nothing by attempting to raise the voltage of the higher performance GPU
+because its clocks must not exceed those of the other GPU.
+
+3D Compatibility Mode
+
+3D Compatibility Mode is an NVIDIA proprietary rendering mode for 3D Vision that improves the
+3D experience for many key DirectX 10 and 11 games. NVIDIA continues to add game support with
+new driver versions.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 16
+                                                                                                                        Advanced Driver Information
+
+Requirements and Compatibility
+
+ Games must be run in DirectX 10 or DirectX 11 mode.
+ Not compatible with 3D Vision Surround.
+
+Switching Compatibility Modes
+
+Games with 3D Compatibility Mode will launch in this mode by default. You can switch between 3D
+Compatibility mode and standard 3D Vision mode as follows:
+1 Before starting the game, enable Advanced In-game Settings in the NVIDIA Control Panel:
+
+    a Open the NVIDIA Control Panel and navigate to the Stereoscopic 3D->Set up stereoscopic 3D
+        page and click Set Keyboard Shortcuts.
+
+    b. Click the Show advanced in-game settings arrow if the section is not expanded, then select
+        Enable advanced in-game settings.
+
+    c. Click OK.
+2. Press Ctrl+Alt+F11 during the game to toggle between 3D Compatibility mode and standard
+
+    3D Vision mode.
+
+Help for Resizing Your HDTV Desktop
+
+The best way to resize the screen in order to view the entire content is to use the controls provided
+by the display hardware. Click the link on the Size tab to view a guide to changing the settings on
+your display hardware.
+
+The resize controls on the NVIDIA Control Panel are provided in case satisfactory results cannot
+be achieved using the controls on the display.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 17
+                                                                                                                        Advanced Driver Information
+
+After resizing the HDTV desktop using the NVIDIA Control Panel Resize controls, the new custom
+resolution created is now added to the list of available resolutions for that display, and also added
+to the resolution list within the game or application.
+
+The method for resizing the HDTV desktop was improved to provide better image quality when
+applying underscan. This method results in a new custom resolution being created which needs
+to be selected from games or applications to apply the resizing. In the example displayed in the
+following screen shot, the underscan has created a new resolution (1216 × 682). Although this
+resolution looks different, it is still in HD format. Remember to select this resolution in your game
+or other application in order to take advantage of it.
+
+            Note: Some games or applications may not support the new resolu-
+            tion.
+
+Understanding the NVIDIA System Information
+Window>DirectX Information
+
+The System Information window-accessed by clicking System Information at the bottom left
+corner of the NVIDIA Control Panel-provides technical information about the NVIDIA graphics
+cards and driver installed in the system.
+It also provides the following system information:
+ Operating system: For example, "Windows 7 Enterprise, 64-bit"
+ DirectX runtime version: For example, "11.0"
+In order to use the version of DirectX reported in the System Information window, the NVIDIA GPU and
+graphics driver must also support that DirectX version.
+This information is provided in the Graphics card information section of the System Information
+window as follows:
+ DirectX support
+
+    (Provided in previous driver versions)
+    This is the DirectX version that is supported by the NVIDIA graphics hardware and driver.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 18
+                                                                                                                        Advanced Driver Information
+
+ Direct3D API version
+    (Provided in later driver versions, for Windows 7 and later.)
+    This is the Direct3D version that is supported by the NVIDIA graphics hardware and driver.
+    The API version is expressed in terms of Direct3D - the graphics subsystem component of
+    DirectX.
+
+ Direct3D feature level
+    (Provided in later driver versions, for Windows 7 and later)
+
+Direct3D feature levels describe a subset of features within the Direct3D API version that are
+supported by the NVIDIA graphics hardware and driver.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 19
+                                                                                                                          Known Product Limitations
+
+Known Product Limitations
+
+This section describes problems that will not be fixed. Usually, the source of the problem is
+beyond the control of NVIDIA. Following is the list of problems and where they are discussed in
+this document:
+ "Issues Installing the NVIDIA Control Panel from the Windows Store" on page 21
+ "Windowed NVIDIA G-SYNC is Disabled for Multi-monitor System Video Playback" on page 21
+ "GPU Temperature Reported Incorrectly on Optimus Systems" on page 22
+ "Damaged or Missing WMI Service Prevents NVIDIA Driver Installation" on page 22
+ "Screen Turns Black During Clean Driver Overinstall on Windows 8.1 Optimus Notebook" on
+
+    page 23
+ "Total Available Graphics Memory Reported Incorrectly" on page 23
+ "Increasing 4-way SLI/Multi-GPU Performance" on page 24
+ "No PhysX Acceleration Using the GPU" on page 24
+ "NVIDIA PhysX Software Cannot Be Installed/Uninstalled in Windows Safe Mode" on page 25
+ "Do Not Use Windows Rollback for Graphics Drivers" on page 25
+ "Uninstalling Drivers Using Device Manager is Not Supported" on page 25
+ "Changing Primary Display Across SLI GPUs Slower Than Expected" on page 26
+ "Using HDMI Audio with Displays That Have a High Native Resolution" on page 26
+ "Using HDMI/DisplayPort Audio in Dualview or Clone Mode" on page 27
+ "Flat Panel Scaling Controls Not Functional for Some TV Modes and Displays" on page 27
+ "GPU Runs at a High Performance Level in Multi-display Modes" on page 28
+ "1280 × 1024 @ 60 Hz Not Available on BenQ FP241W Monitors" on page 28
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 20
+                                                                                                                          Known Product Limitations
+
+Issues Installing the NVIDIA Control Panel from the
+Windows Store
+
+You may encounter issues when attempting to install the NVIDIA Control Panel from the Windows
+Store under Windows 10, such as
+ The download process from the Windows Store freezes at the "Starting download ..." stage.
+ The NVIDIA Control Panel fails to download after initiating the download from the notification
+
+    popup that appears upon installing the driver.
+
+For assistance with installing the NVIDIA Control Panel from the Microsoft Windows Store, see
+the NVIDIA Knowledge Base Article, NVIDIA Control Panel Windows Store App.
+
+For information about the DCH vs Standard drivers for Windows 10, see the NVIDIA Knowledge
+Base Article, NVIDIA DCH/Standard Display Drivers for Windows 10 FAQ.
+
+Windowed NVIDIA G-SYNC is Disabled for Multi-
+monitor System Video Playback
+
+Issue
+
+Beginning with Windows 10 April 2018 Update (RS4), NVIDIA G-SYNC is disabled during active
+video playback on multi-monitor systems.
+
+Explanation
+
+If hardware accelerated video is playing on one display and an application is launched on another
+display in windowed mode with NVIDIA G-SYNC or adaptive-sync enabled, the video stutters. This
+is the result of desktop compositing on displays with differing refresh rates.
+To prevent the video stutter in this scenario, the driver disables NVIDIA G-SYNC during active
+video playback, but re-enables G-SYNC if the video is paused or closed.
+
+             Note: The issue can also occur when displays are set to different
+             refresh rates, even when G-SYNC is not used. To resolve in this case,
+             make sure all displays are set to the same refresh rate.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 21
+                                                                                                                          Known Product Limitations
+
+GPU Temperature Reported Incorrectly on Optimus
+Systems
+
+Issue
+
+On Optimus systems, temperature-reporting tools such as Speccy or GPU-Z report that the
+NVIDIA GPU temperature is zero when no applications are running.
+
+Explanation
+
+On Optimus systems, when the NVIDIA GPU is not being used then it is put into a low- power
+state. This causes temperature-reporting tools to return incorrect values.
+Waking up the GPU to query the temperature would result in meaningless measurements
+because the GPU temperature change as a result.
+These tools will report accurate temperatures only when the GPU is awake and running.
+
+Damaged or Missing WMI Service Prevents NVIDIA
+Driver Installation
+
+Issue
+
+"Install failed" or "Install Failed, could not find compatible graphics hardware" message may
+appear during installation, even if the system has a compatible graphics card. This can occur
+when installing the NVIDIA driver or GeForce Experience software.
+
+Cause
+
+This issue could be the result of a corrupt WMI service on your system. The NVIDIA Installer
+requires the WMI service to properly install the driver or other NVIDIA software.
+
+Resolution
+
+You must repair the WMI service on your system in order to successfully install NVIDIA drivers. A
+future driver release will alert the user during installation that there is a problem with the WMI
+service on the system.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 22
+                                                                                                                          Known Product Limitations
+
+Screen Turns Black During Clean Driver Overinstall on
+Windows 8.1 Optimus Notebook
+
+Issue
+
+After installing a Release 325 driver earlier than version 326.09 on an Optimus notebook running
+Windows 8.1, a subsequent clean overinstall of a later driver results in a black screen. The screen
+turns black when the driver uninstalls the older driver.
+Typically, you may encounter this when attempting to upgrade the NVIDIA driver after installing
+Windows 8.1. While installing Windows 8.1, Windows Update installs NVIDIA driver version 326.01,
+then during the clean overinstall the black screen occurs as the older driver is uninstalled.
+
+Workaround - Prevention
+
+To avoid the issue during the initial installation of Windows 8.1, do not reboot the system after
+Windows Update installs the NVIDIA driver. Then perform the custom clean overinstall of the
+newer driver.
+
+Resolution
+
+This issue does not occur after installing an NVIDIA driver version 326.09 or later for Windows 8.1.
+When driver version 326.09 or later is installed, performing a clean overinstall with a newer driver
+will not result in a black screen.
+
+Total Available Graphics Memory Reported Incorrectly
+
+Background-TAG Memory
+
+In the Windows Display Driver Model (WDDM), Total Available Graphics (TAG) memory is reported
+as the sum of
+
+    · Dedicated Video Memory (video memory dedicated for graphics use)
+    · Dedicated System Memory (system memory dedicated for graphics use), and
+    · Shared System Memory (system memory shared between the graphics subsystem and the
+
+        CPU).
+
+The values for each of these components are computed according to WDDM guidelines when the
+NVIDIA Display Driver is loaded.
+
+Issue
+
+Some TAG-reporting APIs represent video memory using 32-bits instead of 64-bits, and
+consequently do not properly report available graphics memory when the TAG would otherwise
+exceed 4 gigabytes (GB). This results in under reporting of available memory and potentially
+undesirable behavior of applications that rely on these APIs to report available memory.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 23
+                                                                                                                          Known Product Limitations
+
+The under reporting can be extreme. For example, 6 GB might be reported as 454 MB, and 8 GB
+might be reported as 1259 MB.
+
+Driver Action for GeForce-based Graphics Systems
+
+On graphics systems with less than 2.75 GB of advertized physical memory, the NVIDIA display
+driver typically limits the Shared System Memory to maintain a TAG memory value of less than 4
+GB1.
+ This results in reliable reporting of sub-4 GB TAG memory on systems with less than 2.75 GB
+
+    of advertised physical memory.
+ On systems with 2.75 GB or more of advertized physical memory, you may see different
+
+    reported TAG memory values between the NVIDIA Control Panel and other reporting APIs.
+
+Increasing 4-way SLI/Multi-GPU Performance
+
+Issue
+
+With some games and applications, you may experience little to no performance gain or even a
+performance drop with 4-way SLI or multi-GPU configurations.
+
+Resolution
+
+1 Open the NVIDIA Control Panel, then click Manage 3D Settings from the navigation pane.
+2. Click the Global Settings tab, then scroll to the Power management mode feature, click the
+
+    corresponding list arrow and select Prefer maximum performance, then click Apply.
+
+No PhysX Acceleration Using the GPU
+
+If after installing the PhysX System Software you find that there is no PhysX acceleration on
+supported applications, repeat the PhysX setup as follows:
+1 Reboot the PC.
+2. Open the NVIDIA Control Panel and then, under 3D Settings, click Set PhysX configuration
+
+    to open that page.
+3. Under Select a PhysX processor, verify that either auto-select or a specific NVIDIA GPU is
+
+    selected.
+4. Click Apply.
+
+1. The WDDM guidelines dictate minimum and maximum values for the components, but the display driver
+may further constrain the values that are reported (within the allowed minimum and maximum).
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 24
+                                                                                                                          Known Product Limitations
+
+NVIDIA PhysX Software Cannot Be Installed/Uninstalled
+in Windows Safe Mode
+
+Issue
+
+The NVIDIA PhysX System Software is not included in the NVIDIA driver installation/uninstallation
+under safe mode.
+
+Explanation
+
+The NVIDIA PhysX System Software installer is not compatible with Microsoft's policy for Windows
+Safe Mode. Consequently, installation or uninstallation of the PhysX System Software under safe
+mode would fail. To allow installation or uninstallation of the graphics driver under safe mode, the
+NVIDIA PhysX System Software is blocked from the process.
+
+Do Not Use Windows Rollback for Graphics Drivers
+
+To reinstall a previous or older NVIDIA graphics driver, do not use the Windows rollback feature.
+This method will not reliably restore all the previous driver files.
+
+Instead, use the Windows Add and Remove programs to remove the current driver, and then
+install the older driver using setup.exe.
+
+Uninstalling Drivers Using Device Manager is Not
+Supported
+
+Issue
+
+On all supported versions of Microsoft Windows, uninstalling the NVIDIA driver using the Windows
+Device Manager may not remove associated files or applications.
+
+Explanation
+
+Microsoft has confirmed that this behavior is by design. If you wish to uninstall the NVIDIA driver,
+it is recommended that you do so using Add and Remove programs.
+See the Microsoft KB article 2278714.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 25
+                                                                                                                          Known Product Limitations
+
+Changing Primary Display Across SLI GPUs Slower
+Than Expected
+
+Issue
+
+On an SLI system, switching the primary (or SLI focus) display when each display in the SLI group
+is connected to a different GPU takes longer than expected.
+
+Explanation
+
+On an SLI system with each SLI GPU driving a display, the display connected to the slave GPU is
+the primary display (also the SLI focus display). In order to switch the primary display to the one
+connected to the other GPU, the master and slave GPU configuration must also switch. In order to
+reassign which GPU is the master and which is the slave, the driver must be reloaded. It is the
+process of reloading the driver that takes the additional time.
+
+Using HDMI Audio with Displays That Have a High
+Native Resolution
+
+To use HDMI audio with some displays that have a native resolution higher than 1920 × 1080, you must
+set the display to a lower HD resolution.
+
+Some HDMI displays have a native resolution that exceeds the maximum supported HD mode. For
+example, displays with a native resolution of 1920 × 1200 exceed the maximum supported HD
+mode of 1920 × 1080.
+
+Applying this native mode results in display overscan which cannot be resized using the NVIDIA
+Control Panel since the mode is not an HD mode.
+
+To avoid this situation and provide a better user experience, the driver treats certain TVs- such as
+the Viewsonic VX2835wm and the Westinghouse LVM- 37w3-as a DVI monitor when applying the
+native mode. Because the driver does not treat the TV as an HDMI in this case, the HDMI audio is
+not used.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 26
+                                                                                                                          Known Product Limitations
+
+Using HDMI/DisplayPort Audio in Dualview or Clone
+Mode
+
+Two Audio-enabled Ports
+
+In a multi-display configuration where both HDMI/DisplayPort audio ports are enabled, only the
+primary display will provide the audio.
+
+One Audio-enabled Port
+
+In a multi-display configuration where only one audio port is enabled, such as when one display is
+a DVI display, then the HDMI/DisplayPort display can provide the audio whether is it the primary or
+secondary display.
+
+Flat Panel Scaling Controls Not Functional for Some TV
+Modes and Displays
+
+The NVIDIA Control Panel flat panel scaling controls on the "Adjust Size & Position" page are not
+intended to be used for TV modes, and normally the controls are not available for TV or HDTV
+displays.
+
+However, Microsoft requires that certain TV/HDTV modes be available for all digital displays,
+including DVI and HDMI, even if they are not HDTV.
+
+While the NVIDIA flat panel scaling controls are available for those displays, they will not be
+functional for the TV modes that appear in compliance with the Microsoft requirements. The
+affected modes are as follows:
+ 1920 × 1080i @ 50/59.94/60 Hz
+ 1280 × 720p @ 50/59.94/60 Hz
+ 720 × 480p @ 59.94/60 Hz
+ 720 × 576p @ 50 Hz
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 27
+                                                                                                                          Known Product Limitations
+
+GPU Runs at a High Performance Level in Multi-display
+Modes
+
+This is a hardware limitation with desktop and older notebook GPUs, and not a software bug.
+When multiple displays are connected and active, the GPU will always operate with full clock
+speeds in order to efficiently drive multiple displays-even when no 3D programs are running.
+
+             Note: NVIDIA notebook GeForce 5xxM series and later GPUs do not
+             have this limitation. For those GPUs the driver can adjust the perfor-
+             mance level, depending on demand, even when driving multiple dis-
+             plays.
+
+1280 × 1024 @ 60 Hz Not Available on BenQ FP241W
+Monitors
+
+Even though the monitor EDID lists 1280 × 1024 @ 60 Hz, the screen turns blank when using an
+HDMI connection. This is an issue with the monitor and not the NVIDIA driver.
+
+Because of this issue with the monitor, the NVIDIA driver blocks the problem mode (1280 × 1024 @
+60 Hz) and makes it unavailable.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 28
+                                                                          Hardware and Software Support
+
+Hardware and Software Support
+
+ "Supported Operating Systems" on page 29
+ "Support for OpenCL 1.2" on page 29
+ "Supported NVIDIA Desktop Products" on page 29
+ "Supported NVIDIA Notebook Products" on page 31
+ "Supported Languages" on page 32
+
+Supported Operating Systems
+
+This Release 450 driver includes drivers designed for the following Microsoft® operating systems:
+ Microsoft Windows® 101, 64-bit
+ Microsoft Windows® 8.1, 64-bit
+ Microsoft Windows® 8, 64-bit
+ Microsoft Windows® 7, 64-bit versions.
+
+Support for OpenCL 1.2
+
+Kepler, Maxwell, Pascal, and Volta GPUs are supported.
+
+Supported NVIDIA Desktop Products
+
+The following table (from http://www.geforce.com/hardware) lists current NVIDIA desktop
+products supported by version 452.06 WHQL of the Release 450 driver. For information about
+desktop products not shown, please see http://www.geforce.com/hardware/desktop-gpus.
+
+Table 3.1 Supported NVIDIA Desktop GPUs
+
+Consumer Products                               Architecture
+
+NVIDIA TITAN RTX                                Turing
+NVIDIA GeForce RTX 2080 SUPER                   Turing
+NVIDIA GeForce RTX 2070 SUPER                   Turing
+NVIDIA GeForce RTX 2060 SUPER                   Turing
+NVIDIA GeForce RTX 2080 Ti                      Turing
+NVIDIA GeForce RTX 2080                         Turing
+NVIDIA GeForce RTX 2070                         Turing
+NVIDIA GeForce RTX 2060                         Turing
+
+1. Includes support for Windows 10 May 2019 Update (Version 1903) (19H1)
+
+Release 450 Driver for Windows, Version 452.06                RN-08399-452.06_v01 | 29
+                                                              Hardware and Software Support
+
+Table 3.1 Supported NVIDIA Desktop GPUs
+
+Consumer Products                               Architecture
+
+NVIDIA TITAN V                                  Volta
+NVIDIA TITAN Xp                                 Pascal
+NVIDIA TITAN X                                  Pascal
+GeForce GTX 1660 SUPER                          Turing
+GeForce GTX 1660 Ti                             Turing
+GeForce GTX 1660                                Turing
+GeForce GTX 1650 SUPER                          Turing
+GeForce GTX 1650                                Turing
+GeForce GTX 1080 Ti                             Pascal
+GeForce GTX 1080                                Pascal
+GeForce GTX 1070 Ti                             Pascal
+GeForce GTX 1070                                Pascal
+GeForce GTX 1060 6GB                            Pascal
+GeForce GTX 1060 3GB                            Pascal
+GeForce GTX 1060                                Pascal
+GeForce GTX 1050 Ti                             Pascal
+GeForce GTX 1050 3GB                            Pascal
+GeForce GTX 1050                                Pascal
+GeForce GT 1030                                 Pascal
+GeForce GTX TITAN X                             Maxwell
+GeForce GTX TITAN Z                             Kepler
+GeForce GTX TITAN Black                         Kepler
+GeForce GTX TITAN                               Kepler
+GeForce GTX 980 Ti                              Maxwell
+GeForce GTX 980                                 Maxwell
+GeForce GTX 970                                 Maxwell
+GeForce GTX 960                                 Maxwell
+GeForce GTX 950                                 Maxwell
+GeForce GTX 780 Ti                              Kepler
+GeForce GTX 780                                 Kepler
+GeForce GTX 770                                 Kepler
+GeForce GTX 760                                 Kepler
+GeForce GTX 760 Ti (OEM)                        Kepler
+GeForce GTX 750 Ti                              Maxwell
+GeForce GTX 750                                 Maxwell
+
+Release 450 Driver for Windows, Version 452.06                RN-08399-452.06_v01 | 30
+                                                              Hardware and Software Support
+
+Table 3.1 Supported NVIDIA Desktop GPUs
+
+Consumer Products                               Architecture
+
+GeForce GTX 745                                 Maxwell
+GeForce GT 740                                  Kepler
+GeForce GT 730                                  Kepler
+GeForce GT 720                                  Kepler
+GeForce GT 710                                  Kepler
+GeForce GTX 690                                 Kepler
+GeForce GTX 680                                 Kepler
+GeForce GTX 670                                 Kepler
+GeForce GTX 660 Ti                              Kepler
+GeForce GTX 660                                 Kepler
+GeForce GTX 650 Ti BOOST                        Kepler
+GeForce GTX 650 Ti                              Kepler
+GeForce GTX 650                                 Kepler
+GeForce GTX 645                                 Kepler
+GeForce GT 645                                  Kepler
+GeForce GT 640                                  Kepler
+GeForce GT 635                                  Kepler
+GeForce GT 630                                  Kepler
+
+Supported NVIDIA Notebook Products
+
+The following table lists current NVIDIA notebook products supported by version 452.06 WHQL of
+the Release 450 driver. For information about notebook products not shown, please see http://
+www.geforce.com/hardware/notebook-gpus.
+
+Table 3.2 Supported NVIDIA Notebook GPUs
+
+Consumer Products                               Architecture
+
+GeForce RTX 2080                                Turing
+GeForce RTX 2070                                Turing
+GeForce RTX 2060                                Turing
+GeForce GTX 1660 Ti                             Turing
+GeForce GTX 1650                                Turing
+GeForce MX350                                   Pascal
+GeForce MX330                                   Pascal
+GeForce MX250                                   Pascal
+GeForce MX230                                   Pascal
+
+Release 450 Driver for Windows, Version 452.06                RN-08399-452.06_v01 | 31
+                                                              Hardware and Software Support
+
+Table 3.2 Supported NVIDIA Notebook GPUs (continued)
+
+Consumer Products                               Architecture
+
+GeForce MX150                                   Pascal
+GeForce MX130                                   Maxwell
+GeForce MX110                                   Maxwell
+GeForce GTX 1080 for notebooks                  Pascal
+GeForce GTX 1070 for notebooks                  Pascal
+GeForce GTX 1060 for notebooks                  Pascal
+GeForce GTX 1050 for notebooks                  Pascal
+GeForce GTX 1050 Ti for notebooks               Pascal
+GeForce GTX 980 for notebooks                   Maxwell
+GeForce GTX 980M                                Maxwell
+GeForce GTX 970M                                Maxwell
+GeForce GTX 965M                                Maxwell
+GeForce GTX 960M                                Maxwell
+GeForce GTX 950M                                Maxwell
+GeForce 945M                                    Maxwell
+GeForce 940MX                                   Maxwell
+GeForce 940M                                    Maxwell
+GeForce 930MX                                   Maxwell
+GeForce 930M                                    Maxwell
+GeForce 920MX                                   Maxwell
+GeForce GTX 860M                                Maxwell
+GeForce GTX 850M                                Maxwell
+GeForce 840M                                    Maxwell
+GeForce 830M                                    Maxwell
+
+Supported Languages
+
+The Release 450 Graphics Drivers supports the following languages in the main driver Control
+Panel:
+
+English (USA)          German                   Portuguese (Euro/Iberian)
+English (UK)           Greek                    Russian
+Arabic                 Hebrew                   Slovak
+Chinese (Simplified)   Hungarian                Slovenian
+Chinese (Traditional)  Italian                  Spanish
+
+Release 450 Driver for Windows, Version 452.06                RN-08399-452.06_v01 | 32
+                                                Hardware and Software Support
+
+Czech    Japanese                               Spanish (Latin America)
+Danish   Korean                                 Swedish
+Dutch    Norwegian                              Thai
+Finnish  Polish                                 Turkish
+French   Portuguese (Brazil)
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 33
+                                                                                                                                     Driver Installation
+
+Driver Installation
+
+Minimum Hard Disk Space
+
+The hard disk space requirement is approximately 1.5x the size of the installation download to
+accommodate extracted and temporary files.
+
+Before You Begin
+
+nTune
+
+If you have previously installed NVIDIA nTune, NVIDIA recommends that you uninstall nTune
+before installing this driver. After the driver install is complete, you can reinstall NVIDIA nTune.
+
+Notebooks
+
+ Check to make sure that your notebook has a supported GPU (see "Supported NVIDIA
+    Notebook Products" on page 31).
+
+ It is recommended that you back up your current system configuration.
+ If you own a Dell Inspiron 1420, Dell XPS M1330, Dell XPS M1530, or Dell Latitude D630 or
+
+    D630c, it is highly recommended that you first install this Dell software update.
+
+Installation Instructions
+
+           Obtaining NVIDIA Drivers: Microsoft now provides only SHA-2 signed
+           drivers. If your Windows 7 system is NOT equipped to detect SHA-2, you
+           need to install the SHA-2 update support patches. For details as well as
+           access to SHA-2 update support patches, see the Microsoft KBA "2019
+           SHA-2 Code Signing Support requirement for Windows and WSUS".
+
+1 Follow the instructions on the NVIDIA.com Web site driver download page to locate the
+    appropriate driver to download, based on your hardware and operating system.
+
+2. From the driver download page, click the Download button.
+    The Download Confirmation page appears.
+
+3. If you agree to the "License For Customer Use of NVIDIA Software", click the Agree &
+    Download button to begin the download.
+    The File Download dialog appears.
+
+4. Either click Save to save the file and then run it from your PC, or click Run.
+    An extraction path dialog appears prompting you to specify where on your PC you want the
+    driver files to be installed.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 34
+                                                                                                                                     Driver Installation
+
+5. Click OK to use the default location, or click the folder icon and specify an alternate location
+    to install the driver files.
+    The files are extracted and then the NVIDIA Installer is launched automatically.
+
+6. At the License Agreement page of the Installer, click Agree and Continue.
+7. Follow the instructions in the NVIDIA Installer to complete the installation.
+
+            Note: The driver presents game screenshots while the driver is
+            installing. If you are not connected to the internet during the installa-
+            tion, you may see a "Navigation to the webpage was cancelled" message
+            instead. The message can be ignored and does not affect the installa-
+            tion. The message won't appear if the browser cache is cleared.
+
+            Note: The NVIDIA PhysX System Software will not be included in the
+            installation if the same version or a later version is already installed.
+
+            Note: After the driver installation, Windows 7 may default to 16-bpp
+            color and disable the Desktop Window Manager (DWM). To work around
+            this issue, set the color to 32-bpp and then reboot the PC.
+
+See also the installation/uninstallation considerations explained in "Known Product Limitations"
+on page 20.
+
+Release 450 Driver for Windows, Version 452.06  RN-08399-452.06_v01 | 35
+Notice
+
+ALL NVIDIA DESIGN SPECIFICATIONS, REFERENCE BOARDS, FILES, DRAWINGS, DIAGNOSTICS, LISTS, AND OTHER DOCUMENTS (TOGETHER AND
+SEPARATELY, "MATERIALS") ARE BEING PROVIDED "AS IS." NVIDIA MAKES NO WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH
+RESPECT TO THE MATERIALS, AND EXPRESSLY DISCLAIMS ALL IMPLIED WARRANTIES OF NONINFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A
+PARTICULAR PURPOSE.
+Information furnished is believed to be accurate and reliable. However, NVIDIA Corporation assumes no responsibility for the consequences of use of such
+information or for any infringement of patents or other rights of third parties that may result from its use. No license is granted by implication of otherwise under
+any patent rights of NVIDIA Corporation. Specifications mentioned in this publication are subject to change without notice. This publication supersedes and
+replaces all other information previously supplied. NVIDIA Corporation products are not authorized as critical components in life support devices or systems
+without express written approval of NVIDIA Corporation.
+
+Macrovision Compliance Statement
+
+NVIDIA Products that are Macrovision enabled can only be sold or distributed to buyers with a valid and existing authorization from Macrovision to purchase and
+incorporate the device into buyer's products.
+Macrovision copy protection technology is protected by U.S. patent numbers 5,583,936; 6,516,132; 6,836,549; and 7,050,698 and other intellectual property rights.
+The use of Macrovision's copy protection technology in the device must be authorized by Macrovision and is intended for home and other limited pay-per-view
+uses only, unless otherwise authorized in writing by Macrovision. Reverse engineering or disassembly is prohibited.
+
+Third Party Notice
+
+Portions of the NVIDIA system software contain components licensed from third parties under the following terms:
+Clang & LLVM:
+Copyright (c) 2003-2015 University of Illinois at Urbana-Champaign.
+All rights reserved.
+Portions of LLVM's System library:
+Copyright (C) 2004 eXtensible Systems, Inc.
+Developed by:
+LLVM Team
+University of Illinois at Urbana-Champaign
+http://llvm.org
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal with the
+Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimers.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimers in the documentation and/or
+other materials provided with the distribution.
+* Neither the names of the LLVM Team, University of Illinois at Urbana-Champaign, nor the names of its contributors may be used to endorse or promote
+products derived from this Software without specific prior written permission.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE CONTRIBUTORS OR COPYRIGHT HOLDERS
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
+
+Vulkan Notice
+
+Copyright (c) 2015-2016 The Khronos Group Inc.
+Copyright (c) 2015-2016 LunarG, Inc.
+Copyright (c) 2015-2016 Valve Corporation
+
+The Vulkan Runtime is comprised of 100% open source components (MIT, and Apache 2.0). The text of such licenses is included below along
+with the copyrights.
+ALL INFORMATION HERE IS PROVIDED "AS IS." LUNARG MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, WITH
+REGARD TO THIS LIST OR ITS ACCURACY OR COMPLETENESS, OR WITH RESPECT TO ANY RESULTS TO BE OBTAINED FROM USE OR
+DISTRIBUTION OF THE LIST. BY USING OR DISTRIBUTING THIS LIST, YOU AGREE THAT IN NO EVENT SHALL LUNARG BE HELD LIABLE FOR
+ANY DAMAGES WHATSOEVER RESULTING FROM ANY USE OR DISTRIBUTION OF THIS LIST, INCLUDING, WITHOUT LIMITATION, ANY
+SPECIAL, CONSEQUENTIAL, INCIDENTAL OR OTHER DIRECT OR INDIRECT DAMAGES.
+
+       NVIDIA Corporation | 2788 San Tomas Expressway, Santa Clara, CA 95051
+       www.nvidia.com
+Softfloat Notice
+
+Portions of the driver use the Softfloat floating point emulation library.
+
+Softfloat Release 3e (http://www.jhauser.us/arithmetic/SoftFloat.html) is provided under the following terms:
+
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018 The Regents of the University of California. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are
+met:
+
+1.Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.
+
+2.Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+3.Neither the name of the University nor the names of its contributors may be used to endorse or promote products derived from this
+software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS "AS IS", AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, ARE DISCLAIMED. IN
+NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+=========================Apache 2.0=========================
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may
+obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on as "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing
+permissions and limitations under the License.
+
+============================MIT============================
+
+Copyright (c) 2009 Dave Gamble
+
+Copyright (c) 2015-2016 The Khronos Group Inc.
+
+Copyright (c) 2015-2016 Valve Corporation
+
+Copyright (c) 2015-2016 LunarG, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the
+following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Trademarks
+
+NVIDIA, the NVIDIA logo, NVIDIA nForce, GeForce, NVIDIA Quadro, are registered trademarks or trademarks of NVIDIA Corporation in the United States and/or
+other countries.
+
+HDMI, the HDMI logo, and High-Definition Multimedia Interface are trademarks or registered trademarks of HDMI Licensing LLC.
+
+OpenGL® and the oval logo are trademarks or registered trademarks of Silicon Graphics, Inc. in the United States and/or other countries worldwide. Additional
+license details are available on the SGI website.
+
+OpenCL and the OpenCL logo are trademarks of Apple Inc. used by permission by Khronos.
+
+Vulkan and the Vulkan logo are trademarks of the Khronos Group Inc.
+
+Other company and product names may be trademarks or registered trademarks of the respective owners with which they are associated.
+
+Copyright
+
+       NVIDIA Corporation | 2788 San Tomas Expressway, Santa Clara, CA 95051
+       www.nvidia.com
+                                                                                                                                                           :
+
+© 2018 - 2020 NVIDIA Corporation. All rights reserved.
+
+NVIDIA CONFIDENTIAL                             RN-08399-452.06_v01 | iii
+Release 450 Driver for Windows, Version 452.06
+

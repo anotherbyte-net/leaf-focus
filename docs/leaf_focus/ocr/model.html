@@ -1,0 +1,1551 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>leaf_focus.ocr.model API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}#lunr-search{width:100%;font-size:1em;padding:6px 9px 5px 9px;border:1px solid silver}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>leaf_focus.ocr.model</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L1-L380" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">import csv
+import dataclasses
+import logging
+import math
+import pathlib
+import typing
+
+
+logger = logging.getLogger(__name__)
+
+
+@dataclasses.dataclass
+class TextItem:
+    &#34;&#34;&#34;One found text item (could be a word or phrase) in an image.&#34;&#34;&#34;
+
+    text: str
+    &#34;&#34;&#34;The recognised text.&#34;&#34;&#34;
+
+    top_left_x: float
+    top_left_y: float
+
+    top_right_x: float
+    top_right_y: float
+
+    bottom_right_x: float
+    bottom_right_y: float
+
+    bottom_left_x: float
+    bottom_left_y: float
+
+    line_number: typing.Optional[int] = None
+    line_order: typing.Optional[int] = None
+
+    @property
+    def top_left(self) -&gt; typing.Tuple[float, float]:
+        &#34;&#34;&#34;The top left point.&#34;&#34;&#34;
+        return self.top_left_x, self.top_left_y
+
+    @property
+    def top_right(self) -&gt; typing.Tuple[float, float]:
+        &#34;&#34;&#34;The top right point.&#34;&#34;&#34;
+        return self.top_right_x, self.top_right_y
+
+    @property
+    def bottom_right(self) -&gt; typing.Tuple[float, float]:
+        &#34;&#34;&#34;The bottom right point.&#34;&#34;&#34;
+        return self.bottom_right_x, self.bottom_right_y
+
+    @property
+    def bottom_left(self) -&gt; typing.Tuple[float, float]:
+        &#34;&#34;&#34;The bottom left point.&#34;&#34;&#34;
+        return self.bottom_left_x, self.bottom_left_y
+
+    @property
+    def top_length(self) -&gt; float:
+        # Get the length of the hypotenuse side.
+        side1 = abs(self.top_right_x - self.top_left_x)
+        side2 = abs(self.top_right_y - self.top_left_y)
+        if side2 == 0:
+            return side1
+        return math.sqrt(pow(side1, 2) + pow(side2, 2))
+
+    @property
+    def left_length(self) -&gt; float:
+        # Get the length of the hypotenuse side.
+        side1 = abs(self.top_left_y - self.bottom_left_y)
+        side2 = abs(self.top_left_x - self.bottom_left_x)
+        if side2 == 0:
+            return side1
+        return math.sqrt(pow(side1, 2) + pow(side2, 2))
+
+    @property
+    def line_bounds(self) -&gt; typing.Tuple[float, float]:
+        &#34;&#34;&#34;Line bounds from top of text to bottom of text.&#34;&#34;&#34;
+        top_bound = min(
+            [self.top_left_y, self.top_right_y, self.bottom_left_y, self.bottom_right_y]
+        )
+        bottom_bound = max(
+            [self.top_left_y, self.top_right_y, self.bottom_left_y, self.bottom_right_y]
+        )
+        return top_bound, bottom_bound
+
+    def is_same_line(self, other: &#34;TextItem&#34;) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if other found text overlaps this found text.
+        Calculated as the midpoint +- 1/3 of the height of the text
+        &#34;&#34;&#34;
+        if not other:
+            return False
+        self_bounds = self.line_bounds
+        self_top = self_bounds[0]
+        self_bottom = self_bounds[1]
+        self_third = (self_bottom - self_top) / 3
+        self_top += self_third
+        self_bottom -= self_third
+
+        other_bounds = other.line_bounds
+        other_top = other_bounds[0]
+        other_bottom = other_bounds[1]
+        other_third = (other_bottom - other_top) / 3
+        other_top += other_third
+        other_bottom -= other_third
+
+        return self_top &lt;= other_bottom and other_top &lt;= self_bottom
+
+    @property
+    def slope_top_left_right(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the top of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.top_left_x,
+            self.top_left_y,
+            self.top_right_x,
+            self.top_right_y,
+        )
+
+    @property
+    def slope_top_right_left(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the top of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.top_right_x,
+            self.top_right_y,
+            self.top_left_x,
+            self.top_left_y,
+        )
+
+    @property
+    def slope_left_top_bottom(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the left of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.top_left_x,
+            self.top_left_y,
+            self.bottom_left_x,
+            self.bottom_left_y,
+        )
+
+    @property
+    def slope_left_bottom_top(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the left of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.bottom_left_x,
+            self.bottom_left_y,
+            self.top_left_x,
+            self.top_left_y,
+        )
+
+    @property
+    def slope_bottom_left_right(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the bottom of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.bottom_left_x,
+            self.bottom_left_y,
+            self.bottom_right_x,
+            self.bottom_right_y,
+        )
+
+    @property
+    def slope_bottom_right_left(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the bottom of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.bottom_right_x,
+            self.bottom_right_y,
+            self.bottom_left_x,
+            self.bottom_left_y,
+        )
+
+    @property
+    def slope_right_top_bottom(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the right of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.top_right_x,
+            self.top_right_y,
+            self.bottom_right_x,
+            self.bottom_right_y,
+        )
+
+    @property
+    def slope_right_bottom_top(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the right of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.bottom_right_x,
+            self.bottom_right_y,
+            self.top_right_x,
+            self.top_right_y,
+        )
+
+    @property
+    def is_horizontal_level(self) -&gt; bool:
+        &#34;&#34;&#34;Is side-to-side slope approximately horizontal?&#34;&#34;&#34;
+        # -0.1 -&gt; 0.1 is strictly horizontal
+        # give a bit of buffer
+        buffer = 0.09
+        return -buffer &lt;= self.slope_top_left_right &lt;= buffer
+
+    @property
+    def is_vertical_level(self) -&gt; bool:
+        &#34;&#34;&#34;Is the top-to-bottom slope approximately vertical?&#34;&#34;&#34;
+        # -0.1 -&gt; 0.1 is strictly vertical
+        # give a bit of buffer
+        return self.slope_left_top_bottom == math.inf
+
+    @classmethod
+    def save(cls, path: pathlib.Path, items: typing.List[&#34;TextItem&#34;]) -&gt; None:
+        &#34;&#34;&#34;Save found text items to a file.&#34;&#34;&#34;
+
+        logger.debug(&#34;Saving %s OCR items.&#34;, len(items))
+
+        fields = [
+            &#34;text&#34;,
+            &#34;line_number&#34;,
+            &#34;line_order&#34;,
+            &#34;top_left_x&#34;,
+            &#34;top_left_y&#34;,
+            &#34;top_right_x&#34;,
+            &#34;top_right_y&#34;,
+            &#34;bottom_right_x&#34;,
+            &#34;bottom_right_y&#34;,
+            &#34;bottom_left_x&#34;,
+            &#34;bottom_left_y&#34;,
+        ]
+        with open(path, &#34;wt&#34;, newline=&#34;&#34;, encoding=&#34;utf8&#34;) as file_path:
+            writer = csv.DictWriter(file_path, fields)
+            writer.writeheader()
+            sorted_items = sorted(
+                items, key=lambda i: (i.line_number or 0, i.line_order or 0)
+            )
+            writer.writerows([dataclasses.asdict(i) for i in sorted_items])
+
+        logger.debug(&#34;Saved OCR items to &#39;%s&#39;.&#34;, path)
+
+    @classmethod
+    def load(cls, path: pathlib.Path) -&gt; typing.Generator[&#34;TextItem&#34;, typing.Any, None]:
+        &#34;&#34;&#34;Load found text items from a file.&#34;&#34;&#34;
+
+        logger.debug(&#34;Loading OCR items.&#34;)
+        count = 0
+
+        with open(path, &#34;rt&#34;, encoding=&#34;utf8&#34;) as file_path:
+            reader = csv.DictReader(file_path)
+            for row in reader:
+                line_number = row.get(&#34;line_number&#34;, &#34;&#34;).strip()
+                line_number = int(line_number) if line_number != &#34;&#34; else None
+
+                line_order = row.get(&#34;line_order&#34;, &#34;&#34;).strip()
+                line_order = int(line_order) if line_order != &#34;&#34; else None
+
+                count += 1
+
+                yield TextItem(
+                    text=row[&#34;text&#34;],
+                    line_number=line_number,
+                    line_order=line_order,
+                    top_left_x=float(row[&#34;top_left_x&#34;]),
+                    top_left_y=float(row[&#34;top_left_y&#34;]),
+                    top_right_x=float(row[&#34;top_right_x&#34;]),
+                    top_right_y=float(row[&#34;top_right_y&#34;]),
+                    bottom_right_x=float(row[&#34;bottom_right_x&#34;]),
+                    bottom_right_y=float(row[&#34;bottom_right_y&#34;]),
+                    bottom_left_x=float(row[&#34;bottom_left_x&#34;]),
+                    bottom_left_y=float(row[&#34;bottom_left_y&#34;]),
+                )
+
+        logger.debug(&#34;Loaded %s OCR items from &#39;%s&#39;.&#34;, count, path)
+
+    @classmethod
+    def from_prediction(
+        cls, prediction: typing.Tuple[typing.Any, typing.Any]
+    ) -&gt; &#34;TextItem&#34;:
+        &#34;&#34;&#34;
+        Convert from (text, box) to item.
+        Box is (top left, top right, bottom right, bottom left).
+        Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].
+        &#34;&#34;&#34;
+        text, (
+            (top_left_x, top_left_y),
+            (top_right_x, top_right_y),
+            (bottom_right_x, bottom_right_y),
+            (bottom_left_x, bottom_left_y),
+        ) = prediction
+        return TextItem(
+            text=text,
+            top_left_x=top_left_x,
+            top_left_y=top_left_y,
+            top_right_x=top_right_x,
+            top_right_y=top_right_y,
+            bottom_right_x=bottom_right_x,
+            bottom_right_y=bottom_right_y,
+            bottom_left_x=bottom_left_x,
+            bottom_left_y=bottom_left_y,
+        )
+
+    @classmethod
+    def order_text_lines(
+        cls, items: typing.Iterable[&#34;TextItem&#34;]
+    ) -&gt; typing.List[typing.List[&#34;TextItem&#34;]]:
+        &#34;&#34;&#34;Put items into lines of text (top -&gt; bottom, left -&gt; right).&#34;&#34;&#34;
+        if not items:
+            items = []
+
+        logger.debug(&#34;Arranging text into lines.&#34;)
+
+        lines = []
+        current_line: typing.List[TextItem] = []
+        for item in items:
+            if not item.is_horizontal_level:
+                # exclude items that are too sloped
+                continue
+
+            if len(current_line) &lt; 1:
+                current_line.append(item)
+
+            elif any([item.is_same_line(i) for i in current_line]):
+                current_line.append(item)
+
+            elif len(current_line) &gt; 0:
+                # store current line
+                current_line = sorted(current_line, key=lambda x: x.top_left)
+                lines.append(current_line)
+
+                # create new line
+                current_line = [item]
+
+        # include last items
+        if len(current_line) &gt; 0:
+            lines.append(current_line)
+
+        # update items to set line number and line order
+        for line_index, line in enumerate(lines):
+            for item_index, item in enumerate(line):
+                item.line_number = line_index + 1
+                item.line_order = item_index + 1
+
+        return lines
+
+    @property
+    def to_prediction(
+        self,
+    ) -&gt; typing.Tuple[
+        str,
+        typing.Tuple[
+            typing.Tuple[float, float],
+            typing.Tuple[float, float],
+            typing.Tuple[float, float],
+            typing.Tuple[float, float],
+        ],
+    ]:
+        &#34;&#34;&#34;Convert to prediction format.&#34;&#34;&#34;
+        return (
+            self.text,
+            (
+                (self.top_left_x, self.top_left_y),
+                (self.top_right_x, self.top_right_y),
+                (self.bottom_right_x, self.bottom_right_y),
+                (self.bottom_left_x, self.bottom_left_y),
+            ),
+        )
+
+    def _slope(self, x1, y1, x2, y2) -&gt; float:
+        &#34;&#34;&#34;Get the slope of a line.&#34;&#34;&#34;
+        y_diff = y2 - y1
+        x_diff = x2 - x1
+        try:
+            return y_diff / x_diff
+        except ZeroDivisionError:
+            return math.inf if y_diff &gt;= 0 else -math.inf
+
+    def __str__(self) -&gt; str:
+        &#34;&#34;&#34;Convert to a string.&#34;&#34;&#34;
+        line_info = f&#34;({self.line_number or 0}:{self.line_order})&#34;
+        pos_info = f&#34;[top left:{self.top_left}, top slope: {self.slope_top_left_right}]&#34;
+        return f&#34;{self.text} {line_info} {pos_info}&#34;
+
+
+@dataclasses.dataclass
+class KerasOcrResult:
+    &#34;&#34;&#34;Result from running keras-ocr.&#34;&#34;&#34;
+
+    output_dir: pathlib.Path
+    annotations_file: pathlib.Path
+    predictions_file: pathlib.Path
+    items: typing.List[typing.List[TextItem]]</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="leaf_focus.ocr.model.KerasOcrResult"><code class="flex name class">
+<span>class <span class="ident">KerasOcrResult</span></span>
+<span>(</span><span>output_dir: pathlib.Path, annotations_file: pathlib.Path, predictions_file: pathlib.Path, items: List[List[<a title="leaf_focus.ocr.model.TextItem" href="#leaf_focus.ocr.model.TextItem">TextItem</a>]])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Result from running keras-ocr.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L373-L380" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@dataclasses.dataclass
+class KerasOcrResult:
+    &#34;&#34;&#34;Result from running keras-ocr.&#34;&#34;&#34;
+
+    output_dir: pathlib.Path
+    annotations_file: pathlib.Path
+    predictions_file: pathlib.Path
+    items: typing.List[typing.List[TextItem]]</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="leaf_focus.ocr.model.KerasOcrResult.annotations_file"><code class="name">var <span class="ident">annotations_file</span> : pathlib.Path</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.KerasOcrResult.items"><code class="name">var <span class="ident">items</span> : List[List[<a title="leaf_focus.ocr.model.TextItem" href="#leaf_focus.ocr.model.TextItem">TextItem</a>]]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.KerasOcrResult.output_dir"><code class="name">var <span class="ident">output_dir</span> : pathlib.Path</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.KerasOcrResult.predictions_file"><code class="name">var <span class="ident">predictions_file</span> : pathlib.Path</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem"><code class="flex name class">
+<span>class <span class="ident">TextItem</span></span>
+<span>(</span><span>text: str, top_left_x: float, top_left_y: float, top_right_x: float, top_right_y: float, bottom_right_x: float, bottom_right_y: float, bottom_left_x: float, bottom_left_y: float, line_number: Optional[int] = None, line_order: Optional[int] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>One found text item (could be a word or phrase) in an image.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L12-L370" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@dataclasses.dataclass
+class TextItem:
+    &#34;&#34;&#34;One found text item (could be a word or phrase) in an image.&#34;&#34;&#34;
+
+    text: str
+    &#34;&#34;&#34;The recognised text.&#34;&#34;&#34;
+
+    top_left_x: float
+    top_left_y: float
+
+    top_right_x: float
+    top_right_y: float
+
+    bottom_right_x: float
+    bottom_right_y: float
+
+    bottom_left_x: float
+    bottom_left_y: float
+
+    line_number: typing.Optional[int] = None
+    line_order: typing.Optional[int] = None
+
+    @property
+    def top_left(self) -&gt; typing.Tuple[float, float]:
+        &#34;&#34;&#34;The top left point.&#34;&#34;&#34;
+        return self.top_left_x, self.top_left_y
+
+    @property
+    def top_right(self) -&gt; typing.Tuple[float, float]:
+        &#34;&#34;&#34;The top right point.&#34;&#34;&#34;
+        return self.top_right_x, self.top_right_y
+
+    @property
+    def bottom_right(self) -&gt; typing.Tuple[float, float]:
+        &#34;&#34;&#34;The bottom right point.&#34;&#34;&#34;
+        return self.bottom_right_x, self.bottom_right_y
+
+    @property
+    def bottom_left(self) -&gt; typing.Tuple[float, float]:
+        &#34;&#34;&#34;The bottom left point.&#34;&#34;&#34;
+        return self.bottom_left_x, self.bottom_left_y
+
+    @property
+    def top_length(self) -&gt; float:
+        # Get the length of the hypotenuse side.
+        side1 = abs(self.top_right_x - self.top_left_x)
+        side2 = abs(self.top_right_y - self.top_left_y)
+        if side2 == 0:
+            return side1
+        return math.sqrt(pow(side1, 2) + pow(side2, 2))
+
+    @property
+    def left_length(self) -&gt; float:
+        # Get the length of the hypotenuse side.
+        side1 = abs(self.top_left_y - self.bottom_left_y)
+        side2 = abs(self.top_left_x - self.bottom_left_x)
+        if side2 == 0:
+            return side1
+        return math.sqrt(pow(side1, 2) + pow(side2, 2))
+
+    @property
+    def line_bounds(self) -&gt; typing.Tuple[float, float]:
+        &#34;&#34;&#34;Line bounds from top of text to bottom of text.&#34;&#34;&#34;
+        top_bound = min(
+            [self.top_left_y, self.top_right_y, self.bottom_left_y, self.bottom_right_y]
+        )
+        bottom_bound = max(
+            [self.top_left_y, self.top_right_y, self.bottom_left_y, self.bottom_right_y]
+        )
+        return top_bound, bottom_bound
+
+    def is_same_line(self, other: &#34;TextItem&#34;) -&gt; bool:
+        &#34;&#34;&#34;
+        Check if other found text overlaps this found text.
+        Calculated as the midpoint +- 1/3 of the height of the text
+        &#34;&#34;&#34;
+        if not other:
+            return False
+        self_bounds = self.line_bounds
+        self_top = self_bounds[0]
+        self_bottom = self_bounds[1]
+        self_third = (self_bottom - self_top) / 3
+        self_top += self_third
+        self_bottom -= self_third
+
+        other_bounds = other.line_bounds
+        other_top = other_bounds[0]
+        other_bottom = other_bounds[1]
+        other_third = (other_bottom - other_top) / 3
+        other_top += other_third
+        other_bottom -= other_third
+
+        return self_top &lt;= other_bottom and other_top &lt;= self_bottom
+
+    @property
+    def slope_top_left_right(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the top of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.top_left_x,
+            self.top_left_y,
+            self.top_right_x,
+            self.top_right_y,
+        )
+
+    @property
+    def slope_top_right_left(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the top of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.top_right_x,
+            self.top_right_y,
+            self.top_left_x,
+            self.top_left_y,
+        )
+
+    @property
+    def slope_left_top_bottom(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the left of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.top_left_x,
+            self.top_left_y,
+            self.bottom_left_x,
+            self.bottom_left_y,
+        )
+
+    @property
+    def slope_left_bottom_top(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the left of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.bottom_left_x,
+            self.bottom_left_y,
+            self.top_left_x,
+            self.top_left_y,
+        )
+
+    @property
+    def slope_bottom_left_right(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the bottom of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.bottom_left_x,
+            self.bottom_left_y,
+            self.bottom_right_x,
+            self.bottom_right_y,
+        )
+
+    @property
+    def slope_bottom_right_left(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the bottom of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.bottom_right_x,
+            self.bottom_right_y,
+            self.bottom_left_x,
+            self.bottom_left_y,
+        )
+
+    @property
+    def slope_right_top_bottom(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the right of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.top_right_x,
+            self.top_right_y,
+            self.bottom_right_x,
+            self.bottom_right_y,
+        )
+
+    @property
+    def slope_right_bottom_top(self) -&gt; float:
+        &#34;&#34;&#34;The slope of the right of the rectangle.&#34;&#34;&#34;
+        return self._slope(
+            self.bottom_right_x,
+            self.bottom_right_y,
+            self.top_right_x,
+            self.top_right_y,
+        )
+
+    @property
+    def is_horizontal_level(self) -&gt; bool:
+        &#34;&#34;&#34;Is side-to-side slope approximately horizontal?&#34;&#34;&#34;
+        # -0.1 -&gt; 0.1 is strictly horizontal
+        # give a bit of buffer
+        buffer = 0.09
+        return -buffer &lt;= self.slope_top_left_right &lt;= buffer
+
+    @property
+    def is_vertical_level(self) -&gt; bool:
+        &#34;&#34;&#34;Is the top-to-bottom slope approximately vertical?&#34;&#34;&#34;
+        # -0.1 -&gt; 0.1 is strictly vertical
+        # give a bit of buffer
+        return self.slope_left_top_bottom == math.inf
+
+    @classmethod
+    def save(cls, path: pathlib.Path, items: typing.List[&#34;TextItem&#34;]) -&gt; None:
+        &#34;&#34;&#34;Save found text items to a file.&#34;&#34;&#34;
+
+        logger.debug(&#34;Saving %s OCR items.&#34;, len(items))
+
+        fields = [
+            &#34;text&#34;,
+            &#34;line_number&#34;,
+            &#34;line_order&#34;,
+            &#34;top_left_x&#34;,
+            &#34;top_left_y&#34;,
+            &#34;top_right_x&#34;,
+            &#34;top_right_y&#34;,
+            &#34;bottom_right_x&#34;,
+            &#34;bottom_right_y&#34;,
+            &#34;bottom_left_x&#34;,
+            &#34;bottom_left_y&#34;,
+        ]
+        with open(path, &#34;wt&#34;, newline=&#34;&#34;, encoding=&#34;utf8&#34;) as file_path:
+            writer = csv.DictWriter(file_path, fields)
+            writer.writeheader()
+            sorted_items = sorted(
+                items, key=lambda i: (i.line_number or 0, i.line_order or 0)
+            )
+            writer.writerows([dataclasses.asdict(i) for i in sorted_items])
+
+        logger.debug(&#34;Saved OCR items to &#39;%s&#39;.&#34;, path)
+
+    @classmethod
+    def load(cls, path: pathlib.Path) -&gt; typing.Generator[&#34;TextItem&#34;, typing.Any, None]:
+        &#34;&#34;&#34;Load found text items from a file.&#34;&#34;&#34;
+
+        logger.debug(&#34;Loading OCR items.&#34;)
+        count = 0
+
+        with open(path, &#34;rt&#34;, encoding=&#34;utf8&#34;) as file_path:
+            reader = csv.DictReader(file_path)
+            for row in reader:
+                line_number = row.get(&#34;line_number&#34;, &#34;&#34;).strip()
+                line_number = int(line_number) if line_number != &#34;&#34; else None
+
+                line_order = row.get(&#34;line_order&#34;, &#34;&#34;).strip()
+                line_order = int(line_order) if line_order != &#34;&#34; else None
+
+                count += 1
+
+                yield TextItem(
+                    text=row[&#34;text&#34;],
+                    line_number=line_number,
+                    line_order=line_order,
+                    top_left_x=float(row[&#34;top_left_x&#34;]),
+                    top_left_y=float(row[&#34;top_left_y&#34;]),
+                    top_right_x=float(row[&#34;top_right_x&#34;]),
+                    top_right_y=float(row[&#34;top_right_y&#34;]),
+                    bottom_right_x=float(row[&#34;bottom_right_x&#34;]),
+                    bottom_right_y=float(row[&#34;bottom_right_y&#34;]),
+                    bottom_left_x=float(row[&#34;bottom_left_x&#34;]),
+                    bottom_left_y=float(row[&#34;bottom_left_y&#34;]),
+                )
+
+        logger.debug(&#34;Loaded %s OCR items from &#39;%s&#39;.&#34;, count, path)
+
+    @classmethod
+    def from_prediction(
+        cls, prediction: typing.Tuple[typing.Any, typing.Any]
+    ) -&gt; &#34;TextItem&#34;:
+        &#34;&#34;&#34;
+        Convert from (text, box) to item.
+        Box is (top left, top right, bottom right, bottom left).
+        Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].
+        &#34;&#34;&#34;
+        text, (
+            (top_left_x, top_left_y),
+            (top_right_x, top_right_y),
+            (bottom_right_x, bottom_right_y),
+            (bottom_left_x, bottom_left_y),
+        ) = prediction
+        return TextItem(
+            text=text,
+            top_left_x=top_left_x,
+            top_left_y=top_left_y,
+            top_right_x=top_right_x,
+            top_right_y=top_right_y,
+            bottom_right_x=bottom_right_x,
+            bottom_right_y=bottom_right_y,
+            bottom_left_x=bottom_left_x,
+            bottom_left_y=bottom_left_y,
+        )
+
+    @classmethod
+    def order_text_lines(
+        cls, items: typing.Iterable[&#34;TextItem&#34;]
+    ) -&gt; typing.List[typing.List[&#34;TextItem&#34;]]:
+        &#34;&#34;&#34;Put items into lines of text (top -&gt; bottom, left -&gt; right).&#34;&#34;&#34;
+        if not items:
+            items = []
+
+        logger.debug(&#34;Arranging text into lines.&#34;)
+
+        lines = []
+        current_line: typing.List[TextItem] = []
+        for item in items:
+            if not item.is_horizontal_level:
+                # exclude items that are too sloped
+                continue
+
+            if len(current_line) &lt; 1:
+                current_line.append(item)
+
+            elif any([item.is_same_line(i) for i in current_line]):
+                current_line.append(item)
+
+            elif len(current_line) &gt; 0:
+                # store current line
+                current_line = sorted(current_line, key=lambda x: x.top_left)
+                lines.append(current_line)
+
+                # create new line
+                current_line = [item]
+
+        # include last items
+        if len(current_line) &gt; 0:
+            lines.append(current_line)
+
+        # update items to set line number and line order
+        for line_index, line in enumerate(lines):
+            for item_index, item in enumerate(line):
+                item.line_number = line_index + 1
+                item.line_order = item_index + 1
+
+        return lines
+
+    @property
+    def to_prediction(
+        self,
+    ) -&gt; typing.Tuple[
+        str,
+        typing.Tuple[
+            typing.Tuple[float, float],
+            typing.Tuple[float, float],
+            typing.Tuple[float, float],
+            typing.Tuple[float, float],
+        ],
+    ]:
+        &#34;&#34;&#34;Convert to prediction format.&#34;&#34;&#34;
+        return (
+            self.text,
+            (
+                (self.top_left_x, self.top_left_y),
+                (self.top_right_x, self.top_right_y),
+                (self.bottom_right_x, self.bottom_right_y),
+                (self.bottom_left_x, self.bottom_left_y),
+            ),
+        )
+
+    def _slope(self, x1, y1, x2, y2) -&gt; float:
+        &#34;&#34;&#34;Get the slope of a line.&#34;&#34;&#34;
+        y_diff = y2 - y1
+        x_diff = x2 - x1
+        try:
+            return y_diff / x_diff
+        except ZeroDivisionError:
+            return math.inf if y_diff &gt;= 0 else -math.inf
+
+    def __str__(self) -&gt; str:
+        &#34;&#34;&#34;Convert to a string.&#34;&#34;&#34;
+        line_info = f&#34;({self.line_number or 0}:{self.line_order})&#34;
+        pos_info = f&#34;[top left:{self.top_left}, top slope: {self.slope_top_left_right}]&#34;
+        return f&#34;{self.text} {line_info} {pos_info}&#34;</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="leaf_focus.ocr.model.TextItem.bottom_left_x"><code class="name">var <span class="ident">bottom_left_x</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.bottom_left_y"><code class="name">var <span class="ident">bottom_left_y</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.bottom_right_x"><code class="name">var <span class="ident">bottom_right_x</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.bottom_right_y"><code class="name">var <span class="ident">bottom_right_y</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.line_number"><code class="name">var <span class="ident">line_number</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.line_order"><code class="name">var <span class="ident">line_order</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.text"><code class="name">var <span class="ident">text</span> : str</code></dt>
+<dd>
+<div class="desc"><p>The recognised text.</p></div>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.top_left_x"><code class="name">var <span class="ident">top_left_x</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.top_left_y"><code class="name">var <span class="ident">top_left_y</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.top_right_x"><code class="name">var <span class="ident">top_right_x</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.top_right_y"><code class="name">var <span class="ident">top_right_y</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="leaf_focus.ocr.model.TextItem.from_prediction"><code class="name flex">
+<span>def <span class="ident">from_prediction</span></span>(<span>prediction: Tuple[Any, Any]) ‑> <a title="leaf_focus.ocr.model.TextItem" href="#leaf_focus.ocr.model.TextItem">TextItem</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert from (text, box) to item.
+Box is (top left, top right, bottom right, bottom left).
+Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L264-L289" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@classmethod
+def from_prediction(
+    cls, prediction: typing.Tuple[typing.Any, typing.Any]
+) -&gt; &#34;TextItem&#34;:
+    &#34;&#34;&#34;
+    Convert from (text, box) to item.
+    Box is (top left, top right, bottom right, bottom left).
+    Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].
+    &#34;&#34;&#34;
+    text, (
+        (top_left_x, top_left_y),
+        (top_right_x, top_right_y),
+        (bottom_right_x, bottom_right_y),
+        (bottom_left_x, bottom_left_y),
+    ) = prediction
+    return TextItem(
+        text=text,
+        top_left_x=top_left_x,
+        top_left_y=top_left_y,
+        top_right_x=top_right_x,
+        top_right_y=top_right_y,
+        bottom_right_x=bottom_right_x,
+        bottom_right_y=bottom_right_y,
+        bottom_left_x=bottom_left_x,
+        bottom_left_y=bottom_left_y,
+    )</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.load"><code class="name flex">
+<span>def <span class="ident">load</span></span>(<span>path: pathlib.Path) ‑> Generator[<a title="leaf_focus.ocr.model.TextItem" href="#leaf_focus.ocr.model.TextItem">TextItem</a>, Any, None]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load found text items from a file.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L230-L262" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@classmethod
+def load(cls, path: pathlib.Path) -&gt; typing.Generator[&#34;TextItem&#34;, typing.Any, None]:
+    &#34;&#34;&#34;Load found text items from a file.&#34;&#34;&#34;
+
+    logger.debug(&#34;Loading OCR items.&#34;)
+    count = 0
+
+    with open(path, &#34;rt&#34;, encoding=&#34;utf8&#34;) as file_path:
+        reader = csv.DictReader(file_path)
+        for row in reader:
+            line_number = row.get(&#34;line_number&#34;, &#34;&#34;).strip()
+            line_number = int(line_number) if line_number != &#34;&#34; else None
+
+            line_order = row.get(&#34;line_order&#34;, &#34;&#34;).strip()
+            line_order = int(line_order) if line_order != &#34;&#34; else None
+
+            count += 1
+
+            yield TextItem(
+                text=row[&#34;text&#34;],
+                line_number=line_number,
+                line_order=line_order,
+                top_left_x=float(row[&#34;top_left_x&#34;]),
+                top_left_y=float(row[&#34;top_left_y&#34;]),
+                top_right_x=float(row[&#34;top_right_x&#34;]),
+                top_right_y=float(row[&#34;top_right_y&#34;]),
+                bottom_right_x=float(row[&#34;bottom_right_x&#34;]),
+                bottom_right_y=float(row[&#34;bottom_right_y&#34;]),
+                bottom_left_x=float(row[&#34;bottom_left_x&#34;]),
+                bottom_left_y=float(row[&#34;bottom_left_y&#34;]),
+            )
+
+    logger.debug(&#34;Loaded %s OCR items from &#39;%s&#39;.&#34;, count, path)</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.order_text_lines"><code class="name flex">
+<span>def <span class="ident">order_text_lines</span></span>(<span>items: Iterable[ForwardRef('<a title="leaf_focus.ocr.model.TextItem" href="#leaf_focus.ocr.model.TextItem">TextItem</a>')]) ‑> List[List[<a title="leaf_focus.ocr.model.TextItem" href="#leaf_focus.ocr.model.TextItem">TextItem</a>]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Put items into lines of text (top -&gt; bottom, left -&gt; right).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L291-L332" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@classmethod
+def order_text_lines(
+    cls, items: typing.Iterable[&#34;TextItem&#34;]
+) -&gt; typing.List[typing.List[&#34;TextItem&#34;]]:
+    &#34;&#34;&#34;Put items into lines of text (top -&gt; bottom, left -&gt; right).&#34;&#34;&#34;
+    if not items:
+        items = []
+
+    logger.debug(&#34;Arranging text into lines.&#34;)
+
+    lines = []
+    current_line: typing.List[TextItem] = []
+    for item in items:
+        if not item.is_horizontal_level:
+            # exclude items that are too sloped
+            continue
+
+        if len(current_line) &lt; 1:
+            current_line.append(item)
+
+        elif any([item.is_same_line(i) for i in current_line]):
+            current_line.append(item)
+
+        elif len(current_line) &gt; 0:
+            # store current line
+            current_line = sorted(current_line, key=lambda x: x.top_left)
+            lines.append(current_line)
+
+            # create new line
+            current_line = [item]
+
+    # include last items
+    if len(current_line) &gt; 0:
+        lines.append(current_line)
+
+    # update items to set line number and line order
+    for line_index, line in enumerate(lines):
+        for item_index, item in enumerate(line):
+            item.line_number = line_index + 1
+            item.line_order = item_index + 1
+
+    return lines</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.save"><code class="name flex">
+<span>def <span class="ident">save</span></span>(<span>path: pathlib.Path, items: List[ForwardRef('<a title="leaf_focus.ocr.model.TextItem" href="#leaf_focus.ocr.model.TextItem">TextItem</a>')]) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Save found text items to a file.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L201-L228" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@classmethod
+def save(cls, path: pathlib.Path, items: typing.List[&#34;TextItem&#34;]) -&gt; None:
+    &#34;&#34;&#34;Save found text items to a file.&#34;&#34;&#34;
+
+    logger.debug(&#34;Saving %s OCR items.&#34;, len(items))
+
+    fields = [
+        &#34;text&#34;,
+        &#34;line_number&#34;,
+        &#34;line_order&#34;,
+        &#34;top_left_x&#34;,
+        &#34;top_left_y&#34;,
+        &#34;top_right_x&#34;,
+        &#34;top_right_y&#34;,
+        &#34;bottom_right_x&#34;,
+        &#34;bottom_right_y&#34;,
+        &#34;bottom_left_x&#34;,
+        &#34;bottom_left_y&#34;,
+    ]
+    with open(path, &#34;wt&#34;, newline=&#34;&#34;, encoding=&#34;utf8&#34;) as file_path:
+        writer = csv.DictWriter(file_path, fields)
+        writer.writeheader()
+        sorted_items = sorted(
+            items, key=lambda i: (i.line_number or 0, i.line_order or 0)
+        )
+        writer.writerows([dataclasses.asdict(i) for i in sorted_items])
+
+    logger.debug(&#34;Saved OCR items to &#39;%s&#39;.&#34;, path)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="leaf_focus.ocr.model.TextItem.bottom_left"><code class="name">var <span class="ident">bottom_left</span> : Tuple[float, float]</code></dt>
+<dd>
+<div class="desc"><p>The bottom left point.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L49-L52" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def bottom_left(self) -&gt; typing.Tuple[float, float]:
+    &#34;&#34;&#34;The bottom left point.&#34;&#34;&#34;
+    return self.bottom_left_x, self.bottom_left_y</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.bottom_right"><code class="name">var <span class="ident">bottom_right</span> : Tuple[float, float]</code></dt>
+<dd>
+<div class="desc"><p>The bottom right point.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L44-L47" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def bottom_right(self) -&gt; typing.Tuple[float, float]:
+    &#34;&#34;&#34;The bottom right point.&#34;&#34;&#34;
+    return self.bottom_right_x, self.bottom_right_y</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.is_horizontal_level"><code class="name">var <span class="ident">is_horizontal_level</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>Is side-to-side slope approximately horizontal?</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L186-L192" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def is_horizontal_level(self) -&gt; bool:
+    &#34;&#34;&#34;Is side-to-side slope approximately horizontal?&#34;&#34;&#34;
+    # -0.1 -&gt; 0.1 is strictly horizontal
+    # give a bit of buffer
+    buffer = 0.09
+    return -buffer &lt;= self.slope_top_left_right &lt;= buffer</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.is_vertical_level"><code class="name">var <span class="ident">is_vertical_level</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>Is the top-to-bottom slope approximately vertical?</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L194-L199" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def is_vertical_level(self) -&gt; bool:
+    &#34;&#34;&#34;Is the top-to-bottom slope approximately vertical?&#34;&#34;&#34;
+    # -0.1 -&gt; 0.1 is strictly vertical
+    # give a bit of buffer
+    return self.slope_left_top_bottom == math.inf</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.left_length"><code class="name">var <span class="ident">left_length</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L63-L70" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def left_length(self) -&gt; float:
+    # Get the length of the hypotenuse side.
+    side1 = abs(self.top_left_y - self.bottom_left_y)
+    side2 = abs(self.top_left_x - self.bottom_left_x)
+    if side2 == 0:
+        return side1
+    return math.sqrt(pow(side1, 2) + pow(side2, 2))</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.line_bounds"><code class="name">var <span class="ident">line_bounds</span> : Tuple[float, float]</code></dt>
+<dd>
+<div class="desc"><p>Line bounds from top of text to bottom of text.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L72-L81" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def line_bounds(self) -&gt; typing.Tuple[float, float]:
+    &#34;&#34;&#34;Line bounds from top of text to bottom of text.&#34;&#34;&#34;
+    top_bound = min(
+        [self.top_left_y, self.top_right_y, self.bottom_left_y, self.bottom_right_y]
+    )
+    bottom_bound = max(
+        [self.top_left_y, self.top_right_y, self.bottom_left_y, self.bottom_right_y]
+    )
+    return top_bound, bottom_bound</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.slope_bottom_left_right"><code class="name">var <span class="ident">slope_bottom_left_right</span> : float</code></dt>
+<dd>
+<div class="desc"><p>The slope of the bottom of the rectangle.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L146-L154" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def slope_bottom_left_right(self) -&gt; float:
+    &#34;&#34;&#34;The slope of the bottom of the rectangle.&#34;&#34;&#34;
+    return self._slope(
+        self.bottom_left_x,
+        self.bottom_left_y,
+        self.bottom_right_x,
+        self.bottom_right_y,
+    )</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.slope_bottom_right_left"><code class="name">var <span class="ident">slope_bottom_right_left</span> : float</code></dt>
+<dd>
+<div class="desc"><p>The slope of the bottom of the rectangle.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L156-L164" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def slope_bottom_right_left(self) -&gt; float:
+    &#34;&#34;&#34;The slope of the bottom of the rectangle.&#34;&#34;&#34;
+    return self._slope(
+        self.bottom_right_x,
+        self.bottom_right_y,
+        self.bottom_left_x,
+        self.bottom_left_y,
+    )</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.slope_left_bottom_top"><code class="name">var <span class="ident">slope_left_bottom_top</span> : float</code></dt>
+<dd>
+<div class="desc"><p>The slope of the left of the rectangle.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L136-L144" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def slope_left_bottom_top(self) -&gt; float:
+    &#34;&#34;&#34;The slope of the left of the rectangle.&#34;&#34;&#34;
+    return self._slope(
+        self.bottom_left_x,
+        self.bottom_left_y,
+        self.top_left_x,
+        self.top_left_y,
+    )</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.slope_left_top_bottom"><code class="name">var <span class="ident">slope_left_top_bottom</span> : float</code></dt>
+<dd>
+<div class="desc"><p>The slope of the left of the rectangle.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L126-L134" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def slope_left_top_bottom(self) -&gt; float:
+    &#34;&#34;&#34;The slope of the left of the rectangle.&#34;&#34;&#34;
+    return self._slope(
+        self.top_left_x,
+        self.top_left_y,
+        self.bottom_left_x,
+        self.bottom_left_y,
+    )</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.slope_right_bottom_top"><code class="name">var <span class="ident">slope_right_bottom_top</span> : float</code></dt>
+<dd>
+<div class="desc"><p>The slope of the right of the rectangle.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L176-L184" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def slope_right_bottom_top(self) -&gt; float:
+    &#34;&#34;&#34;The slope of the right of the rectangle.&#34;&#34;&#34;
+    return self._slope(
+        self.bottom_right_x,
+        self.bottom_right_y,
+        self.top_right_x,
+        self.top_right_y,
+    )</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.slope_right_top_bottom"><code class="name">var <span class="ident">slope_right_top_bottom</span> : float</code></dt>
+<dd>
+<div class="desc"><p>The slope of the right of the rectangle.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L166-L174" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def slope_right_top_bottom(self) -&gt; float:
+    &#34;&#34;&#34;The slope of the right of the rectangle.&#34;&#34;&#34;
+    return self._slope(
+        self.top_right_x,
+        self.top_right_y,
+        self.bottom_right_x,
+        self.bottom_right_y,
+    )</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.slope_top_left_right"><code class="name">var <span class="ident">slope_top_left_right</span> : float</code></dt>
+<dd>
+<div class="desc"><p>The slope of the top of the rectangle.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L106-L114" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def slope_top_left_right(self) -&gt; float:
+    &#34;&#34;&#34;The slope of the top of the rectangle.&#34;&#34;&#34;
+    return self._slope(
+        self.top_left_x,
+        self.top_left_y,
+        self.top_right_x,
+        self.top_right_y,
+    )</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.slope_top_right_left"><code class="name">var <span class="ident">slope_top_right_left</span> : float</code></dt>
+<dd>
+<div class="desc"><p>The slope of the top of the rectangle.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L116-L124" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def slope_top_right_left(self) -&gt; float:
+    &#34;&#34;&#34;The slope of the top of the rectangle.&#34;&#34;&#34;
+    return self._slope(
+        self.top_right_x,
+        self.top_right_y,
+        self.top_left_x,
+        self.top_left_y,
+    )</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.to_prediction"><code class="name">var <span class="ident">to_prediction</span> : Tuple[str, Tuple[Tuple[float, float], Tuple[float, float], Tuple[float, float], Tuple[float, float]]]</code></dt>
+<dd>
+<div class="desc"><p>Convert to prediction format.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L334-L355" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def to_prediction(
+    self,
+) -&gt; typing.Tuple[
+    str,
+    typing.Tuple[
+        typing.Tuple[float, float],
+        typing.Tuple[float, float],
+        typing.Tuple[float, float],
+        typing.Tuple[float, float],
+    ],
+]:
+    &#34;&#34;&#34;Convert to prediction format.&#34;&#34;&#34;
+    return (
+        self.text,
+        (
+            (self.top_left_x, self.top_left_y),
+            (self.top_right_x, self.top_right_y),
+            (self.bottom_right_x, self.bottom_right_y),
+            (self.bottom_left_x, self.bottom_left_y),
+        ),
+    )</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.top_left"><code class="name">var <span class="ident">top_left</span> : Tuple[float, float]</code></dt>
+<dd>
+<div class="desc"><p>The top left point.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L34-L37" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def top_left(self) -&gt; typing.Tuple[float, float]:
+    &#34;&#34;&#34;The top left point.&#34;&#34;&#34;
+    return self.top_left_x, self.top_left_y</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.top_length"><code class="name">var <span class="ident">top_length</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L54-L61" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def top_length(self) -&gt; float:
+    # Get the length of the hypotenuse side.
+    side1 = abs(self.top_right_x - self.top_left_x)
+    side2 = abs(self.top_right_y - self.top_left_y)
+    if side2 == 0:
+        return side1
+    return math.sqrt(pow(side1, 2) + pow(side2, 2))</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.model.TextItem.top_right"><code class="name">var <span class="ident">top_right</span> : Tuple[float, float]</code></dt>
+<dd>
+<div class="desc"><p>The top right point.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L39-L42" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@property
+def top_right(self) -&gt; typing.Tuple[float, float]:
+    &#34;&#34;&#34;The top right point.&#34;&#34;&#34;
+    return self.top_right_x, self.top_right_y</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="leaf_focus.ocr.model.TextItem.is_same_line"><code class="name flex">
+<span>def <span class="ident">is_same_line</span></span>(<span>self, other: <a title="leaf_focus.ocr.model.TextItem" href="#leaf_focus.ocr.model.TextItem">TextItem</a>) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if other found text overlaps this found text.
+Calculated as the midpoint +- 1/3 of the height of the text</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/ocr/model.py#L83-L104" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def is_same_line(self, other: &#34;TextItem&#34;) -&gt; bool:
+    &#34;&#34;&#34;
+    Check if other found text overlaps this found text.
+    Calculated as the midpoint +- 1/3 of the height of the text
+    &#34;&#34;&#34;
+    if not other:
+        return False
+    self_bounds = self.line_bounds
+    self_top = self_bounds[0]
+    self_bottom = self_bounds[1]
+    self_third = (self_bottom - self_top) / 3
+    self_top += self_third
+    self_bottom -= self_third
+
+    other_bounds = other.line_bounds
+    other_top = other_bounds[0]
+    other_bottom = other_bounds[1]
+    other_third = (other_bottom - other_top) / 3
+    other_top += other_third
+    other_bottom -= other_third
+
+    return self_top &lt;= other_bottom and other_top &lt;= self_bottom</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<form>
+<input id="lunr-search" name="q" placeholder="🔎 Search ..." aria-label="Search"
+disabled minlength="2">
+</form>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" integrity="sha512-j1u8eUJ4f23xPPxwOrLUPQaCD2dwzNqqmDDcWS4deWsMv2ohLqmXXuP3hU7g8TyzbMSakP/mMqoNBYWj8AEIFg==" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js" integrity="sha512-plGUER9JkeEWPPqQBE4sdLqBoQug5Ap+BCGMc7bJ8BXkm+VVj6QzkpBz5Yv2yPkkq+cqg9IpkBaGCas6uDbW8g==" crossorigin></script>
+<style>
+.modal-dialog iframe {
+width: 100vw;
+height: calc(100vh - 80px);
+}
+@media screen and (min-width: 700px) {
+.modal-dialog iframe {
+width: 70vw;
+height: 80vh;
+}
+}
+.modal-dialog .tingle-modal-box {width: auto;}
+.modal-dialog .tingle-modal-box__content {padding: 0;}
+</style>
+<script>
+const input = document.getElementById('lunr-search');
+input.disabled = false;
+input.form.addEventListener('submit', (ev) => {
+ev.preventDefault();
+const url = new URL(window.location);
+url.searchParams.set('q', input.value);
+history.replaceState({}, null, url.toString());
+search(input.value);
+});
+const query = new URL(window.location).searchParams.get('q');
+if (query)
+search(query);
+function search(query) {
+const url = '../../doc-search.html#' + encodeURIComponent(query);
+new tingle.modal({
+cssClass: ['modal-dialog'],
+onClose: () => {
+const url = new URL(window.location);
+url.searchParams.delete('q');
+history.replaceState({}, null, url.toString());
+setTimeout(() => input.focus(), 100);
+}
+}).setContent('<iframe src="' + url + '"></iframe>').open();
+}
+</script>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="leaf_focus.ocr" href="index.html">leaf_focus.ocr</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="leaf_focus.ocr.model.KerasOcrResult" href="#leaf_focus.ocr.model.KerasOcrResult">KerasOcrResult</a></code></h4>
+<ul class="">
+<li><code><a title="leaf_focus.ocr.model.KerasOcrResult.annotations_file" href="#leaf_focus.ocr.model.KerasOcrResult.annotations_file">annotations_file</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.KerasOcrResult.items" href="#leaf_focus.ocr.model.KerasOcrResult.items">items</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.KerasOcrResult.output_dir" href="#leaf_focus.ocr.model.KerasOcrResult.output_dir">output_dir</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.KerasOcrResult.predictions_file" href="#leaf_focus.ocr.model.KerasOcrResult.predictions_file">predictions_file</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="leaf_focus.ocr.model.TextItem" href="#leaf_focus.ocr.model.TextItem">TextItem</a></code></h4>
+<ul class="">
+<li><code><a title="leaf_focus.ocr.model.TextItem.bottom_left" href="#leaf_focus.ocr.model.TextItem.bottom_left">bottom_left</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.bottom_left_x" href="#leaf_focus.ocr.model.TextItem.bottom_left_x">bottom_left_x</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.bottom_left_y" href="#leaf_focus.ocr.model.TextItem.bottom_left_y">bottom_left_y</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.bottom_right" href="#leaf_focus.ocr.model.TextItem.bottom_right">bottom_right</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.bottom_right_x" href="#leaf_focus.ocr.model.TextItem.bottom_right_x">bottom_right_x</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.bottom_right_y" href="#leaf_focus.ocr.model.TextItem.bottom_right_y">bottom_right_y</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.from_prediction" href="#leaf_focus.ocr.model.TextItem.from_prediction">from_prediction</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.is_horizontal_level" href="#leaf_focus.ocr.model.TextItem.is_horizontal_level">is_horizontal_level</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.is_same_line" href="#leaf_focus.ocr.model.TextItem.is_same_line">is_same_line</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.is_vertical_level" href="#leaf_focus.ocr.model.TextItem.is_vertical_level">is_vertical_level</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.left_length" href="#leaf_focus.ocr.model.TextItem.left_length">left_length</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.line_bounds" href="#leaf_focus.ocr.model.TextItem.line_bounds">line_bounds</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.line_number" href="#leaf_focus.ocr.model.TextItem.line_number">line_number</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.line_order" href="#leaf_focus.ocr.model.TextItem.line_order">line_order</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.load" href="#leaf_focus.ocr.model.TextItem.load">load</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.order_text_lines" href="#leaf_focus.ocr.model.TextItem.order_text_lines">order_text_lines</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.save" href="#leaf_focus.ocr.model.TextItem.save">save</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.slope_bottom_left_right" href="#leaf_focus.ocr.model.TextItem.slope_bottom_left_right">slope_bottom_left_right</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.slope_bottom_right_left" href="#leaf_focus.ocr.model.TextItem.slope_bottom_right_left">slope_bottom_right_left</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.slope_left_bottom_top" href="#leaf_focus.ocr.model.TextItem.slope_left_bottom_top">slope_left_bottom_top</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.slope_left_top_bottom" href="#leaf_focus.ocr.model.TextItem.slope_left_top_bottom">slope_left_top_bottom</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.slope_right_bottom_top" href="#leaf_focus.ocr.model.TextItem.slope_right_bottom_top">slope_right_bottom_top</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.slope_right_top_bottom" href="#leaf_focus.ocr.model.TextItem.slope_right_top_bottom">slope_right_top_bottom</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.slope_top_left_right" href="#leaf_focus.ocr.model.TextItem.slope_top_left_right">slope_top_left_right</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.slope_top_right_left" href="#leaf_focus.ocr.model.TextItem.slope_top_right_left">slope_top_right_left</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.text" href="#leaf_focus.ocr.model.TextItem.text">text</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.to_prediction" href="#leaf_focus.ocr.model.TextItem.to_prediction">to_prediction</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.top_left" href="#leaf_focus.ocr.model.TextItem.top_left">top_left</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.top_left_x" href="#leaf_focus.ocr.model.TextItem.top_left_x">top_left_x</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.top_left_y" href="#leaf_focus.ocr.model.TextItem.top_left_y">top_left_y</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.top_length" href="#leaf_focus.ocr.model.TextItem.top_length">top_length</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.top_right" href="#leaf_focus.ocr.model.TextItem.top_right">top_right</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.top_right_x" href="#leaf_focus.ocr.model.TextItem.top_right_x">top_right_x</a></code></li>
+<li><code><a title="leaf_focus.ocr.model.TextItem.top_right_y" href="#leaf_focus.ocr.model.TextItem.top_right_y">top_right_y</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

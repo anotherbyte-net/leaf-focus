@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>leaf_focus.utils API documentation</title>
+<meta name="description" content="Small utility functions." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}#lunr-search{width:100%;font-size:1em;padding:6px 9px 5px 9px;border:1px solid silver}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>leaf_focus.utils</code></h1>
+</header>
+<section id="section-intro">
+<p>Small utility functions.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L1-L239" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Small utility functions.&#34;&#34;&#34;
+
+import dataclasses
+import json
+import pathlib
+import platform
+import typing
+import datetime
+from xml.etree.ElementTree import Element
+
+from importlib.resources import path
+
+from importlib_metadata import distribution, PackageNotFoundError
+
+
+def get_name_dash() -&gt; str:
+    &#34;&#34;&#34;Get the package name with word separated by dashes.&#34;&#34;&#34;
+    return &#34;leaf-focus&#34;
+
+
+def get_name_under() -&gt; str:
+    &#34;&#34;&#34;Get the package name with word separated by underscores.&#34;&#34;&#34;
+    return &#34;leaf_focus&#34;
+
+
+def get_version() -&gt; typing.Optional[str]:
+    &#34;&#34;&#34;Get the package version.&#34;&#34;&#34;
+    try:
+        dist = distribution(get_name_dash())
+        return dist.version
+    except PackageNotFoundError:
+        pass
+
+    try:
+        with path(get_name_under(), &#34;cli.py&#34;) as file_path:
+            return (file_path.parent.parent.parent / &#34;VERSION&#34;).read_text().strip()
+    except FileNotFoundError:
+        pass
+
+    return None
+
+
+def parse_date(value: str) -&gt; typing.Optional[datetime.datetime]:
+    &#34;&#34;&#34;Parse a date from a string.&#34;&#34;&#34;
+    formats = [
+        # e.g. &#39;Thu Aug 13 11:09:00 2020&#39;
+        &#34;%a %b %d %H:%M:%S %Y&#34;,
+    ]
+    for fmt in formats:
+        try:
+            return datetime.datetime.strptime(value, fmt)
+        except ValueError:
+            pass
+    return None
+
+
+def validate(name: str, value, expected: typing.List) -&gt; None:
+    &#34;&#34;&#34;Validate that a value is one of the expected values.&#34;&#34;&#34;
+    if value is not None and value not in expected:
+        opts = &#34;, &#34;.join(sorted([str(i) for i in expected]))
+        raise LeafFocusException(f&#34;Invalid {name} &#39;{value}&#39;. Expected one of &#39;{opts}&#39;.&#34;)
+
+
+def validate_path(
+    name: str, value: pathlib.Path, must_exist: bool = False
+) -&gt; pathlib.Path:
+    &#34;&#34;&#34;Validate a path.&#34;&#34;&#34;
+    if not value:
+        raise LeafFocusException(f&#34;Must provide path {name}.&#34;)
+
+    try:
+        if must_exist is True:
+            abs_path = value.resolve(strict=True)
+        else:
+            abs_path = value.absolute()
+
+        return abs_path
+    except Exception:
+        raise LeafFocusException(f&#34;Invalid path &#39;{value}&#39;.&#34;)
+
+
+def select_exe(value: pathlib.Path) -&gt; pathlib.Path:
+    &#34;&#34;&#34;Select the executable path based on the platform.&#34;&#34;&#34;
+    if platform.system() == &#34;Windows&#34;:
+        value = value.with_suffix(&#34;.exe&#34;)
+
+    if not value.exists():
+        msg = f&#34;Exe file not found &#39;{value}&#39;.&#34;
+        raise LeafFocusException(msg) from FileNotFoundError(value)
+
+    return value
+
+
+def output_root(
+    input_file: pathlib.Path,
+    output_type: str,
+    output_path: pathlib.Path,
+    additional: typing.Optional[typing.Collection[str]] = None,
+) -&gt; pathlib.Path:
+    &#34;&#34;&#34;Build the path to the output.&#34;&#34;&#34;
+    name_parts = [input_file.stem, output_type]
+    name_parts.extend(additional or [])
+    name_parts = [str(i) for i in name_parts if i]
+    name_parts = [i.strip(&#34;-&#34;).strip() for i in name_parts if i and i.strip()]
+
+    name = &#34;-&#34;.join(name_parts).replace(&#34;.&#34;, &#34;-&#34;).replace(&#34;_&#34;, &#34;-&#34;)
+
+    output = output_path / name
+
+    return output
+
+
+class CustomJsonEncoder(json.JSONEncoder):
+    &#34;&#34;&#34;A custom json encoder.&#34;&#34;&#34;
+
+    def default(self, o):
+        &#34;&#34;&#34;Conversion used by default.&#34;&#34;&#34;
+        if isinstance(o, (datetime.datetime, datetime.date, datetime.time)):
+            return o.isoformat()
+
+        return super().default(o)
+
+
+@dataclasses.dataclass
+class XmlElement:
+    &#34;&#34;&#34;
+    A simple xml element.
+
+    &lt;tag attrib&gt;text&lt;child/&gt;...&lt;/tag&gt;tail
+    &#34;&#34;&#34;
+
+    attrib: typing.Collection[typing.Tuple[str, str, str]]
+    tag: str
+    name_space: str
+    text: str
+    tail: str
+    children: typing.Collection[&#34;XmlElement&#34;]
+
+    def to_dict(self) -&gt; typing.Dict:
+        &#34;&#34;&#34;Convert xml element to a dict.&#34;&#34;&#34;
+        result: typing.Dict[str, typing.Any] = {&#34;name&#34;: self.tag.strip()}
+
+        value = ((self.text or &#34;&#34;).strip() + &#34; &#34; + (self.tail or &#34;&#34;).strip()).strip()
+        if value:
+            result[&#34;value&#34;] = value
+
+        attributes = {k.strip(): (v or &#34;&#34;).strip() for n, k, v, in self.attrib}
+        if attributes:
+            result[&#34;attributes&#34;] = attributes
+
+        children = [i.to_dict() for i in self.children]
+        if children:
+            result[&#34;children&#34;] = children
+
+        return result
+
+    def __str__(self):
+        &#34;&#34;&#34;Convert to a string.&#34;&#34;&#34;
+        tag1 = (self.tag or &#34;&#34;).strip()
+        tag2 = f&#34;&lt;/{tag1}&gt;&#34;
+        text = (self.text or &#34;&#34;).strip()
+        tail = (self.tail or &#34;&#34;).strip()
+
+        count = len(self.children)
+        if count == 0:
+            children = &#34;&#34;
+        elif count == 1:
+            children = &#34;(1 child)&#34;
+        else:
+            children = f&#34;({count} children)&#34;
+
+        if text and children:
+            children = &#34; &#34; + children
+
+        if not text and not children:
+            tag2 = &#34;&#34;
+
+        count_attrib = len(self.attrib)
+        if count_attrib == 0:
+            attrib = &#34;&#34;
+        elif count_attrib == 1:
+            attrib = &#34; (1 attribute)&#34;
+        else:
+            attrib = f&#34; ({count} attributes)&#34;
+
+        return f&#34;&lt;{tag1}{attrib}&gt;{text}{children}{tag2}{tail}&#34;
+
+
+def xml_to_element(element: Element) -&gt; XmlElement:
+    &#34;&#34;&#34;Convert xml into nested dicts.&#34;&#34;&#34;
+    attrib = element.attrib or {}
+    tag = element.tag
+    text = element.text
+    tail = element.tail
+    children = []
+
+    for child in element:
+        children.append(xml_to_element(child))
+
+    tag_ns, tag_name = xml_tag_ns(tag)
+
+    attrib_ns = []
+    for key, value in attrib.items():
+        extracted_ns, extracted_tag = xml_tag_ns(key)
+        attrib_ns.append((extracted_ns, extracted_tag, value))
+
+    item = XmlElement(
+        attrib=attrib_ns,
+        tag=tag_name,
+        name_space=tag_ns,
+        text=text,
+        tail=tail,
+        children=children,
+    )
+
+    return item
+
+
+def xml_tag_ns(value: str) -&gt; typing.Tuple[str, str]:
+    &#34;&#34;&#34;
+    Get the XML namespace and name.
+
+    :param value: The combined namespace and name
+    :return: The separate namespace and name
+    &#34;&#34;&#34;
+    if &#34;}&#34; in value:
+        name_space, name = value.rsplit(&#34;}&#34;, maxsplit=1)
+        name_space = name_space.strip(&#34;{}&#34;)
+    else:
+        name_space = &#34;&#34;
+        name = value
+
+    return name_space, name
+
+
+class LeafFocusException(Exception):
+    &#34;&#34;&#34;A custom error.&#34;&#34;&#34;
+
+    pass</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="leaf_focus.utils.get_name_dash"><code class="name flex">
+<span>def <span class="ident">get_name_dash</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the package name with word separated by dashes.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L16-L18" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def get_name_dash() -&gt; str:
+    &#34;&#34;&#34;Get the package name with word separated by dashes.&#34;&#34;&#34;
+    return &#34;leaf-focus&#34;</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.utils.get_name_under"><code class="name flex">
+<span>def <span class="ident">get_name_under</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the package name with word separated by underscores.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L21-L23" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def get_name_under() -&gt; str:
+    &#34;&#34;&#34;Get the package name with word separated by underscores.&#34;&#34;&#34;
+    return &#34;leaf_focus&#34;</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.utils.get_version"><code class="name flex">
+<span>def <span class="ident">get_version</span></span>(<span>) ‑> Optional[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the package version.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L26-L40" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def get_version() -&gt; typing.Optional[str]:
+    &#34;&#34;&#34;Get the package version.&#34;&#34;&#34;
+    try:
+        dist = distribution(get_name_dash())
+        return dist.version
+    except PackageNotFoundError:
+        pass
+
+    try:
+        with path(get_name_under(), &#34;cli.py&#34;) as file_path:
+            return (file_path.parent.parent.parent / &#34;VERSION&#34;).read_text().strip()
+    except FileNotFoundError:
+        pass
+
+    return None</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.utils.output_root"><code class="name flex">
+<span>def <span class="ident">output_root</span></span>(<span>input_file: pathlib.Path, output_type: str, output_path: pathlib.Path, additional: Optional[Collection[str]] = None) ‑> pathlib.Path</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Build the path to the output.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L94-L110" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def output_root(
+    input_file: pathlib.Path,
+    output_type: str,
+    output_path: pathlib.Path,
+    additional: typing.Optional[typing.Collection[str]] = None,
+) -&gt; pathlib.Path:
+    &#34;&#34;&#34;Build the path to the output.&#34;&#34;&#34;
+    name_parts = [input_file.stem, output_type]
+    name_parts.extend(additional or [])
+    name_parts = [str(i) for i in name_parts if i]
+    name_parts = [i.strip(&#34;-&#34;).strip() for i in name_parts if i and i.strip()]
+
+    name = &#34;-&#34;.join(name_parts).replace(&#34;.&#34;, &#34;-&#34;).replace(&#34;_&#34;, &#34;-&#34;)
+
+    output = output_path / name
+
+    return output</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.utils.parse_date"><code class="name flex">
+<span>def <span class="ident">parse_date</span></span>(<span>value: str) ‑> Optional[datetime.datetime]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a date from a string.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L43-L54" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def parse_date(value: str) -&gt; typing.Optional[datetime.datetime]:
+    &#34;&#34;&#34;Parse a date from a string.&#34;&#34;&#34;
+    formats = [
+        # e.g. &#39;Thu Aug 13 11:09:00 2020&#39;
+        &#34;%a %b %d %H:%M:%S %Y&#34;,
+    ]
+    for fmt in formats:
+        try:
+            return datetime.datetime.strptime(value, fmt)
+        except ValueError:
+            pass
+    return None</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.utils.select_exe"><code class="name flex">
+<span>def <span class="ident">select_exe</span></span>(<span>value: pathlib.Path) ‑> pathlib.Path</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Select the executable path based on the platform.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L82-L91" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def select_exe(value: pathlib.Path) -&gt; pathlib.Path:
+    &#34;&#34;&#34;Select the executable path based on the platform.&#34;&#34;&#34;
+    if platform.system() == &#34;Windows&#34;:
+        value = value.with_suffix(&#34;.exe&#34;)
+
+    if not value.exists():
+        msg = f&#34;Exe file not found &#39;{value}&#39;.&#34;
+        raise LeafFocusException(msg) from FileNotFoundError(value)
+
+    return value</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.utils.validate"><code class="name flex">
+<span>def <span class="ident">validate</span></span>(<span>name: str, value, expected: List) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Validate that a value is one of the expected values.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L57-L61" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def validate(name: str, value, expected: typing.List) -&gt; None:
+    &#34;&#34;&#34;Validate that a value is one of the expected values.&#34;&#34;&#34;
+    if value is not None and value not in expected:
+        opts = &#34;, &#34;.join(sorted([str(i) for i in expected]))
+        raise LeafFocusException(f&#34;Invalid {name} &#39;{value}&#39;. Expected one of &#39;{opts}&#39;.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.utils.validate_path"><code class="name flex">
+<span>def <span class="ident">validate_path</span></span>(<span>name: str, value: pathlib.Path, must_exist: bool = False) ‑> pathlib.Path</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Validate a path.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L64-L79" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def validate_path(
+    name: str, value: pathlib.Path, must_exist: bool = False
+) -&gt; pathlib.Path:
+    &#34;&#34;&#34;Validate a path.&#34;&#34;&#34;
+    if not value:
+        raise LeafFocusException(f&#34;Must provide path {name}.&#34;)
+
+    try:
+        if must_exist is True:
+            abs_path = value.resolve(strict=True)
+        else:
+            abs_path = value.absolute()
+
+        return abs_path
+    except Exception:
+        raise LeafFocusException(f&#34;Invalid path &#39;{value}&#39;.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.utils.xml_tag_ns"><code class="name flex">
+<span>def <span class="ident">xml_tag_ns</span></span>(<span>value: str) ‑> Tuple[str, str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the XML namespace and name.</p>
+<p>:param value: The combined namespace and name
+:return: The separate namespace and name</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L219-L233" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def xml_tag_ns(value: str) -&gt; typing.Tuple[str, str]:
+    &#34;&#34;&#34;
+    Get the XML namespace and name.
+
+    :param value: The combined namespace and name
+    :return: The separate namespace and name
+    &#34;&#34;&#34;
+    if &#34;}&#34; in value:
+        name_space, name = value.rsplit(&#34;}&#34;, maxsplit=1)
+        name_space = name_space.strip(&#34;{}&#34;)
+    else:
+        name_space = &#34;&#34;
+        name = value
+
+    return name_space, name</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.utils.xml_to_element"><code class="name flex">
+<span>def <span class="ident">xml_to_element</span></span>(<span>element: xml.etree.ElementTree.Element) ‑> <a title="leaf_focus.utils.XmlElement" href="#leaf_focus.utils.XmlElement">XmlElement</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert xml into nested dicts.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L189-L216" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def xml_to_element(element: Element) -&gt; XmlElement:
+    &#34;&#34;&#34;Convert xml into nested dicts.&#34;&#34;&#34;
+    attrib = element.attrib or {}
+    tag = element.tag
+    text = element.text
+    tail = element.tail
+    children = []
+
+    for child in element:
+        children.append(xml_to_element(child))
+
+    tag_ns, tag_name = xml_tag_ns(tag)
+
+    attrib_ns = []
+    for key, value in attrib.items():
+        extracted_ns, extracted_tag = xml_tag_ns(key)
+        attrib_ns.append((extracted_ns, extracted_tag, value))
+
+    item = XmlElement(
+        attrib=attrib_ns,
+        tag=tag_name,
+        name_space=tag_ns,
+        text=text,
+        tail=tail,
+        children=children,
+    )
+
+    return item</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="leaf_focus.utils.CustomJsonEncoder"><code class="flex name class">
+<span>class <span class="ident">CustomJsonEncoder</span></span>
+<span>(</span><span>*, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, sort_keys=False, indent=None, separators=None, default=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A custom json encoder.</p>
+<p>Constructor for JSONEncoder, with sensible defaults.</p>
+<p>If skipkeys is false, then it is a TypeError to attempt
+encoding of keys that are not str, int, float or None.
+If
+skipkeys is True, such items are simply skipped.</p>
+<p>If ensure_ascii is true, the output is guaranteed to be str
+objects with all incoming non-ASCII characters escaped.
+If
+ensure_ascii is false, the output can contain non-ASCII characters.</p>
+<p>If check_circular is true, then lists, dicts, and custom encoded
+objects will be checked for circular references during encoding to
+prevent an infinite recursion (which would cause an RecursionError).
+Otherwise, no such check takes place.</p>
+<p>If allow_nan is true, then NaN, Infinity, and -Infinity will be
+encoded as such.
+This behavior is not JSON specification compliant,
+but is consistent with most JavaScript based encoders and decoders.
+Otherwise, it will be a ValueError to encode such floats.</p>
+<p>If sort_keys is true, then the output of dictionaries will be
+sorted by key; this is useful for regression tests to ensure
+that JSON serializations can be compared on a day-to-day basis.</p>
+<p>If indent is a non-negative integer, then JSON array
+elements and object members will be pretty-printed with that
+indent level.
+An indent level of 0 will only insert newlines.
+None is the most compact representation.</p>
+<p>If specified, separators should be an (item_separator, key_separator)
+tuple.
+The default is (', ', ': ') if <em>indent</em> is <code>None</code> and
+(',', ': ') otherwise.
+To get the most compact JSON representation,
+you should specify (',', ':') to eliminate whitespace.</p>
+<p>If specified, default is a function that gets called for objects
+that can't otherwise be serialized.
+It should return a JSON encodable
+version of the object or raise a <code>TypeError</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L113-L121" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">class CustomJsonEncoder(json.JSONEncoder):
+    &#34;&#34;&#34;A custom json encoder.&#34;&#34;&#34;
+
+    def default(self, o):
+        &#34;&#34;&#34;Conversion used by default.&#34;&#34;&#34;
+        if isinstance(o, (datetime.datetime, datetime.date, datetime.time)):
+            return o.isoformat()
+
+        return super().default(o)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>json.encoder.JSONEncoder</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="leaf_focus.utils.CustomJsonEncoder.default"><code class="name flex">
+<span>def <span class="ident">default</span></span>(<span>self, o)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Conversion used by default.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L116-L121" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def default(self, o):
+    &#34;&#34;&#34;Conversion used by default.&#34;&#34;&#34;
+    if isinstance(o, (datetime.datetime, datetime.date, datetime.time)):
+        return o.isoformat()
+
+    return super().default(o)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="leaf_focus.utils.LeafFocusException"><code class="flex name class">
+<span>class <span class="ident">LeafFocusException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A custom error.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L236-L239" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">class LeafFocusException(Exception):
+    &#34;&#34;&#34;A custom error.&#34;&#34;&#34;
+
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="leaf_focus.utils.XmlElement"><code class="flex name class">
+<span>class <span class="ident">XmlElement</span></span>
+<span>(</span><span>attrib: Collection[Tuple[str, str, str]], tag: str, name_space: str, text: str, tail: str, children: Collection[ForwardRef('<a title="leaf_focus.utils.XmlElement" href="#leaf_focus.utils.XmlElement">XmlElement</a>')])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A simple xml element.</p>
+<p><tag attrib>text<child/>&hellip;</tag>tail</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L124-L186" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@dataclasses.dataclass
+class XmlElement:
+    &#34;&#34;&#34;
+    A simple xml element.
+
+    &lt;tag attrib&gt;text&lt;child/&gt;...&lt;/tag&gt;tail
+    &#34;&#34;&#34;
+
+    attrib: typing.Collection[typing.Tuple[str, str, str]]
+    tag: str
+    name_space: str
+    text: str
+    tail: str
+    children: typing.Collection[&#34;XmlElement&#34;]
+
+    def to_dict(self) -&gt; typing.Dict:
+        &#34;&#34;&#34;Convert xml element to a dict.&#34;&#34;&#34;
+        result: typing.Dict[str, typing.Any] = {&#34;name&#34;: self.tag.strip()}
+
+        value = ((self.text or &#34;&#34;).strip() + &#34; &#34; + (self.tail or &#34;&#34;).strip()).strip()
+        if value:
+            result[&#34;value&#34;] = value
+
+        attributes = {k.strip(): (v or &#34;&#34;).strip() for n, k, v, in self.attrib}
+        if attributes:
+            result[&#34;attributes&#34;] = attributes
+
+        children = [i.to_dict() for i in self.children]
+        if children:
+            result[&#34;children&#34;] = children
+
+        return result
+
+    def __str__(self):
+        &#34;&#34;&#34;Convert to a string.&#34;&#34;&#34;
+        tag1 = (self.tag or &#34;&#34;).strip()
+        tag2 = f&#34;&lt;/{tag1}&gt;&#34;
+        text = (self.text or &#34;&#34;).strip()
+        tail = (self.tail or &#34;&#34;).strip()
+
+        count = len(self.children)
+        if count == 0:
+            children = &#34;&#34;
+        elif count == 1:
+            children = &#34;(1 child)&#34;
+        else:
+            children = f&#34;({count} children)&#34;
+
+        if text and children:
+            children = &#34; &#34; + children
+
+        if not text and not children:
+            tag2 = &#34;&#34;
+
+        count_attrib = len(self.attrib)
+        if count_attrib == 0:
+            attrib = &#34;&#34;
+        elif count_attrib == 1:
+            attrib = &#34; (1 attribute)&#34;
+        else:
+            attrib = f&#34; ({count} attributes)&#34;
+
+        return f&#34;&lt;{tag1}{attrib}&gt;{text}{children}{tag2}{tail}&#34;</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="leaf_focus.utils.XmlElement.attrib"><code class="name">var <span class="ident">attrib</span> : Collection[Tuple[str, str, str]]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.utils.XmlElement.children"><code class="name">var <span class="ident">children</span> : Collection[<a title="leaf_focus.utils.XmlElement" href="#leaf_focus.utils.XmlElement">XmlElement</a>]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.utils.XmlElement.name_space"><code class="name">var <span class="ident">name_space</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.utils.XmlElement.tag"><code class="name">var <span class="ident">tag</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.utils.XmlElement.tail"><code class="name">var <span class="ident">tail</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="leaf_focus.utils.XmlElement.text"><code class="name">var <span class="ident">text</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="leaf_focus.utils.XmlElement.to_dict"><code class="name flex">
+<span>def <span class="ident">to_dict</span></span>(<span>self) ‑> Dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert xml element to a dict.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/utils.py#L139-L155" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def to_dict(self) -&gt; typing.Dict:
+    &#34;&#34;&#34;Convert xml element to a dict.&#34;&#34;&#34;
+    result: typing.Dict[str, typing.Any] = {&#34;name&#34;: self.tag.strip()}
+
+    value = ((self.text or &#34;&#34;).strip() + &#34; &#34; + (self.tail or &#34;&#34;).strip()).strip()
+    if value:
+        result[&#34;value&#34;] = value
+
+    attributes = {k.strip(): (v or &#34;&#34;).strip() for n, k, v, in self.attrib}
+    if attributes:
+        result[&#34;attributes&#34;] = attributes
+
+    children = [i.to_dict() for i in self.children]
+    if children:
+        result[&#34;children&#34;] = children
+
+    return result</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<form>
+<input id="lunr-search" name="q" placeholder="🔎 Search ..." aria-label="Search"
+disabled minlength="2">
+</form>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" integrity="sha512-j1u8eUJ4f23xPPxwOrLUPQaCD2dwzNqqmDDcWS4deWsMv2ohLqmXXuP3hU7g8TyzbMSakP/mMqoNBYWj8AEIFg==" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js" integrity="sha512-plGUER9JkeEWPPqQBE4sdLqBoQug5Ap+BCGMc7bJ8BXkm+VVj6QzkpBz5Yv2yPkkq+cqg9IpkBaGCas6uDbW8g==" crossorigin></script>
+<style>
+.modal-dialog iframe {
+width: 100vw;
+height: calc(100vh - 80px);
+}
+@media screen and (min-width: 700px) {
+.modal-dialog iframe {
+width: 70vw;
+height: 80vh;
+}
+}
+.modal-dialog .tingle-modal-box {width: auto;}
+.modal-dialog .tingle-modal-box__content {padding: 0;}
+</style>
+<script>
+const input = document.getElementById('lunr-search');
+input.disabled = false;
+input.form.addEventListener('submit', (ev) => {
+ev.preventDefault();
+const url = new URL(window.location);
+url.searchParams.set('q', input.value);
+history.replaceState({}, null, url.toString());
+search(input.value);
+});
+const query = new URL(window.location).searchParams.get('q');
+if (query)
+search(query);
+function search(query) {
+const url = '../doc-search.html#' + encodeURIComponent(query);
+new tingle.modal({
+cssClass: ['modal-dialog'],
+onClose: () => {
+const url = new URL(window.location);
+url.searchParams.delete('q');
+history.replaceState({}, null, url.toString());
+setTimeout(() => input.focus(), 100);
+}
+}).setContent('<iframe src="' + url + '"></iframe>').open();
+}
+</script>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="leaf_focus" href="index.html">leaf_focus</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="leaf_focus.utils.get_name_dash" href="#leaf_focus.utils.get_name_dash">get_name_dash</a></code></li>
+<li><code><a title="leaf_focus.utils.get_name_under" href="#leaf_focus.utils.get_name_under">get_name_under</a></code></li>
+<li><code><a title="leaf_focus.utils.get_version" href="#leaf_focus.utils.get_version">get_version</a></code></li>
+<li><code><a title="leaf_focus.utils.output_root" href="#leaf_focus.utils.output_root">output_root</a></code></li>
+<li><code><a title="leaf_focus.utils.parse_date" href="#leaf_focus.utils.parse_date">parse_date</a></code></li>
+<li><code><a title="leaf_focus.utils.select_exe" href="#leaf_focus.utils.select_exe">select_exe</a></code></li>
+<li><code><a title="leaf_focus.utils.validate" href="#leaf_focus.utils.validate">validate</a></code></li>
+<li><code><a title="leaf_focus.utils.validate_path" href="#leaf_focus.utils.validate_path">validate_path</a></code></li>
+<li><code><a title="leaf_focus.utils.xml_tag_ns" href="#leaf_focus.utils.xml_tag_ns">xml_tag_ns</a></code></li>
+<li><code><a title="leaf_focus.utils.xml_to_element" href="#leaf_focus.utils.xml_to_element">xml_to_element</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="leaf_focus.utils.CustomJsonEncoder" href="#leaf_focus.utils.CustomJsonEncoder">CustomJsonEncoder</a></code></h4>
+<ul class="">
+<li><code><a title="leaf_focus.utils.CustomJsonEncoder.default" href="#leaf_focus.utils.CustomJsonEncoder.default">default</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="leaf_focus.utils.LeafFocusException" href="#leaf_focus.utils.LeafFocusException">LeafFocusException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="leaf_focus.utils.XmlElement" href="#leaf_focus.utils.XmlElement">XmlElement</a></code></h4>
+<ul class="two-column">
+<li><code><a title="leaf_focus.utils.XmlElement.attrib" href="#leaf_focus.utils.XmlElement.attrib">attrib</a></code></li>
+<li><code><a title="leaf_focus.utils.XmlElement.children" href="#leaf_focus.utils.XmlElement.children">children</a></code></li>
+<li><code><a title="leaf_focus.utils.XmlElement.name_space" href="#leaf_focus.utils.XmlElement.name_space">name_space</a></code></li>
+<li><code><a title="leaf_focus.utils.XmlElement.tag" href="#leaf_focus.utils.XmlElement.tag">tag</a></code></li>
+<li><code><a title="leaf_focus.utils.XmlElement.tail" href="#leaf_focus.utils.XmlElement.tail">tail</a></code></li>
+<li><code><a title="leaf_focus.utils.XmlElement.text" href="#leaf_focus.utils.XmlElement.text">text</a></code></li>
+<li><code><a title="leaf_focus.utils.XmlElement.to_dict" href="#leaf_focus.utils.XmlElement.to_dict">to_dict</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
