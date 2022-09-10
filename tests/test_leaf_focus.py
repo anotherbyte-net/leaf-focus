@@ -1,13 +1,13 @@
 import logging
 import os
 import pathlib
-import platform
 import shutil
 import sys
 from datetime import datetime
-from importlib.resources import path
+
 
 import pytest
+from importlib_resources import as_file, files
 
 from leaf_focus import utils
 from leaf_focus.cli import main
@@ -16,16 +16,30 @@ from leaf_focus.ocr.model import TextItem
 from leaf_focus.pdf.model import XpdfImageArgs, XpdfInfoArgs, XpdfTextArgs
 from leaf_focus.pdf.xpdf import XpdfProgram
 
+keras_max_version_minor = 9
 
-@pytest.mark.skipif(
-    not os.getenv("TEST_XPDF_EXE_DIR")
-    or not pathlib.Path(os.getenv("TEST_XPDF_EXE_DIR")).exists(),
-    reason="Requires xpdf executable pdfinfo",
+check_skip_xpdf_exe_dir_msg = "Test requires xpdf executable pdfinfo, specify the path using env var 'TEST_XPDF_EXE_DIR'."
+check_skip_slow_msg = (
+    "Test is slow, run it by specifying env var 'TEST_INCLUDE_SLOW=true'."
 )
+
+
+def check_skip_xpdf_exe_dir():
+    test_exe_dir = os.getenv("TEST_XPDF_EXE_DIR")
+    return not test_exe_dir or not pathlib.Path(test_exe_dir).exists()
+
+
+def check_skip_slow():
+    return os.getenv("TEST_INCLUDE_SLOW") != "true"
+
+
+@pytest.mark.skipif(check_skip_xpdf_exe_dir(), reason=check_skip_xpdf_exe_dir_msg)
 def test_xpdf_info(resource_example1, tmp_path):
     package = resource_example1["package"]
+    package_path = files(package)
+
     pdf_file = resource_example1["pdf"]
-    with path(package, pdf_file) as p:
+    with as_file(package_path.joinpath(pdf_file)) as p:
         pdf_path = p
 
     output_path = tmp_path / "output-dir"
@@ -126,15 +140,13 @@ def test_xpdf_info(resource_example1, tmp_path):
     }
 
 
-@pytest.mark.skipif(
-    not os.getenv("TEST_XPDF_EXE_DIR")
-    or not pathlib.Path(os.getenv("TEST_XPDF_EXE_DIR")).exists(),
-    reason="Requires xpdf executable pdftotext",
-)
+@pytest.mark.skipif(check_skip_xpdf_exe_dir(), reason=check_skip_xpdf_exe_dir_msg)
 def test_xpdf_text(resource_example1, tmp_path):
     package = resource_example1["package"]
+    package_path = files(package)
+
     pdf = resource_example1["pdf"]
-    with path(package, pdf) as p:
+    with as_file(package_path.joinpath(pdf)) as p:
         pdf_path = p
 
     output_path = tmp_path / "output-dir"
@@ -155,19 +167,14 @@ def test_xpdf_text(resource_example1, tmp_path):
     )
 
 
-@pytest.mark.skipif(
-    not os.getenv("TEST_XPDF_EXE_DIR")
-    or not pathlib.Path(os.getenv("TEST_XPDF_EXE_DIR")).exists(),
-    reason="Requires xpdf executable pdftopng",
-)
-@pytest.mark.skipif(
-    os.getenv("TEST_INCLUDE_SLOW") != "true",
-    reason="This is a slow test, specify env var 'TEST_INCLUDE_SLOW=true' to run it",
-)
+@pytest.mark.skipif(check_skip_xpdf_exe_dir(), reason=check_skip_xpdf_exe_dir_msg)
+@pytest.mark.skipif(check_skip_slow(), reason=check_skip_slow_msg)
 def test_xpdf_image(resource_example1, tmp_path):
     package = resource_example1["package"]
+    package_path = files(package)
+
     pdf = resource_example1["pdf"]
-    with path(package, pdf) as p:
+    with as_file(package_path.joinpath(pdf)) as p:
         pdf_path = p
 
     output_path = tmp_path / "output-dir"
@@ -184,14 +191,13 @@ def test_xpdf_image(resource_example1, tmp_path):
     assert result.output_files[0].name.endswith("-000022.png")
 
 
-@pytest.mark.skipif(
-    os.getenv("TEST_INCLUDE_SLOW") != "true",
-    reason="This is a slow test, specify env var 'TEST_INCLUDE_SLOW=true' to run it",
-)
+@pytest.mark.skipif(check_skip_slow(), reason=check_skip_slow_msg)
 def test_keras_ocr_image(resource_example1, tmp_path, capsys):
     package = resource_example1["package"]
+    package_path = files(package)
+
     pdf_pg22_image = resource_example1["page_22_image"]
-    with path(package, pdf_pg22_image) as p:
+    with as_file(package_path.joinpath(pdf_pg22_image)) as p:
         image_file = p
 
     output_path = tmp_path / "output-dir"
@@ -199,7 +205,7 @@ def test_keras_ocr_image(resource_example1, tmp_path, capsys):
 
     prog = OpticalCharacterRecognition()
 
-    if sys.version_info.major == 3 and sys.version_info.minor > 9:
+    if sys.version_info.major == 3 and sys.version_info.minor > keras_max_version_minor:
         with pytest.raises(
             utils.LeafFocusException, match="Cannot run ocr on this Python version."
         ):
@@ -231,18 +237,20 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
     output_dir.mkdir(exist_ok=True, parents=True)
 
     package = resource_example1["package"]
+    package_path = files(package)
+
     pdf_name = resource_example1["pdf"]
-    with path(package, pdf_name) as p:
+    with as_file(package_path.joinpath(pdf_name)) as p:
         shutil.copyfile(p, output_dir / p.name)
-    with path(package, resource_example1["page_22_image"]) as p:
+    with as_file(package_path.joinpath(resource_example1["page_22_image"])) as p:
         shutil.copyfile(p, output_dir / p.name)
-    with path(package, resource_example1["info"]) as p:
+    with as_file(package_path.joinpath(resource_example1["info"])) as p:
         shutil.copyfile(p, output_dir / p.name)
-    with path(package, resource_example1["embedded_text"]) as p:
+    with as_file(package_path.joinpath(resource_example1["embedded_text"])) as p:
         shutil.copyfile(p, output_dir / p.name)
-    with path(package, resource_example1["page_22_annotations"]) as p:
+    with as_file(package_path.joinpath(resource_example1["page_22_annotations"])) as p:
         shutil.copyfile(p, output_dir / p.name)
-    with path(package, resource_example1["page_22_predictions"]) as p:
+    with as_file(package_path.joinpath(resource_example1["page_22_predictions"])) as p:
         shutil.copyfile(p, output_dir / p.name)
 
     exe_dir = tmp_path / "exe_dir"

@@ -8,8 +8,7 @@ import typing
 import datetime
 from xml.etree.ElementTree import Element
 
-from importlib.resources import path
-
+from importlib_resources import as_file, files
 from importlib_metadata import distribution, PackageNotFoundError
 
 
@@ -32,7 +31,7 @@ def get_version() -> typing.Optional[str]:
         pass
 
     try:
-        with path(get_name_under(), "cli.py") as file_path:
+        with as_file(files(get_name_under()).joinpath("cli.py")) as file_path:
             return (file_path.parent.parent.parent / "VERSION").read_text().strip()
     except FileNotFoundError:
         pass
