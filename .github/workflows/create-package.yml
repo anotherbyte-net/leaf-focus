@@ -34,17 +34,19 @@ jobs:
           python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
           echo "::endgroup::"
 
-      - name: Run tests and linters
+      - name: Run tests
         run: |
           echo "::group::Tests - Run tests with coverage"
-          python -X dev -m pytest --doctest-modules --junitxml=pytest-coverage-${{ matrix.python-version }}.xml \
-            --cov-report=term-missing:skip-covered --cov=src/ tests/ | tee pytest-coverage-${{ matrix.python-version }}.txt
+          python -X dev -m pytest --doctest-modules --junitxml=artifacts-${{ matrix.python-version }}/pytest-coverage.xml \
+            --cov-report=term-missing:skip-covered --cov=src/ tests/ | tee artifacts-${{ matrix.python-version }}/pytest-coverage.txt
           echo "::endgroup::"
           
           echo "::group::Tests - Coverage report"
           python -X dev -m coverage report || true
           echo "::endgroup::"
-          
+
+      - name: Run linters
+        run: |
           echo "::group::Linter - mypy"
           python -X dev -m mypy --junit-xml artifacts-${{ matrix.python-version }}/mypy.xml src || true
           echo "::endgroup::"
@@ -77,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: artifacts-${{ matrix.python-version }}
-          path: artifacts-${{ matrix.python-version }}/*.xml
+          path: artifacts-${{ matrix.python-version }}/*
         # Use always() to always run this step to publish test results when there are test failures
         if: ${{ always() }}
 
@@ -112,10 +114,10 @@ jobs:
           echo "::endgroup::"
 
       - name: Pytest coverage comment
-        uses: MishaKav/pytest-coverage-comment@v1
+        uses: MishaKav/pytest-coverage-comment@v1.1.35
         with:
-          pytest-coverage-path: ./pytest-coverage-${{ matrix.python-version }}.txt
-          junitxml-path: ./pytest-coverage-${{ matrix.python-version }}.xml
+          pytest-coverage-path: ./artifacts-${{ matrix.python-version }}/pytest-coverage.txt
+          junitxml-path: ./artifacts-${{ matrix.python-version }}/pytest-coverage.xml
 
 # TODO
 #      - name: Publish distribution always to Test PyPI
