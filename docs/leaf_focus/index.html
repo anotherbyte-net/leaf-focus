@@ -26,6 +26,9 @@
 <h1 id="leaf-focus">leaf-focus</h1>
 <p>Extract structured text from pdf files.</p>
 <h2 id="install">Install</h2>
+<p>Install from PyPI using pip:</p>
+<pre><code class="language-bash">pip install leaf-focus
+</code></pre>
 <p>Download the <a href="https://www.xpdfreader.com/download.html">Xpdf command line tools</a> and extract the executable files.</p>
 <p>Provide the directory containing the executable files as <code>--exe-dir</code>.</p>
 <h2 id="usage">Usage</h2>
@@ -59,12 +62,6 @@ leaf-focus --exe-dir [path-to-xpdf-exe-dir] file.pdf file-pages
 # Extract the pdf information, embedded text, an image of each page, and Optical Character Recognition results of each page.
 leaf-focus --exe-dir [path-to-xpdf-exe-dir] file.pdf file-pages --ocr
 </code></pre>
-<h2 id="development">Development</h2>
-<p>Generate the docs using pdoc3:</p>
-<pre><code class="language-bash">pdoc --html --output-dir docs src/leaf_focus --force \
-  --config &quot;lunr_search={'fuzziness': 1, 'index_docstrings': True}&quot; \
-  --config &quot;git_link_template='https://github.com/anotherbyte-net/leaf-focus/blob/{commit}/{path}#L{start_line}-L{end_line}'&quot;
-</code></pre>
 <h1 id="change-log">Change log</h1>
 <h2 id="initial-release-v01a1">Initial release <a href="https://github.com/anotherbyte-net/leaf-focus/releases/tag/v0.1a1">v0.1a1</a></h2>
 <p><em>not released yet</em></p>
@@ -77,7 +74,7 @@ leaf-focus --exe-dir [path-to-xpdf-exe-dir] file.pdf file-pages --ocr
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/e71cc464cfcff762b6e6954b83b42a0d9559a65b/src/leaf_focus/__init__.py#L1-L6" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/02b676ce8552b062c0b0047398651726daec1dc1/src/leaf_focus/__init__.py#L1-L6" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;
 Documentation for the leaf focus package.
@@ -175,7 +172,6 @@ setTimeout(() => input.focus(), 100);
 <li><a href="#examples">Examples</a></li>
 </ul>
 </li>
-<li><a href="#development">Development</a></li>
 </ul>
 </li>
 <li><a href="#change-log">Change log</a><ul>
