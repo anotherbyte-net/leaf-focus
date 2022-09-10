@@ -52,16 +52,25 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@master
-        # To make sure that SARIF upload gets called
-        continue-on-error: true
+      - name: Install snyk to check for vulnerabilities
+        uses: snyk/actions/setup@master
+
+      - name: Run Snyk over the runtime dependencies
+        run: snyk test --sarif-file-output=snyk-requirements.sarif --command=python --file=requirements.txt --package-manager=pip --skip-unresolved
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk.sarif
 
-      - name: Upload result to GitHub Code Scanning
+      - name: Upload Snyk runtime dependencies scan result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: snyk.sarif
+          sarif_file: snyk-requirements.sarif
+
+      - name: Run Snyk over the developmnet dependencies
+        run: snyk test --sarif-file-output=snyk-requirements-dev.sarif --command=python --file=requirements-dev.txt --package-manager=pip --skip-unresolved
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Upload Snyk developmnet dependencies scan result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk-requirements-dev.sarif

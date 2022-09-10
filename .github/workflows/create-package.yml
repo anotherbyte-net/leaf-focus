@@ -45,6 +45,12 @@ jobs:
           python -X dev -m coverage report || true
           echo "::endgroup::"
 
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@v1.1.35
+        with:
+          pytest-coverage-path: ./artifact-${{ matrix.python-version }}-pytest-coverage.txt
+          junitxml-path: ./artifact-${{ matrix.python-version }}-pytest-coverage.xml
+
       - name: Run linters
         run: |
           echo "::group::Linter - mypy"
@@ -112,12 +118,6 @@ jobs:
           echo "::group::Build package"
           python -m build --sdist --wheel --outdir dist/ .
           echo "::endgroup::"
-
-      - name: Pytest coverage comment
-        uses: MishaKav/pytest-coverage-comment@v1.1.35
-        with:
-          pytest-coverage-path: ./artifact-${{ matrix.python-version }}-pytest-coverage.txt
-          junitxml-path: ./artifact-${{ matrix.python-version }}-pytest-coverage.xml
 
 # TODO
 #      - name: Publish distribution always to Test PyPI
