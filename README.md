@@ -4,9 +4,16 @@ Extract structured text from pdf files.
 
 ## Install
 
+Install from PyPI using pip:
+
+```bash
+pip install leaf-focus
+```
+
 Download the [Xpdf command line tools](https://www.xpdfreader.com/download.html) and extract the executable files.
 
 Provide the directory containing the executable files as `--exe-dir`.
+
 
 ## Usage
 
@@ -43,14 +50,4 @@ leaf-focus --exe-dir [path-to-xpdf-exe-dir] file.pdf file-pages
 
 # Extract the pdf information, embedded text, an image of each page, and Optical Character Recognition results of each page.
 leaf-focus --exe-dir [path-to-xpdf-exe-dir] file.pdf file-pages --ocr
-```
-
-## Development
-
-Generate the docs using pdoc3:
-
-```bash
-pdoc --html --output-dir docs src/leaf_focus --force \
-  --config "lunr_search={'fuzziness': 1, 'index_docstrings': True}" \
-  --config "git_link_template='https://github.com/anotherbyte-net/leaf-focus/blob/{commit}/{path}#L{start_line}-L{end_line}'"
 ```
