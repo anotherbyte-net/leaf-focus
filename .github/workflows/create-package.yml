@@ -37,8 +37,12 @@ jobs:
       - name: Run tests
         run: |
           echo "::group::Tests - Run tests with coverage"
-          python -X dev -m pytest --doctest-modules --junitxml=artifact-${{ matrix.python-version }}-pytest-coverage.xml \
-            --cov-report=term-missing:skip-covered --cov=src/ tests/ | tee artifact-${{ matrix.python-version }}-pytest-coverage.txt
+          (
+            set -o pipefail
+            python -X dev -m pytest --doctest-modules \
+              --junitxml=artifact-${{ matrix.python-version }}-pytest-coverage.xml \
+              --cov-report=term-missing:skip-covered --cov=src/ tests/ | tee artifact-${{ matrix.python-version }}-pytest-coverage.txt
+          )
           echo "::endgroup::"
           
           echo "::group::Tests - Coverage report"
@@ -46,6 +50,7 @@ jobs:
           echo "::endgroup::"
 
       - name: Pytest coverage comment
+        if: matrix.python-version == '3.9'
         uses: MishaKav/pytest-coverage-comment@v1.1.35
         with:
           pytest-coverage-path: ./artifact-${{ matrix.python-version }}-pytest-coverage.txt

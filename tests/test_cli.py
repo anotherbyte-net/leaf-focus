@@ -41,7 +41,6 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
             "--ocr",
         ]
     )
-    assert result == 0
 
     stdout, stderr = capsys.readouterr()
     assert stdout == ""
@@ -63,3 +62,5 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
     assert caplog.record_tuples[-1][0] == "leaf_focus.app"
     assert caplog.record_tuples[-1][1] == 20
     assert caplog.record_tuples[-1][2].startswith("Finished (duration 0:00:0")
+
+    assert result == 0

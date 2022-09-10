@@ -33,7 +33,11 @@ python -X dev -m tox
 
 # Tests - Run tests with coverage
 python -X dev -m coverage run -m pytest --tb=line --doctest-modules
-python -X dev -m pytest --doctest-modules --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=src/ tests/ | tee pytest-coverage.txt
+(
+  set -o pipefail
+  python -X dev -m pytest --doctest-modules --junitxml=pytest.xml \
+    --cov-report=term-missing:skip-covered --cov=src/ tests/ | tee pytest-coverage.txt
+)
 
 # Tests - Coverage report
 python -X dev -m coverage report
