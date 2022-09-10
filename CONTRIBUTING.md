@@ -71,18 +71,53 @@ pdoc --html --output-dir docs src/leaf_focus --force \
 
 ## Create and upload release
 
-```bash
-#  generate the distribution package archives
-python -X dev -m build
+Generate the distribution package archives.
 
-# upload archives to Test PyPI first
+```bash
+python -X dev -m build
+```
+
+Upload archives to Test PyPI first.
+
+```bash
 python -X dev -m twine upload --repository testpypi dist/*
 ```
+
 When uploading:
 
 - for username, use `__token__`
 - for password, create a token at https://test.pypi.org/manage/account/#api-tokens
 
-Go to the [project page](https://test.pypi.org/project/leaf-focus) and check that it looks ok.
+Go to the [test project page](https://test.pypi.org/project/leaf-focus) and check that it looks ok.
 
-(TODO: upload to prod PyPI)
+Then create a new virtual environment, install the dependencies, and install from Test PyPI.
+
+```bash
+python -m venv .venv-test
+source .venv-test/bin/activate
+python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
+pip install --index-url https://test.pypi.org/simple/ --no-deps leaf-focus
+```
+
+Test the installed package.
+
+```bash
+leaf-focus --version
+leaf-focus --help
+leaf-focus tests/resources/example1/452.06-win10-win8-win7-release-notes.pdf .pypi-test/ --ocr --exe-dir [path-to-xpdf-exe-dir]
+```
+
+If the package seems to work as expected, upload it to the live PyPI.
+
+```bash
+python -X dev -m twine upload dist/*
+```
+
+When uploading:
+
+- for username, use `__token__`
+- for password, create a token at https://pypi.org/manage/account/#api-tokens
+
+Go to the [live project page](https://pypi.org/project/leaf-focus) and check that it looks ok.
+
+Done!

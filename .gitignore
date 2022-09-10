@@ -130,6 +130,8 @@ env.bak/
 venv.bak/
 .env-test
 .local/
+.venv-test/
+.pypi-test/
 
 # Spyder project settings
 .spyderproject
