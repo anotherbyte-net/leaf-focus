@@ -96,7 +96,7 @@ envlist = py37,py38,py39,py310,py311
 toxworkdir = {homedir}/tox-app
 
 [testenv]
-recreate = true
+# recreate = true
 deps =
     -r requirements.txt
     -r requirements-dev.txt

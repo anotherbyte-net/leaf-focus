@@ -115,7 +115,7 @@ class OpticalCharacterRecognition:
         )
 
         try:
-            import keras_ocr
+            import keras_ocr  # noqa: C0415
         except ModuleNotFoundError as e:
             msg = "Cannot run ocr on this Python version."
             logger.error(msg)
