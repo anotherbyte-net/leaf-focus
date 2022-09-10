@@ -37,8 +37,8 @@ jobs:
       - name: Run tests
         run: |
           echo "::group::Tests - Run tests with coverage"
-          python -X dev -m pytest --doctest-modules --junitxml=artifacts-${{ matrix.python-version }}/pytest-coverage.xml \
-            --cov-report=term-missing:skip-covered --cov=src/ tests/ | tee artifacts-${{ matrix.python-version }}/pytest-coverage.txt
+          python -X dev -m pytest --doctest-modules --junitxml=artifact-${{ matrix.python-version }}-pytest-coverage.xml \
+            --cov-report=term-missing:skip-covered --cov=src/ tests/ | tee artifact-${{ matrix.python-version }}-pytest-coverage.txt
           echo "::endgroup::"
           
           echo "::group::Tests - Coverage report"
@@ -48,7 +48,7 @@ jobs:
       - name: Run linters
         run: |
           echo "::group::Linter - mypy"
-          python -X dev -m mypy --junit-xml artifacts-${{ matrix.python-version }}/mypy.xml src || true
+          python -X dev -m mypy --junit-xml artifact-${{ matrix.python-version }}-mypy.xml src || true
           echo "::endgroup::"
           
           echo "::group::Linter - black"
@@ -79,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: artifacts-${{ matrix.python-version }}
-          path: artifacts-${{ matrix.python-version }}/*
+          path: artifact-${{ matrix.python-version }}*
         # Use always() to always run this step to publish test results when there are test failures
         if: ${{ always() }}
 
@@ -116,8 +116,8 @@ jobs:
       - name: Pytest coverage comment
         uses: MishaKav/pytest-coverage-comment@v1.1.35
         with:
-          pytest-coverage-path: ./artifacts-${{ matrix.python-version }}/pytest-coverage.txt
-          junitxml-path: ./artifacts-${{ matrix.python-version }}/pytest-coverage.xml
+          pytest-coverage-path: ./artifact-${{ matrix.python-version }}-pytest-coverage.txt
+          junitxml-path: ./artifact-${{ matrix.python-version }}-pytest-coverage.xml
 
 # TODO
 #      - name: Publish distribution always to Test PyPI
