@@ -65,6 +65,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk-requirements.sarif
+          category: requirements-runtime
 
       - name: Run Snyk over the developmnet dependencies
         run: snyk test --sarif-file-output=snyk-requirements-dev.sarif --command=python --file=requirements-dev.txt --package-manager=pip --skip-unresolved
@@ -76,3 +77,4 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk-requirements-dev.sarif
+          category: requirements-dev
