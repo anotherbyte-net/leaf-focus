@@ -14,6 +14,7 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
     package_path = files(package)
 
     pdf_name = resource_example1["pdf"]
+    normalised_stem = resource_example1["normalised_stem"]
     with as_file(package_path.joinpath(pdf_name)) as p:
         shutil.copyfile(p, output_dir / p.name)
     with as_file(package_path.joinpath(resource_example1["page_22_image"])) as p:
@@ -21,7 +22,9 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
     with as_file(package_path.joinpath(resource_example1["info"])) as p:
         shutil.copyfile(p, output_dir / p.name)
     with as_file(package_path.joinpath(resource_example1["embedded_text"])) as p:
-        shutil.copyfile(p, output_dir / p.name)
+        shutil.copyfile(
+            p, output_dir / f"{normalised_stem}-output-f-22-l-22-layout-eol-dos.txt"
+        )
     with as_file(package_path.joinpath(resource_example1["page_22_annotations"])) as p:
         shutil.copyfile(p, output_dir / p.name)
     with as_file(package_path.joinpath(resource_example1["page_22_predictions"])) as p:
@@ -39,6 +42,10 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
             "--exe-dir",
             str(exe_dir),
             "--ocr",
+            "--first",
+            "22",
+            "--last",
+            "22",
         ]
     )
 
@@ -46,7 +53,6 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
     assert stdout == ""
     assert stderr == ""
 
-    assert len(caplog.record_tuples) == 7
     assert caplog.record_tuples[:-1] == [
         ("leaf_focus.app", 20, "Starting leaf-focus"),
         ("leaf_focus.app", 20, f"Using output directory '{output_dir}'."),
@@ -62,5 +68,7 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
     assert caplog.record_tuples[-1][0] == "leaf_focus.app"
     assert caplog.record_tuples[-1][1] == 20
     assert caplog.record_tuples[-1][2].startswith("Finished (duration 0:00:0")
+
+    assert len(caplog.record_tuples) == 7
 
     assert result == 0
