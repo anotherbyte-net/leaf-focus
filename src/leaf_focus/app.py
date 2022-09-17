@@ -4,13 +4,11 @@ import dataclasses
 import datetime
 import logging
 import pathlib
-import platform
 import typing
 
 from leaf_focus import utils
 from leaf_focus.ocr import keras_ocr
 from leaf_focus.pdf import model, xpdf
-
 
 logger = logging.getLogger(__name__)
 
@@ -92,7 +90,7 @@ class App:
 
         # pdf embedded text
         xpdf_text_args = model.XpdfTextArgs(
-            line_end_type=self.get_line_ending(),
+            line_end_type=model.XpdfTextArgs.get_line_ending(),
             use_original_layout=True,
             first_page=app_args.first_page,
             last_page=app_args.last_page,
@@ -115,18 +113,3 @@ class App:
         program_duration = timestamp_finish - timestamp_start
         logger.info("Finished (duration %s)", program_duration)
         return True
-
-    def get_line_ending(self) -> str:
-        """
-        Get the line endings based on the current platform.
-
-        :return: the line ending style
-        """
-        opts = {
-            "Linux": "unix",
-            "Darwin": "mac",
-            "Windows": "dos",
-        }
-        plat = platform.system()
-
-        return opts[plat]

@@ -101,14 +101,8 @@ deps =
     -r requirements.txt
     -r requirements-dev.txt
 commands =
-    coverage run -m pytest
     leaf-focus --help
-    # black --check src
-    # flake8 src --count --show-source --statistics
-    # pydocstyle src
-    # mypy src
-    # pylint src
-    # pyright src
+    python -X dev -m pytest --doctest-modules --junitxml=pytest-coverage.xml.cover --cov-report=term-missing:skip-covered --cov=src/ tests/
 setenv   =
     TEST_XPDF_EXE_DIR = {env:TEST_XPDF_EXE_DIR:}
     TEST_INCLUDE_SLOW = {env:TEST_INCLUDE_SLOW:}

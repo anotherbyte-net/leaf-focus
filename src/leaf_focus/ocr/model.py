@@ -202,7 +202,7 @@ class TextItem:
     def save(cls, path: pathlib.Path, items: typing.List["TextItem"]) -> None:
         """Save found text items to a file."""
 
-        logger.debug("Saving %s OCR items.", len(items))
+        logger.debug("Saving %s OCR output items.", len(items))
 
         fields = [
             "text",
@@ -231,7 +231,7 @@ class TextItem:
     def load(cls, path: pathlib.Path) -> typing.Generator["TextItem", typing.Any, None]:
         """Load found text items from a file."""
 
-        logger.debug("Loading OCR items.")
+        logger.debug("Loading OCR output items.")
         count = 0
 
         with open(path, "rt", encoding="utf8") as file_path:

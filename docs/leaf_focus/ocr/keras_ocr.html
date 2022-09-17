@@ -26,7 +26,7 @@
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/34270681eb1068cbac5bf53072f3f80a1ffdc2cd/src/leaf_focus/ocr/keras_ocr.py#L1-L221" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/keras_ocr.py#L1-L227" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;OCR using keras-ocr.&#34;&#34;&#34;
 import logging
@@ -48,7 +48,7 @@ class OpticalCharacterRecognition:
     def __init__(self):
         self._pipeline = None
 
-    def create_engine(self) -&gt; None:
+    def engine_create(self) -&gt; None:
         &#34;&#34;&#34;Create the OCR engine.&#34;&#34;&#34;
         if self._pipeline is not None:
             return
@@ -104,6 +104,31 @@ class OpticalCharacterRecognition:
             detector=detector, recognizer=recognizer
         )
 
+    def engine_run(
+        self, image_file: pathlib.Path
+    ) -&gt; typing.Tuple[typing.List, typing.Any]:
+        try:
+            import keras_ocr  # noqa: C0415
+        except ModuleNotFoundError as e:
+            msg = &#34;Cannot run ocr on this Python version.&#34;
+            logger.error(msg)
+            raise utils.LeafFocusException(msg) from e
+
+        self.engine_create()
+
+        images = [keras_ocr.tools.read(str(image_file))]
+        return images, self._pipeline.recognize(images)
+
+    def engine_annotate(self, image, predictions, axis) -&gt; None:
+        try:
+            import keras_ocr  # noqa: C0415
+        except ModuleNotFoundError as e:
+            msg = &#34;Cannot run ocr on this Python version.&#34;
+            logger.error(msg)
+            raise utils.LeafFocusException(msg) from e
+
+        keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)
+
     def recognise_text(
         self, image_file: pathlib.Path, output_dir: pathlib.Path
     ) -&gt; model.KerasOcrResult:
@@ -144,22 +169,9 @@ class OpticalCharacterRecognition:
             f&#34;Creating predictions and annotations files for &#39;{image_file.stem}&#39;.&#34;
         )
 
-        try:
-            import keras_ocr  # noqa: C0415
-        except ModuleNotFoundError as e:
-            msg = &#34;Cannot run ocr on this Python version.&#34;
-            logger.error(msg)
-            raise utils.LeafFocusException(msg) from e
-
-        self.create_engine()
-
-        images = [
-            keras_ocr.tools.read(str(image_file)),
-        ]
-
         # Each list of predictions in prediction_groups is a list of
         # (word, box) tuples.
-        prediction_groups = self._pipeline.recognize(images)
+        images, prediction_groups = self.engine_run(image_file)
 
         # Plot and save the predictions
         for image, predictions in zip(images, prediction_groups):
@@ -200,14 +212,8 @@ class OpticalCharacterRecognition:
 
         fig, axis = plt.subplots(figsize=(20, 20))
 
-        try:
-            import keras_ocr  # noqa: C0415
-        except ModuleNotFoundError as e:
-            msg = &#34;Cannot run ocr on this Python version.&#34;
-            logger.error(msg)
-            raise utils.LeafFocusException(msg) from e
+        self.engine_annotate(image, predictions, axis)
 
-        keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)
         fig.savefig(str(annotation_file))
         plt.close(fig)
 
@@ -268,7 +274,7 @@ class OpticalCharacterRecognition:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/34270681eb1068cbac5bf53072f3f80a1ffdc2cd/src/leaf_focus/ocr/keras_ocr.py#L15-L221" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/keras_ocr.py#L15-L227" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class OpticalCharacterRecognition:
     &#34;&#34;&#34;OCR implementation using keras-ocr.&#34;&#34;&#34;
@@ -276,7 +282,7 @@ class OpticalCharacterRecognition:
     def __init__(self):
         self._pipeline = None
 
-    def create_engine(self) -&gt; None:
+    def engine_create(self) -&gt; None:
         &#34;&#34;&#34;Create the OCR engine.&#34;&#34;&#34;
         if self._pipeline is not None:
             return
@@ -332,6 +338,31 @@ class OpticalCharacterRecognition:
             detector=detector, recognizer=recognizer
         )
 
+    def engine_run(
+        self, image_file: pathlib.Path
+    ) -&gt; typing.Tuple[typing.List, typing.Any]:
+        try:
+            import keras_ocr  # noqa: C0415
+        except ModuleNotFoundError as e:
+            msg = &#34;Cannot run ocr on this Python version.&#34;
+            logger.error(msg)
+            raise utils.LeafFocusException(msg) from e
+
+        self.engine_create()
+
+        images = [keras_ocr.tools.read(str(image_file))]
+        return images, self._pipeline.recognize(images)
+
+    def engine_annotate(self, image, predictions, axis) -&gt; None:
+        try:
+            import keras_ocr  # noqa: C0415
+        except ModuleNotFoundError as e:
+            msg = &#34;Cannot run ocr on this Python version.&#34;
+            logger.error(msg)
+            raise utils.LeafFocusException(msg) from e
+
+        keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)
+
     def recognise_text(
         self, image_file: pathlib.Path, output_dir: pathlib.Path
     ) -&gt; model.KerasOcrResult:
@@ -372,22 +403,9 @@ class OpticalCharacterRecognition:
             f&#34;Creating predictions and annotations files for &#39;{image_file.stem}&#39;.&#34;
         )
 
-        try:
-            import keras_ocr  # noqa: C0415
-        except ModuleNotFoundError as e:
-            msg = &#34;Cannot run ocr on this Python version.&#34;
-            logger.error(msg)
-            raise utils.LeafFocusException(msg) from e
-
-        self.create_engine()
-
-        images = [
-            keras_ocr.tools.read(str(image_file)),
-        ]
-
         # Each list of predictions in prediction_groups is a list of
         # (word, box) tuples.
-        prediction_groups = self._pipeline.recognize(images)
+        images, prediction_groups = self.engine_run(image_file)
 
         # Plot and save the predictions
         for image, predictions in zip(images, prediction_groups):
@@ -428,14 +446,8 @@ class OpticalCharacterRecognition:
 
         fig, axis = plt.subplots(figsize=(20, 20))
 
-        try:
-            import keras_ocr  # noqa: C0415
-        except ModuleNotFoundError as e:
-            msg = &#34;Cannot run ocr on this Python version.&#34;
-            logger.error(msg)
-            raise utils.LeafFocusException(msg) from e
+        self.engine_annotate(image, predictions, axis)
 
-        keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)
         fig.savefig(str(annotation_file))
         plt.close(fig)
 
@@ -488,7 +500,7 @@ class OpticalCharacterRecognition:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/34270681eb1068cbac5bf53072f3f80a1ffdc2cd/src/leaf_focus/ocr/keras_ocr.py#L184-L198" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/keras_ocr.py#L190-L204" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def convert_predictions(
     self, predictions: typing.List[typing.Tuple[typing.Any, typing.Any]]
@@ -507,17 +519,38 @@ class OpticalCharacterRecognition:
     return line_items</code></pre>
 </details>
 </dd>
-<dt id="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.create_engine"><code class="name flex">
-<span>def <span class="ident">create_engine</span></span>(<span>self) ‑> None</span>
+<dt id="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_annotate"><code class="name flex">
+<span>def <span class="ident">engine_annotate</span></span>(<span>self, image, predictions, axis) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/keras_ocr.py#L92-L100" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def engine_annotate(self, image, predictions, axis) -&gt; None:
+    try:
+        import keras_ocr  # noqa: C0415
+    except ModuleNotFoundError as e:
+        msg = &#34;Cannot run ocr on this Python version.&#34;
+        logger.error(msg)
+        raise utils.LeafFocusException(msg) from e
+
+    keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_create"><code class="name flex">
+<span>def <span class="ident">engine_create</span></span>(<span>self) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Create the OCR engine.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/34270681eb1068cbac5bf53072f3f80a1ffdc2cd/src/leaf_focus/ocr/keras_ocr.py#L21-L75" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/keras_ocr.py#L21-L75" class="git-link">Browse git</a>
 </summary>
-<pre><code class="python">def create_engine(self) -&gt; None:
+<pre><code class="python">def engine_create(self) -&gt; None:
     &#34;&#34;&#34;Create the OCR engine.&#34;&#34;&#34;
     if self._pipeline is not None:
         return
@@ -574,6 +607,32 @@ class OpticalCharacterRecognition:
     )</code></pre>
 </details>
 </dd>
+<dt id="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_run"><code class="name flex">
+<span>def <span class="ident">engine_run</span></span>(<span>self, image_file: pathlib.Path) ‑> Tuple[List, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/keras_ocr.py#L77-L90" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def engine_run(
+    self, image_file: pathlib.Path
+) -&gt; typing.Tuple[typing.List, typing.Any]:
+    try:
+        import keras_ocr  # noqa: C0415
+    except ModuleNotFoundError as e:
+        msg = &#34;Cannot run ocr on this Python version.&#34;
+        logger.error(msg)
+        raise utils.LeafFocusException(msg) from e
+
+    self.engine_create()
+
+    images = [keras_ocr.tools.read(str(image_file))]
+    return images, self._pipeline.recognize(images)</code></pre>
+</details>
+</dd>
 <dt id="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.recognise_text"><code class="name flex">
 <span>def <span class="ident">recognise_text</span></span>(<span>self, image_file: pathlib.Path, output_dir: pathlib.Path) ‑> <a title="leaf_focus.ocr.model.KerasOcrResult" href="model.html#leaf_focus.ocr.model.KerasOcrResult">KerasOcrResult</a></span>
 </code></dt>
@@ -582,7 +641,7 @@ class OpticalCharacterRecognition:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/34270681eb1068cbac5bf53072f3f80a1ffdc2cd/src/leaf_focus/ocr/keras_ocr.py#L77-L142" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/keras_ocr.py#L102-L154" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def recognise_text(
     self, image_file: pathlib.Path, output_dir: pathlib.Path
@@ -624,22 +683,9 @@ class OpticalCharacterRecognition:
         f&#34;Creating predictions and annotations files for &#39;{image_file.stem}&#39;.&#34;
     )
 
-    try:
-        import keras_ocr  # noqa: C0415
-    except ModuleNotFoundError as e:
-        msg = &#34;Cannot run ocr on this Python version.&#34;
-        logger.error(msg)
-        raise utils.LeafFocusException(msg) from e
-
-    self.create_engine()
-
-    images = [
-        keras_ocr.tools.read(str(image_file)),
-    ]
-
     # Each list of predictions in prediction_groups is a list of
     # (word, box) tuples.
-    prediction_groups = self._pipeline.recognize(images)
+    images, prediction_groups = self.engine_run(image_file)
 
     # Plot and save the predictions
     for image, predictions in zip(images, prediction_groups):
@@ -660,7 +706,7 @@ class OpticalCharacterRecognition:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/34270681eb1068cbac5bf53072f3f80a1ffdc2cd/src/leaf_focus/ocr/keras_ocr.py#L144-L182" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/keras_ocr.py#L156-L188" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def save_figure(
     self,
@@ -691,14 +737,8 @@ class OpticalCharacterRecognition:
 
     fig, axis = plt.subplots(figsize=(20, 20))
 
-    try:
-        import keras_ocr  # noqa: C0415
-    except ModuleNotFoundError as e:
-        msg = &#34;Cannot run ocr on this Python version.&#34;
-        logger.error(msg)
-        raise utils.LeafFocusException(msg) from e
+    self.engine_annotate(image, predictions, axis)
 
-    keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)
     fig.savefig(str(annotation_file))
     plt.close(fig)</code></pre>
 </details>
@@ -711,7 +751,7 @@ class OpticalCharacterRecognition:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/34270681eb1068cbac5bf53072f3f80a1ffdc2cd/src/leaf_focus/ocr/keras_ocr.py#L200-L214" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/keras_ocr.py#L206-L220" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def save_items(
     self,
@@ -796,9 +836,11 @@ setTimeout(() => input.focus(), 100);
 <ul>
 <li>
 <h4><code><a title="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition" href="#leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition">OpticalCharacterRecognition</a></code></h4>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.convert_predictions" href="#leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.convert_predictions">convert_predictions</a></code></li>
-<li><code><a title="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.create_engine" href="#leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.create_engine">create_engine</a></code></li>
+<li><code><a title="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_annotate" href="#leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_annotate">engine_annotate</a></code></li>
+<li><code><a title="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_create" href="#leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_create">engine_create</a></code></li>
+<li><code><a title="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_run" href="#leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_run">engine_run</a></code></li>
 <li><code><a title="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.recognise_text" href="#leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.recognise_text">recognise_text</a></code></li>
 <li><code><a title="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.save_figure" href="#leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.save_figure">save_figure</a></code></li>
 <li><code><a title="leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.save_items" href="#leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.save_items">save_items</a></code></li>

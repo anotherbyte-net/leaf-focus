@@ -18,6 +18,7 @@ Install runtime dependencies and development dependencies:
 source .venv/bin/activate
 
 # install dependencies
+python -m pip install --upgrade pip setuptools wheel
 python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
 
 # check for outdated packages
@@ -33,6 +34,11 @@ python -X dev -m tox
 
 # Tests - Run tests with coverage
 python -X dev -m coverage run -m pytest --tb=line --doctest-modules
+(
+  set -o pipefail
+  python -X dev -m pytest --doctest-modules --junitxml=pytest.xml \
+    --cov-report=term-missing:skip-covered --cov=src/ tests/ | tee pytest-coverage.txt
+)
 
 # Tests - Coverage report
 python -X dev -m coverage report
@@ -95,8 +101,12 @@ Then create a new virtual environment, install the dependencies, and install fro
 ```bash
 python -m venv .venv-test
 source .venv-test/bin/activate
+python -m pip install --upgrade pip setuptools wheel
 python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
+
 pip install --index-url https://test.pypi.org/simple/ --no-deps leaf-focus
+# or
+pip install dist/leaf_focus-0.4.1-py3-none-any.whl
 ```
 
 Test the installed package.

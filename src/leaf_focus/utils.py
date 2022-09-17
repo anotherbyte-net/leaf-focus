@@ -4,10 +4,12 @@ import dataclasses
 import json
 import pathlib
 import platform
+import re
 import typing
 import datetime
 from xml.etree.ElementTree import Element
 
+import unicodedata
 from importlib_resources import as_file, files
 from importlib_metadata import distribution, PackageNotFoundError
 
@@ -99,14 +101,36 @@ def output_root(
     """Build the path to the output."""
     name_parts = [input_file.stem, output_type]
     name_parts.extend(additional or [])
-    name_parts = [str(i) for i in name_parts if i]
-    name_parts = [i.strip("-").strip() for i in name_parts if i and i.strip()]
+    name_parts = [str(i) for i in name_parts if i is not None]
+    name_parts = [str_norm(i.strip("-")) for i in name_parts if i and i.strip()]
 
-    name = "-".join(name_parts).replace(".", "-").replace("_", "-")
+    name = "-".join(name_parts)
 
     output = output_path / name
 
     return output
+
+
+_slug_re_1 = re.compile(r"[^\w\s-]")
+_slug_re_2 = re.compile(r"[-\s]+")
+
+
+def str_norm(value: str):
+    """Normalise a string into the 'slug' format."""
+
+    separator = "-"
+    encoding = "utf-8"
+
+    norm = unicodedata.normalize("NFKD", value)
+    enc = norm.encode(encoding, "ignore")
+    de_enc = enc.decode(encoding)
+    alpha_num_only = _slug_re_1.sub("", de_enc)
+    alpha_num_tidy = alpha_num_only.strip().lower()
+    result = _slug_re_2.sub(separator, alpha_num_tidy)
+    return result
+
+
+# 45206-win10-win8-win7-release-notes-page-image-gray-000022.png
 
 
 class CustomJsonEncoder(json.JSONEncoder):

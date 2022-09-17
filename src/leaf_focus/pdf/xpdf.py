@@ -185,6 +185,15 @@ class XpdfProgram:
                 output_path=output_file,
             )
 
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f"Did not find expected output file '{output_file.name}'")
+            logger.debug(f"Listing items in '{output_file.parent}'")
+            item_count = 0
+            for item in output_file.parent.iterdir():
+                item_count += 1
+                logger.debug(f"Found item '{item}'")
+            logger.debug(f"Found {item_count} items in dir.")
+
         logger.info("Extracting pdf embedded text and saving to file.")
 
         exe_path = utils.select_exe(self._directory / "pdftotext")
@@ -249,7 +258,14 @@ class XpdfProgram:
         cmd_args = self.build_cmd(xpdf_args)
 
         output_type = "page-image"
-        output_dir = utils.output_root(pdf_path, output_type, output_path, cmd_args)
+
+        # don't include the page limits when building the output prefix
+        xpdf_args.first_page = None
+        xpdf_args.last_page = None
+        output_cmd_args = self.build_cmd(xpdf_args)
+        output_dir = utils.output_root(
+            pdf_path, output_type, output_path, output_cmd_args
+        )
 
         for pdf_image_file in output_dir.parent.iterdir():
             if not pdf_image_file.name.startswith(output_dir.name):

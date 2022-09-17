@@ -18,7 +18,7 @@ class OpticalCharacterRecognition:
     def __init__(self):
         self._pipeline = None
 
-    def create_engine(self) -> None:
+    def engine_create(self) -> None:
         """Create the OCR engine."""
         if self._pipeline is not None:
             return
@@ -74,6 +74,31 @@ class OpticalCharacterRecognition:
             detector=detector, recognizer=recognizer
         )
 
+    def engine_run(
+        self, image_file: pathlib.Path
+    ) -> typing.Tuple[typing.List, typing.Any]:
+        try:
+            import keras_ocr  # noqa: C0415
+        except ModuleNotFoundError as e:
+            msg = "Cannot run ocr on this Python version."
+            logger.error(msg)
+            raise utils.LeafFocusException(msg) from e
+
+        self.engine_create()
+
+        images = [keras_ocr.tools.read(str(image_file))]
+        return images, self._pipeline.recognize(images)
+
+    def engine_annotate(self, image, predictions, axis) -> None:
+        try:
+            import keras_ocr  # noqa: C0415
+        except ModuleNotFoundError as e:
+            msg = "Cannot run ocr on this Python version."
+            logger.error(msg)
+            raise utils.LeafFocusException(msg) from e
+
+        keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)
+
     def recognise_text(
         self, image_file: pathlib.Path, output_dir: pathlib.Path
     ) -> model.KerasOcrResult:
@@ -114,22 +139,9 @@ class OpticalCharacterRecognition:
             f"Creating predictions and annotations files for '{image_file.stem}'."
         )
 
-        try:
-            import keras_ocr  # noqa: C0415
-        except ModuleNotFoundError as e:
-            msg = "Cannot run ocr on this Python version."
-            logger.error(msg)
-            raise utils.LeafFocusException(msg) from e
-
-        self.create_engine()
-
-        images = [
-            keras_ocr.tools.read(str(image_file)),
-        ]
-
         # Each list of predictions in prediction_groups is a list of
         # (word, box) tuples.
-        prediction_groups = self._pipeline.recognize(images)
+        images, prediction_groups = self.engine_run(image_file)
 
         # Plot and save the predictions
         for image, predictions in zip(images, prediction_groups):
@@ -170,14 +182,8 @@ class OpticalCharacterRecognition:
 
         fig, axis = plt.subplots(figsize=(20, 20))
 
-        try:
-            import keras_ocr  # noqa: C0415
-        except ModuleNotFoundError as e:
-            msg = "Cannot run ocr on this Python version."
-            logger.error(msg)
-            raise utils.LeafFocusException(msg) from e
+        self.engine_annotate(image, predictions, axis)
 
-        keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)
         fig.savefig(str(annotation_file))
         plt.close(fig)
 
