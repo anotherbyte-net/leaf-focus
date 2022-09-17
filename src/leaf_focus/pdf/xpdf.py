@@ -186,6 +186,7 @@ class XpdfProgram:
             )
 
         if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f"Did not find expected output file '{output_file.name}'")
             logger.debug(f"Listing items in '{output_file.parent}'")
             item_count = 0
             for item in output_file.parent.iterdir():
