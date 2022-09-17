@@ -60,6 +60,7 @@ class OutputFile:
         self,
         page_first: typing.Optional[int] = None,
         page_last: typing.Optional[int] = None,
+        eol: typing.Optional[str] = None,
     ):
         extra = []
         if page_first is not None:
@@ -69,7 +70,8 @@ class OutputFile:
         if extra:
             extra = f"-{'-'.join(extra)}"
 
-        eol = XpdfTextArgs.get_line_ending()
+        if not eol:
+            eol = XpdfTextArgs.get_line_ending()
 
         return f"{self._prefix_norm}-output{extra}-layout-eol-{eol}.txt"
 

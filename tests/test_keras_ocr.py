@@ -50,7 +50,9 @@ def test_keras_ocr_image_with_tensorflow(capsys, caplog, resource_example1, tmp_
 
         assert stderr == ""
 
-        assert caplog.record_tuples == []
+        assert caplog.record_tuples == [
+            ("leaf_focus.ocr.keras_ocr", 30, "Creating keras ocr processing engine.")
+        ]
 
 
 def test_keras_ocr_image_without_tensorflow(

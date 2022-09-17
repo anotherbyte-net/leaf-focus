@@ -10,21 +10,26 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
     output_dir = tmp_path / "output-dir"
     output_dir.mkdir(exist_ok=True, parents=True)
 
-    package = resource_example1.package
+    re_ex1 = resource_example1
+    package = re_ex1.package
     package_path = files(package)
-    pdf_name = resource_example1.pdf_name
+    pdf_name = re_ex1.pdf_name
     pg = 22
     with as_file(package_path.joinpath(pdf_name)) as p:
         shutil.copyfile(p, output_dir / p.name)
-    with as_file(package_path.joinpath(resource_example1.page_image(pg))) as p:
+    with as_file(package_path.joinpath(re_ex1.page_image(pg))) as p:
         shutil.copyfile(p, output_dir / p.name)
-    with as_file(package_path.joinpath(resource_example1.info_name)) as p:
+    with as_file(package_path.joinpath(re_ex1.info_name)) as p:
         shutil.copyfile(p, output_dir / p.name)
-    with as_file(package_path.joinpath(resource_example1.text_name(pg, pg))) as p:
+
+    example_text_file = package_path.joinpath(re_ex1.text_name(pg, pg, "dos"))
+    current_text_file = package_path.joinpath(re_ex1.text_name(pg, pg))
+    with as_file(example_text_file) as ex_p:
+        shutil.copyfile(ex_p, output_dir / current_text_file.name)
+
+    with as_file(package_path.joinpath(re_ex1.page_annotations(pg))) as p:
         shutil.copyfile(p, output_dir / p.name)
-    with as_file(package_path.joinpath(resource_example1.page_annotations(pg))) as p:
-        shutil.copyfile(p, output_dir / p.name)
-    with as_file(package_path.joinpath(resource_example1.page_predictions(pg))) as p:
+    with as_file(package_path.joinpath(re_ex1.page_predictions(pg))) as p:
         predictions_file = output_dir / p.name
         shutil.copyfile(p, predictions_file)
 
@@ -67,7 +72,7 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
         (
             "leaf_focus.ocr.keras_ocr",
             10,
-            f"Predictions and annotations files already exist for '{resource_example1.page_image_stem(pg)}'.",
+            f"Predictions and annotations files already exist for '{re_ex1.page_image_stem(pg)}'.",
         ),
         ("leaf_focus.ocr.model", 10, "Loading OCR output items."),
         (
