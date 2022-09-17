@@ -24,7 +24,7 @@ flake8-comprehensions~=3.10.0
 flake8-unused-arguments~=0.0.11
 
 # type checking
-mypy~=0.961
+mypy~=0.971
 pylint~=2.15.0
 pydocstyle~=6.1.1
 pyright~=1.1.267
