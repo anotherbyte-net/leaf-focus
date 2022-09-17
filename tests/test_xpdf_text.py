@@ -14,10 +14,10 @@ from leaf_focus.pdf.xpdf import XpdfProgram
 
 @pytest.mark.skipif(check_skip_xpdf_exe_dir(), reason=check_skip_xpdf_exe_dir_msg)
 def test_xpdf_text_with_exe(capsys, caplog, resource_example1, tmp_path):
-    package = resource_example1["package"]
+    package = resource_example1.package
     package_path = files(package)
 
-    pdf = resource_example1["pdf"]
+    pdf = resource_example1.pdf_name
     with as_file(package_path.joinpath(pdf)) as p:
         pdf_path = p
 
@@ -48,10 +48,10 @@ def test_xpdf_text_with_exe(capsys, caplog, resource_example1, tmp_path):
 def test_xpdf_text_without_exe(
     capsys, caplog, resource_example1, tmp_path, monkeypatch
 ):
-    package = resource_example1["package"]
+    package = resource_example1.package
     package_path = files(package)
-
-    pdf = resource_example1["pdf"]
+    pg = 22
+    pdf = resource_example1.pdf_name
     with as_file(package_path.joinpath(pdf)) as p:
         pdf_path = p
 
@@ -64,15 +64,17 @@ def test_xpdf_text_without_exe(
         "pdftotext.exe" if platform.system() == "Windows" else "pdftotext"
     )
     exe_xpdf_text_file.touch()
-    output_file = f"{resource_example1['normalised_stem']}-output-f-22-l-22-verbose-simple2-eol-dos.txt"
+    output_file = (
+        f"{resource_example1.prefix_norm}-output-f-22-l-22-verbose-simple2-eol-dos.txt"
+    )
 
     def mock_subprocess_run(cmd, capture_output, check, timeout, text):
         cmd_args = [
             str(exe_xpdf_text_file),
             "-f",
-            "22",
+            str(pg),
             "-l",
-            "22",
+            str(pg),
             "-verbose",
             "-simple2",
             "-eol",
@@ -84,7 +86,7 @@ def test_xpdf_text_without_exe(
             return CompletedProcess(
                 args=cmd_args, returncode=0, stdout="[processing page 22]\n", stderr=""
             )
-        raise ValueError()
+        raise ValueError(f"Unknown cmd '{cmd}'")
 
     monkeypatch.setattr(subprocess, "run", mock_subprocess_run)
 

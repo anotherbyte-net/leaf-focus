@@ -1,22 +1,14 @@
 import pytest
 
+from helper import OutputFile
+
 
 @pytest.fixture
 def resource_example1():
-    orig = "452.06-win10-win8-win7-release-notes"
-    norm = "452-06-win10-win8-win7-release-notes"
-    return {
-        "package": "tests.resources.example1",
-        "original_stem": orig,
-        "normalised_stem": norm,
-        "pdf": f"{orig}.pdf",
-        "page_22_image": f"{norm}-page-image-gray-000022.png",
-        "page_22_image_stem": f"{norm}-page-image-gray-000022",
-        "info": f"{norm}-info.json",
-        "embedded_text": f"{norm}-output-layout-eol-dos.txt",
-        "page_22_annotations": f"{norm}-page-image-gray-000022-annotations.png",
-        "page_22_predictions": f"{norm}-page-image-gray-000022-predictions.csv",
-        "metadata": {
+    return OutputFile(
+        package="tests.resources.example1",
+        prefix="452.06-win10-win8-win7-release-notes",
+        metadata={
             "attributes": {
                 "xmptk": "Adobe XMP Core 5.6-c017 91.164374, 2020/03/05-20:41:30"
             },
@@ -84,4 +76,4 @@ def resource_example1():
             ],
             "name": "xmpmeta",
         },
-    }
+    )

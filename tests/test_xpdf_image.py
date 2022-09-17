@@ -20,10 +20,10 @@ from leaf_focus.pdf.xpdf import XpdfProgram
 @pytest.mark.skipif(check_skip_xpdf_exe_dir(), reason=check_skip_xpdf_exe_dir_msg)
 @pytest.mark.skipif(check_skip_slow(), reason=check_skip_slow_msg)
 def test_xpdf_image_with_exe(capsys, caplog, resource_example1, tmp_path):
-    package = resource_example1["package"]
+    package = resource_example1.package
     package_path = files(package)
-
-    pdf = resource_example1["pdf"]
+    pg = 22
+    pdf = resource_example1.pdf_name
     with as_file(package_path.joinpath(pdf)) as p:
         pdf_path = p
 
@@ -33,12 +33,12 @@ def test_xpdf_image_with_exe(capsys, caplog, resource_example1, tmp_path):
     exe_dir = pathlib.Path(os.getenv("TEST_XPDF_EXE_DIR"))
 
     prog = XpdfProgram(exe_dir)
-    args = XpdfImageArgs(first_page=22, last_page=22)
+    args = XpdfImageArgs(first_page=pg, last_page=pg)
     result = prog.image(pdf_path, output_path, args)
 
     assert result.output_dir
     assert len(result.output_files) == 1
-    assert result.output_files[0].name.endswith("-000022.png")
+    assert result.output_files[0].name.endswith(f"-{pg:06}.png")
 
     stdout, stderr = capsys.readouterr()
     assert stdout == ""
@@ -50,10 +50,10 @@ def test_xpdf_image_with_exe(capsys, caplog, resource_example1, tmp_path):
 def test_xpdf_image_without_exe(
     capsys, caplog, resource_example1, tmp_path, monkeypatch
 ):
-    package = resource_example1["package"]
+    package = resource_example1.package
     package_path = files(package)
-
-    pdf = resource_example1["pdf"]
+    pg = 22
+    pdf = resource_example1.pdf_name
     with as_file(package_path.joinpath(pdf)) as p:
         pdf_path = p
 
@@ -66,15 +66,16 @@ def test_xpdf_image_without_exe(
         "pdftopng.exe" if platform.system() == "Windows" else "pdftopng"
     )
     exe_xpdf_png_file.touch()
-    output_file = f"{resource_example1['normalised_stem']}-page-image-f-22-l-22"
+    output_file = resource_example1.image_stem
 
     def mock_subprocess_run(cmd, capture_output, check, timeout, text):
         cmd_args = [
             str(exe_xpdf_png_file),
             "-f",
-            "22",
+            str(pg),
             "-l",
-            "22",
+            str(pg),
+            "-gray",
             str(pdf_path),
             str(output_path / output_file),
         ]
@@ -85,12 +86,12 @@ def test_xpdf_image_without_exe(
                 stdout="",
                 stderr="Config Error: No display font for 'Symbol'\nConfig Error: No display font for 'ZapfDingbats'\n",
             )
-        raise ValueError()
+        raise ValueError(f"Unknown cmd '{cmd}'")
 
     monkeypatch.setattr(subprocess, "run", mock_subprocess_run)
 
     prog = XpdfProgram(exe_dir)
-    args = XpdfImageArgs(first_page=22, last_page=22)
+    args = XpdfImageArgs(first_page=pg, last_page=pg, use_grayscale=True)
     result = prog.image(pdf_path, output_path, args)
 
     assert result.output_dir == output_path / output_file

@@ -258,7 +258,14 @@ class XpdfProgram:
         cmd_args = self.build_cmd(xpdf_args)
 
         output_type = "page-image"
-        output_dir = utils.output_root(pdf_path, output_type, output_path, cmd_args)
+
+        # don't include the page limits when building the output prefix
+        xpdf_args.first_page = None
+        xpdf_args.last_page = None
+        output_cmd_args = self.build_cmd(xpdf_args)
+        output_dir = utils.output_root(
+            pdf_path, output_type, output_path, output_cmd_args
+        )
 
         for pdf_image_file in output_dir.parent.iterdir():
             if not pdf_image_file.name.startswith(output_dir.name):

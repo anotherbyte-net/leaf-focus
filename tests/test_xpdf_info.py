@@ -15,10 +15,10 @@ from leaf_focus.pdf.xpdf import XpdfProgram
 
 @pytest.mark.skipif(check_skip_xpdf_exe_dir(), reason=check_skip_xpdf_exe_dir_msg)
 def test_xpdf_info_with_exe(capsys, caplog, resource_example1, tmp_path):
-    package = resource_example1["package"]
+    package = resource_example1.package
     package_path = files(package)
 
-    pdf_file = resource_example1["pdf"]
+    pdf_file = resource_example1.pdf_name
     with as_file(package_path.joinpath(pdf_file)) as p:
         pdf_path = p
 
@@ -52,7 +52,7 @@ def test_xpdf_info_with_exe(capsys, caplog, resource_example1, tmp_path):
     assert result.optimized is True
     assert result.pdf_version == "1.5"
 
-    assert result.metadata == resource_example1["metadata"]
+    assert result.metadata == resource_example1.metadata
 
     stdout, stderr = capsys.readouterr()
     assert stdout == ""
@@ -64,10 +64,10 @@ def test_xpdf_info_with_exe(capsys, caplog, resource_example1, tmp_path):
 def test_xpdf_info_without_exe(
     capsys, caplog, resource_example1, tmp_path, monkeypatch
 ):
-    package = resource_example1["package"]
+    package = resource_example1.package
     package_path = files(package)
 
-    pdf_file = resource_example1["pdf"]
+    pdf_file = resource_example1.pdf_name
     with as_file(package_path.joinpath(pdf_file)) as p:
         pdf_path = p
 
@@ -91,7 +91,7 @@ def test_xpdf_info_without_exe(
                 stderr="",
             )
         else:
-            raise ValueError()
+            raise ValueError(f"Unknown cmd '{cmd}'")
 
     monkeypatch.setattr(subprocess, "run", mock_subprocess_run)
 
@@ -121,7 +121,7 @@ def test_xpdf_info_without_exe(
     assert result.optimized is True
     assert result.pdf_version == "1.5"
 
-    assert result.metadata == resource_example1["metadata"]
+    assert result.metadata == resource_example1.metadata
 
     stdout, stderr = capsys.readouterr()
     assert stdout == ""

@@ -12,10 +12,10 @@ from leaf_focus.ocr.model import TextItem
 
 @pytest.mark.skipif(check_skip_slow(), reason=check_skip_slow_msg)
 def test_keras_ocr_image_with_tensorflow(capsys, caplog, resource_example1, tmp_path):
-    package = resource_example1["package"]
+    package = resource_example1.package
     package_path = files(package)
-
-    pdf_pg22_image = resource_example1["page_22_image"]
+    pg = 22
+    pdf_pg22_image = resource_example1.page_image(pg)
     with as_file(package_path.joinpath(pdf_pg22_image)) as p:
         image_file = p
 
@@ -56,18 +56,18 @@ def test_keras_ocr_image_with_tensorflow(capsys, caplog, resource_example1, tmp_
 def test_keras_ocr_image_without_tensorflow(
     capsys, caplog, resource_example1, tmp_path, monkeypatch
 ):
-    package = resource_example1["package"]
+    package = resource_example1.package
     package_path = files(package)
-
-    pdf_pg22_image = resource_example1["page_22_image"]
+    pg = 22
+    pdf_pg22_image = resource_example1.page_image(22)
     with as_file(package_path.joinpath(pdf_pg22_image)) as p:
         image_file = p
 
-    pdf_pg22_pred = resource_example1["page_22_predictions"]
+    pdf_pg22_pred = resource_example1.page_predictions(pg)
     with as_file(package_path.joinpath(pdf_pg22_pred)) as p:
         pred_file = p
 
-    pdf_pg22_anno = resource_example1["page_22_annotations"]
+    pdf_pg22_anno = resource_example1.page_annotations(pg)
     with as_file(package_path.joinpath(pdf_pg22_anno)) as p:
         anno_file = p
 

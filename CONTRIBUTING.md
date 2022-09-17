@@ -18,6 +18,7 @@ Install runtime dependencies and development dependencies:
 source .venv/bin/activate
 
 # install dependencies
+python -m pip install --upgrade pip setuptools wheel
 python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
 
 # check for outdated packages
@@ -100,6 +101,7 @@ Then create a new virtual environment, install the dependencies, and install fro
 ```bash
 python -m venv .venv-test
 source .venv-test/bin/activate
+python -m pip install --upgrade pip setuptools wheel
 python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
 
 pip install --index-url https://test.pypi.org/simple/ --no-deps leaf-focus

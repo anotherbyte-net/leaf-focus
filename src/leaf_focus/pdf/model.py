@@ -1,6 +1,7 @@
 import dataclasses
 import logging
 import pathlib
+import platform
 import typing
 from datetime import datetime
 
@@ -400,6 +401,22 @@ class XpdfTextArgs(XpdfArgs):
 
     -marginb <number>      : bottom page margin
     """
+
+    @classmethod
+    def get_line_ending(cls) -> str:
+        """
+        Get the line endings based on the current platform.
+
+        :return: the line ending style
+        """
+        opts = {
+            "Linux": "unix",
+            "Darwin": "mac",
+            "Windows": "dos",
+        }
+        plat = platform.system()
+
+        return opts[plat]
 
 
 @dataclasses.dataclass
