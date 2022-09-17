@@ -3,9 +3,12 @@ import pathlib
 
 keras_max_version_minor = 9
 
-check_skip_xpdf_exe_dir_msg = "Test requires xpdf executable pdfinfo, specify the path using env var 'TEST_XPDF_EXE_DIR'."
+check_skip_xpdf_exe_dir_msg = (
+    "This test requires xpdf executables, "
+    "run it by specifying the dir using env var 'TEST_XPDF_EXE_DIR'."
+)
 check_skip_slow_msg = (
-    "Test is slow, run it by specifying env var 'TEST_INCLUDE_SLOW=true'."
+    "This test is slow, run it by specifying env var 'TEST_INCLUDE_SLOW=true'."
 )
 
 

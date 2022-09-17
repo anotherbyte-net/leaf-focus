@@ -67,13 +67,13 @@ jobs:
           sarif_file: snyk-requirements.sarif
           category: requirements-runtime
 
-      - name: Run Snyk over the developmnet dependencies
+      - name: Run Snyk over the development dependencies
         run: snyk test --sarif-file-output=snyk-requirements-dev.sarif --command=python --file=requirements-dev.txt --package-manager=pip --skip-unresolved
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Upload Snyk developmnet dependencies scan result to GitHub Code Scanning
+      - name: Upload Snyk development dependencies scan result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk-requirements-dev.sarif

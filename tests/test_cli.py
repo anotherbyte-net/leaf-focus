@@ -15,6 +15,7 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
 
     pdf_name = resource_example1["pdf"]
     normalised_stem = resource_example1["normalised_stem"]
+
     with as_file(package_path.joinpath(pdf_name)) as p:
         shutil.copyfile(p, output_dir / p.name)
     with as_file(package_path.joinpath(resource_example1["page_22_image"])) as p:
@@ -28,12 +29,13 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
     with as_file(package_path.joinpath(resource_example1["page_22_annotations"])) as p:
         shutil.copyfile(p, output_dir / p.name)
     with as_file(package_path.joinpath(resource_example1["page_22_predictions"])) as p:
-        shutil.copyfile(p, output_dir / p.name)
+        predictions_file = output_dir / p.name
+        shutil.copyfile(p, predictions_file)
 
     exe_dir = tmp_path / "exe_dir"
     exe_dir.mkdir(parents=True, exist_ok=True)
 
-    caplog.set_level(logging.INFO)
+    caplog.set_level(logging.DEBUG)
 
     result = main(
         [
@@ -46,6 +48,8 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
             "22",
             "--last",
             "22",
+            "--log-level",
+            "debug",
         ]
     )
 
@@ -64,11 +68,21 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
         ),
         ("leaf_focus.pdf.xpdf", 20, "Saving each pdf page as an image."),
         ("leaf_focus.pdf.xpdf", 20, "Found existing pdf images."),
+        (
+            "leaf_focus.ocr.keras_ocr",
+            10,
+            f"Predictions and annotations files already exist for '{resource_example1['page_22_image_stem']}'.",
+        ),
+        ("leaf_focus.ocr.model", 10, "Loading OCR output items."),
+        (
+            "leaf_focus.ocr.model",
+            10,
+            f"Loaded 304 OCR items from '{predictions_file}'.",
+        ),
+        ("leaf_focus.ocr.model", 10, "Arranging text into lines."),
     ]
     assert caplog.record_tuples[-1][0] == "leaf_focus.app"
     assert caplog.record_tuples[-1][1] == 20
     assert caplog.record_tuples[-1][2].startswith("Finished (duration 0:00:0")
-
-    assert len(caplog.record_tuples) == 7
 
     assert result == 0

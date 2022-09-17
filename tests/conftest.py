@@ -11,6 +11,7 @@ def resource_example1():
         "normalised_stem": norm,
         "pdf": f"{orig}.pdf",
         "page_22_image": f"{norm}-page-image-gray-000022.png",
+        "page_22_image_stem": f"{norm}-page-image-gray-000022",
         "info": f"{norm}-info.json",
         "embedded_text": f"{norm}-output-layout-eol-dos.txt",
         "page_22_annotations": f"{norm}-page-image-gray-000022-annotations.png",

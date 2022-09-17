@@ -185,6 +185,14 @@ class XpdfProgram:
                 output_path=output_file,
             )
 
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f"Listing items in '{output_file.parent}'")
+            item_count = 0
+            for item in output_file.parent.iterdir():
+                item_count += 1
+                logger.debug(f"Found item '{item}'")
+            logger.debug(f"Found {item_count} items in dir.")
+
         logger.info("Extracting pdf embedded text and saving to file.")
 
         exe_path = utils.select_exe(self._directory / "pdftotext")

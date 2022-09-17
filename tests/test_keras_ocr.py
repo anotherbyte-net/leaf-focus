@@ -11,7 +11,7 @@ from leaf_focus.ocr.model import TextItem
 
 
 @pytest.mark.skipif(check_skip_slow(), reason=check_skip_slow_msg)
-def test_keras_ocr_image_with_tensorflow(resource_example1, tmp_path, capsys):
+def test_keras_ocr_image_with_tensorflow(capsys, caplog, resource_example1, tmp_path):
     package = resource_example1["package"]
     package_path = files(package)
 
@@ -50,9 +50,11 @@ def test_keras_ocr_image_with_tensorflow(resource_example1, tmp_path, capsys):
 
         assert stderr == ""
 
+        assert caplog.record_tuples == []
+
 
 def test_keras_ocr_image_without_tensorflow(
-    resource_example1, tmp_path, capsys, monkeypatch
+    capsys, caplog, resource_example1, tmp_path, monkeypatch
 ):
     package = resource_example1["package"]
     package_path = files(package)
@@ -124,3 +126,5 @@ def test_keras_ocr_image_without_tensorflow(
         output_annotated_png = output_path / anno_file.name
         assert output_annotated_png.exists()
         assert output_annotated_png.stat().st_size > 0
+
+        assert caplog.record_tuples == []

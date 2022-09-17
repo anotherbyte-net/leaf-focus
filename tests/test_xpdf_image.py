@@ -19,7 +19,7 @@ from leaf_focus.pdf.xpdf import XpdfProgram
 
 @pytest.mark.skipif(check_skip_xpdf_exe_dir(), reason=check_skip_xpdf_exe_dir_msg)
 @pytest.mark.skipif(check_skip_slow(), reason=check_skip_slow_msg)
-def test_xpdf_image_with_exe(resource_example1, tmp_path):
+def test_xpdf_image_with_exe(capsys, caplog, resource_example1, tmp_path):
     package = resource_example1["package"]
     package_path = files(package)
 
@@ -40,8 +40,16 @@ def test_xpdf_image_with_exe(resource_example1, tmp_path):
     assert len(result.output_files) == 1
     assert result.output_files[0].name.endswith("-000022.png")
 
+    stdout, stderr = capsys.readouterr()
+    assert stdout == ""
+    assert stderr == ""
 
-def test_xpdf_image_without_exe(resource_example1, tmp_path, monkeypatch):
+    assert caplog.record_tuples == []
+
+
+def test_xpdf_image_without_exe(
+    capsys, caplog, resource_example1, tmp_path, monkeypatch
+):
     package = resource_example1["package"]
     package_path = files(package)
 
@@ -86,3 +94,11 @@ def test_xpdf_image_without_exe(resource_example1, tmp_path, monkeypatch):
     result = prog.image(pdf_path, output_path, args)
 
     assert result.output_dir == output_path / output_file
+
+    stdout, stderr = capsys.readouterr()
+    assert stdout == ""
+    assert stderr == ""
+
+    assert caplog.record_tuples == [
+        ("leaf_focus.pdf.xpdf", 30, "No page images found.")
+    ]
