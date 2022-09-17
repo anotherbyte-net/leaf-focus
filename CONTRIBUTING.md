@@ -106,7 +106,7 @@ python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
 
 pip install --index-url https://test.pypi.org/simple/ --no-deps leaf-focus
 # or
-pip install dist/leaf_focus-0.4.1-py3-none-any.whl
+pip install dist/leaf_focus-0.5.0-py3-none-any.whl
 ```
 
 Test the installed package.
