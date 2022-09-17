@@ -26,7 +26,7 @@
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/xpdf.py#L1-L362" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L1-L378" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Text extraction from pdf using xpdf tools.&#34;&#34;&#34;
 
@@ -215,6 +215,15 @@ class XpdfProgram:
                 output_path=output_file,
             )
 
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f&#34;Did not find expected output file &#39;{output_file.name}&#39;&#34;)
+            logger.debug(f&#34;Listing items in &#39;{output_file.parent}&#39;&#34;)
+            item_count = 0
+            for item in output_file.parent.iterdir():
+                item_count += 1
+                logger.debug(f&#34;Found item &#39;{item}&#39;&#34;)
+            logger.debug(f&#34;Found {item_count} items in dir.&#34;)
+
         logger.info(&#34;Extracting pdf embedded text and saving to file.&#34;)
 
         exe_path = utils.select_exe(self._directory / &#34;pdftotext&#34;)
@@ -279,7 +288,14 @@ class XpdfProgram:
         cmd_args = self.build_cmd(xpdf_args)
 
         output_type = &#34;page-image&#34;
-        output_dir = utils.output_root(pdf_path, output_type, output_path, cmd_args)
+
+        # don&#39;t include the page limits when building the output prefix
+        xpdf_args.first_page = None
+        xpdf_args.last_page = None
+        output_cmd_args = self.build_cmd(xpdf_args)
+        output_dir = utils.output_root(
+            pdf_path, output_type, output_path, output_cmd_args
+        )
 
         for pdf_image_file in output_dir.parent.iterdir():
             if not pdf_image_file.name.startswith(output_dir.name):
@@ -412,7 +428,7 @@ class XpdfProgram:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/xpdf.py#L24-L362" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L24-L378" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class XpdfProgram:
     &#34;&#34;&#34;Interact with xpdf tools.&#34;&#34;&#34;
@@ -578,6 +594,15 @@ class XpdfProgram:
                 output_path=output_file,
             )
 
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f&#34;Did not find expected output file &#39;{output_file.name}&#39;&#34;)
+            logger.debug(f&#34;Listing items in &#39;{output_file.parent}&#39;&#34;)
+            item_count = 0
+            for item in output_file.parent.iterdir():
+                item_count += 1
+                logger.debug(f&#34;Found item &#39;{item}&#39;&#34;)
+            logger.debug(f&#34;Found {item_count} items in dir.&#34;)
+
         logger.info(&#34;Extracting pdf embedded text and saving to file.&#34;)
 
         exe_path = utils.select_exe(self._directory / &#34;pdftotext&#34;)
@@ -642,7 +667,14 @@ class XpdfProgram:
         cmd_args = self.build_cmd(xpdf_args)
 
         output_type = &#34;page-image&#34;
-        output_dir = utils.output_root(pdf_path, output_type, output_path, cmd_args)
+
+        # don&#39;t include the page limits when building the output prefix
+        xpdf_args.first_page = None
+        xpdf_args.last_page = None
+        output_cmd_args = self.build_cmd(xpdf_args)
+        output_dir = utils.output_root(
+            pdf_path, output_type, output_path, output_cmd_args
+        )
 
         for pdf_image_file in output_dir.parent.iterdir():
             if not pdf_image_file.name.startswith(output_dir.name):
@@ -791,7 +823,7 @@ class XpdfProgram:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/xpdf.py#L290-L339" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L306-L355" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def build_cmd(self, tool_args):
     &#34;&#34;&#34;Build the command arguments from a data class.&#34;&#34;&#34;
@@ -853,7 +885,7 @@ class XpdfProgram:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/xpdf.py#L341-L362" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L357-L378" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def find_images(self, output_dir: pathlib.Path):
     &#34;&#34;&#34;Find image files in a directory.&#34;&#34;&#34;
@@ -891,7 +923,7 @@ class XpdfProgram:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/xpdf.py#L213-L288" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L222-L304" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def image(
     self,
@@ -932,7 +964,14 @@ class XpdfProgram:
     cmd_args = self.build_cmd(xpdf_args)
 
     output_type = &#34;page-image&#34;
-    output_dir = utils.output_root(pdf_path, output_type, output_path, cmd_args)
+
+    # don&#39;t include the page limits when building the output prefix
+    xpdf_args.first_page = None
+    xpdf_args.last_page = None
+    output_cmd_args = self.build_cmd(xpdf_args)
+    output_dir = utils.output_root(
+        pdf_path, output_type, output_path, output_cmd_args
+    )
 
     for pdf_image_file in output_dir.parent.iterdir():
         if not pdf_image_file.name.startswith(output_dir.name):
@@ -983,7 +1022,7 @@ class XpdfProgram:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/xpdf.py#L49-L147" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L49-L147" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def info(
     self,
@@ -1098,7 +1137,7 @@ class XpdfProgram:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/xpdf.py#L149-L211" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L149-L220" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def text(
     self,
@@ -1138,6 +1177,15 @@ class XpdfProgram:
             stderr=[],
             output_path=output_file,
         )
+
+    if logger.isEnabledFor(logging.DEBUG):
+        logger.debug(f&#34;Did not find expected output file &#39;{output_file.name}&#39;&#34;)
+        logger.debug(f&#34;Listing items in &#39;{output_file.parent}&#39;&#34;)
+        item_count = 0
+        for item in output_file.parent.iterdir():
+            item_count += 1
+            logger.debug(f&#34;Found item &#39;{item}&#39;&#34;)
+        logger.debug(f&#34;Found {item_count} items in dir.&#34;)
 
     logger.info(&#34;Extracting pdf embedded text and saving to file.&#34;)
 

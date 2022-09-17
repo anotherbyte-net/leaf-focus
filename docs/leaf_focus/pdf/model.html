@@ -25,11 +25,12 @@
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/model.py#L1-L502" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L1-L519" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">import dataclasses
 import logging
 import pathlib
+import platform
 import typing
 from datetime import datetime
 
@@ -430,6 +431,22 @@ class XpdfTextArgs(XpdfArgs):
     -marginb &lt;number&gt;      : bottom page margin
     &#34;&#34;&#34;
 
+    @classmethod
+    def get_line_ending(cls) -&gt; str:
+        &#34;&#34;&#34;
+        Get the line endings based on the current platform.
+
+        :return: the line ending style
+        &#34;&#34;&#34;
+        opts = {
+            &#34;Linux&#34;: &#34;unix&#34;,
+            &#34;Darwin&#34;: &#34;mac&#34;,
+            &#34;Windows&#34;: &#34;dos&#34;,
+        }
+        plat = platform.system()
+
+        return opts[plat]
+
 
 @dataclasses.dataclass
 class XpdfTextResult:
@@ -549,7 +566,7 @@ class XpdfImageResult:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/model.py#L10-L76" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L11-L77" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfArgs:
@@ -682,7 +699,7 @@ Providing this will bypass all security restrictions.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/model.py#L414-L492" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L431-L509" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfImageArgs(XpdfArgs):
@@ -847,7 +864,7 @@ This defaults to "yes".</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/model.py#L495-L502" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L512-L519" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfImageResult:
@@ -887,7 +904,7 @@ class XpdfImageResult:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/model.py#L79-L121" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L80-L122" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfInfoArgs(XpdfArgs):
@@ -992,7 +1009,7 @@ MediaBox, CropBox, BleedBox, TrimBox, and ArtBox.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/model.py#L124-L198" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L125-L199" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfInfoResult:
@@ -1171,7 +1188,7 @@ class XpdfInfoResult:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/model.py#L201-L402" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L202-L419" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfTextArgs(XpdfArgs):
@@ -1374,7 +1391,23 @@ class XpdfTextArgs(XpdfArgs):
     The default value is zero.
 
     -marginb &lt;number&gt;      : bottom page margin
-    &#34;&#34;&#34;</code></pre>
+    &#34;&#34;&#34;
+
+    @classmethod
+    def get_line_ending(cls) -&gt; str:
+        &#34;&#34;&#34;
+        Get the line endings based on the current platform.
+
+        :return: the line ending style
+        &#34;&#34;&#34;
+        opts = {
+            &#34;Linux&#34;: &#34;unix&#34;,
+            &#34;Darwin&#34;: &#34;mac&#34;,
+            &#34;Windows&#34;: &#34;dos&#34;,
+        }
+        plat = platform.system()
+
+        return opts[plat]</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -1520,6 +1553,37 @@ clipped (invisible) text would overlap the next column.</p>
 : separate clipped text</p></div>
 </dd>
 </dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="leaf_focus.pdf.model.XpdfTextArgs.get_line_ending"><code class="name flex">
+<span>def <span class="ident">get_line_ending</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the line endings based on the current platform.</p>
+<p>:return: the line ending style</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L405-L419" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">@classmethod
+def get_line_ending(cls) -&gt; str:
+    &#34;&#34;&#34;
+    Get the line endings based on the current platform.
+
+    :return: the line ending style
+    &#34;&#34;&#34;
+    opts = {
+        &#34;Linux&#34;: &#34;unix&#34;,
+        &#34;Darwin&#34;: &#34;mac&#34;,
+        &#34;Windows&#34;: &#34;dos&#34;,
+    }
+    plat = platform.system()
+
+    return opts[plat]</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
 <li><code><b><a title="leaf_focus.pdf.model.XpdfArgs" href="#leaf_focus.pdf.model.XpdfArgs">XpdfArgs</a></b></code>:
@@ -1544,7 +1608,7 @@ clipped (invisible) text would overlap the next column.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/pdf/model.py#L405-L411" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L422-L428" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfTextResult:
@@ -1706,6 +1770,7 @@ setTimeout(() => input.focus(), 100);
 <h4><code><a title="leaf_focus.pdf.model.XpdfTextArgs" href="#leaf_focus.pdf.model.XpdfTextArgs">XpdfTextArgs</a></code></h4>
 <ul class="">
 <li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.fixed_text_number" href="#leaf_focus.pdf.model.XpdfTextArgs.fixed_text_number">fixed_text_number</a></code></li>
+<li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.get_line_ending" href="#leaf_focus.pdf.model.XpdfTextArgs.get_line_ending">get_line_ending</a></code></li>
 <li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.line_end_type" href="#leaf_focus.pdf.model.XpdfTextArgs.line_end_type">line_end_type</a></code></li>
 <li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.line_space_number" href="#leaf_focus.pdf.model.XpdfTextArgs.line_space_number">line_space_number</a></code></li>
 <li><code><a title="leaf_focus.pdf.model.XpdfTextArgs.margin_bottom_number" href="#leaf_focus.pdf.model.XpdfTextArgs.margin_bottom_number">margin_bottom_number</a></code></li>

@@ -73,12 +73,6 @@ INDEX=[
 "func":1
 },
 {
-"ref":"leaf_focus.app.App.get_line_ending",
-"url":1,
-"doc":"Get the line endings based on the current platform. :return: the line ending style",
-"func":1
-},
-{
 "ref":"leaf_focus.cli",
 "url":2,
 "doc":"Command line for leaf focus."
@@ -677,6 +671,12 @@ INDEX=[
 "doc":"Specifies the bottom margin, in points. Text in the bottom margin (i.e., within that many points of the bottom edge of the page) is discarded. The default value is zero. -marginb  : bottom page margin"
 },
 {
+"ref":"leaf_focus.pdf.model.XpdfTextArgs.get_line_ending",
+"url":7,
+"doc":"Get the line endings based on the current platform. :return: the line ending style",
+"func":1
+},
+{
 "ref":"leaf_focus.pdf.model.XpdfTextArgs.owner_password",
 "url":7,
 "doc":"Specify the owner password for the PDF file. Providing this will bypass all security restrictions. -opw  : owner password (for encrypted files)"
@@ -952,6 +952,12 @@ INDEX=[
 "ref":"leaf_focus.utils.output_root",
 "url":9,
 "doc":"Build the path to the output.",
+"func":1
+},
+{
+"ref":"leaf_focus.utils.str_norm",
+"url":9,
+"doc":"Normalise a string into the 'slug' format.",
 "func":1
 },
 {

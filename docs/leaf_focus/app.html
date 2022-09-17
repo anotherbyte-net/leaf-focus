@@ -26,7 +26,7 @@
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/app.py#L1-L132" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/app.py#L1-L115" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Main application.&#34;&#34;&#34;
 
@@ -34,13 +34,11 @@ import dataclasses
 import datetime
 import logging
 import pathlib
-import platform
 import typing
 
 from leaf_focus import utils
 from leaf_focus.ocr import keras_ocr
 from leaf_focus.pdf import model, xpdf
-
 
 logger = logging.getLogger(__name__)
 
@@ -122,7 +120,7 @@ class App:
 
         # pdf embedded text
         xpdf_text_args = model.XpdfTextArgs(
-            line_end_type=self.get_line_ending(),
+            line_end_type=model.XpdfTextArgs.get_line_ending(),
             use_original_layout=True,
             first_page=app_args.first_page,
             last_page=app_args.last_page,
@@ -144,22 +142,7 @@ class App:
         timestamp_finish = datetime.datetime.utcnow()
         program_duration = timestamp_finish - timestamp_start
         logger.info(&#34;Finished (duration %s)&#34;, program_duration)
-        return True
-
-    def get_line_ending(self) -&gt; str:
-        &#34;&#34;&#34;
-        Get the line endings based on the current platform.
-
-        :return: the line ending style
-        &#34;&#34;&#34;
-        opts = {
-            &#34;Linux&#34;: &#34;unix&#34;,
-            &#34;Darwin&#34;: &#34;mac&#34;,
-            &#34;Windows&#34;: &#34;dos&#34;,
-        }
-        plat = platform.system()
-
-        return opts[plat]</code></pre>
+        return True</code></pre>
 </details>
 </section>
 <section>
@@ -182,7 +165,7 @@ class App:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/app.py#L44-L132" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/app.py#L42-L115" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class App:
     &#34;&#34;&#34;The main application.&#34;&#34;&#34;
@@ -235,7 +218,7 @@ class App:
 
         # pdf embedded text
         xpdf_text_args = model.XpdfTextArgs(
-            line_end_type=self.get_line_ending(),
+            line_end_type=model.XpdfTextArgs.get_line_ending(),
             use_original_layout=True,
             first_page=app_args.first_page,
             last_page=app_args.last_page,
@@ -257,52 +240,10 @@ class App:
         timestamp_finish = datetime.datetime.utcnow()
         program_duration = timestamp_finish - timestamp_start
         logger.info(&#34;Finished (duration %s)&#34;, program_duration)
-        return True
-
-    def get_line_ending(self) -&gt; str:
-        &#34;&#34;&#34;
-        Get the line endings based on the current platform.
-
-        :return: the line ending style
-        &#34;&#34;&#34;
-        opts = {
-            &#34;Linux&#34;: &#34;unix&#34;,
-            &#34;Darwin&#34;: &#34;mac&#34;,
-            &#34;Windows&#34;: &#34;dos&#34;,
-        }
-        plat = platform.system()
-
-        return opts[plat]</code></pre>
+        return True</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="leaf_focus.app.App.get_line_ending"><code class="name flex">
-<span>def <span class="ident">get_line_ending</span></span>(<span>self) ‑> str</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Get the line endings based on the current platform.</p>
-<p>:return: the line ending style</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/app.py#L119-L132" class="git-link">Browse git</a>
-</summary>
-<pre><code class="python">def get_line_ending(self) -&gt; str:
-    &#34;&#34;&#34;
-    Get the line endings based on the current platform.
-
-    :return: the line ending style
-    &#34;&#34;&#34;
-    opts = {
-        &#34;Linux&#34;: &#34;unix&#34;,
-        &#34;Darwin&#34;: &#34;mac&#34;,
-        &#34;Windows&#34;: &#34;dos&#34;,
-    }
-    plat = platform.system()
-
-    return opts[plat]</code></pre>
-</details>
-</dd>
 <dt id="leaf_focus.app.App.run"><code class="name flex">
 <span>def <span class="ident">run</span></span>(<span>self, app_args: <a title="leaf_focus.app.AppArgs" href="#leaf_focus.app.AppArgs">AppArgs</a>) ‑> bool</span>
 </code></dt>
@@ -314,7 +255,7 @@ class App:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/app.py#L57-L117" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/app.py#L55-L115" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def run(self, app_args: AppArgs) -&gt; bool:
     &#34;&#34;&#34;
@@ -354,7 +295,7 @@ class App:
 
     # pdf embedded text
     xpdf_text_args = model.XpdfTextArgs(
-        line_end_type=self.get_line_ending(),
+        line_end_type=model.XpdfTextArgs.get_line_ending(),
         use_original_layout=True,
         first_page=app_args.first_page,
         last_page=app_args.last_page,
@@ -390,7 +331,7 @@ class App:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/app.py#L18-L41" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/app.py#L16-L39" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class AppArgs:
@@ -514,7 +455,6 @@ setTimeout(() => input.focus(), 100);
 <li>
 <h4><code><a title="leaf_focus.app.App" href="#leaf_focus.app.App">App</a></code></h4>
 <ul class="">
-<li><code><a title="leaf_focus.app.App.get_line_ending" href="#leaf_focus.app.App.get_line_ending">get_line_ending</a></code></li>
 <li><code><a title="leaf_focus.app.App.run" href="#leaf_focus.app.App.run">run</a></code></li>
 </ul>
 </li>

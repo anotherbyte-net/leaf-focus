@@ -25,7 +25,7 @@
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L1-L380" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L1-L380" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">import csv
 import dataclasses
@@ -231,7 +231,7 @@ class TextItem:
     def save(cls, path: pathlib.Path, items: typing.List[&#34;TextItem&#34;]) -&gt; None:
         &#34;&#34;&#34;Save found text items to a file.&#34;&#34;&#34;
 
-        logger.debug(&#34;Saving %s OCR items.&#34;, len(items))
+        logger.debug(&#34;Saving %s OCR output items.&#34;, len(items))
 
         fields = [
             &#34;text&#34;,
@@ -260,7 +260,7 @@ class TextItem:
     def load(cls, path: pathlib.Path) -&gt; typing.Generator[&#34;TextItem&#34;, typing.Any, None]:
         &#34;&#34;&#34;Load found text items from a file.&#34;&#34;&#34;
 
-        logger.debug(&#34;Loading OCR items.&#34;)
+        logger.debug(&#34;Loading OCR output items.&#34;)
         count = 0
 
         with open(path, &#34;rt&#34;, encoding=&#34;utf8&#34;) as file_path:
@@ -427,7 +427,7 @@ class KerasOcrResult:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L373-L380" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L373-L380" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class KerasOcrResult:
@@ -467,7 +467,7 @@ class KerasOcrResult:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L12-L370" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L12-L370" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class TextItem:
@@ -662,7 +662,7 @@ class TextItem:
     def save(cls, path: pathlib.Path, items: typing.List[&#34;TextItem&#34;]) -&gt; None:
         &#34;&#34;&#34;Save found text items to a file.&#34;&#34;&#34;
 
-        logger.debug(&#34;Saving %s OCR items.&#34;, len(items))
+        logger.debug(&#34;Saving %s OCR output items.&#34;, len(items))
 
         fields = [
             &#34;text&#34;,
@@ -691,7 +691,7 @@ class TextItem:
     def load(cls, path: pathlib.Path) -&gt; typing.Generator[&#34;TextItem&#34;, typing.Any, None]:
         &#34;&#34;&#34;Load found text items from a file.&#34;&#34;&#34;
 
-        logger.debug(&#34;Loading OCR items.&#34;)
+        logger.debug(&#34;Loading OCR output items.&#34;)
         count = 0
 
         with open(path, &#34;rt&#34;, encoding=&#34;utf8&#34;) as file_path:
@@ -888,7 +888,7 @@ Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].<
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L264-L289" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L264-L289" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@classmethod
 def from_prediction(
@@ -926,13 +926,13 @@ def from_prediction(
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L230-L262" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L230-L262" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@classmethod
 def load(cls, path: pathlib.Path) -&gt; typing.Generator[&#34;TextItem&#34;, typing.Any, None]:
     &#34;&#34;&#34;Load found text items from a file.&#34;&#34;&#34;
 
-    logger.debug(&#34;Loading OCR items.&#34;)
+    logger.debug(&#34;Loading OCR output items.&#34;)
     count = 0
 
     with open(path, &#34;rt&#34;, encoding=&#34;utf8&#34;) as file_path:
@@ -971,7 +971,7 @@ def load(cls, path: pathlib.Path) -&gt; typing.Generator[&#34;TextItem&#34;, typ
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L291-L332" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L291-L332" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@classmethod
 def order_text_lines(
@@ -1025,13 +1025,13 @@ def order_text_lines(
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L201-L228" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L201-L228" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@classmethod
 def save(cls, path: pathlib.Path, items: typing.List[&#34;TextItem&#34;]) -&gt; None:
     &#34;&#34;&#34;Save found text items to a file.&#34;&#34;&#34;
 
-    logger.debug(&#34;Saving %s OCR items.&#34;, len(items))
+    logger.debug(&#34;Saving %s OCR output items.&#34;, len(items))
 
     fields = [
         &#34;text&#34;,
@@ -1066,7 +1066,7 @@ def save(cls, path: pathlib.Path, items: typing.List[&#34;TextItem&#34;]) -&gt; 
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L49-L52" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L49-L52" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def bottom_left(self) -&gt; typing.Tuple[float, float]:
@@ -1080,7 +1080,7 @@ def bottom_left(self) -&gt; typing.Tuple[float, float]:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L44-L47" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L44-L47" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def bottom_right(self) -&gt; typing.Tuple[float, float]:
@@ -1094,7 +1094,7 @@ def bottom_right(self) -&gt; typing.Tuple[float, float]:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L186-L192" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L186-L192" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def is_horizontal_level(self) -&gt; bool:
@@ -1111,7 +1111,7 @@ def is_horizontal_level(self) -&gt; bool:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L194-L199" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L194-L199" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def is_vertical_level(self) -&gt; bool:
@@ -1127,7 +1127,7 @@ def is_vertical_level(self) -&gt; bool:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L63-L70" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L63-L70" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def left_length(self) -&gt; float:
@@ -1145,7 +1145,7 @@ def left_length(self) -&gt; float:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L72-L81" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L72-L81" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def line_bounds(self) -&gt; typing.Tuple[float, float]:
@@ -1165,7 +1165,7 @@ def line_bounds(self) -&gt; typing.Tuple[float, float]:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L146-L154" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L146-L154" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def slope_bottom_left_right(self) -&gt; float:
@@ -1184,7 +1184,7 @@ def slope_bottom_left_right(self) -&gt; float:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L156-L164" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L156-L164" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def slope_bottom_right_left(self) -&gt; float:
@@ -1203,7 +1203,7 @@ def slope_bottom_right_left(self) -&gt; float:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L136-L144" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L136-L144" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def slope_left_bottom_top(self) -&gt; float:
@@ -1222,7 +1222,7 @@ def slope_left_bottom_top(self) -&gt; float:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L126-L134" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L126-L134" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def slope_left_top_bottom(self) -&gt; float:
@@ -1241,7 +1241,7 @@ def slope_left_top_bottom(self) -&gt; float:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L176-L184" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L176-L184" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def slope_right_bottom_top(self) -&gt; float:
@@ -1260,7 +1260,7 @@ def slope_right_bottom_top(self) -&gt; float:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L166-L174" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L166-L174" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def slope_right_top_bottom(self) -&gt; float:
@@ -1279,7 +1279,7 @@ def slope_right_top_bottom(self) -&gt; float:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L106-L114" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L106-L114" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def slope_top_left_right(self) -&gt; float:
@@ -1298,7 +1298,7 @@ def slope_top_left_right(self) -&gt; float:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L116-L124" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L116-L124" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def slope_top_right_left(self) -&gt; float:
@@ -1317,7 +1317,7 @@ def slope_top_right_left(self) -&gt; float:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L334-L355" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L334-L355" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def to_prediction(
@@ -1349,7 +1349,7 @@ def to_prediction(
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L34-L37" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L34-L37" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def top_left(self) -&gt; typing.Tuple[float, float]:
@@ -1363,7 +1363,7 @@ def top_left(self) -&gt; typing.Tuple[float, float]:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L54-L61" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L54-L61" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def top_length(self) -&gt; float:
@@ -1381,7 +1381,7 @@ def top_length(self) -&gt; float:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L39-L42" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L39-L42" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@property
 def top_right(self) -&gt; typing.Tuple[float, float]:
@@ -1401,7 +1401,7 @@ Calculated as the midpoint +- 1/3 of the height of the text</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/f1cbe5f710f826daea0c061b50078e4329f35f6c/src/leaf_focus/ocr/model.py#L83-L104" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/ocr/model.py#L83-L104" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def is_same_line(self, other: &#34;TextItem&#34;) -&gt; bool:
     &#34;&#34;&#34;
