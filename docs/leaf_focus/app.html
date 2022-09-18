@@ -26,10 +26,9 @@
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/app.py#L1-L115" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/app.py#L1-L178" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Main application.&#34;&#34;&#34;
-
 import dataclasses
 import datetime
 import logging
@@ -37,8 +36,8 @@ import pathlib
 import typing
 
 from leaf_focus import utils
-from leaf_focus.ocr import keras_ocr
-from leaf_focus.pdf import model, xpdf
+from leaf_focus.ocr import model as ocr_model, keras_ocr
+from leaf_focus.pdf import model as pdf_model, xpdf
 
 logger = logging.getLogger(__name__)
 
@@ -73,22 +72,23 @@ class App:
     &#34;&#34;&#34;The main application.&#34;&#34;&#34;
 
     def __init__(self, exe_dir: pathlib.Path):
-        &#34;&#34;&#34;
-        Create a new instance of the application.
+        &#34;&#34;&#34;Create a new instance of the application.
 
-        :param exe_dir: path to the directory containing the executable files
+        Args:
+            exe_dir: The path to the directory containing the executable files.
         &#34;&#34;&#34;
         if not exe_dir or not exe_dir.exists() or not exe_dir.is_dir():
             raise NotADirectoryError(f&#34;The path &#39;{exe_dir or &#39;&#39;}&#39; is not a directory.&#34;)
         self._exe_dir = exe_dir
 
     def run(self, app_args: AppArgs) -&gt; bool:
-        &#34;&#34;&#34;
-        Run the application.
+        &#34;&#34;&#34;Run the application.
 
-        :param app_args: the application arguments
-        :return: return true if the text extraction succeeded, otherwise false
-        :rtype: bool
+        Args:
+            app_args: The application arguments.
+
+        Returns:
+            bool: True if the text extraction succeeded, otherwise false.
         &#34;&#34;&#34;
         timestamp_start = datetime.datetime.utcnow()
         logger.info(&#34;Starting leaf-focus&#34;)
@@ -96,9 +96,12 @@ class App:
         input_pdf = utils.validate_path(
             &#34;input pdf&#34;, app_args.input_pdf, must_exist=True
         )
+        app_args.input_pdf = input_pdf
+
         output_dir = utils.validate_path(
             &#34;output directory&#34;, app_args.output_dir, must_exist=False
         )
+        app_args.output_dir = output_dir
 
         # create the output directory
         if not output_dir.is_dir():
@@ -111,38 +114,98 @@ class App:
         xpdf_prog = xpdf.XpdfProgram(self._exe_dir)
 
         # pdf file info
-        xpdf_info_args = model.XpdfInfoArgs(
-            include_metadata=True,
-            first_page=app_args.first_page,
-            last_page=app_args.last_page,
-        )
-        xpdf_prog.info(input_pdf, output_dir, xpdf_info_args)
+        self.pdf_info(xpdf_prog, app_args)
 
         # pdf embedded text
-        xpdf_text_args = model.XpdfTextArgs(
-            line_end_type=model.XpdfTextArgs.get_line_ending(),
-            use_original_layout=True,
-            first_page=app_args.first_page,
-            last_page=app_args.last_page,
-        )
-        xpdf_prog.text(input_pdf, output_dir, xpdf_text_args)
+        self.pdf_text(xpdf_prog, app_args)
 
         # pdf page image
         xpdf_image = None
         if app_args.save_page_images or app_args.run_ocr:
-            xpdf_image_args = model.XpdfImageArgs(use_grayscale=True)
-            xpdf_image = xpdf_prog.image(input_pdf, output_dir, xpdf_image_args)
+            xpdf_image = self.pdf_images(xpdf_prog, app_args)
 
         # pdf page image ocr
         if app_args.run_ocr and xpdf_image:
-            keras_ocr_prog = keras_ocr.OpticalCharacterRecognition()
-            for xpdf_image_file in xpdf_image.output_files:
-                keras_ocr_prog.recognise_text(xpdf_image_file, output_dir)
+            list(self.pdf_ocr(xpdf_image, app_args))
 
         timestamp_finish = datetime.datetime.utcnow()
         program_duration = timestamp_finish - timestamp_start
         logger.info(&#34;Finished (duration %s)&#34;, program_duration)
-        return True</code></pre>
+        return True
+
+    def pdf_info(
+        self, prog: xpdf.XpdfProgram, app_args: AppArgs
+    ) -&gt; pdf_model.XpdfInfoResult:
+        &#34;&#34;&#34;Get the pdf file information.
+
+        Args:
+            prog: The program to run.
+            app_args: The application arguments.
+
+        Returns:
+            pdf_model.XpdfInfoResult: The result from the program.
+        &#34;&#34;&#34;
+        xpdf_info_args = pdf_model.XpdfInfoArgs(
+            include_metadata=True,
+            first_page=app_args.first_page,
+            last_page=app_args.last_page,
+        )
+        return prog.info(app_args.input_pdf, app_args.output_dir, xpdf_info_args)
+
+    def pdf_text(
+        self, prog: xpdf.XpdfProgram, app_args: AppArgs
+    ) -&gt; pdf_model.XpdfTextResult:
+        &#34;&#34;&#34;Get the text embedded in the pdf.
+
+        Args:
+            prog: The program to run.
+            app_args: The application arguments.
+
+        Returns:
+            pdf_model.XpdfTextResult: The result from the program.
+        &#34;&#34;&#34;
+        xpdf_text_args = pdf_model.XpdfTextArgs(
+            line_end_type=pdf_model.XpdfTextArgs.get_line_ending(),
+            use_original_layout=True,
+            first_page=app_args.first_page,
+            last_page=app_args.last_page,
+        )
+        return prog.text(app_args.input_pdf, app_args.output_dir, xpdf_text_args)
+
+    def pdf_images(
+        self, prog: xpdf.XpdfProgram, app_args: AppArgs
+    ) -&gt; pdf_model.XpdfImageResult:
+        &#34;&#34;&#34;Get each page in the pdf as a separate image.
+
+        Args:
+            prog: The program to run.
+            app_args: The application arguments.
+
+        Returns:
+            pdf_model.XpdfImageResult: The result from the program.
+        &#34;&#34;&#34;
+        xpdf_image_args = pdf_model.XpdfImageArgs(use_grayscale=True)
+        xpdf_image = prog.image(
+            app_args.input_pdf, app_args.output_dir, xpdf_image_args
+        )
+        return xpdf_image
+
+    def pdf_ocr(
+        self, xpdf_image: pdf_model.XpdfImageResult, app_args: AppArgs
+    ) -&gt; typing.Generator[ocr_model.KerasOcrResult, typing.Any, None]:
+        &#34;&#34;&#34;Recognise text on the pdf page images.
+
+        Args:
+            xpdf_image: The result from the pdf image program.
+            app_args: The application arguments.
+
+        Returns:
+            typing.Generator[ocr_model.KerasOcrResult, typing.Any, None]: Yield text
+                recognition results for each pdf page image.
+        &#34;&#34;&#34;
+        keras_ocr_prog = keras_ocr.OpticalCharacterRecognition()
+        for xpdf_image_file in xpdf_image.output_files:
+            yield keras_ocr_prog.recognise_text(xpdf_image_file, app_args.output_dir)</code></pre>
 </details>
 </section>
 <section>
@@ -161,32 +224,37 @@ class App:
 <dd>
 <div class="desc"><p>The main application.</p>
 <p>Create a new instance of the application.</p>
-<p>:param exe_dir: path to the directory containing the executable files</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>exe_dir</code></strong></dt>
+<dd>The path to the directory containing the executable files.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/app.py#L42-L115" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/app.py#L41-L178" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class App:
     &#34;&#34;&#34;The main application.&#34;&#34;&#34;
 
     def __init__(self, exe_dir: pathlib.Path):
-        &#34;&#34;&#34;
-        Create a new instance of the application.
+        &#34;&#34;&#34;Create a new instance of the application.
 
-        :param exe_dir: path to the directory containing the executable files
+        Args:
+            exe_dir: The path to the directory containing the executable files.
         &#34;&#34;&#34;
         if not exe_dir or not exe_dir.exists() or not exe_dir.is_dir():
             raise NotADirectoryError(f&#34;The path &#39;{exe_dir or &#39;&#39;}&#39; is not a directory.&#34;)
         self._exe_dir = exe_dir
 
     def run(self, app_args: AppArgs) -&gt; bool:
-        &#34;&#34;&#34;
-        Run the application.
+        &#34;&#34;&#34;Run the application.
 
-        :param app_args: the application arguments
-        :return: return true if the text extraction succeeded, otherwise false
-        :rtype: bool
+        Args:
+            app_args: The application arguments.
+
+        Returns:
+            bool: True if the text extraction succeeded, otherwise false.
         &#34;&#34;&#34;
         timestamp_start = datetime.datetime.utcnow()
         logger.info(&#34;Starting leaf-focus&#34;)
@@ -194,9 +262,12 @@ class App:
         input_pdf = utils.validate_path(
             &#34;input pdf&#34;, app_args.input_pdf, must_exist=True
         )
+        app_args.input_pdf = input_pdf
+
         output_dir = utils.validate_path(
             &#34;output directory&#34;, app_args.output_dir, must_exist=False
         )
+        app_args.output_dir = output_dir
 
         # create the output directory
         if not output_dir.is_dir():
@@ -209,61 +280,296 @@ class App:
         xpdf_prog = xpdf.XpdfProgram(self._exe_dir)
 
         # pdf file info
-        xpdf_info_args = model.XpdfInfoArgs(
-            include_metadata=True,
-            first_page=app_args.first_page,
-            last_page=app_args.last_page,
-        )
-        xpdf_prog.info(input_pdf, output_dir, xpdf_info_args)
+        self.pdf_info(xpdf_prog, app_args)
 
         # pdf embedded text
-        xpdf_text_args = model.XpdfTextArgs(
-            line_end_type=model.XpdfTextArgs.get_line_ending(),
-            use_original_layout=True,
-            first_page=app_args.first_page,
-            last_page=app_args.last_page,
-        )
-        xpdf_prog.text(input_pdf, output_dir, xpdf_text_args)
+        self.pdf_text(xpdf_prog, app_args)
 
         # pdf page image
         xpdf_image = None
         if app_args.save_page_images or app_args.run_ocr:
-            xpdf_image_args = model.XpdfImageArgs(use_grayscale=True)
-            xpdf_image = xpdf_prog.image(input_pdf, output_dir, xpdf_image_args)
+            xpdf_image = self.pdf_images(xpdf_prog, app_args)
 
         # pdf page image ocr
         if app_args.run_ocr and xpdf_image:
-            keras_ocr_prog = keras_ocr.OpticalCharacterRecognition()
-            for xpdf_image_file in xpdf_image.output_files:
-                keras_ocr_prog.recognise_text(xpdf_image_file, output_dir)
+            list(self.pdf_ocr(xpdf_image, app_args))
 
         timestamp_finish = datetime.datetime.utcnow()
         program_duration = timestamp_finish - timestamp_start
         logger.info(&#34;Finished (duration %s)&#34;, program_duration)
-        return True</code></pre>
+        return True
+
+    def pdf_info(
+        self, prog: xpdf.XpdfProgram, app_args: AppArgs
+    ) -&gt; pdf_model.XpdfInfoResult:
+        &#34;&#34;&#34;Get the pdf file information.
+
+        Args:
+            prog: The program to run.
+            app_args: The application arguments.
+
+        Returns:
+            pdf_model.XpdfInfoResult: The result from the program.
+        &#34;&#34;&#34;
+        xpdf_info_args = pdf_model.XpdfInfoArgs(
+            include_metadata=True,
+            first_page=app_args.first_page,
+            last_page=app_args.last_page,
+        )
+        return prog.info(app_args.input_pdf, app_args.output_dir, xpdf_info_args)
+
+    def pdf_text(
+        self, prog: xpdf.XpdfProgram, app_args: AppArgs
+    ) -&gt; pdf_model.XpdfTextResult:
+        &#34;&#34;&#34;Get the text embedded in the pdf.
+
+        Args:
+            prog: The program to run.
+            app_args: The application arguments.
+
+        Returns:
+            pdf_model.XpdfTextResult: The result from the program.
+        &#34;&#34;&#34;
+        xpdf_text_args = pdf_model.XpdfTextArgs(
+            line_end_type=pdf_model.XpdfTextArgs.get_line_ending(),
+            use_original_layout=True,
+            first_page=app_args.first_page,
+            last_page=app_args.last_page,
+        )
+        return prog.text(app_args.input_pdf, app_args.output_dir, xpdf_text_args)
+
+    def pdf_images(
+        self, prog: xpdf.XpdfProgram, app_args: AppArgs
+    ) -&gt; pdf_model.XpdfImageResult:
+        &#34;&#34;&#34;Get each page in the pdf as a separate image.
+
+        Args:
+            prog: The program to run.
+            app_args: The application arguments.
+
+        Returns:
+            pdf_model.XpdfImageResult: The result from the program.
+        &#34;&#34;&#34;
+        xpdf_image_args = pdf_model.XpdfImageArgs(use_grayscale=True)
+        xpdf_image = prog.image(
+            app_args.input_pdf, app_args.output_dir, xpdf_image_args
+        )
+        return xpdf_image
+
+    def pdf_ocr(
+        self, xpdf_image: pdf_model.XpdfImageResult, app_args: AppArgs
+    ) -&gt; typing.Generator[ocr_model.KerasOcrResult, typing.Any, None]:
+        &#34;&#34;&#34;Recognise text on the pdf page images.
+
+        Args:
+            xpdf_image: The result from the pdf image program.
+            app_args: The application arguments.
+
+        Returns:
+            typing.Generator[ocr_model.KerasOcrResult, typing.Any, None]: Yield text
+                recognition results for each pdf page image.
+        &#34;&#34;&#34;
+        keras_ocr_prog = keras_ocr.OpticalCharacterRecognition()
+        for xpdf_image_file in xpdf_image.output_files:
+            yield keras_ocr_prog.recognise_text(xpdf_image_file, app_args.output_dir)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
+<dt id="leaf_focus.app.App.pdf_images"><code class="name flex">
+<span>def <span class="ident">pdf_images</span></span>(<span>self, prog: <a title="leaf_focus.pdf.xpdf.XpdfProgram" href="pdf/xpdf.html#leaf_focus.pdf.xpdf.XpdfProgram">XpdfProgram</a>, app_args: <a title="leaf_focus.app.AppArgs" href="#leaf_focus.app.AppArgs">AppArgs</a>) ‑> <a title="leaf_focus.pdf.model.XpdfImageResult" href="pdf/model.html#leaf_focus.pdf.model.XpdfImageResult">XpdfImageResult</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get each page in the pdf as a separate image.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>prog</code></strong></dt>
+<dd>The program to run.</dd>
+<dt><strong><code>app_args</code></strong></dt>
+<dd>The application arguments.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pdf_model.XpdfImageResult</code></dt>
+<dd>The result from the program.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/app.py#L145-L161" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def pdf_images(
+    self, prog: xpdf.XpdfProgram, app_args: AppArgs
+) -&gt; pdf_model.XpdfImageResult:
+    &#34;&#34;&#34;Get each page in the pdf as a separate image.
+
+    Args:
+        prog: The program to run.
+        app_args: The application arguments.
+
+    Returns:
+        pdf_model.XpdfImageResult: The result from the program.
+    &#34;&#34;&#34;
+    xpdf_image_args = pdf_model.XpdfImageArgs(use_grayscale=True)
+    xpdf_image = prog.image(
+        app_args.input_pdf, app_args.output_dir, xpdf_image_args
+    )
+    return xpdf_image</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.app.App.pdf_info"><code class="name flex">
+<span>def <span class="ident">pdf_info</span></span>(<span>self, prog: <a title="leaf_focus.pdf.xpdf.XpdfProgram" href="pdf/xpdf.html#leaf_focus.pdf.xpdf.XpdfProgram">XpdfProgram</a>, app_args: <a title="leaf_focus.app.AppArgs" href="#leaf_focus.app.AppArgs">AppArgs</a>) ‑> <a title="leaf_focus.pdf.model.XpdfInfoResult" href="pdf/model.html#leaf_focus.pdf.model.XpdfInfoResult">XpdfInfoResult</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the pdf file information.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>prog</code></strong></dt>
+<dd>The program to run.</dd>
+<dt><strong><code>app_args</code></strong></dt>
+<dd>The application arguments.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pdf_model.XpdfInfoResult</code></dt>
+<dd>The result from the program.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/app.py#L106-L123" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def pdf_info(
+    self, prog: xpdf.XpdfProgram, app_args: AppArgs
+) -&gt; pdf_model.XpdfInfoResult:
+    &#34;&#34;&#34;Get the pdf file information.
+
+    Args:
+        prog: The program to run.
+        app_args: The application arguments.
+
+    Returns:
+        pdf_model.XpdfInfoResult: The result from the program.
+    &#34;&#34;&#34;
+    xpdf_info_args = pdf_model.XpdfInfoArgs(
+        include_metadata=True,
+        first_page=app_args.first_page,
+        last_page=app_args.last_page,
+    )
+    return prog.info(app_args.input_pdf, app_args.output_dir, xpdf_info_args)</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.app.App.pdf_ocr"><code class="name flex">
+<span>def <span class="ident">pdf_ocr</span></span>(<span>self, xpdf_image: <a title="leaf_focus.pdf.model.XpdfImageResult" href="pdf/model.html#leaf_focus.pdf.model.XpdfImageResult">XpdfImageResult</a>, app_args: <a title="leaf_focus.app.AppArgs" href="#leaf_focus.app.AppArgs">AppArgs</a>) ‑> Generator[<a title="leaf_focus.ocr.model.KerasOcrResult" href="ocr/model.html#leaf_focus.ocr.model.KerasOcrResult">KerasOcrResult</a>, Any, None]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Recognise text on the pdf page images.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>xpdf_image</code></strong></dt>
+<dd>The result from the pdf image program.</dd>
+<dt><strong><code>app_args</code></strong></dt>
+<dd>The application arguments.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>typing.Generator[ocr_model.KerasOcrResult, typing.Any, None]</code></dt>
+<dd>Yield text
+recognition results for each pdf page image.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/app.py#L163-L178" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def pdf_ocr(
+    self, xpdf_image: pdf_model.XpdfImageResult, app_args: AppArgs
+) -&gt; typing.Generator[ocr_model.KerasOcrResult, typing.Any, None]:
+    &#34;&#34;&#34;Recognise text on the pdf page images.
+
+    Args:
+        xpdf_image: The result from the pdf image program.
+        app_args: The application arguments.
+
+    Returns:
+        typing.Generator[ocr_model.KerasOcrResult, typing.Any, None]: Yield text
+            recognition results for each pdf page image.
+    &#34;&#34;&#34;
+    keras_ocr_prog = keras_ocr.OpticalCharacterRecognition()
+    for xpdf_image_file in xpdf_image.output_files:
+        yield keras_ocr_prog.recognise_text(xpdf_image_file, app_args.output_dir)</code></pre>
+</details>
+</dd>
+<dt id="leaf_focus.app.App.pdf_text"><code class="name flex">
+<span>def <span class="ident">pdf_text</span></span>(<span>self, prog: <a title="leaf_focus.pdf.xpdf.XpdfProgram" href="pdf/xpdf.html#leaf_focus.pdf.xpdf.XpdfProgram">XpdfProgram</a>, app_args: <a title="leaf_focus.app.AppArgs" href="#leaf_focus.app.AppArgs">AppArgs</a>) ‑> <a title="leaf_focus.pdf.model.XpdfTextResult" href="pdf/model.html#leaf_focus.pdf.model.XpdfTextResult">XpdfTextResult</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the text embedded in the pdf.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>prog</code></strong></dt>
+<dd>The program to run.</dd>
+<dt><strong><code>app_args</code></strong></dt>
+<dd>The application arguments.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pdf_model.XpdfTextResult</code></dt>
+<dd>The result from the program.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/app.py#L125-L143" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def pdf_text(
+    self, prog: xpdf.XpdfProgram, app_args: AppArgs
+) -&gt; pdf_model.XpdfTextResult:
+    &#34;&#34;&#34;Get the text embedded in the pdf.
+
+    Args:
+        prog: The program to run.
+        app_args: The application arguments.
+
+    Returns:
+        pdf_model.XpdfTextResult: The result from the program.
+    &#34;&#34;&#34;
+    xpdf_text_args = pdf_model.XpdfTextArgs(
+        line_end_type=pdf_model.XpdfTextArgs.get_line_ending(),
+        use_original_layout=True,
+        first_page=app_args.first_page,
+        last_page=app_args.last_page,
+    )
+    return prog.text(app_args.input_pdf, app_args.output_dir, xpdf_text_args)</code></pre>
+</details>
+</dd>
 <dt id="leaf_focus.app.App.run"><code class="name flex">
 <span>def <span class="ident">run</span></span>(<span>self, app_args: <a title="leaf_focus.app.AppArgs" href="#leaf_focus.app.AppArgs">AppArgs</a>) ‑> bool</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Run the application.</p>
-<p>:param app_args: the application arguments
-:return: return true if the text extraction succeeded, otherwise false
-:rtype: bool</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>app_args</code></strong></dt>
+<dd>The application arguments.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if the text extraction succeeded, otherwise false.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/app.py#L55-L115" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/app.py#L54-L104" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def run(self, app_args: AppArgs) -&gt; bool:
-    &#34;&#34;&#34;
-    Run the application.
+    &#34;&#34;&#34;Run the application.
 
-    :param app_args: the application arguments
-    :return: return true if the text extraction succeeded, otherwise false
-    :rtype: bool
+    Args:
+        app_args: The application arguments.
+
+    Returns:
+        bool: True if the text extraction succeeded, otherwise false.
     &#34;&#34;&#34;
     timestamp_start = datetime.datetime.utcnow()
     logger.info(&#34;Starting leaf-focus&#34;)
@@ -271,9 +577,12 @@ class App:
     input_pdf = utils.validate_path(
         &#34;input pdf&#34;, app_args.input_pdf, must_exist=True
     )
+    app_args.input_pdf = input_pdf
+
     output_dir = utils.validate_path(
         &#34;output directory&#34;, app_args.output_dir, must_exist=False
     )
+    app_args.output_dir = output_dir
 
     # create the output directory
     if not output_dir.is_dir():
@@ -286,33 +595,19 @@ class App:
     xpdf_prog = xpdf.XpdfProgram(self._exe_dir)
 
     # pdf file info
-    xpdf_info_args = model.XpdfInfoArgs(
-        include_metadata=True,
-        first_page=app_args.first_page,
-        last_page=app_args.last_page,
-    )
-    xpdf_prog.info(input_pdf, output_dir, xpdf_info_args)
+    self.pdf_info(xpdf_prog, app_args)
 
     # pdf embedded text
-    xpdf_text_args = model.XpdfTextArgs(
-        line_end_type=model.XpdfTextArgs.get_line_ending(),
-        use_original_layout=True,
-        first_page=app_args.first_page,
-        last_page=app_args.last_page,
-    )
-    xpdf_prog.text(input_pdf, output_dir, xpdf_text_args)
+    self.pdf_text(xpdf_prog, app_args)
 
     # pdf page image
     xpdf_image = None
     if app_args.save_page_images or app_args.run_ocr:
-        xpdf_image_args = model.XpdfImageArgs(use_grayscale=True)
-        xpdf_image = xpdf_prog.image(input_pdf, output_dir, xpdf_image_args)
+        xpdf_image = self.pdf_images(xpdf_prog, app_args)
 
     # pdf page image ocr
     if app_args.run_ocr and xpdf_image:
-        keras_ocr_prog = keras_ocr.OpticalCharacterRecognition()
-        for xpdf_image_file in xpdf_image.output_files:
-            keras_ocr_prog.recognise_text(xpdf_image_file, output_dir)
+        list(self.pdf_ocr(xpdf_image, app_args))
 
     timestamp_finish = datetime.datetime.utcnow()
     program_duration = timestamp_finish - timestamp_start
@@ -331,7 +626,7 @@ class App:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/app.py#L16-L39" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/app.py#L15-L38" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class AppArgs:
@@ -455,6 +750,10 @@ setTimeout(() => input.focus(), 100);
 <li>
 <h4><code><a title="leaf_focus.app.App" href="#leaf_focus.app.App">App</a></code></h4>
 <ul class="">
+<li><code><a title="leaf_focus.app.App.pdf_images" href="#leaf_focus.app.App.pdf_images">pdf_images</a></code></li>
+<li><code><a title="leaf_focus.app.App.pdf_info" href="#leaf_focus.app.App.pdf_info">pdf_info</a></code></li>
+<li><code><a title="leaf_focus.app.App.pdf_ocr" href="#leaf_focus.app.App.pdf_ocr">pdf_ocr</a></code></li>
+<li><code><a title="leaf_focus.app.App.pdf_text" href="#leaf_focus.app.App.pdf_text">pdf_text</a></code></li>
 <li><code><a title="leaf_focus.app.App.run" href="#leaf_focus.app.App.run">run</a></code></li>
 </ul>
 </li>

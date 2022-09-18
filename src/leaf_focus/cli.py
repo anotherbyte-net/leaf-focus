@@ -10,12 +10,13 @@ from leaf_focus import app, utils
 
 
 def main(args: typing.Optional[typing.List[str]] = None) -> int:
-    """
-    Run as a command line program.
+    """Run as a command line program.
 
-    :param args: The program arguements.
-    :return: Program exit code.
-    :rtype: int
+    Args:
+        args: The program arguments.
+
+    Returns:
+        int: Program exit code.
     """
     if args is None:
         args = sys.argv[1:]
@@ -103,7 +104,7 @@ def main(args: typing.Optional[typing.List[str]] = None) -> int:
         logger.error("Error: %s - %s", error.__class__.__name__, str(error))
         return 1
 
-    except Exception as error:  # noqa: W0703
+    except Exception as error:  # pylint: disable=broad-except
         logger.error("Error: %s - %s", error.__class__.__name__, str(error))
         return 2
 

@@ -1,3 +1,4 @@
+"""Models for OCR processing."""
 import csv
 import dataclasses
 import logging
@@ -33,26 +34,47 @@ class TextItem:
 
     @property
     def top_left(self) -> typing.Tuple[float, float]:
-        """The top left point."""
+        """Get the top left point.
+
+        Returns:
+            The x and y coordinates.
+        """
         return self.top_left_x, self.top_left_y
 
     @property
     def top_right(self) -> typing.Tuple[float, float]:
-        """The top right point."""
+        """Get the top right point.
+
+        Returns:
+            The x and y coordinates.
+        """
         return self.top_right_x, self.top_right_y
 
     @property
     def bottom_right(self) -> typing.Tuple[float, float]:
-        """The bottom right point."""
+        """Get the bottom right point.
+
+        Returns:
+             The x and y coordinates.
+        """
         return self.bottom_right_x, self.bottom_right_y
 
     @property
     def bottom_left(self) -> typing.Tuple[float, float]:
-        """The bottom left point."""
+        """Get the bottom left point.
+
+        Returns:
+            The x and y coordinates.
+        """
         return self.bottom_left_x, self.bottom_left_y
 
     @property
     def top_length(self) -> float:
+        """Get the length of the top side.
+
+        Returns:
+            float: The length.
+        """
         # Get the length of the hypotenuse side.
         side1 = abs(self.top_right_x - self.top_left_x)
         side2 = abs(self.top_right_y - self.top_left_y)
@@ -62,6 +84,11 @@ class TextItem:
 
     @property
     def left_length(self) -> float:
+        """Get the length of the left side.
+
+        Returns:
+            float: The length.
+        """
         # Get the length of the hypotenuse side.
         side1 = abs(self.top_left_y - self.bottom_left_y)
         side2 = abs(self.top_left_x - self.bottom_left_x)
@@ -81,9 +108,15 @@ class TextItem:
         return top_bound, bottom_bound
 
     def is_same_line(self, other: "TextItem") -> bool:
-        """
-        Check if other found text overlaps this found text.
-        Calculated as the midpoint +- 1/3 of the height of the text
+        """Check if the vertical midpoints of this item and another item overlap.
+
+        Calculated as the midpoint +- 1/3 of the height of the text.
+
+        Args:
+            other (TextItem): The text item to compare.
+
+        Returns:
+            bool: True if this item and the other item overlap, otherwise false.
         """
         if not other:
             return False
@@ -105,7 +138,11 @@ class TextItem:
 
     @property
     def slope_top_left_right(self) -> float:
-        """The slope of the top of the rectangle."""
+        """Get the top slope from the left to the right.
+
+        Returns:
+            float: The slope.
+        """
         return self._slope(
             self.top_left_x,
             self.top_left_y,
@@ -115,7 +152,11 @@ class TextItem:
 
     @property
     def slope_top_right_left(self) -> float:
-        """The slope of the top of the rectangle."""
+        """Get the top slope from the right to the left.
+
+        Returns:
+            float: The slope.
+        """
         return self._slope(
             self.top_right_x,
             self.top_right_y,
@@ -125,7 +166,11 @@ class TextItem:
 
     @property
     def slope_left_top_bottom(self) -> float:
-        """The slope of the left of the rectangle."""
+        """Get the left slope from the top to the bottom.
+
+        Returns:
+            float: The slope.
+        """
         return self._slope(
             self.top_left_x,
             self.top_left_y,
@@ -135,7 +180,11 @@ class TextItem:
 
     @property
     def slope_left_bottom_top(self) -> float:
-        """The slope of the left of the rectangle."""
+        """Get the left slope from the bottom to the top.
+
+        Returns:
+            float: The slope.
+        """
         return self._slope(
             self.bottom_left_x,
             self.bottom_left_y,
@@ -145,7 +194,11 @@ class TextItem:
 
     @property
     def slope_bottom_left_right(self) -> float:
-        """The slope of the bottom of the rectangle."""
+        """Get the bottom slope from the left to the right.
+
+        Returns:
+            float: The slope.
+        """
         return self._slope(
             self.bottom_left_x,
             self.bottom_left_y,
@@ -155,7 +208,11 @@ class TextItem:
 
     @property
     def slope_bottom_right_left(self) -> float:
-        """The slope of the bottom of the rectangle."""
+        """Get the bottom slope from the right to the left.
+
+        Returns:
+            float: The slope.
+        """
         return self._slope(
             self.bottom_right_x,
             self.bottom_right_y,
@@ -165,7 +222,11 @@ class TextItem:
 
     @property
     def slope_right_top_bottom(self) -> float:
-        """The slope of the right of the rectangle."""
+        """Get the right slope from the top to the bottom.
+
+        Returns:
+            float: The slope.
+        """
         return self._slope(
             self.top_right_x,
             self.top_right_y,
@@ -175,7 +236,11 @@ class TextItem:
 
     @property
     def slope_right_bottom_top(self) -> float:
-        """The slope of the right of the rectangle."""
+        """Get the right slope from the bottom to the top.
+
+        Returns:
+            float: The slope.
+        """
         return self._slope(
             self.bottom_right_x,
             self.bottom_right_y,
@@ -185,7 +250,11 @@ class TextItem:
 
     @property
     def is_horizontal_level(self) -> bool:
-        """Is side-to-side slope approximately horizontal?"""
+        """Check whether the left-to-right slope is approximately horizontal.
+
+        Returns:
+            bool: True if the item is approximately horizontal.
+        """
         # -0.1 -> 0.1 is strictly horizontal
         # give a bit of buffer
         buffer = 0.09
@@ -193,15 +262,26 @@ class TextItem:
 
     @property
     def is_vertical_level(self) -> bool:
-        """Is the top-to-bottom slope approximately vertical?"""
+        """Check whether the top-to-bottom slope is approximately vertical.
+
+        Returns:
+            bool: True if the item is approximately vertical.
+        """
         # -0.1 -> 0.1 is strictly vertical
         # give a bit of buffer
         return self.slope_left_top_bottom == math.inf
 
     @classmethod
     def save(cls, path: pathlib.Path, items: typing.List["TextItem"]) -> None:
-        """Save found text items to a file."""
+        """Save found text items to a file.
 
+        Args:
+            path: Write the items to this file.
+            items: The items to save.
+
+        Returns:
+            None
+        """
         logger.debug("Saving %s OCR output items.", len(items))
 
         fields = [
@@ -229,8 +309,14 @@ class TextItem:
 
     @classmethod
     def load(cls, path: pathlib.Path) -> typing.Generator["TextItem", typing.Any, None]:
-        """Load found text items from a file."""
+        """Load found text items from a file.
 
+        Args:
+            path: The path to the file containing items.
+
+        Returns:
+            typing.Generator["TextItem", typing.Any, None]: Items from the file.
+        """
         logger.debug("Loading OCR output items.")
         count = 0
 
@@ -265,10 +351,16 @@ class TextItem:
     def from_prediction(
         cls, prediction: typing.Tuple[typing.Any, typing.Any]
     ) -> "TextItem":
-        """
-        Convert from (text, box) to item.
+        """Convert from (text, box) to item.
+
         Box is (top left, top right, bottom right, bottom left).
         Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].
+
+        Args:
+            prediction: The text recognised in an image.
+
+        Returns:
+            TextItem: A text item representing the recognised text.
         """
         text, (
             (top_left_x, top_left_y),
@@ -308,7 +400,7 @@ class TextItem:
             if len(current_line) < 1:
                 current_line.append(item)
 
-            elif any([item.is_same_line(i) for i in current_line]):
+            elif any((item.is_same_line(i) for i in current_line)):
                 current_line.append(item)
 
             elif len(current_line) > 0:
@@ -354,10 +446,10 @@ class TextItem:
             ),
         )
 
-    def _slope(self, x1, y1, x2, y2) -> float:
+    def _slope(self, pt_x1, pt_y1, pt_x2, pt_y2) -> float:
         """Get the slope of a line."""
-        y_diff = y2 - y1
-        x_diff = x2 - x1
+        y_diff = pt_y2 - pt_y1
+        x_diff = pt_x2 - pt_x1
         try:
             return y_diff / x_diff
         except ZeroDivisionError:

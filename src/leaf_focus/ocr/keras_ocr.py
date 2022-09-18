@@ -16,10 +16,15 @@ class OpticalCharacterRecognition:
     """OCR implementation using keras-ocr."""
 
     def __init__(self):
+        """Create a new OpticalCharacterRecognition."""
         self._pipeline = None
 
     def engine_create(self) -> None:
-        """Create the OCR engine."""
+        """Create the OCR engine.
+
+        Returns:
+            None
+        """
         if self._pipeline is not None:
             return
 
@@ -35,20 +40,20 @@ class OpticalCharacterRecognition:
             logging.WARNING: "2",
             logging.ERROR: "3",
         }
-        os.environ["TF_CPP_MIN_LOG_LEVEL"] = tf_log_level_map.get(log_level)
+        os.environ["TF_CPP_MIN_LOG_LEVEL"] = tf_log_level_map.get(log_level, "1")
 
-        import tensorflow as tf  # noqa: C0415
+        import tensorflow as tf  # pylint: disable=import-outside-toplevel
 
         # also set the tf logger level
 
         tf.get_logger().setLevel(log_level)
 
         try:
-            import keras_ocr  # noqa: C0415
-        except ModuleNotFoundError as e:
+            import keras_ocr  # pylint: disable=import-outside-toplevel
+        except ModuleNotFoundError as error:
             msg = "Cannot run ocr on this Python version."
             logger.error(msg)
-            raise utils.LeafFocusException(msg) from e
+            raise utils.LeafFocusException(msg) from error
 
         # TODO: allow specifying path to weights files for detector
         # detector_weights_path = ""
@@ -77,32 +82,64 @@ class OpticalCharacterRecognition:
     def engine_run(
         self, image_file: pathlib.Path
     ) -> typing.Tuple[typing.List, typing.Any]:
+        """Run the recognition engine.
+
+        Args:
+            image_file: The path to the image file.
+
+        Returns:
+            typing.Tuple[typing.List, typing.Any]: The list of images
+                and list of recognition results.
+        """
         try:
-            import keras_ocr  # noqa: C0415
-        except ModuleNotFoundError as e:
+            import keras_ocr  # pylint: disable=import-outside-toplevel
+        except ModuleNotFoundError as error:
             msg = "Cannot run ocr on this Python version."
             logger.error(msg)
-            raise utils.LeafFocusException(msg) from e
+            raise utils.LeafFocusException(msg) from error
 
         self.engine_create()
 
         images = [keras_ocr.tools.read(str(image_file))]
         return images, self._pipeline.recognize(images)
 
-    def engine_annotate(self, image, predictions, axis) -> None:
+    def engine_annotate(
+        self,
+        image: typing.Optional[np.ndarray],
+        predictions: typing.List[typing.Tuple[typing.Any, typing.Any]],
+        axis,
+    ) -> None:
+        """Run the annotation engine.
+
+        Args:
+            image: The image data.
+            predictions: The recognised text from the image.
+            axis: The plot axis for drawing annotations.
+
+        Returns:
+            None
+        """
         try:
-            import keras_ocr  # noqa: C0415
-        except ModuleNotFoundError as e:
+            import keras_ocr  # pylint: disable=import-outside-toplevel
+        except ModuleNotFoundError as error:
             msg = "Cannot run ocr on this Python version."
             logger.error(msg)
-            raise utils.LeafFocusException(msg) from e
+            raise utils.LeafFocusException(msg) from error
 
         keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)
 
     def recognise_text(
         self, image_file: pathlib.Path, output_dir: pathlib.Path
     ) -> model.KerasOcrResult:
-        """Recognise text in an image file."""
+        """Recognise text in an image file.
+
+        Args:
+            image_file: The path to the image file.
+            output_dir: The directory to write the results.
+
+        Returns:
+            model.KerasOcrResult: The text recognition results.
+        """
         if not image_file:
             raise utils.LeafFocusException("Must supply image file.")
         if not output_dir:
@@ -127,16 +164,16 @@ class OpticalCharacterRecognition:
 
         if annotations_file.exists() and predictions_file.exists():
             logger.debug(
-                "Predictions and annotations files already exist "
-                f"for '{image_file.stem}'."
+                "Predictions and annotations files already exist for '%s'.",
+                image_file.stem,
             )
-            items = list(model.TextItem.load(predictions_file))
-            result.items = model.TextItem.order_text_lines(items)
+            all_items = list(model.TextItem.load(predictions_file))
+            result.items = model.TextItem.order_text_lines(all_items)
             return result
 
         # read in the image
         logger.debug(
-            f"Creating predictions and annotations files for '{image_file.stem}'."
+            "Creating predictions and annotations files for '%s'.", image_file.stem
         )
 
         # Each list of predictions in prediction_groups is a list of
@@ -159,8 +196,16 @@ class OpticalCharacterRecognition:
         image: typing.Optional[np.ndarray],
         predictions: typing.List[typing.Tuple[typing.Any, typing.Any]],
     ) -> None:
-        """Save the annotated image."""
+        """Save the annotated image.
 
+        Args:
+            annotation_file: The path to the file containing annotations.
+            image: The image data.
+            predictions: The text recognition results.
+
+        Returns:
+            None
+        """
         if not annotation_file:
             raise utils.LeafFocusException("Must supply annotation file.")
         if image is None or image.size < 1 or len(image.shape) != 3:
@@ -171,10 +216,10 @@ class OpticalCharacterRecognition:
         if not predictions:
             predictions = []
 
-        logger.info(f"Saving OCR image to '{annotation_file}'.")
+        logger.info("Saving OCR image to '%s'.", annotation_file)
 
-        import matplotlib  # noqa: C0415
-        from matplotlib import pyplot as plt  # noqa: C0415
+        import matplotlib  # pylint: disable=import-outside-toplevel
+        from matplotlib import pyplot as plt  # pylint: disable=import-outside-toplevel
 
         matplotlib.use("agg")
 
@@ -190,7 +235,14 @@ class OpticalCharacterRecognition:
     def convert_predictions(
         self, predictions: typing.List[typing.Tuple[typing.Any, typing.Any]]
     ) -> typing.List[typing.List[model.TextItem]]:
-        """Convert predictions to items."""
+        """Convert predictions to items.
+
+        Args:
+            predictions: The list of recognised text.
+
+        Returns:
+            typing.List[typing.List[model.TextItem]]: The equivalent text items.
+        """
         if not predictions:
             predictions = []
 
@@ -208,19 +260,36 @@ class OpticalCharacterRecognition:
         items_file: pathlib.Path,
         items: typing.Iterable[model.TextItem],
     ) -> None:
-        """Save items to csv file."""
+        """Save items to csv file.
+
+        Args:
+            items_file: Write the text items to this file.
+            items: The text items to save.
+
+        Returns:
+            None
+        """
         if not items_file:
             raise utils.LeafFocusException("Must supply predictions file.")
         if not items:
             raise utils.LeafFocusException("Must supply predictions data.")
 
-        logger.info(f"Saving OCR predictions to '{items_file}'.")
+        logger.info("Saving OCR predictions to '%s'.", items_file)
 
         items_list = list(items)
         model.TextItem.save(items_file, items_list)
 
     def _build_name(self, prefix: str, middle: str, suffix: str):
-        """Build the file name."""
+        """Build the file name.
+
+        Args:
+            prefix: The text to add at the start.
+            middle: The text to add in the middle.
+            suffix: The text to add at the end.
+
+        Returns:
+            str: The built name.
+        """
         prefix = prefix.strip("-")
         middle = middle.strip("-")
         suffix = suffix if suffix.startswith(".") else "." + suffix

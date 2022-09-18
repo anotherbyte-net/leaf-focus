@@ -26,10 +26,9 @@
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L1-L262" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L1-L259" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Small utility functions.&#34;&#34;&#34;
-
 import dataclasses
 import json
 import pathlib
@@ -106,8 +105,8 @@ def validate_path(
             abs_path = value.absolute()
 
         return abs_path
-    except Exception:
-        raise LeafFocusException(f&#34;Invalid path &#39;{value}&#39;.&#34;)
+    except Exception as error:
+        raise LeafFocusException(f&#34;Invalid path &#39;{value}&#39;.&#34;) from error
 
 
 def select_exe(value: pathlib.Path) -&gt; pathlib.Path:
@@ -147,7 +146,6 @@ _slug_re_2 = re.compile(r&#34;[-\s]+&#34;)
 
 def str_norm(value: str):
     &#34;&#34;&#34;Normalise a string into the &#39;slug&#39; format.&#34;&#34;&#34;
-
     separator = &#34;-&#34;
     encoding = &#34;utf-8&#34;
 
@@ -176,8 +174,7 @@ class CustomJsonEncoder(json.JSONEncoder):
 
 @dataclasses.dataclass
 class XmlElement:
-    &#34;&#34;&#34;
-    A simple xml element.
+    &#34;&#34;&#34;A simple xml element.
 
     &lt;tag attrib&gt;text&lt;child/&gt;...&lt;/tag&gt;tail
     &#34;&#34;&#34;
@@ -261,8 +258,8 @@ def xml_to_element(element: Element) -&gt; XmlElement:
         attrib=attrib_ns,
         tag=tag_name,
         name_space=tag_ns,
-        text=text,
-        tail=tail,
+        text=text or &#34;&#34;,
+        tail=tail or &#34;&#34;,
         children=children,
     )
 
@@ -270,11 +267,13 @@ def xml_to_element(element: Element) -&gt; XmlElement:
 
 
 def xml_tag_ns(value: str) -&gt; typing.Tuple[str, str]:
-    &#34;&#34;&#34;
-    Get the XML namespace and name.
+    &#34;&#34;&#34;Get the XML namespace and name.
 
-    :param value: The combined namespace and name
-    :return: The separate namespace and name
+    Args:
+        value: The combined namespace and name
+
+    Returns:
+        The separate namespace and name
     &#34;&#34;&#34;
     if &#34;}&#34; in value:
         name_space, name = value.rsplit(&#34;}&#34;, maxsplit=1)
@@ -287,9 +286,7 @@ def xml_tag_ns(value: str) -&gt; typing.Tuple[str, str]:
 
 
 class LeafFocusException(Exception):
-    &#34;&#34;&#34;A custom error.&#34;&#34;&#34;
-
-    pass</code></pre>
+    &#34;&#34;&#34;A custom error.&#34;&#34;&#34;</code></pre>
 </details>
 </section>
 <section>
@@ -307,7 +304,7 @@ class LeafFocusException(Exception):
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L17-L19" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L16-L18" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def get_name_dash() -&gt; str:
     &#34;&#34;&#34;Get the package name with word separated by dashes.&#34;&#34;&#34;
@@ -322,7 +319,7 @@ class LeafFocusException(Exception):
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L22-L24" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L21-L23" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def get_name_under() -&gt; str:
     &#34;&#34;&#34;Get the package name with word separated by underscores.&#34;&#34;&#34;
@@ -337,7 +334,7 @@ class LeafFocusException(Exception):
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L27-L41" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L26-L40" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def get_version() -&gt; typing.Optional[str]:
     &#34;&#34;&#34;Get the package version.&#34;&#34;&#34;
@@ -364,7 +361,7 @@ class LeafFocusException(Exception):
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L95-L111" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L94-L110" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def output_root(
     input_file: pathlib.Path,
@@ -393,7 +390,7 @@ class LeafFocusException(Exception):
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L44-L55" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L43-L54" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def parse_date(value: str) -&gt; typing.Optional[datetime.datetime]:
     &#34;&#34;&#34;Parse a date from a string.&#34;&#34;&#34;
@@ -417,7 +414,7 @@ class LeafFocusException(Exception):
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L83-L92" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L82-L91" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def select_exe(value: pathlib.Path) -&gt; pathlib.Path:
     &#34;&#34;&#34;Select the executable path based on the platform.&#34;&#34;&#34;
@@ -439,11 +436,10 @@ class LeafFocusException(Exception):
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L118-L130" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L117-L128" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def str_norm(value: str):
     &#34;&#34;&#34;Normalise a string into the &#39;slug&#39; format.&#34;&#34;&#34;
-
     separator = &#34;-&#34;
     encoding = &#34;utf-8&#34;
 
@@ -464,7 +460,7 @@ class LeafFocusException(Exception):
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L58-L62" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L57-L61" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def validate(name: str, value, expected: typing.List) -&gt; None:
     &#34;&#34;&#34;Validate that a value is one of the expected values.&#34;&#34;&#34;
@@ -481,7 +477,7 @@ class LeafFocusException(Exception):
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L65-L80" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L64-L79" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def validate_path(
     name: str, value: pathlib.Path, must_exist: bool = False
@@ -497,8 +493,8 @@ class LeafFocusException(Exception):
             abs_path = value.absolute()
 
         return abs_path
-    except Exception:
-        raise LeafFocusException(f&#34;Invalid path &#39;{value}&#39;.&#34;)</code></pre>
+    except Exception as error:
+        raise LeafFocusException(f&#34;Invalid path &#39;{value}&#39;.&#34;) from error</code></pre>
 </details>
 </dd>
 <dt id="leaf_focus.utils.xml_tag_ns"><code class="name flex">
@@ -506,19 +502,26 @@ class LeafFocusException(Exception):
 </code></dt>
 <dd>
 <div class="desc"><p>Get the XML namespace and name.</p>
-<p>:param value: The combined namespace and name
-:return: The separate namespace and name</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>value</code></strong></dt>
+<dd>The combined namespace and name</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The separate namespace and name</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L242-L256" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L239-L255" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def xml_tag_ns(value: str) -&gt; typing.Tuple[str, str]:
-    &#34;&#34;&#34;
-    Get the XML namespace and name.
+    &#34;&#34;&#34;Get the XML namespace and name.
 
-    :param value: The combined namespace and name
-    :return: The separate namespace and name
+    Args:
+        value: The combined namespace and name
+
+    Returns:
+        The separate namespace and name
     &#34;&#34;&#34;
     if &#34;}&#34; in value:
         name_space, name = value.rsplit(&#34;}&#34;, maxsplit=1)
@@ -538,7 +541,7 @@ class LeafFocusException(Exception):
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L212-L239" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L209-L236" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def xml_to_element(element: Element) -&gt; XmlElement:
     &#34;&#34;&#34;Convert xml into nested dicts.&#34;&#34;&#34;
@@ -562,8 +565,8 @@ class LeafFocusException(Exception):
         attrib=attrib_ns,
         tag=tag_name,
         name_space=tag_ns,
-        text=text,
-        tail=tail,
+        text=text or &#34;&#34;,
+        tail=tail or &#34;&#34;,
         children=children,
     )
 
@@ -620,7 +623,7 @@ version of the object or raise a <code>TypeError</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L136-L144" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L134-L142" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class CustomJsonEncoder(json.JSONEncoder):
     &#34;&#34;&#34;A custom json encoder.&#34;&#34;&#34;
@@ -646,7 +649,7 @@ version of the object or raise a <code>TypeError</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L139-L144" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L137-L142" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def default(self, o):
     &#34;&#34;&#34;Conversion used by default.&#34;&#34;&#34;
@@ -667,12 +670,10 @@ version of the object or raise a <code>TypeError</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L259-L262" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L258-L259" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class LeafFocusException(Exception):
-    &#34;&#34;&#34;A custom error.&#34;&#34;&#34;
-
-    pass</code></pre>
+    &#34;&#34;&#34;A custom error.&#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -690,12 +691,11 @@ version of the object or raise a <code>TypeError</code>.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L147-L209" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L145-L206" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XmlElement:
-    &#34;&#34;&#34;
-    A simple xml element.
+    &#34;&#34;&#34;A simple xml element.
 
     &lt;tag attrib&gt;text&lt;child/&gt;...&lt;/tag&gt;tail
     &#34;&#34;&#34;
@@ -793,7 +793,7 @@ class XmlElement:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/utils.py#L162-L178" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/utils.py#L159-L175" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def to_dict(self) -&gt; typing.Dict:
     &#34;&#34;&#34;Convert xml element to a dict.&#34;&#34;&#34;

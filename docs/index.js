@@ -64,12 +64,36 @@ INDEX=[
 {
 "ref":"leaf_focus.app.App",
 "url":1,
-"doc":"The main application. Create a new instance of the application. :param exe_dir: path to the directory containing the executable files"
+"doc":"The main application. Create a new instance of the application. Args: exe_dir: The path to the directory containing the executable files."
 },
 {
 "ref":"leaf_focus.app.App.run",
 "url":1,
-"doc":"Run the application. :param app_args: the application arguments :return: return true if the text extraction succeeded, otherwise false :rtype: bool",
+"doc":"Run the application. Args: app_args: The application arguments. Returns: bool: True if the text extraction succeeded, otherwise false.",
+"func":1
+},
+{
+"ref":"leaf_focus.app.App.pdf_info",
+"url":1,
+"doc":"Get the pdf file information. Args: prog: The program to run. app_args: The application arguments. Returns: pdf_model.XpdfInfoResult: The result from the program.",
+"func":1
+},
+{
+"ref":"leaf_focus.app.App.pdf_text",
+"url":1,
+"doc":"Get the text embedded in the pdf. Args: prog: The program to run. app_args: The application arguments. Returns: pdf_model.XpdfTextResult: The result from the program.",
+"func":1
+},
+{
+"ref":"leaf_focus.app.App.pdf_images",
+"url":1,
+"doc":"Get each page in the pdf as a separate image. Args: prog: The program to run. app_args: The application arguments. Returns: pdf_model.XpdfImageResult: The result from the program.",
+"func":1
+},
+{
+"ref":"leaf_focus.app.App.pdf_ocr",
+"url":1,
+"doc":"Recognise text on the pdf page images. Args: xpdf_image: The result from the pdf image program. app_args: The application arguments. Returns: typing.Generator[ocr_model.KerasOcrResult, typing.Any, None]: Yield text recognition results for each pdf page image.",
 "func":1
 },
 {
@@ -80,7 +104,7 @@ INDEX=[
 {
 "ref":"leaf_focus.cli.main",
 "url":2,
-"doc":"Run as a command line program. :param args: The program arguements. :return: Program exit code. :rtype: int",
+"doc":"Run as a command line program. Args: args: The program arguments. Returns: int: Program exit code.",
 "func":1
 },
 {
@@ -96,54 +120,54 @@ INDEX=[
 {
 "ref":"leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition",
 "url":4,
-"doc":"OCR implementation using keras-ocr."
+"doc":"OCR implementation using keras-ocr. Create a new OpticalCharacterRecognition."
 },
 {
 "ref":"leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_create",
 "url":4,
-"doc":"Create the OCR engine.",
+"doc":"Create the OCR engine. Returns: None",
 "func":1
 },
 {
 "ref":"leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_run",
 "url":4,
-"doc":"",
+"doc":"Run the recognition engine. Args: image_file: The path to the image file. Returns: typing.Tuple[typing.List, typing.Any]: The list of images and list of recognition results.",
 "func":1
 },
 {
 "ref":"leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.engine_annotate",
 "url":4,
-"doc":"",
+"doc":"Run the annotation engine. Args: image: The image data. predictions: The recognised text from the image. axis: The plot axis for drawing annotations. Returns: None",
 "func":1
 },
 {
 "ref":"leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.recognise_text",
 "url":4,
-"doc":"Recognise text in an image file.",
+"doc":"Recognise text in an image file. Args: image_file: The path to the image file. output_dir: The directory to write the results. Returns: model.KerasOcrResult: The text recognition results.",
 "func":1
 },
 {
 "ref":"leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.save_figure",
 "url":4,
-"doc":"Save the annotated image.",
+"doc":"Save the annotated image. Args: annotation_file: The path to the file containing annotations. image: The image data. predictions: The text recognition results. Returns: None",
 "func":1
 },
 {
 "ref":"leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.convert_predictions",
 "url":4,
-"doc":"Convert predictions to items.",
+"doc":"Convert predictions to items. Args: predictions: The list of recognised text. Returns: typing.List[typing.List[model.TextItem : The equivalent text items.",
 "func":1
 },
 {
 "ref":"leaf_focus.ocr.keras_ocr.OpticalCharacterRecognition.save_items",
 "url":4,
-"doc":"Save items to csv file.",
+"doc":"Save items to csv file. Args: items_file: Write the text items to this file. items: The text items to save. Returns: None",
 "func":1
 },
 {
 "ref":"leaf_focus.ocr.model",
 "url":5,
-"doc":""
+"doc":"Models for OCR processing."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem",
@@ -208,32 +232,32 @@ INDEX=[
 {
 "ref":"leaf_focus.ocr.model.TextItem.top_left",
 "url":5,
-"doc":"The top left point."
+"doc":"Get the top left point. Returns: The x and y coordinates."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.top_right",
 "url":5,
-"doc":"The top right point."
+"doc":"Get the top right point. Returns: The x and y coordinates."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.bottom_right",
 "url":5,
-"doc":"The bottom right point."
+"doc":"Get the bottom right point. Returns: The x and y coordinates."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.bottom_left",
 "url":5,
-"doc":"The bottom left point."
+"doc":"Get the bottom left point. Returns: The x and y coordinates."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.top_length",
 "url":5,
-"doc":""
+"doc":"Get the length of the top side. Returns: float: The length."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.left_length",
 "url":5,
-"doc":""
+"doc":"Get the length of the left side. Returns: float: The length."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.line_bounds",
@@ -243,75 +267,75 @@ INDEX=[
 {
 "ref":"leaf_focus.ocr.model.TextItem.is_same_line",
 "url":5,
-"doc":"Check if other found text overlaps this found text. Calculated as the midpoint +- 1/3 of the height of the text",
+"doc":"Check if the vertical midpoints of this item and another item overlap. Calculated as the midpoint +- 1/3 of the height of the text. Args: other (TextItem): The text item to compare. Returns: bool: True if this item and the other item overlap, otherwise false.",
 "func":1
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.slope_top_left_right",
 "url":5,
-"doc":"The slope of the top of the rectangle."
+"doc":"Get the top slope from the left to the right. Returns: float: The slope."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.slope_top_right_left",
 "url":5,
-"doc":"The slope of the top of the rectangle."
+"doc":"Get the top slope from the right to the left. Returns: float: The slope."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.slope_left_top_bottom",
 "url":5,
-"doc":"The slope of the left of the rectangle."
+"doc":"Get the left slope from the top to the bottom. Returns: float: The slope."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.slope_left_bottom_top",
 "url":5,
-"doc":"The slope of the left of the rectangle."
+"doc":"Get the left slope from the bottom to the top. Returns: float: The slope."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.slope_bottom_left_right",
 "url":5,
-"doc":"The slope of the bottom of the rectangle."
+"doc":"Get the bottom slope from the left to the right. Returns: float: The slope."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.slope_bottom_right_left",
 "url":5,
-"doc":"The slope of the bottom of the rectangle."
+"doc":"Get the bottom slope from the right to the left. Returns: float: The slope."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.slope_right_top_bottom",
 "url":5,
-"doc":"The slope of the right of the rectangle."
+"doc":"Get the right slope from the top to the bottom. Returns: float: The slope."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.slope_right_bottom_top",
 "url":5,
-"doc":"The slope of the right of the rectangle."
+"doc":"Get the right slope from the bottom to the top. Returns: float: The slope."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.is_horizontal_level",
 "url":5,
-"doc":"Is side-to-side slope approximately horizontal?"
+"doc":"Check whether the left-to-right slope is approximately horizontal. Returns: bool: True if the item is approximately horizontal."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.is_vertical_level",
 "url":5,
-"doc":"Is the top-to-bottom slope approximately vertical?"
+"doc":"Check whether the top-to-bottom slope is approximately vertical. Returns: bool: True if the item is approximately vertical."
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.save",
 "url":5,
-"doc":"Save found text items to a file.",
+"doc":"Save found text items to a file. Args: path: Write the items to this file. items: The items to save. Returns: None",
 "func":1
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.load",
 "url":5,
-"doc":"Load found text items from a file.",
+"doc":"Load found text items from a file. Args: path: The path to the file containing items. Returns: typing.Generator[\"TextItem\", typing.Any, None]: Items from the file.",
 "func":1
 },
 {
 "ref":"leaf_focus.ocr.model.TextItem.from_prediction",
 "url":5,
-"doc":"Convert from (text, box) to item. Box is (top left, top right, bottom right, bottom left). Its structure is  startX,startY], [endX,startY], [endX,endY], [startX, endY .",
+"doc":"Convert from (text, box) to item. Box is (top left, top right, bottom right, bottom left). Its structure is  startX,startY], [endX,startY], [endX,endY], [startX, endY . Args: prediction: The text recognised in an image. Returns: TextItem: A text item representing the recognised text.",
 "func":1
 },
 {
@@ -358,12 +382,12 @@ INDEX=[
 {
 "ref":"leaf_focus.pdf.model",
 "url":7,
-"doc":""
+"doc":"PDF processing models."
 },
 {
 "ref":"leaf_focus.pdf.model.XpdfArgs",
 "url":7,
-"doc":"xpdf arguments common to all commands"
+"doc":"xpdf arguments common to all commands."
 },
 {
 "ref":"leaf_focus.pdf.model.XpdfArgs.owner_password",
@@ -373,7 +397,7 @@ INDEX=[
 {
 "ref":"leaf_focus.pdf.model.XpdfArgs.user_password",
 "url":7,
-"doc":"Specify the user password for the PDF file. -upw  : user password (for encrypted files) '"
+"doc":"Specify the user password for the PDF file. -upw  : user password (for encrypted files)"
 },
 {
 "ref":"leaf_focus.pdf.model.XpdfArgs.first_page",
@@ -433,7 +457,7 @@ INDEX=[
 {
 "ref":"leaf_focus.pdf.model.XpdfInfoArgs.user_password",
 "url":7,
-"doc":"Specify the user password for the PDF file. -upw  : user password (for encrypted files) '"
+"doc":"Specify the user password for the PDF file. -upw  : user password (for encrypted files)"
 },
 {
 "ref":"leaf_focus.pdf.model.XpdfInfoArgs.first_page",
@@ -673,7 +697,7 @@ INDEX=[
 {
 "ref":"leaf_focus.pdf.model.XpdfTextArgs.get_line_ending",
 "url":7,
-"doc":"Get the line endings based on the current platform. :return: the line ending style",
+"doc":"Get the line endings based on the current platform. Returns: The line ending style.",
 "func":1
 },
 {
@@ -684,7 +708,7 @@ INDEX=[
 {
 "ref":"leaf_focus.pdf.model.XpdfTextArgs.user_password",
 "url":7,
-"doc":"Specify the user password for the PDF file. -upw  : user password (for encrypted files) '"
+"doc":"Specify the user password for the PDF file. -upw  : user password (for encrypted files)"
 },
 {
 "ref":"leaf_focus.pdf.model.XpdfTextArgs.first_page",
@@ -779,7 +803,7 @@ INDEX=[
 {
 "ref":"leaf_focus.pdf.model.XpdfImageArgs.user_password",
 "url":7,
-"doc":"Specify the user password for the PDF file. -upw  : user password (for encrypted files) '"
+"doc":"Specify the user password for the PDF file. -upw  : user password (for encrypted files)"
 },
 {
 "ref":"leaf_focus.pdf.model.XpdfImageArgs.first_page",
@@ -839,7 +863,7 @@ INDEX=[
 {
 "ref":"leaf_focus.pdf.xpdf.XpdfProgram",
 "url":8,
-"doc":"Interact with xpdf tools. Create a new xpdf program class to interact with xpdf tools. :param directory: path to the directory containing xpdf tools"
+"doc":"Interact with xpdf tools. Create a new xpdf program class to interact with xpdf tools. Args: directory: The path to the directory containing xpdf tools."
 },
 {
 "ref":"leaf_focus.pdf.xpdf.XpdfProgram.OPTS_TEXT_ENCODING",
@@ -874,19 +898,19 @@ INDEX=[
 {
 "ref":"leaf_focus.pdf.xpdf.XpdfProgram.info",
 "url":8,
-"doc":"Get information from a pdf file. :param pdf_path: path to the pdf file :param output_dir: directory to save pdf info file :param xpdf_args: xpdf tool arguments :return: pdf file information",
+"doc":"Get information from a pdf file. Args: pdf_path: The path to the pdf file. output_dir: The directory to save pdf info file. xpdf_args: The program arguments. Returns: The pdf file information.",
 "func":1
 },
 {
 "ref":"leaf_focus.pdf.xpdf.XpdfProgram.text",
 "url":8,
-"doc":"Get the text from a pdf file. :param xpdf_args: :param pdf_path: path to the pdf file :param output_path: directory to save output files :return: pdf file text file info",
+"doc":"Get the text from a pdf file. Args: pdf_path: The path to the pdf file. output_path: The directory to save output files. xpdf_args: The pdf program arguments. Returns: The result from running the text extraction program.",
 "func":1
 },
 {
 "ref":"leaf_focus.pdf.xpdf.XpdfProgram.image",
 "url":8,
-"doc":"Create images of pdf pages. :param xpdf_args: :param pdf_path: path to the pdf file :param output_path: directory to save output files :return: pdf file image info",
+"doc":"Create images of pdf pages. Args: pdf_path: The path to the pdf file. output_path: The directory to save output files. xpdf_args: The program arguments. Returns: The pdf file image info.",
 "func":1
 },
 {
@@ -1021,7 +1045,7 @@ INDEX=[
 {
 "ref":"leaf_focus.utils.xml_tag_ns",
 "url":9,
-"doc":"Get the XML namespace and name. :param value: The combined namespace and name :return: The separate namespace and name",
+"doc":"Get the XML namespace and name. Args: value: The combined namespace and name Returns: The separate namespace and name",
 "func":1
 },
 {

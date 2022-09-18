@@ -1,5 +1,4 @@
 """Small utility functions."""
-
 import dataclasses
 import json
 import pathlib
@@ -76,8 +75,8 @@ def validate_path(
             abs_path = value.absolute()
 
         return abs_path
-    except Exception:
-        raise LeafFocusException(f"Invalid path '{value}'.")
+    except Exception as error:
+        raise LeafFocusException(f"Invalid path '{value}'.") from error
 
 
 def select_exe(value: pathlib.Path) -> pathlib.Path:
@@ -117,7 +116,6 @@ _slug_re_2 = re.compile(r"[-\s]+")
 
 def str_norm(value: str):
     """Normalise a string into the 'slug' format."""
-
     separator = "-"
     encoding = "utf-8"
 
@@ -146,8 +144,7 @@ class CustomJsonEncoder(json.JSONEncoder):
 
 @dataclasses.dataclass
 class XmlElement:
-    """
-    A simple xml element.
+    """A simple xml element.
 
     <tag attrib>text<child/>...</tag>tail
     """
@@ -231,8 +228,8 @@ def xml_to_element(element: Element) -> XmlElement:
         attrib=attrib_ns,
         tag=tag_name,
         name_space=tag_ns,
-        text=text,
-        tail=tail,
+        text=text or "",
+        tail=tail or "",
         children=children,
     )
 
@@ -240,11 +237,13 @@ def xml_to_element(element: Element) -> XmlElement:
 
 
 def xml_tag_ns(value: str) -> typing.Tuple[str, str]:
-    """
-    Get the XML namespace and name.
+    """Get the XML namespace and name.
 
-    :param value: The combined namespace and name
-    :return: The separate namespace and name
+    Args:
+        value: The combined namespace and name
+
+    Returns:
+        The separate namespace and name
     """
     if "}" in value:
         name_space, name = value.rsplit("}", maxsplit=1)
@@ -258,5 +257,3 @@ def xml_tag_ns(value: str) -> typing.Tuple[str, str]:
 
 class LeafFocusException(Exception):
     """A custom error."""
-
-    pass

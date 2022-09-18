@@ -5,18 +5,19 @@ import json
 import logging
 import pathlib
 import subprocess
+import sys
 import typing
 from datetime import datetime
 from defusedxml import ElementTree
 
-try:
-    from typing import get_args
-except ImportError:
-    from typing_inspect import get_args
-
-
 from leaf_focus import utils
 from leaf_focus.pdf import model
+
+if sys.version_info.major == 3 and sys.version_info.minor < 8:
+    from typing_inspect import get_args  # pylint: disable=import-error
+else:
+    from typing import get_args  # pylint: disable=import-error
+
 
 logger = logging.getLogger(__name__)
 
@@ -39,10 +40,10 @@ class XpdfProgram:
     OPTS_IMAGE_VEC_ANTI_ALIAS = ["yes", "no"]
 
     def __init__(self, directory: pathlib.Path):
-        """
-        Create a new xpdf program class to interact with xpdf tools.
+        """Create a new xpdf program class to interact with xpdf tools.
 
-        :param directory: path to the directory containing xpdf tools
+        Args:
+            directory: The path to the directory containing xpdf tools.
         """
         self._directory = directory
 
@@ -54,10 +55,13 @@ class XpdfProgram:
     ) -> model.XpdfInfoResult:
         """Get information from a pdf file.
 
-        :param pdf_path: path to the pdf file
-        :param output_dir: directory to save pdf info file
-        :param xpdf_args: xpdf tool arguments
-        :return: pdf file information
+        Args:
+            pdf_path: The path to the pdf file.
+            output_dir: The directory to save pdf info file.
+            xpdf_args: The program arguments.
+
+        Returns:
+            The pdf file information.
         """
         # validation
         enc = xpdf_args.encoding
@@ -98,7 +102,7 @@ class XpdfProgram:
         }
         metadata_line_index: typing.Optional[int] = None
 
-        data = {i.name: None for i in fields_map.values()}
+        data: typing.Dict[str, typing.Any] = {i.name: None for i in fields_map.values()}
         for index, line in enumerate(lines):
             if line.startswith("Metadata:"):
                 metadata_line_index = index
@@ -152,15 +156,16 @@ class XpdfProgram:
         output_path: pathlib.Path,
         xpdf_args: model.XpdfTextArgs,
     ) -> model.XpdfTextResult:
-        """
-        Get the text from a pdf file.
+        """Get the text from a pdf file.
 
-        :param xpdf_args:
-        :param pdf_path: path to the pdf file
-        :param output_path: directory to save output files
-        :return: pdf file text file info
-        """
+        Args:
+            pdf_path: The path to the pdf file.
+            output_path: The directory to save output files.
+            xpdf_args: The pdf program arguments.
 
+        Returns:
+            The result from running the text extraction program.
+        """
         # validation
         eol = xpdf_args.line_end_type
         utils.validate("end of line", eol, self.OPTS_TEXT_LINE_ENDING)
@@ -186,13 +191,13 @@ class XpdfProgram:
             )
 
         if logger.isEnabledFor(logging.DEBUG):
-            logger.debug(f"Did not find expected output file '{output_file.name}'")
-            logger.debug(f"Listing items in '{output_file.parent}'")
+            logger.debug("Did not find expected output file '%s'", output_file.name)
+            logger.debug("Listing items in '%s'", output_file.parent)
             item_count = 0
             for item in output_file.parent.iterdir():
                 item_count += 1
-                logger.debug(f"Found item '{item}'")
-            logger.debug(f"Found {item_count} items in dir.")
+                logger.debug("Found item '%s'", item)
+            logger.debug("Found %s items in dir.", item_count)
 
         logger.info("Extracting pdf embedded text and saving to file.")
 
@@ -225,13 +230,15 @@ class XpdfProgram:
         output_path: pathlib.Path,
         xpdf_args: model.XpdfImageArgs,
     ) -> model.XpdfImageResult:
-        """
-        Create images of pdf pages.
+        """Create images of pdf pages.
 
-        :param xpdf_args:
-        :param pdf_path: path to the pdf file
-        :param output_path: directory to save output files
-        :return: pdf file image info
+        Args:
+            pdf_path: The path to the pdf file.
+            output_path: The directory to save output files.
+            xpdf_args: The program arguments.
+
+        Returns:
+            The  pdf file image info.
         """
         # validation
         rot = xpdf_args.rotation

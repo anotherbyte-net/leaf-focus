@@ -26,7 +26,7 @@
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L1-L378" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/xpdf.py#L1-L385" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Text extraction from pdf using xpdf tools.&#34;&#34;&#34;
 
@@ -35,18 +35,19 @@ import json
 import logging
 import pathlib
 import subprocess
+import sys
 import typing
 from datetime import datetime
 from defusedxml import ElementTree
 
-try:
-    from typing import get_args
-except ImportError:
-    from typing_inspect import get_args
-
-
 from leaf_focus import utils
 from leaf_focus.pdf import model
+
+if sys.version_info.major == 3 and sys.version_info.minor &lt; 8:
+    from typing_inspect import get_args  # pylint: disable=import-error
+else:
+    from typing import get_args  # pylint: disable=import-error
+
 
 logger = logging.getLogger(__name__)
 
@@ -69,10 +70,10 @@ class XpdfProgram:
     OPTS_IMAGE_VEC_ANTI_ALIAS = [&#34;yes&#34;, &#34;no&#34;]
 
     def __init__(self, directory: pathlib.Path):
-        &#34;&#34;&#34;
-        Create a new xpdf program class to interact with xpdf tools.
+        &#34;&#34;&#34;Create a new xpdf program class to interact with xpdf tools.
 
-        :param directory: path to the directory containing xpdf tools
+        Args:
+            directory: The path to the directory containing xpdf tools.
         &#34;&#34;&#34;
         self._directory = directory
 
@@ -84,10 +85,13 @@ class XpdfProgram:
     ) -&gt; model.XpdfInfoResult:
         &#34;&#34;&#34;Get information from a pdf file.
 
-        :param pdf_path: path to the pdf file
-        :param output_dir: directory to save pdf info file
-        :param xpdf_args: xpdf tool arguments
-        :return: pdf file information
+        Args:
+            pdf_path: The path to the pdf file.
+            output_dir: The directory to save pdf info file.
+            xpdf_args: The program arguments.
+
+        Returns:
+            The pdf file information.
         &#34;&#34;&#34;
         # validation
         enc = xpdf_args.encoding
@@ -128,7 +132,7 @@ class XpdfProgram:
         }
         metadata_line_index: typing.Optional[int] = None
 
-        data = {i.name: None for i in fields_map.values()}
+        data: typing.Dict[str, typing.Any] = {i.name: None for i in fields_map.values()}
         for index, line in enumerate(lines):
             if line.startswith(&#34;Metadata:&#34;):
                 metadata_line_index = index
@@ -182,15 +186,16 @@ class XpdfProgram:
         output_path: pathlib.Path,
         xpdf_args: model.XpdfTextArgs,
     ) -&gt; model.XpdfTextResult:
-        &#34;&#34;&#34;
-        Get the text from a pdf file.
+        &#34;&#34;&#34;Get the text from a pdf file.
 
-        :param xpdf_args:
-        :param pdf_path: path to the pdf file
-        :param output_path: directory to save output files
-        :return: pdf file text file info
-        &#34;&#34;&#34;
+        Args:
+            pdf_path: The path to the pdf file.
+            output_path: The directory to save output files.
+            xpdf_args: The pdf program arguments.
 
+        Returns:
+            The result from running the text extraction program.
+        &#34;&#34;&#34;
         # validation
         eol = xpdf_args.line_end_type
         utils.validate(&#34;end of line&#34;, eol, self.OPTS_TEXT_LINE_ENDING)
@@ -216,13 +221,13 @@ class XpdfProgram:
             )
 
         if logger.isEnabledFor(logging.DEBUG):
-            logger.debug(f&#34;Did not find expected output file &#39;{output_file.name}&#39;&#34;)
-            logger.debug(f&#34;Listing items in &#39;{output_file.parent}&#39;&#34;)
+            logger.debug(&#34;Did not find expected output file &#39;%s&#39;&#34;, output_file.name)
+            logger.debug(&#34;Listing items in &#39;%s&#39;&#34;, output_file.parent)
             item_count = 0
             for item in output_file.parent.iterdir():
                 item_count += 1
-                logger.debug(f&#34;Found item &#39;{item}&#39;&#34;)
-            logger.debug(f&#34;Found {item_count} items in dir.&#34;)
+                logger.debug(&#34;Found item &#39;%s&#39;&#34;, item)
+            logger.debug(&#34;Found %s items in dir.&#34;, item_count)
 
         logger.info(&#34;Extracting pdf embedded text and saving to file.&#34;)
 
@@ -255,13 +260,15 @@ class XpdfProgram:
         output_path: pathlib.Path,
         xpdf_args: model.XpdfImageArgs,
     ) -&gt; model.XpdfImageResult:
-        &#34;&#34;&#34;
-        Create images of pdf pages.
+        &#34;&#34;&#34;Create images of pdf pages.
 
-        :param xpdf_args:
-        :param pdf_path: path to the pdf file
-        :param output_path: directory to save output files
-        :return: pdf file image info
+        Args:
+            pdf_path: The path to the pdf file.
+            output_path: The directory to save output files.
+            xpdf_args: The program arguments.
+
+        Returns:
+            The  pdf file image info.
         &#34;&#34;&#34;
         # validation
         rot = xpdf_args.rotation
@@ -424,11 +431,15 @@ class XpdfProgram:
 <dd>
 <div class="desc"><p>Interact with xpdf tools.</p>
 <p>Create a new xpdf program class to interact with xpdf tools.</p>
-<p>:param directory: path to the directory containing xpdf tools</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>directory</code></strong></dt>
+<dd>The path to the directory containing xpdf tools.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L24-L378" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/xpdf.py#L25-L385" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class XpdfProgram:
     &#34;&#34;&#34;Interact with xpdf tools.&#34;&#34;&#34;
@@ -448,10 +459,10 @@ class XpdfProgram:
     OPTS_IMAGE_VEC_ANTI_ALIAS = [&#34;yes&#34;, &#34;no&#34;]
 
     def __init__(self, directory: pathlib.Path):
-        &#34;&#34;&#34;
-        Create a new xpdf program class to interact with xpdf tools.
+        &#34;&#34;&#34;Create a new xpdf program class to interact with xpdf tools.
 
-        :param directory: path to the directory containing xpdf tools
+        Args:
+            directory: The path to the directory containing xpdf tools.
         &#34;&#34;&#34;
         self._directory = directory
 
@@ -463,10 +474,13 @@ class XpdfProgram:
     ) -&gt; model.XpdfInfoResult:
         &#34;&#34;&#34;Get information from a pdf file.
 
-        :param pdf_path: path to the pdf file
-        :param output_dir: directory to save pdf info file
-        :param xpdf_args: xpdf tool arguments
-        :return: pdf file information
+        Args:
+            pdf_path: The path to the pdf file.
+            output_dir: The directory to save pdf info file.
+            xpdf_args: The program arguments.
+
+        Returns:
+            The pdf file information.
         &#34;&#34;&#34;
         # validation
         enc = xpdf_args.encoding
@@ -507,7 +521,7 @@ class XpdfProgram:
         }
         metadata_line_index: typing.Optional[int] = None
 
-        data = {i.name: None for i in fields_map.values()}
+        data: typing.Dict[str, typing.Any] = {i.name: None for i in fields_map.values()}
         for index, line in enumerate(lines):
             if line.startswith(&#34;Metadata:&#34;):
                 metadata_line_index = index
@@ -561,15 +575,16 @@ class XpdfProgram:
         output_path: pathlib.Path,
         xpdf_args: model.XpdfTextArgs,
     ) -&gt; model.XpdfTextResult:
-        &#34;&#34;&#34;
-        Get the text from a pdf file.
+        &#34;&#34;&#34;Get the text from a pdf file.
 
-        :param xpdf_args:
-        :param pdf_path: path to the pdf file
-        :param output_path: directory to save output files
-        :return: pdf file text file info
-        &#34;&#34;&#34;
+        Args:
+            pdf_path: The path to the pdf file.
+            output_path: The directory to save output files.
+            xpdf_args: The pdf program arguments.
 
+        Returns:
+            The result from running the text extraction program.
+        &#34;&#34;&#34;
         # validation
         eol = xpdf_args.line_end_type
         utils.validate(&#34;end of line&#34;, eol, self.OPTS_TEXT_LINE_ENDING)
@@ -595,13 +610,13 @@ class XpdfProgram:
             )
 
         if logger.isEnabledFor(logging.DEBUG):
-            logger.debug(f&#34;Did not find expected output file &#39;{output_file.name}&#39;&#34;)
-            logger.debug(f&#34;Listing items in &#39;{output_file.parent}&#39;&#34;)
+            logger.debug(&#34;Did not find expected output file &#39;%s&#39;&#34;, output_file.name)
+            logger.debug(&#34;Listing items in &#39;%s&#39;&#34;, output_file.parent)
             item_count = 0
             for item in output_file.parent.iterdir():
                 item_count += 1
-                logger.debug(f&#34;Found item &#39;{item}&#39;&#34;)
-            logger.debug(f&#34;Found {item_count} items in dir.&#34;)
+                logger.debug(&#34;Found item &#39;%s&#39;&#34;, item)
+            logger.debug(&#34;Found %s items in dir.&#34;, item_count)
 
         logger.info(&#34;Extracting pdf embedded text and saving to file.&#34;)
 
@@ -634,13 +649,15 @@ class XpdfProgram:
         output_path: pathlib.Path,
         xpdf_args: model.XpdfImageArgs,
     ) -&gt; model.XpdfImageResult:
-        &#34;&#34;&#34;
-        Create images of pdf pages.
+        &#34;&#34;&#34;Create images of pdf pages.
 
-        :param xpdf_args:
-        :param pdf_path: path to the pdf file
-        :param output_path: directory to save output files
-        :return: pdf file image info
+        Args:
+            pdf_path: The path to the pdf file.
+            output_path: The directory to save output files.
+            xpdf_args: The program arguments.
+
+        Returns:
+            The  pdf file image info.
         &#34;&#34;&#34;
         # validation
         rot = xpdf_args.rotation
@@ -823,7 +840,7 @@ class XpdfProgram:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L306-L355" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/xpdf.py#L313-L362" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def build_cmd(self, tool_args):
     &#34;&#34;&#34;Build the command arguments from a data class.&#34;&#34;&#34;
@@ -885,7 +902,7 @@ class XpdfProgram:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L357-L378" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/xpdf.py#L364-L385" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def find_images(self, output_dir: pathlib.Path):
     &#34;&#34;&#34;Find image files in a directory.&#34;&#34;&#34;
@@ -916,14 +933,22 @@ class XpdfProgram:
 </code></dt>
 <dd>
 <div class="desc"><p>Create images of pdf pages.</p>
-<p>:param xpdf_args:
-:param pdf_path: path to the pdf file
-:param output_path: directory to save output files
-:return: pdf file image info</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pdf_path</code></strong></dt>
+<dd>The path to the pdf file.</dd>
+<dt><strong><code>output_path</code></strong></dt>
+<dd>The directory to save output files.</dd>
+<dt><strong><code>xpdf_args</code></strong></dt>
+<dd>The program arguments.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The
+pdf file image info.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L222-L304" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/xpdf.py#L227-L311" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def image(
     self,
@@ -931,13 +956,15 @@ class XpdfProgram:
     output_path: pathlib.Path,
     xpdf_args: model.XpdfImageArgs,
 ) -&gt; model.XpdfImageResult:
-    &#34;&#34;&#34;
-    Create images of pdf pages.
+    &#34;&#34;&#34;Create images of pdf pages.
 
-    :param xpdf_args:
-    :param pdf_path: path to the pdf file
-    :param output_path: directory to save output files
-    :return: pdf file image info
+    Args:
+        pdf_path: The path to the pdf file.
+        output_path: The directory to save output files.
+        xpdf_args: The program arguments.
+
+    Returns:
+        The  pdf file image info.
     &#34;&#34;&#34;
     # validation
     rot = xpdf_args.rotation
@@ -1015,14 +1042,21 @@ class XpdfProgram:
 </code></dt>
 <dd>
 <div class="desc"><p>Get information from a pdf file.</p>
-<p>:param pdf_path: path to the pdf file
-:param output_dir: directory to save pdf info file
-:param xpdf_args: xpdf tool arguments
-:return: pdf file information</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pdf_path</code></strong></dt>
+<dd>The path to the pdf file.</dd>
+<dt><strong><code>output_dir</code></strong></dt>
+<dd>The directory to save pdf info file.</dd>
+<dt><strong><code>xpdf_args</code></strong></dt>
+<dd>The program arguments.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The pdf file information.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L49-L147" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/xpdf.py#L50-L151" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def info(
     self,
@@ -1032,10 +1066,13 @@ class XpdfProgram:
 ) -&gt; model.XpdfInfoResult:
     &#34;&#34;&#34;Get information from a pdf file.
 
-    :param pdf_path: path to the pdf file
-    :param output_dir: directory to save pdf info file
-    :param xpdf_args: xpdf tool arguments
-    :return: pdf file information
+    Args:
+        pdf_path: The path to the pdf file.
+        output_dir: The directory to save pdf info file.
+        xpdf_args: The program arguments.
+
+    Returns:
+        The pdf file information.
     &#34;&#34;&#34;
     # validation
     enc = xpdf_args.encoding
@@ -1076,7 +1113,7 @@ class XpdfProgram:
     }
     metadata_line_index: typing.Optional[int] = None
 
-    data = {i.name: None for i in fields_map.values()}
+    data: typing.Dict[str, typing.Any] = {i.name: None for i in fields_map.values()}
     for index, line in enumerate(lines):
         if line.startswith(&#34;Metadata:&#34;):
             metadata_line_index = index
@@ -1130,14 +1167,21 @@ class XpdfProgram:
 </code></dt>
 <dd>
 <div class="desc"><p>Get the text from a pdf file.</p>
-<p>:param xpdf_args:
-:param pdf_path: path to the pdf file
-:param output_path: directory to save output files
-:return: pdf file text file info</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pdf_path</code></strong></dt>
+<dd>The path to the pdf file.</dd>
+<dt><strong><code>output_path</code></strong></dt>
+<dd>The directory to save output files.</dd>
+<dt><strong><code>xpdf_args</code></strong></dt>
+<dd>The pdf program arguments.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The result from running the text extraction program.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/xpdf.py#L149-L220" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/xpdf.py#L153-L225" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def text(
     self,
@@ -1145,15 +1189,16 @@ class XpdfProgram:
     output_path: pathlib.Path,
     xpdf_args: model.XpdfTextArgs,
 ) -&gt; model.XpdfTextResult:
-    &#34;&#34;&#34;
-    Get the text from a pdf file.
+    &#34;&#34;&#34;Get the text from a pdf file.
 
-    :param xpdf_args:
-    :param pdf_path: path to the pdf file
-    :param output_path: directory to save output files
-    :return: pdf file text file info
-    &#34;&#34;&#34;
+    Args:
+        pdf_path: The path to the pdf file.
+        output_path: The directory to save output files.
+        xpdf_args: The pdf program arguments.
 
+    Returns:
+        The result from running the text extraction program.
+    &#34;&#34;&#34;
     # validation
     eol = xpdf_args.line_end_type
     utils.validate(&#34;end of line&#34;, eol, self.OPTS_TEXT_LINE_ENDING)
@@ -1179,13 +1224,13 @@ class XpdfProgram:
         )
 
     if logger.isEnabledFor(logging.DEBUG):
-        logger.debug(f&#34;Did not find expected output file &#39;{output_file.name}&#39;&#34;)
-        logger.debug(f&#34;Listing items in &#39;{output_file.parent}&#39;&#34;)
+        logger.debug(&#34;Did not find expected output file &#39;%s&#39;&#34;, output_file.name)
+        logger.debug(&#34;Listing items in &#39;%s&#39;&#34;, output_file.parent)
         item_count = 0
         for item in output_file.parent.iterdir():
             item_count += 1
-            logger.debug(f&#34;Found item &#39;{item}&#39;&#34;)
-        logger.debug(f&#34;Found {item_count} items in dir.&#34;)
+            logger.debug(&#34;Found item &#39;%s&#39;&#34;, item)
+        logger.debug(&#34;Found %s items in dir.&#34;, item_count)
 
     logger.info(&#34;Extracting pdf embedded text and saving to file.&#34;)
 

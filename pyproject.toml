@@ -109,7 +109,7 @@ setenv   =
 """
 
 [tool.pydocstyle]
-ignore = 'D104'
+convention = 'google'
 
 [tool.mypy]
 ignore_missing_imports = true

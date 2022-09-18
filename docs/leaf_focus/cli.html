@@ -26,7 +26,7 @@
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/cli.py#L1-L112" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/cli.py#L1-L113" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Command line for leaf focus.&#34;&#34;&#34;
 
@@ -40,12 +40,13 @@ from leaf_focus import app, utils
 
 
 def main(args: typing.Optional[typing.List[str]] = None) -&gt; int:
-    &#34;&#34;&#34;
-    Run as a command line program.
+    &#34;&#34;&#34;Run as a command line program.
 
-    :param args: The program arguements.
-    :return: Program exit code.
-    :rtype: int
+    Args:
+        args: The program arguments.
+
+    Returns:
+        int: Program exit code.
     &#34;&#34;&#34;
     if args is None:
         args = sys.argv[1:]
@@ -133,7 +134,7 @@ def main(args: typing.Optional[typing.List[str]] = None) -&gt; int:
         logger.error(&#34;Error: %s - %s&#34;, error.__class__.__name__, str(error))
         return 1
 
-    except Exception as error:  # noqa: W0703
+    except Exception as error:  # pylint: disable=broad-except
         logger.error(&#34;Error: %s - %s&#34;, error.__class__.__name__, str(error))
         return 2
 
@@ -154,21 +155,29 @@ if __name__ == &#34;__main__&#34;:
 </code></dt>
 <dd>
 <div class="desc"><p>Run as a command line program.</p>
-<p>:param args: The program arguements.
-:return: Program exit code.
-:rtype: int</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>args</code></strong></dt>
+<dd>The program arguments.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>Program exit code.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/cli.py#L12-L108" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/cli.py#L12-L109" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def main(args: typing.Optional[typing.List[str]] = None) -&gt; int:
-    &#34;&#34;&#34;
-    Run as a command line program.
+    &#34;&#34;&#34;Run as a command line program.
 
-    :param args: The program arguements.
-    :return: Program exit code.
-    :rtype: int
+    Args:
+        args: The program arguments.
+
+    Returns:
+        int: Program exit code.
     &#34;&#34;&#34;
     if args is None:
         args = sys.argv[1:]
@@ -256,7 +265,7 @@ if __name__ == &#34;__main__&#34;:
         logger.error(&#34;Error: %s - %s&#34;, error.__class__.__name__, str(error))
         return 1
 
-    except Exception as error:  # noqa: W0703
+    except Exception as error:  # pylint: disable=broad-except
         logger.error(&#34;Error: %s - %s&#34;, error.__class__.__name__, str(error))
         return 2</code></pre>
 </details>

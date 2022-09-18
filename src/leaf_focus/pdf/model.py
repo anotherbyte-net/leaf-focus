@@ -1,3 +1,5 @@
+"""PDF processing models."""
+
 import dataclasses
 import logging
 import pathlib
@@ -10,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 @dataclasses.dataclass
 class XpdfArgs:
-    """xpdf arguments common to all commands"""
+    """xpdf arguments common to all commands."""
 
     owner_password: typing.Optional[str] = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-opw", "cmd_type": "single"}}, default=None
@@ -29,7 +31,7 @@ class XpdfArgs:
     Specify the user password for the PDF file.
 
     -upw <string>          : user password (for encrypted files)
-    '"""
+    """
 
     first_page: typing.Optional[int] = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-f", "cmd_type": "single"}}, default=None
@@ -404,10 +406,10 @@ class XpdfTextArgs(XpdfArgs):
 
     @classmethod
     def get_line_ending(cls) -> str:
-        """
-        Get the line endings based on the current platform.
+        """Get the line endings based on the current platform.
 
-        :return: the line ending style
+        Returns:
+            The line ending style.
         """
         opts = {
             "Linux": "unix",

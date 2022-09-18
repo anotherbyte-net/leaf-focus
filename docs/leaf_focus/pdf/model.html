@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>leaf_focus.pdf.model API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="PDF processing models." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,12 +22,15 @@
 <h1 class="title">Module <code>leaf_focus.pdf.model</code></h1>
 </header>
 <section id="section-intro">
+<p>PDF processing models.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L1-L519" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/model.py#L1-L521" class="git-link">Browse git</a>
 </summary>
-<pre><code class="python">import dataclasses
+<pre><code class="python">&#34;&#34;&#34;PDF processing models.&#34;&#34;&#34;
+
+import dataclasses
 import logging
 import pathlib
 import platform
@@ -39,7 +42,7 @@ logger = logging.getLogger(__name__)
 
 @dataclasses.dataclass
 class XpdfArgs:
-    &#34;&#34;&#34;xpdf arguments common to all commands&#34;&#34;&#34;
+    &#34;&#34;&#34;xpdf arguments common to all commands.&#34;&#34;&#34;
 
     owner_password: typing.Optional[str] = dataclasses.field(
         metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-opw&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
@@ -58,7 +61,7 @@ class XpdfArgs:
     Specify the user password for the PDF file.
 
     -upw &lt;string&gt;          : user password (for encrypted files)
-    &#39;&#34;&#34;&#34;
+    &#34;&#34;&#34;
 
     first_page: typing.Optional[int] = dataclasses.field(
         metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-f&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
@@ -433,10 +436,10 @@ class XpdfTextArgs(XpdfArgs):
 
     @classmethod
     def get_line_ending(cls) -&gt; str:
-        &#34;&#34;&#34;
-        Get the line endings based on the current platform.
+        &#34;&#34;&#34;Get the line endings based on the current platform.
 
-        :return: the line ending style
+        Returns:
+            The line ending style.
         &#34;&#34;&#34;
         opts = {
             &#34;Linux&#34;: &#34;unix&#34;,
@@ -562,15 +565,15 @@ class XpdfImageResult:
 <span>(</span><span>owner_password: Optional[str] = None, user_password: Optional[str] = None, first_page: Optional[int] = None, last_page: Optional[int] = None, use_verbose: Optional[bool] = False, config_file: Optional[pathlib.Path] = None, program_info: Optional[bool] = False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>xpdf arguments common to all commands</p></div>
+<div class="desc"><p>xpdf arguments common to all commands.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L11-L77" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/model.py#L13-L79" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfArgs:
-    &#34;&#34;&#34;xpdf arguments common to all commands&#34;&#34;&#34;
+    &#34;&#34;&#34;xpdf arguments common to all commands.&#34;&#34;&#34;
 
     owner_password: typing.Optional[str] = dataclasses.field(
         metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-opw&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
@@ -589,7 +592,7 @@ class XpdfArgs:
     Specify the user password for the PDF file.
 
     -upw &lt;string&gt;          : user password (for encrypted files)
-    &#39;&#34;&#34;&#34;
+    &#34;&#34;&#34;
 
     first_page: typing.Optional[int] = dataclasses.field(
         metadata={&#34;leaf_focus&#34;: {&#34;cmd&#34;: &#34;-f&#34;, &#34;cmd_type&#34;: &#34;single&#34;}}, default=None
@@ -685,8 +688,7 @@ Providing this will bypass all security restrictions.</p>
 <dd>
 <div class="desc"><p>Specify the user password for the PDF file.</p>
 <p>-upw <string>
-: user password (for encrypted files)
-'</p></div>
+: user password (for encrypted files)</p></div>
 </dd>
 </dl>
 </dd>
@@ -699,7 +701,7 @@ Providing this will bypass all security restrictions.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L431-L509" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/model.py#L433-L511" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfImageArgs(XpdfArgs):
@@ -864,7 +866,7 @@ This defaults to "yes".</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L512-L519" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/model.py#L514-L521" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfImageResult:
@@ -904,7 +906,7 @@ class XpdfImageResult:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L80-L122" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/model.py#L82-L124" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfInfoArgs(XpdfArgs):
@@ -1009,7 +1011,7 @@ MediaBox, CropBox, BleedBox, TrimBox, and ArtBox.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L125-L199" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/model.py#L127-L201" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfInfoResult:
@@ -1188,7 +1190,7 @@ class XpdfInfoResult:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L202-L419" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/model.py#L204-L421" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfTextArgs(XpdfArgs):
@@ -1395,10 +1397,10 @@ class XpdfTextArgs(XpdfArgs):
 
     @classmethod
     def get_line_ending(cls) -&gt; str:
-        &#34;&#34;&#34;
-        Get the line endings based on the current platform.
+        &#34;&#34;&#34;Get the line endings based on the current platform.
 
-        :return: the line ending style
+        Returns:
+            The line ending style.
         &#34;&#34;&#34;
         opts = {
             &#34;Linux&#34;: &#34;unix&#34;,
@@ -1560,18 +1562,19 @@ clipped (invisible) text would overlap the next column.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Get the line endings based on the current platform.</p>
-<p>:return: the line ending style</p></div>
+<h2 id="returns">Returns</h2>
+<p>The line ending style.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L405-L419" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/model.py#L407-L421" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@classmethod
 def get_line_ending(cls) -&gt; str:
-    &#34;&#34;&#34;
-    Get the line endings based on the current platform.
+    &#34;&#34;&#34;Get the line endings based on the current platform.
 
-    :return: the line ending style
+    Returns:
+        The line ending style.
     &#34;&#34;&#34;
     opts = {
         &#34;Linux&#34;: &#34;unix&#34;,
@@ -1608,7 +1611,7 @@ def get_line_ending(cls) -&gt; str:
 <details class="source">
 <summary>
 <span>Expand source code</span>
-<a href="https://github.com/anotherbyte-net/leaf-focus/blob/7602f2305583cea3064c4e4879f2dc995a99442d/src/leaf_focus/pdf/model.py#L422-L428" class="git-link">Browse git</a>
+<a href="https://github.com/anotherbyte-net/leaf-focus/blob/48cc7f3fa0460964e1a57149baac72361357a9b7/src/leaf_focus/pdf/model.py#L424-L430" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@dataclasses.dataclass
 class XpdfTextResult:
