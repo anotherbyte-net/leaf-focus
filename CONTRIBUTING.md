@@ -102,11 +102,12 @@ Then create a new virtual environment, install the dependencies, and install fro
 python -m venv .venv-test
 source .venv-test/bin/activate
 python -m pip install --upgrade pip setuptools wheel
-python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
+python -m pip install --upgrade -r requirements.txt
 
-pip install --index-url https://test.pypi.org/simple/ --no-deps leaf-focus
+LEAF_FOCUS_VERSION='0.5.0'
+pip install --index-url https://test.pypi.org/simple/ --no-deps leaf-focus==$LEAF_FOCUS_VERSION
 # or
-pip install dist/leaf_focus-0.5.0-py3-none-any.whl
+pip install dist/leaf_focus-$LEAF_FOCUS_VERSION-py3-none-any.whl
 ```
 
 Test the installed package.
