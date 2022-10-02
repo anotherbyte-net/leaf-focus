@@ -14,6 +14,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.pypi-test" />
       <excludeFolder url="file://$MODULE_DIR$/.venv-test" />
       <excludeFolder url="file://$MODULE_DIR$/docs" />
+      <excludeFolder url="file://$MODULE_DIR$/src/leaf_focus.egg-info" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9 (leaf-focus)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

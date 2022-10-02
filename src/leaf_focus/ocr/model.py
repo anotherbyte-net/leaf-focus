@@ -382,7 +382,7 @@ class TextItem:
 
     @classmethod
     def order_text_lines(
-        cls, items: typing.Iterable["TextItem"]
+        cls, items: typing.List["TextItem"]
     ) -> typing.List[typing.List["TextItem"]]:
         """Put items into lines of text (top -> bottom, left -> right)."""
         if not items:
