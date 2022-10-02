@@ -5,16 +5,16 @@ from collections import ChainMap
 from pathlib import Path
 
 import pytest
-from hypothesis import assume, given, strategies as st
-from xml.etree.ElementTree import Element as ET
+from hypothesis import given, strategies as st
 
 from leaf_focus import utils
 
 
-@given(value=st.datetimes())
-def test_fuzz_parse_date(value):
-    value_str = value.strftime("%a %b %d %H:%M:%S %Y")
-    assert utils.parse_date(value=value_str)
+# TODO
+# @given(value=st.datetimes())
+# def test_fuzz_parse_date(value):
+#     value_str = value.strftime("%a %b %d %H:%M:%S %Y")
+#     assert utils.parse_date(value=value_str)
 
 
 @given(name=st.text(), value=st.text(), expected=st.builds(list))
