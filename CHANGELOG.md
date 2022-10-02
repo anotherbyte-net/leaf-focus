@@ -1,5 +1,13 @@
 # Change log
 
+## [v0.5.1](https://github.com/anotherbyte-net/leaf-focus/releases/tag/v0.5.1)
+
+[full change log](https://github.com/anotherbyte-net/leaf-focus/compare/v0.5.0...v0.5.1)
+
+- Change dependency specification to use compatibility format
+- use pdoc to generate html docs
+- Explore other approaches to tests
+
 ## [v0.5.0](https://github.com/anotherbyte-net/leaf-focus/releases/tag/v0.5.0)
 
 [full change log](https://github.com/anotherbyte-net/leaf-focus/compare/v0.4.1...v0.5.0)

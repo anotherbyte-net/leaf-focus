@@ -12,7 +12,7 @@ pip install leaf-focus
 
 [![PyPI](https://img.shields.io/pypi/v/leaf-focus)](https://pypi.org/project/leaf-focus/)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/leaf-focus)
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/anotherbyte-net/leaf-focus/Create%20Package/main)
+[![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/anotherbyte-net/leaf-focus/Test%20Package/main)](https://github.com/anotherbyte-net/leaf-focus/actions)
 
 Download the [Xpdf command line tools](https://www.xpdfreader.com/download.html) and extract the executable files.
 
@@ -55,3 +55,9 @@ leaf-focus --exe-dir [path-to-xpdf-exe-dir] file.pdf file-pages
 # Extract the pdf information, embedded text, an image of each page, and Optical Character Recognition results of each page.
 leaf-focus --exe-dir [path-to-xpdf-exe-dir] file.pdf file-pages --ocr
 ```
+
+## Dependencies
+
+- [xpdf](https://www.xpdfreader.com/download.html)
+- [keras-ocr](https://github.com/faustomorales/keras-ocr)
+- [Tensorflow](https://www.tensorflow.org) (can optionally be run more efficiently [using one or more GPUs](https://www.tensorflow.org/install/pip#hardware_requirements))
