@@ -1,7 +1,9 @@
 import pathlib
 import sys
+import typing
 
 import pytest
+from hypothesis import given, strategies as st
 from importlib_resources import as_file, files
 
 from helper import check_skip_slow, check_skip_slow_msg, keras_max_version_minor
@@ -130,3 +132,97 @@ def test_keras_ocr_image_without_tensorflow(
         assert output_annotated_png.stat().st_size > 0
 
         assert caplog.record_tuples == []
+
+
+@given(
+    text=st.text(),
+    top_left_x=st.floats(),
+    top_left_y=st.floats(),
+    top_right_x=st.floats(),
+    top_right_y=st.floats(),
+    bottom_right_x=st.floats(),
+    bottom_right_y=st.floats(),
+    bottom_left_x=st.floats(),
+    bottom_left_y=st.floats(),
+    line_number=st.one_of(st.none(), st.integers()),
+    line_order=st.one_of(st.none(), st.integers()),
+)
+def test_fuzz_TextItem(
+    text,
+    top_left_x,
+    top_left_y,
+    top_right_x,
+    top_right_y,
+    bottom_right_x,
+    bottom_right_y,
+    bottom_left_x,
+    bottom_left_y,
+    line_number,
+    line_order,
+):
+    TextItem(
+        text=text,
+        top_left_x=top_left_x,
+        top_left_y=top_left_y,
+        top_right_x=top_right_x,
+        top_right_y=top_right_y,
+        bottom_right_x=bottom_right_x,
+        bottom_right_y=bottom_right_y,
+        bottom_left_x=bottom_left_x,
+        bottom_left_y=bottom_left_y,
+        line_number=line_number,
+        line_order=line_order,
+    )
+
+
+@given(
+    prediction=st.from_type(
+        typing.Tuple[
+            str,
+            typing.Tuple[
+                typing.Tuple[float, float],
+                typing.Tuple[float, float],
+                typing.Tuple[float, float],
+                typing.Tuple[float, float],
+            ],
+        ]
+    )
+)
+def test_fuzz_TextItem_from_prediction(prediction):
+    TextItem.from_prediction(prediction=prediction)
+
+
+# TODO
+# @given(path=st.builds(Path))
+# def test_fuzz_TextItem_load(path):
+#     list(TextItem.load(path=path))
+
+
+@given(
+    items=st.one_of(
+        st.lists(
+            st.builds(
+                TextItem,
+                line_number=st.one_of(st.none(), st.one_of(st.none(), st.integers())),
+                line_order=st.one_of(st.none(), st.one_of(st.none(), st.integers())),
+            )
+        )
+    )
+)
+def test_fuzz_TextItem_order_text_lines(items):
+    TextItem.order_text_lines(items=items)
+
+
+# TODO
+# @given(
+#     path=st.builds(Path),
+#     items=st.lists(
+#         st.builds(
+#             TextItem,
+#             line_number=st.one_of(st.none(), st.one_of(st.none(), st.integers())),
+#             line_order=st.one_of(st.none(), st.one_of(st.none(), st.integers())),
+#         )
+#     ),
+# )
+# def test_fuzz_TextItem_save(path, items):
+#     TextItem.save(path=path, items=items)
