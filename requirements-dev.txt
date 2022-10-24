@@ -25,7 +25,7 @@ flake8-unused-arguments~=0.0
 flake8-requirements~=1.7
 
 # type checking
-mypy~=0.981
+mypy~=0.982
 pylint~=2.15
 pydocstyle[toml]~=6.1
 pyright~=1.1
