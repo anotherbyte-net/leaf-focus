@@ -6,11 +6,12 @@ import platform
 import re
 import typing
 import datetime
-from xml.etree.ElementTree import Element
 
+from xml.etree.ElementTree import Element
 import unicodedata
-from importlib_resources import as_file, files
+
 from importlib_metadata import distribution, PackageNotFoundError
+from importlib_resources import as_file, files
 
 
 def get_name_dash() -> str:

@@ -5,18 +5,12 @@ import json
 import logging
 import pathlib
 import subprocess
-import sys
 import typing
 from datetime import datetime
 from defusedxml import ElementTree
 
 from leaf_focus import utils
 from leaf_focus.pdf import model
-
-if sys.version_info.major == 3 and sys.version_info.minor < 8:
-    from typing_inspect import get_args  # pylint: disable=import-error
-else:
-    from typing import get_args  # pylint: disable=import-error
 
 
 logger = logging.getLogger(__name__)
@@ -120,13 +114,13 @@ class XpdfProgram:
             if data.get(data_key) is not None:
                 raise ValueError(f"Duplicate pdf info key '{key}' in '{pdf_path}'.")
 
-            if field.type == str or str in get_args(field.type):
+            if field.type == str or str in typing.get_args(field.type):
                 value = value.strip()
-            elif field.type == datetime or datetime in get_args(field.type):
+            elif field.type == datetime or datetime in typing.get_args(field.type):
                 value = utils.parse_date(value.strip())
-            elif field.type == bool or bool in get_args(field.type):
+            elif field.type == bool or bool in typing.get_args(field.type):
                 value = value.strip().lower() == "yes"
-            elif field.type == int or int in get_args(field.type):
+            elif field.type == int or int in typing.get_args(field.type):
                 if data_key == "file_size_bytes":
                     value = value.replace(" bytes", "")
                 value = int(value.strip().lower())

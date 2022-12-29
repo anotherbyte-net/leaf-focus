@@ -1,10 +1,10 @@
 import pathlib
 import sys
 import typing
+from importlib_resources import as_file, files
 
 import pytest
 from hypothesis import given, strategies as st
-from importlib_resources import as_file, files
 
 from helper import check_skip_slow, check_skip_slow_msg, keras_max_version_minor
 from leaf_focus import utils

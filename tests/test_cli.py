@@ -1,6 +1,5 @@
 import logging
 import shutil
-
 from importlib_resources import as_file, files
 
 from leaf_focus.cli import main

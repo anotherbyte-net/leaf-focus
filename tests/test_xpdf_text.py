@@ -2,10 +2,10 @@ import os
 import pathlib
 import platform
 import subprocess
+from importlib_resources import files, as_file
 from subprocess import CompletedProcess
 
 import pytest
-from importlib_resources import as_file, files
 
 from helper import check_skip_xpdf_exe_dir, check_skip_xpdf_exe_dir_msg
 from leaf_focus.pdf.model import XpdfTextArgs
