@@ -8,5 +8,5 @@ matplotlib~=3.6
 defusedxml~=0.7
 
 # compatibility
-importlib_resources~=5.10
+importlib_resources~=5.12
 importlib_metadata~=6.0
