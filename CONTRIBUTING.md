@@ -85,7 +85,7 @@ source .venv-test/bin/activate
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install --upgrade -r requirements.txt
 
-LEAF_FOCUS_VERSION='0.5.2'
+LEAF_FOCUS_VERSION='0.5.3'
 pip install --index-url https://test.pypi.org/simple/ --no-deps leaf-focus==$LEAF_FOCUS_VERSION
 # or
 pip install dist/leaf_focus-$LEAF_FOCUS_VERSION-py3-none-any.whl

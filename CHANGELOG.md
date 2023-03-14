@@ -1,5 +1,11 @@
 # Change log
 
+## [v0.5.3](https://github.com/anotherbyte-net/leaf-focus/releases/tag/v0.5.3)
+
+[full change log](https://github.com/anotherbyte-net/leaf-focus/compare/v0.5.2...v0.5.3)
+
+- Update dependencies
+
 ## [v0.5.2](https://github.com/anotherbyte-net/leaf-focus/releases/tag/v0.5.2)
 
 [full change log](https://github.com/anotherbyte-net/leaf-focus/compare/v0.5.0...v0.5.2)
