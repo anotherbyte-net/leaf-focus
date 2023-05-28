@@ -28,7 +28,7 @@ def test_keras_ocr_image_with_tensorflow(capsys, caplog, resource_example1, tmp_
 
     if sys.version_info.major == 3 and sys.version_info.minor > keras_max_version_minor:
         with pytest.raises(
-            utils.LeafFocusException, match="Cannot run ocr on this Python version."
+            utils.LeafFocusError, match="Cannot run ocr on this Python version."
         ):
             prog.recognise_text(image_file, output_path)
 
@@ -82,7 +82,7 @@ def test_keras_ocr_image_without_tensorflow(
 
     if sys.version_info.major == 3 and sys.version_info.minor > keras_max_version_minor:
         with pytest.raises(
-            utils.LeafFocusException, match="Cannot run ocr on this Python version."
+            utils.LeafFocusError, match="Cannot run ocr on this Python version."
         ):
             prog.recognise_text(image_file, output_path)
 
@@ -203,6 +203,15 @@ def test_fuzz_TextItem_from_prediction(prediction):
         st.lists(
             st.builds(
                 TextItem,
+                text=st.text(),
+                top_left_x=st.floats(),
+                top_left_y=st.floats(),
+                top_right_x=st.floats(),
+                top_right_y=st.floats(),
+                bottom_right_x=st.floats(),
+                bottom_right_y=st.floats(),
+                bottom_left_x=st.floats(),
+                bottom_left_y=st.floats(),
                 line_number=st.one_of(st.none(), st.one_of(st.none(), st.integers())),
                 line_order=st.one_of(st.none(), st.one_of(st.none(), st.integers())),
             )

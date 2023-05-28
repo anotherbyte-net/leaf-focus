@@ -1,12 +1,14 @@
 """Models for OCR processing."""
+from __future__ import annotations
+
 import csv
 import dataclasses
 import logging
 import math
-import pathlib
 import typing
 
-
+if typing.TYPE_CHECKING:
+    import pathlib
 logger = logging.getLogger(__name__)
 
 
@@ -29,11 +31,11 @@ class TextItem:
     bottom_left_x: float
     bottom_left_y: float
 
-    line_number: typing.Optional[int] = None
-    line_order: typing.Optional[int] = None
+    line_number: int | None = None
+    line_order: int | None = None
 
     @property
-    def top_left(self) -> typing.Tuple[float, float]:
+    def top_left(self) -> tuple[float, float]:
         """Get the top left point.
 
         Returns:
@@ -42,7 +44,7 @@ class TextItem:
         return self.top_left_x, self.top_left_y
 
     @property
-    def top_right(self) -> typing.Tuple[float, float]:
+    def top_right(self) -> tuple[float, float]:
         """Get the top right point.
 
         Returns:
@@ -51,7 +53,7 @@ class TextItem:
         return self.top_right_x, self.top_right_y
 
     @property
-    def bottom_right(self) -> typing.Tuple[float, float]:
+    def bottom_right(self) -> tuple[float, float]:
         """Get the bottom right point.
 
         Returns:
@@ -60,7 +62,7 @@ class TextItem:
         return self.bottom_right_x, self.bottom_right_y
 
     @property
-    def bottom_left(self) -> typing.Tuple[float, float]:
+    def bottom_left(self) -> tuple[float, float]:
         """Get the bottom left point.
 
         Returns:
@@ -97,17 +99,27 @@ class TextItem:
         return math.sqrt(pow(side1, 2) + pow(side2, 2))
 
     @property
-    def line_bounds(self) -> typing.Tuple[float, float]:
+    def line_bounds(self) -> tuple[float, float]:
         """Line bounds from top of text to bottom of text."""
         top_bound = min(
-            [self.top_left_y, self.top_right_y, self.bottom_left_y, self.bottom_right_y]
+            [
+                self.top_left_y,
+                self.top_right_y,
+                self.bottom_left_y,
+                self.bottom_right_y,
+            ],
         )
         bottom_bound = max(
-            [self.top_left_y, self.top_right_y, self.bottom_left_y, self.bottom_right_y]
+            [
+                self.top_left_y,
+                self.top_right_y,
+                self.bottom_left_y,
+                self.bottom_right_y,
+            ],
         )
         return top_bound, bottom_bound
 
-    def is_same_line(self, other: "TextItem") -> bool:
+    def is_same_line(self, other: TextItem) -> bool:
         """Check if the vertical midpoints of this item and another item overlap.
 
         Calculated as the midpoint +- 1/3 of the height of the text.
@@ -272,7 +284,7 @@ class TextItem:
         return self.slope_left_top_bottom == math.inf
 
     @classmethod
-    def save(cls, path: pathlib.Path, items: typing.List["TextItem"]) -> None:
+    def save(cls, path: pathlib.Path, items: list[TextItem]) -> None:
         """Save found text items to a file.
 
         Args:
@@ -297,18 +309,19 @@ class TextItem:
             "bottom_left_x",
             "bottom_left_y",
         ]
-        with open(path, "wt", newline="", encoding="utf8") as file_path:
+        with open(path, "w", newline="", encoding="utf8") as file_path:
             writer = csv.DictWriter(file_path, fields)
             writer.writeheader()
             sorted_items = sorted(
-                items, key=lambda i: (i.line_number or 0, i.line_order or 0)
+                items,
+                key=lambda i: (i.line_number or 0, i.line_order or 0),
             )
             writer.writerows([dataclasses.asdict(i) for i in sorted_items])
 
         logger.debug("Saved OCR items to '%s'.", path)
 
     @classmethod
-    def load(cls, path: pathlib.Path) -> typing.Generator["TextItem", typing.Any, None]:
+    def load(cls, path: pathlib.Path) -> typing.Generator[TextItem, typing.Any, None]:
         """Load found text items from a file.
 
         Args:
@@ -320,14 +333,14 @@ class TextItem:
         logger.debug("Loading OCR output items.")
         count = 0
 
-        with open(path, "rt", encoding="utf8") as file_path:
+        with open(path, encoding="utf8") as file_path:
             reader = csv.DictReader(file_path)
             for row in reader:
                 line_number = row.get("line_number", "").strip()
-                line_number = int(line_number) if line_number != "" else None
+                line_number = int(line_number) if line_number else None
 
                 line_order = row.get("line_order", "").strip()
-                line_order = int(line_order) if line_order != "" else None
+                line_order = int(line_order) if line_order else None
 
                 count += 1
 
@@ -349,8 +362,9 @@ class TextItem:
 
     @classmethod
     def from_prediction(
-        cls, prediction: typing.Tuple[typing.Any, typing.Any]
-    ) -> "TextItem":
+        cls,
+        prediction: tuple[typing.Any, typing.Any],
+    ) -> TextItem:
         """Convert from (text, box) to item.
 
         Box is (top left, top right, bottom right, bottom left).
@@ -382,8 +396,9 @@ class TextItem:
 
     @classmethod
     def order_text_lines(
-        cls, items: typing.List["TextItem"]
-    ) -> typing.List[typing.List["TextItem"]]:
+        cls,
+        items: list[TextItem],
+    ) -> list[list[TextItem]]:
         """Put items into lines of text (top -> bottom, left -> right)."""
         if not items:
             items = []
@@ -391,7 +406,7 @@ class TextItem:
         logger.debug("Arranging text into lines.")
 
         lines = []
-        current_line: typing.List[TextItem] = []
+        current_line: list[TextItem] = []
         for item in items:
             if not item.is_horizontal_level:
                 # exclude items that are too sloped
@@ -400,7 +415,7 @@ class TextItem:
             if len(current_line) < 1:
                 current_line.append(item)
 
-            elif any((item.is_same_line(i) for i in current_line)):
+            elif any(item.is_same_line(i) for i in current_line):
                 current_line.append(item)
 
             elif len(current_line) > 0:
@@ -426,13 +441,13 @@ class TextItem:
     @property
     def to_prediction(
         self,
-    ) -> typing.Tuple[
+    ) -> tuple[
         str,
-        typing.Tuple[
-            typing.Tuple[float, float],
-            typing.Tuple[float, float],
-            typing.Tuple[float, float],
-            typing.Tuple[float, float],
+        tuple[
+            tuple[float, float],
+            tuple[float, float],
+            tuple[float, float],
+            tuple[float, float],
         ],
     ]:
         """Convert to prediction format."""
@@ -469,4 +484,4 @@ class KerasOcrResult:
     output_dir: pathlib.Path
     annotations_file: pathlib.Path
     predictions_file: pathlib.Path
-    items: typing.List[typing.List[TextItem]]
+    items: list[list[TextItem]]

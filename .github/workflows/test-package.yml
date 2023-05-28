@@ -10,6 +10,12 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  xpdf_gpg_key: 'gpg-key.txt'
+  xpdf_gpg_sig: 'xpdf-tools-linux-4.04.tar.gz.sig'
+  xpdf_bin_comp: 'xpdf-tools-linux-4.04.tar.gz'
+  xpdf_tools_dir: 'xpdf-tools-linux-4.04'
+
 jobs:
   test_lint:
     name: Test and lint
@@ -39,9 +45,30 @@ jobs:
           python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
           echo "::endgroup::"
 
+      - name: Cache xpdf tools
+        id: cache-xpdf
+        uses: actions/cache@v3
+        with:
+          path: .xpdf/download
+          key: ${{ runner.os }}-${{ hashFiles('**/.xpdf/download/${{ env.xpdf_gpg_key }}', '**/.xpdf/download/${{ env.xpdf_gpg_sig }}', '**/.xpdf/download/${{ env.xpdf_bin_comp }}') }}
+
+      - name: Set up xpdf tools
+        run: |
+          echo "::group::xpdf tools"
+          python install_xpdf.py \
+            --download-dir=.xpdf/download \
+            --install-dir=.xpdf/install \
+            --gpg-key-url=https://www.xpdfreader.com/${{ env.xpdf_gpg_key }} \
+            --file-sig-url=https://dl.xpdfreader.com/${{ env.xpdf_gpg_sig }} \
+            --file-comp-url=https://dl.xpdfreader.com/${{ env.xpdf_bin_comp }}
+          echo "::endgroup::"
+
       # run tests using tox
       # https://tox.wiki/en/latest/config.html#conf-basepython
       # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#running-tests-with-tox
       - name: Run tox
         run: |
+          export TEST_INCLUDE_SLOW=true
+          export TEST_XPDF_EXE_DIR=.xpdf/install/${{ env.xpdf_tools_dir }}/bin64
           python -X dev -m tox -e py
+

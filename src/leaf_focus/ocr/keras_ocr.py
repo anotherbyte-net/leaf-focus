@@ -6,8 +6,8 @@ import typing
 
 import numpy as np
 
-from leaf_focus.ocr import model
 from leaf_focus import utils
+from leaf_focus.ocr import model
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class OpticalCharacterRecognition:
     """OCR implementation using keras-ocr."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Create a new OpticalCharacterRecognition."""
         self._pipeline = None
 
@@ -53,7 +53,7 @@ class OpticalCharacterRecognition:
         except ModuleNotFoundError as error:
             msg = "Cannot run ocr on this Python version."
             logger.error(msg)
-            raise utils.LeafFocusException(msg) from error
+            raise utils.LeafFocusError(msg) from error
 
         # TODO: allow specifying path to weights files for detector
         # detector_weights_path = ""
@@ -76,11 +76,13 @@ class OpticalCharacterRecognition:
         # keras-ocr will automatically download pretrained
         # weights for the detector and recognizer.
         self._pipeline = keras_ocr.pipeline.Pipeline(
-            detector=detector, recognizer=recognizer
+            detector=detector,
+            recognizer=recognizer,
         )
 
     def engine_run(
-        self, image_file: pathlib.Path
+        self,
+        image_file: pathlib.Path,
     ) -> typing.Tuple[typing.List, typing.Any]:
         """Run the recognition engine.
 
@@ -96,9 +98,14 @@ class OpticalCharacterRecognition:
         except ModuleNotFoundError as error:
             msg = "Cannot run ocr on this Python version."
             logger.error(msg)
-            raise utils.LeafFocusException(msg) from error
+            raise utils.LeafFocusError(msg) from error
 
         self.engine_create()
+
+        if not self._pipeline:
+            msg = "Keras OCR pipeline has not been initialised yet."
+            logger.error(msg)
+            raise utils.LeafFocusError(msg)
 
         images = [keras_ocr.tools.read(str(image_file))]
         return images, self._pipeline.recognize(images)
@@ -124,12 +131,14 @@ class OpticalCharacterRecognition:
         except ModuleNotFoundError as error:
             msg = "Cannot run ocr on this Python version."
             logger.error(msg)
-            raise utils.LeafFocusException(msg) from error
+            raise utils.LeafFocusError(msg) from error
 
         keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)
 
     def recognise_text(
-        self, image_file: pathlib.Path, output_dir: pathlib.Path
+        self,
+        image_file: pathlib.Path,
+        output_dir: pathlib.Path,
     ) -> model.KerasOcrResult:
         """Recognise text in an image file.
 
@@ -141,12 +150,14 @@ class OpticalCharacterRecognition:
             model.KerasOcrResult: The text recognition results.
         """
         if not image_file:
-            raise utils.LeafFocusException("Must supply image file.")
+            msg = "Must supply image file."
+            raise utils.LeafFocusError(msg)
         if not output_dir:
-            raise utils.LeafFocusException("Must supply output directory.")
+            msg = "Must supply output directory."
+            raise utils.LeafFocusError(msg)
         if not image_file.exists():
             msg = f"Image file does not exist '{image_file}'."
-            raise utils.LeafFocusException(msg) from FileNotFoundError(image_file)
+            raise utils.LeafFocusError(msg) from FileNotFoundError(image_file)
 
         # check if output files already exist
         annotations_file = utils.output_root(image_file, "annotations", output_dir)
@@ -173,7 +184,8 @@ class OpticalCharacterRecognition:
 
         # read in the image
         logger.debug(
-            "Creating predictions and annotations files for '%s'.", image_file.stem
+            "Creating predictions and annotations files for '%s'.",
+            image_file.stem,
         )
 
         # Each list of predictions in prediction_groups is a list of
@@ -207,21 +219,23 @@ class OpticalCharacterRecognition:
             None
         """
         if not annotation_file:
-            raise utils.LeafFocusException("Must supply annotation file.")
-        if image is None or image.size < 1 or len(image.shape) != 3:
+            msg = "Must supply annotation file."
+            raise utils.LeafFocusError(msg)
+
+        expected_image_shape = 3
+        if image is None or image.size < 1 or len(image.shape) != expected_image_shape:
             msg_image = image.shape if image is not None else None
-            raise utils.LeafFocusException(
-                f"Must supply valid image data, not '{msg_image}'."
-            )
+            msg = f"Must supply valid image data, not '{msg_image}'."
+            raise utils.LeafFocusError(msg)
         if not predictions:
             predictions = []
 
         logger.info("Saving OCR image to '%s'.", annotation_file)
 
-        import matplotlib  # pylint: disable=import-outside-toplevel
+        import matplotlib as mpl  # pylint: disable=import-outside-toplevel
         from matplotlib import pyplot as plt  # pylint: disable=import-outside-toplevel
 
-        matplotlib.use("agg")
+        mpl.use("agg")
 
         annotation_file.parent.mkdir(exist_ok=True, parents=True)
 
@@ -233,7 +247,8 @@ class OpticalCharacterRecognition:
         plt.close(fig)
 
     def convert_predictions(
-        self, predictions: typing.List[typing.Tuple[typing.Any, typing.Any]]
+        self,
+        predictions: typing.List[typing.Tuple[typing.Any, typing.Any]],
     ) -> typing.List[typing.List[model.TextItem]]:
         """Convert predictions to items.
 
@@ -270,9 +285,11 @@ class OpticalCharacterRecognition:
             None
         """
         if not items_file:
-            raise utils.LeafFocusException("Must supply predictions file.")
+            msg = "Must supply predictions file."
+            raise utils.LeafFocusError(msg)
         if not items:
-            raise utils.LeafFocusException("Must supply predictions data.")
+            msg = "Must supply predictions data."
+            raise utils.LeafFocusError(msg)
 
         logger.info("Saving OCR predictions to '%s'.", items_file)
 
@@ -293,4 +310,4 @@ class OpticalCharacterRecognition:
         prefix = prefix.strip("-")
         middle = middle.strip("-")
         suffix = suffix if suffix.startswith(".") else "." + suffix
-        return "-".join([prefix, middle]) + suffix
+        return f"{prefix}-{middle}" + suffix

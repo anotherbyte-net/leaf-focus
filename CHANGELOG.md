@@ -1,5 +1,15 @@
 # Change log
 
+## [v0.6.0](https://github.com/anotherbyte-net/leaf-focus/releases/tag/v0.6.0)
+
+[full change log](https://github.com/anotherbyte-net/leaf-focus/compare/v0.5.3...v0.6.0)
+
+- Update dependencies.
+- Move back to keras-ocr 0.8.9 to allow using Python >= 3.10.
+- Address some linter suggestions.
+- Also test using Python 3.12.
+- Add xpdf to GitHub actions.
+
 ## [v0.5.3](https://github.com/anotherbyte-net/leaf-focus/releases/tag/v0.5.3)
 
 [full change log](https://github.com/anotherbyte-net/leaf-focus/compare/v0.5.2...v0.5.3)

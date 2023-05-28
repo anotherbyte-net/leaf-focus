@@ -22,7 +22,8 @@ def main(args: typing.Optional[typing.List[str]] = None) -> int:
         args = sys.argv[1:]
 
     logging.basicConfig(
-        format="%(asctime)s [%(levelname)-8s] %(message)s", level=logging.DEBUG
+        format="%(asctime)s [%(levelname)-8s] %(message)s",
+        level=logging.DEBUG,
     )
     logger = logging.getLogger(__name__)
 
@@ -100,7 +101,7 @@ def main(args: typing.Optional[typing.List[str]] = None) -> int:
         result = app_inst.run(app_args)
         return 0 if result is True else 1
 
-    except utils.LeafFocusException as error:
+    except utils.LeafFocusError as error:
         logger.error("Error: %s - %s", error.__class__.__name__, str(error))
         return 1
 

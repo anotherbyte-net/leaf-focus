@@ -6,8 +6,11 @@ import pathlib
 import typing
 
 from leaf_focus import utils
-from leaf_focus.ocr import model as ocr_model, keras_ocr
-from leaf_focus.pdf import model as pdf_model, xpdf
+from leaf_focus.ocr import keras_ocr
+from leaf_focus.ocr import model as ocr_model
+from leaf_focus.pdf import model as pdf_model
+from leaf_focus.pdf import xpdf
+from leaf_focus.utils import ValidatePathMethod
 
 logger = logging.getLogger(__name__)
 
@@ -41,14 +44,15 @@ class AppArgs:
 class App:
     """The main application."""
 
-    def __init__(self, exe_dir: pathlib.Path):
+    def __init__(self, exe_dir: pathlib.Path) -> None:
         """Create a new instance of the application.
 
         Args:
             exe_dir: The path to the directory containing the executable files.
         """
         if not exe_dir or not exe_dir.exists() or not exe_dir.is_dir():
-            raise NotADirectoryError(f"The path '{exe_dir or ''}' is not a directory.")
+            msg = f"The path '{exe_dir or ''}' is not a directory."
+            raise NotADirectoryError(msg)
         self._exe_dir = exe_dir
 
     def run(self, app_args: AppArgs) -> bool:
@@ -64,12 +68,16 @@ class App:
         logger.info("Starting leaf-focus")
 
         input_pdf = utils.validate_path(
-            "input pdf", app_args.input_pdf, must_exist=True
+            "input pdf",
+            app_args.input_pdf,
+            ValidatePathMethod.MUST_EXIST,
         )
         app_args.input_pdf = input_pdf
 
         output_dir = utils.validate_path(
-            "output directory", app_args.output_dir, must_exist=False
+            "output directory",
+            app_args.output_dir,
+            ValidatePathMethod.NO_OPINION,
         )
         app_args.output_dir = output_dir
 
@@ -104,7 +112,9 @@ class App:
         return True
 
     def pdf_info(
-        self, prog: xpdf.XpdfProgram, app_args: AppArgs
+        self,
+        prog: xpdf.XpdfProgram,
+        app_args: AppArgs,
     ) -> pdf_model.XpdfInfoResult:
         """Get the pdf file information.
 
@@ -123,7 +133,9 @@ class App:
         return prog.info(app_args.input_pdf, app_args.output_dir, xpdf_info_args)
 
     def pdf_text(
-        self, prog: xpdf.XpdfProgram, app_args: AppArgs
+        self,
+        prog: xpdf.XpdfProgram,
+        app_args: AppArgs,
     ) -> pdf_model.XpdfTextResult:
         """Get the text embedded in the pdf.
 
@@ -143,7 +155,9 @@ class App:
         return prog.text(app_args.input_pdf, app_args.output_dir, xpdf_text_args)
 
     def pdf_images(
-        self, prog: xpdf.XpdfProgram, app_args: AppArgs
+        self,
+        prog: xpdf.XpdfProgram,
+        app_args: AppArgs,
     ) -> pdf_model.XpdfImageResult:
         """Get each page in the pdf as a separate image.
 
@@ -156,12 +170,16 @@ class App:
         """
         xpdf_image_args = pdf_model.XpdfImageArgs(use_grayscale=True)
         xpdf_image = prog.image(
-            app_args.input_pdf, app_args.output_dir, xpdf_image_args
+            app_args.input_pdf,
+            app_args.output_dir,
+            xpdf_image_args,
         )
         return xpdf_image
 
     def pdf_ocr(
-        self, xpdf_image: pdf_model.XpdfImageResult, app_args: AppArgs
+        self,
+        xpdf_image: pdf_model.XpdfImageResult,
+        app_args: AppArgs,
     ) -> typing.Generator[ocr_model.KerasOcrResult, typing.Any, None]:
         """Recognise text on the pdf page images.
 

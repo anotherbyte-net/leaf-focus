@@ -1,4 +1,5 @@
 """Text extraction from pdf using xpdf tools."""
+from __future__ import annotations
 
 import dataclasses
 import json
@@ -7,11 +8,11 @@ import pathlib
 import subprocess
 import typing
 from datetime import datetime
+
 from defusedxml import ElementTree
 
 from leaf_focus import utils
 from leaf_focus.pdf import model
-
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ class XpdfProgram:
     OPTS_IMAGE_ANTI_ALIAS = ["yes", "no"]
     OPTS_IMAGE_VEC_ANTI_ALIAS = ["yes", "no"]
 
-    def __init__(self, directory: pathlib.Path):
+    def __init__(self, directory: pathlib.Path) -> None:
         """Create a new xpdf program class to interact with xpdf tools.
 
         Args:
@@ -63,14 +64,14 @@ class XpdfProgram:
 
         if not pdf_path.exists():
             msg = f"Pdf file not found '{pdf_path}'."
-            raise utils.LeafFocusException(msg) from FileNotFoundError(pdf_path)
+            raise utils.LeafFocusError(msg) from FileNotFoundError(pdf_path)
 
         output_file = utils.output_root(pdf_path, "info", output_dir)
         output_file = output_file.with_suffix(".json")
 
         if output_file.exists():
             logger.info("Loading existing pdf info file.")
-            with open(output_file, "rt", encoding="utf-8") as info_file:
+            with pathlib.Path.open(output_file, encoding="utf-8") as info_file:
                 return model.XpdfInfoResult(**json.load(info_file))
 
         logger.info("Extracting pdf info and saving to file.")
@@ -86,7 +87,11 @@ class XpdfProgram:
 
         # execute program
         result = subprocess.run(
-            cmd, capture_output=True, check=True, timeout=30, text=True
+            cmd,
+            capture_output=True,
+            check=True,
+            timeout=30,
+            text=True,
         )
         lines = result.stdout.splitlines()
 
@@ -94,9 +99,9 @@ class XpdfProgram:
             field.metadata.get("leaf_focus", {}).get("name"): field
             for field in dataclasses.fields(model.XpdfInfoResult)
         }
-        metadata_line_index: typing.Optional[int] = None
+        metadata_line_index: int | None = None
 
-        data: typing.Dict[str, typing.Any] = {i.name: None for i in fields_map.values()}
+        data: dict[str, typing.Any] = {i.name: None for i in fields_map.values()}
         for index, line in enumerate(lines):
             if line.startswith("Metadata:"):
                 metadata_line_index = index
@@ -139,7 +144,7 @@ class XpdfProgram:
         if output_dir and output_dir.exists():
             logger.debug("Saving pdf info to '%s'.", output_file)
             output_file.write_text(
-                json.dumps(data, indent=2, cls=utils.CustomJsonEncoder)
+                json.dumps(data, indent=2, cls=utils.CustomJsonEncoder),
             )
 
         return model.XpdfInfoResult(**data)
@@ -166,7 +171,7 @@ class XpdfProgram:
 
         if not pdf_path.exists():
             msg = f"Pdf file not found '{pdf_path}'."
-            raise utils.LeafFocusException(msg) from FileNotFoundError(str(pdf_path))
+            raise utils.LeafFocusError(msg) from FileNotFoundError(str(pdf_path))
 
         # build command
 
@@ -199,7 +204,7 @@ class XpdfProgram:
 
         cmd = [str(exe_path)]
 
-        cmd.extend(cmd_args + [str(pdf_path), str(output_file)])
+        cmd.extend([*cmd_args, str(pdf_path), str(output_file)])
 
         # execute program
         result = subprocess.run(
@@ -246,12 +251,14 @@ class XpdfProgram:
 
         anti_alias_vec = xpdf_args.anti_aliasing
         utils.validate(
-            "vector anti-aliasing", anti_alias_vec, self.OPTS_IMAGE_VEC_ANTI_ALIAS
+            "vector anti-aliasing",
+            anti_alias_vec,
+            self.OPTS_IMAGE_VEC_ANTI_ALIAS,
         )
 
         if not pdf_path.exists():
             msg = f"Pdf file not found '{pdf_path}'."
-            raise utils.LeafFocusException(msg) from FileNotFoundError(str(pdf_path))
+            raise utils.LeafFocusError(msg) from FileNotFoundError(str(pdf_path))
 
         logger.info("Saving each pdf page as an image.")
 
@@ -265,7 +272,10 @@ class XpdfProgram:
         xpdf_args.last_page = None
         output_cmd_args = self.build_cmd(xpdf_args)
         output_dir = utils.output_root(
-            pdf_path, output_type, output_path, output_cmd_args
+            pdf_path,
+            output_type,
+            output_path,
+            output_cmd_args,
         )
 
         for pdf_image_file in output_dir.parent.iterdir():
@@ -276,13 +286,16 @@ class XpdfProgram:
 
             output_files = self.find_images(output_dir)
             return model.XpdfImageResult(
-                stdout=[], stderr=[], output_dir=output_dir, output_files=output_files
+                stdout=[],
+                stderr=[],
+                output_dir=output_dir,
+                output_files=output_files,
             )
 
         exe_path = utils.select_exe(self._directory / "pdftopng")
         cmd = [str(exe_path)]
 
-        cmd.extend(cmd_args + [str(pdf_path), str(output_dir)])
+        cmd.extend([*cmd_args, str(pdf_path), str(output_dir)])
 
         # execute program
         result = subprocess.run(
@@ -315,28 +328,23 @@ class XpdfProgram:
             field_default = field.default
 
             # TODO: account for default_factory
-            # field_default_factory = field.default_factory
 
             # validate the arg config
             cmd_key = field.metadata.get("leaf_focus", {}).get("cmd")
             if not cmd_key:
-                raise ValueError(
-                    f"Args incorrectly configured: missing 'cmd' for '{name}'."
-                )
+                msg = f"Args incorrectly configured: missing 'cmd' for '{name}'."
+                raise ValueError(msg)
 
             cmd_type = field.metadata.get("leaf_focus", {}).get("cmd_type")
             if not cmd_type:
-                raise ValueError(
-                    f"Args incorrectly configured: missing 'cmd_type' for '{name}'."
-                )
+                msg = f"Args incorrectly configured: missing 'cmd_type' for '{name}'."
+                raise ValueError(msg)
 
             # add the arg
             if cmd_type == "bool":
                 if value is not None and value is not True and value is not False:
-                    raise ValueError(
-                        f"Argument '{name}' must be None, True, or False, "
-                        f"not '{value}'."
-                    )
+                    msg = f"Argument '{name}' must be None, True, or False, not '{value}'."
+                    raise ValueError(msg)
 
                 if value is True:
                     cmd_args.extend([str(cmd_key)])
@@ -348,15 +356,18 @@ class XpdfProgram:
                     cmd_args.extend([str(cmd_key), str(value)])
 
             else:
-                raise ValueError(
+                msg = (
                     f"Argument '{name}' has unknown cmd_type '{cmd_type}'. "
-                    f"Expected one of 'bool, single'."
+                    "Expected one of 'bool, single'."
                 )
+                raise ValueError(msg)
 
         return cmd_args
 
-    def find_images(self, output_dir: pathlib.Path):
+    def find_images(self, output_dir: pathlib.Path) -> list[pathlib.Path]:
         """Find image files in a directory."""
+        stem_parts = 7
+        stem_digit_parts = 6
         output_files = []
         for file_path in output_dir.parent.iterdir():
             if not file_path.is_file():
@@ -365,11 +376,11 @@ class XpdfProgram:
                 continue
             if file_path.suffix != ".png":
                 continue
-            if len(file_path.stem) < 7:
+            if len(file_path.stem) < stem_parts:
                 continue
-            if file_path.stem[-7] != "-":
+            if file_path.stem[-stem_parts] != "-":
                 continue
-            if not all(i.isdigit() for i in file_path.stem[-6:]):
+            if not all(i.isdigit() for i in file_path.stem[-stem_digit_parts:]):
                 continue
             output_files.append(file_path)
 

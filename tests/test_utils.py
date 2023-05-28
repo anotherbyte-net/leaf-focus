@@ -20,7 +20,7 @@ from leaf_focus import utils
 @given(name=st.text(), value=st.text(), expected=st.builds(list))
 def test_fuzz_validate(name, value, expected):
     if value not in expected:
-        with pytest.raises(utils.LeafFocusException):
+        with pytest.raises(utils.LeafFocusError):
             utils.validate(name=name, value=value, expected=expected)
     else:
         utils.validate(name=name, value=value, expected=expected)

@@ -1,16 +1,20 @@
 """Small utility functions."""
+from __future__ import annotations
+
 import dataclasses
+import datetime
 import json
-import pathlib
 import platform
 import re
 import typing
-import datetime
-
-from xml.etree.ElementTree import Element
 import unicodedata
+from enum import Enum
 
-from importlib_metadata import distribution, PackageNotFoundError
+if typing.TYPE_CHECKING:
+    import pathlib
+    from xml.etree.ElementTree import Element
+
+from importlib_metadata import PackageNotFoundError, distribution
 from importlib_resources import as_file, files
 
 
@@ -24,7 +28,7 @@ def get_name_under() -> str:
     return "leaf_focus"
 
 
-def get_version() -> typing.Optional[str]:
+def get_version() -> str | None:
     """Get the package version."""
     try:
         dist = distribution(get_name_dash())
@@ -41,7 +45,7 @@ def get_version() -> typing.Optional[str]:
     return None
 
 
-def parse_date(value: str) -> typing.Optional[datetime.datetime]:
+def parse_date(value: str) -> datetime.datetime | None:
     """Parse a date from a string."""
     formats = [
         # e.g. 'Thu Aug 13 11:09:00 2020'
@@ -55,29 +59,39 @@ def parse_date(value: str) -> typing.Optional[datetime.datetime]:
     return None
 
 
-def validate(name: str, value, expected: typing.List) -> None:
+def validate(name: str, value, expected: list) -> None:
     """Validate that a value is one of the expected values."""
     if value is not None and value not in expected:
         opts = ", ".join(sorted([str(i) for i in expected]))
-        raise LeafFocusException(f"Invalid {name} '{value}'. Expected one of '{opts}'.")
+        msg = f"Invalid {name} '{value}'. Expected one of '{opts}'."
+        raise LeafFocusError(msg)
+
+
+class ValidatePathMethod(Enum):
+    NO_OPINION = 0
+    MUST_EXIST = 1
 
 
 def validate_path(
-    name: str, value: pathlib.Path, must_exist: bool = False
+    name: str,
+    value: pathlib.Path,
+    must_exist: ValidatePathMethod = ValidatePathMethod.NO_OPINION,
 ) -> pathlib.Path:
     """Validate a path."""
     if not value:
-        raise LeafFocusException(f"Must provide path {name}.")
+        msg = f"Must provide path {name}."
+        raise LeafFocusError(msg)
 
     try:
-        if must_exist is True:
+        if must_exist == ValidatePathMethod.MUST_EXIST:
             abs_path = value.resolve(strict=True)
         else:
             abs_path = value.absolute()
 
         return abs_path
     except Exception as error:
-        raise LeafFocusException(f"Invalid path '{value}'.") from error
+        msg = f"Invalid path '{value}'."
+        raise LeafFocusError(msg) from error
 
 
 def select_exe(value: pathlib.Path) -> pathlib.Path:
@@ -87,7 +101,7 @@ def select_exe(value: pathlib.Path) -> pathlib.Path:
 
     if not value.exists():
         msg = f"Exe file not found '{value}'."
-        raise LeafFocusException(msg) from FileNotFoundError(value)
+        raise LeafFocusError(msg) from FileNotFoundError(value)
 
     return value
 
@@ -96,7 +110,7 @@ def output_root(
     input_file: pathlib.Path,
     output_type: str,
     output_path: pathlib.Path,
-    additional: typing.Optional[typing.Collection[str]] = None,
+    additional: typing.Collection[str] | None = None,
 ) -> pathlib.Path:
     """Build the path to the output."""
     name_parts = [input_file.stem, output_type]
@@ -115,7 +129,7 @@ _slug_re_1 = re.compile(r"[^\w\s-]")
 _slug_re_2 = re.compile(r"[-\s]+")
 
 
-def str_norm(value: str):
+def str_norm(value: str) -> str:
     """Normalise a string into the 'slug' format."""
     separator = "-"
     encoding = "utf-8"
@@ -135,7 +149,7 @@ def str_norm(value: str):
 class CustomJsonEncoder(json.JSONEncoder):
     """A custom json encoder."""
 
-    def default(self, o):
+    def default(self, o: typing.Any) -> typing.Any:
         """Conversion used by default."""
         if isinstance(o, (datetime.datetime, datetime.date, datetime.time)):
             return o.isoformat()
@@ -150,16 +164,16 @@ class XmlElement:
     <tag attrib>text<child/>...</tag>tail
     """
 
-    attrib: typing.Collection[typing.Tuple[str, str, str]]
+    attrib: typing.Collection[tuple[str, str, str]]
     tag: str
     name_space: str
     text: str
     tail: str
-    children: typing.Collection["XmlElement"]
+    children: typing.Collection[XmlElement]
 
-    def to_dict(self) -> typing.Dict:
+    def to_dict(self) -> dict:
         """Convert xml element to a dict."""
-        result: typing.Dict[str, typing.Any] = {"name": self.tag.strip()}
+        result: dict[str, typing.Any] = {"name": self.tag.strip()}
 
         value = ((self.text or "").strip() + " " + (self.tail or "").strip()).strip()
         if value:
@@ -175,7 +189,7 @@ class XmlElement:
 
         return result
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Convert to a string."""
         tag1 = (self.tag or "").strip()
         tag2 = f"</{tag1}>"
@@ -237,7 +251,7 @@ def xml_to_element(element: Element) -> XmlElement:
     return item
 
 
-def xml_tag_ns(value: str) -> typing.Tuple[str, str]:
+def xml_tag_ns(value: str) -> tuple[str, str]:
     """Get the XML namespace and name.
 
     Args:
@@ -256,5 +270,5 @@ def xml_tag_ns(value: str) -> typing.Tuple[str, str]:
     return name_space, name
 
 
-class LeafFocusException(Exception):
-    """A custom error."""
+class LeafFocusError(Exception):
+    """A custom error for leaf focus."""
