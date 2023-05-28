@@ -48,6 +48,10 @@ class OpticalCharacterRecognition:
 
         tf.get_logger().setLevel(log_level)
 
+        # check the CPU / GPU in use
+        gpus = tf.config.list_physical_devices("GPU")
+        logger.info("GPUs in use: '%s'.", gpus)
+
         try:
             import keras_ocr  # pylint: disable=import-outside-toplevel
         except ModuleNotFoundError as error:

@@ -117,7 +117,7 @@ class XpdfInstall:
             raise ValueError(msg)
 
         logger.info("Finished.")
-        return False
+        return True
 
     def _get_url_file_name(self, url: str) -> str:
         parsed_url = urlparse(url)
@@ -163,6 +163,7 @@ class XpdfInstall:
             result_import = subprocess.run(cmd_import, capture_output=True)
             expected_import_return_code = 2
             if result_import.returncode != expected_import_return_code:
+                logger.warning("Unexpected return code '%s'.", result_import)
                 # expecting return code 2 because there is no ultimately trusted key
                 return False
             contains_email = [
@@ -171,6 +172,7 @@ class XpdfInstall:
                 if expected_email in line.decode()
             ]
             if len(contains_email) != 1:
+                logger.warning("Unexpected stderr '%s'.", result_import)
                 # gpg key must contain the expected email address
                 return False
 
@@ -185,6 +187,7 @@ class XpdfInstall:
             ]
             result_verify = subprocess.run(cmd_verify, capture_output=True)
             if result_verify.returncode != 0:
+                logger.warning("Unexpected return code '%s'.", result_verify)
                 # expecting status code 0
                 return False
             contains_good_email = [
@@ -193,6 +196,7 @@ class XpdfInstall:
                 if f"Good signature from {expected_email}" in line.decode()
             ]
             if len(contains_good_email) != 1:
+                logger.warning("Unexpected stderr code '%s'.", result_verify)
                 # must be a 'good' signature with the expected key
                 return False
 

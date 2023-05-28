@@ -16,6 +16,7 @@
       <excludeFolder url="file://$MODULE_DIR$/docs/leaf_focus" />
       <excludeFolder url="file://$MODULE_DIR$/.pytest_cache" />
       <excludeFolder url="file://$MODULE_DIR$/.tox" />
+      <excludeFolder url="file://$MODULE_DIR$/.ruff_cache" />
       <excludeFolder url="file://$MODULE_DIR$/.xpdf" />
     </content>
     <orderEntry type="inheritedJdk" />
