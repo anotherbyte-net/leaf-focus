@@ -161,8 +161,8 @@ class XpdfInstall:
                 self._path_to_str(key_path),
             ]
             result_import = subprocess.run(cmd_import, capture_output=True)
-            expected_import_return_code = 2
-            if result_import.returncode != expected_import_return_code:
+            expected_import_return_codes = [0, 2]
+            if result_import.returncode not in expected_import_return_codes:
                 logger.warning("Unexpected return code '%s'.", result_import)
                 # expecting return code 2 because there is no ultimately trusted key
                 return False
