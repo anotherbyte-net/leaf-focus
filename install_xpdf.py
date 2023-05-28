@@ -53,7 +53,10 @@ class XpdfInstall:
         logger.info("Downloading and installing xpdf tools.")
 
         download_dir = self._xpdf_install_args.download_dir.absolute()
+        download_dir.mkdir(parents=True, exist_ok=True)
+
         install_dir = self._xpdf_install_args.install_dir.absolute()
+        install_dir.mkdir(parents=True, exist_ok=True)
 
         gpg_key_url = self._xpdf_install_args.gpg_key_url
         file_sig_url = self._xpdf_install_args.file_sig_url
