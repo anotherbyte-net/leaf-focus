@@ -100,7 +100,7 @@ src_paths = [
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-envlist = py38,py39,py310,py311,py312
+envlist = py38,py39,py310,py311
 
 [testenv]
 #recreate = true
@@ -118,7 +118,7 @@ commands =
     leaf-focus --help
     echo "::endgroup::"
     echo "::group::Test coverage"
-    python -X dev -m coverage run -m pytest --tb=line --doctest-modules
+    python -X dev -m coverage run -m pytest --doctest-modules
     echo "::endgroup::"
     echo "::group::Coverage report"
     -python -X dev -m coverage report
@@ -135,22 +135,12 @@ commands =
     echo "::group::Linter - pylint"
     -python -X dev -m pylint src
     echo "::endgroup::"
-    echo "::group::Linter - pydocstyle"
-    -python -X dev -m pydocstyle src
-    echo "::endgroup::"
-    echo "::group::Linter - flake8"
-    -python -X dev -m flake8 src --count --show-source --statistics --exit-zero
-    echo "::endgroup::"
     echo "::group::Build"
-    python -m build --sdist --wheel --outdir dist/ .
+    python -m build --sdist --wheel --outdir build/dist-test/{env_name}/ .
     echo "::endgroup::"
 """
 
-[tool.pydocstyle]
-convention = 'google'
-
 [tool.mypy]
-#strict = true
 ignore_missing_imports = true
 check_untyped_defs = true
 no_implicit_optional = true
@@ -171,7 +161,6 @@ ignore = [
     "TD002", # Missing author in TODO; try: `# TODO(<author_name>): ...`
     "TD003", # Missing issue link on the line following this TODO
 ]
-
 
 [tool.ruff.pydocstyle]
 convention = "google"

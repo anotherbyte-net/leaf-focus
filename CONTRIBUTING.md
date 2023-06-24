@@ -35,6 +35,8 @@ If the pip dependencies have changed, it might be necessary to
 To run using all available python versions:
 
 ```bash
+export TEST_INCLUDE_SLOW=true
+export TEST_XPDF_EXE_DIR=.xpdf/install/xpdf-tools-win-4.04/bin64
 python -X dev -m tox
 ```
 
@@ -73,7 +75,7 @@ python -X dev -m twine upload --repository testpypi dist/*
 When uploading:
 
 - for username, use `__token__`
-- for password, create a token at https://test.pypi.org/manage/account/#api-tokens
+- for password, [create a token](https://test.pypi.org/manage/account/#api-tokens)
 
 Go to the [test project page](https://test.pypi.org/project/leaf-focus) and check that it looks ok.
 
@@ -86,7 +88,7 @@ source .venv-test/bin/activate
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install --upgrade -r requirements.txt
 
-LEAF_FOCUS_VERSION='0.6.0'
+LEAF_FOCUS_VERSION='0.6.1'
 pip install --index-url https://test.pypi.org/simple/ --no-deps leaf-focus==$LEAF_FOCUS_VERSION
 # or
 pip install dist/leaf_focus-$LEAF_FOCUS_VERSION-py3-none-any.whl
@@ -109,7 +111,7 @@ python -X dev -m twine upload dist/*
 When uploading:
 
 - for username, use `__token__`
-- for password, create a token at https://pypi.org/manage/account/#api-tokens
+- for password, [create a token](https://pypi.org/manage/account/#api-tokens)
 
 Go to the [live project page](https://pypi.org/project/leaf-focus) and check that it looks ok.
 

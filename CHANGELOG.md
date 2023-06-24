@@ -1,5 +1,12 @@
 # Change log
 
+## [v0.6.1](https://github.com/anotherbyte-net/leaf-focus/releases/tag/v0.6.1)
+
+[full change log](https://github.com/anotherbyte-net/leaf-focus/compare/v0.6.0...v0.6.1)
+
+- Relax dependency specifications even more, to allow installing leaf-focus as a library.
+- Fix test failing due to Windows text encoding.
+
 ## [v0.6.0](https://github.com/anotherbyte-net/leaf-focus/releases/tag/v0.6.0)
 
 [full change log](https://github.com/anotherbyte-net/leaf-focus/compare/v0.5.3...v0.6.0)

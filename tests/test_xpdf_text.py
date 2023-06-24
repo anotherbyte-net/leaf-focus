@@ -2,12 +2,12 @@ import os
 import pathlib
 import platform
 import subprocess
-from importlib_resources import files, as_file
 from subprocess import CompletedProcess
 
 import pytest
-
 from helper import check_skip_xpdf_exe_dir, check_skip_xpdf_exe_dir_msg
+from importlib_resources import as_file, files
+
 from leaf_focus.pdf.model import XpdfTextArgs
 from leaf_focus.pdf.xpdf import XpdfProgram
 
@@ -34,8 +34,8 @@ def test_xpdf_text_with_exe(capsys, caplog, resource_example1, tmp_path):
     )
     result = prog.text(pdf_path, output_path, args)
 
-    assert result.output_path.read_text().startswith(
-        "Release 450 Driver for Windows, Version"
+    assert result.output_path.read_text(encoding="windows-1252").startswith(
+        "Release 450 Driver for Windows, Version",
     )
 
     stdout, stderr = capsys.readouterr()
@@ -46,7 +46,11 @@ def test_xpdf_text_with_exe(capsys, caplog, resource_example1, tmp_path):
 
 
 def test_xpdf_text_without_exe(
-    capsys, caplog, resource_example1, tmp_path, monkeypatch
+    capsys,
+    caplog,
+    resource_example1,
+    tmp_path,
+    monkeypatch,
 ):
     package = resource_example1.package
     package_path = files(package)
@@ -84,9 +88,13 @@ def test_xpdf_text_without_exe(
         ]
         if cmd == cmd_args:
             return CompletedProcess(
-                args=cmd_args, returncode=0, stdout="[processing page 22]\n", stderr=""
+                args=cmd_args,
+                returncode=0,
+                stdout="[processing page 22]\n",
+                stderr="",
             )
-        raise ValueError(f"Unknown cmd '{cmd}'")
+        msg = f"Unknown cmd '{cmd}'"
+        raise ValueError(msg)
 
     monkeypatch.setattr(subprocess, "run", mock_subprocess_run)
 

@@ -245,3 +245,5 @@ fabric.properties
 
 # xpdf binaries
 .xpdf/
+
+.ruff_cache/
