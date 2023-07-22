@@ -1,15 +1,15 @@
 """Command line for leaf focus."""
+from __future__ import annotations
 
 import argparse
 import logging
 import pathlib
 import sys
-import typing
 
 from leaf_focus import app, utils
 
 
-def main(args: typing.Optional[typing.List[str]] = None) -> int:
+def main(args: list[str] | None = None) -> int:
     """Run as a command line program.
 
     Args:
@@ -99,14 +99,16 @@ def main(args: typing.Optional[typing.List[str]] = None) -> int:
         logging.getLogger().setLevel((app_args.log_level or "info").upper())
 
         result = app_inst.run(app_args)
-        return 0 if result is True else 1
-
-    except utils.LeafFocusError as error:
-        logger.error("Error: %s - %s", error.__class__.__name__, str(error))
+        if result is True:
+            return 0
         return 1
 
-    except Exception as error:  # pylint: disable=broad-except
-        logger.error("Error: %s - %s", error.__class__.__name__, str(error))
+    except utils.LeafFocusError as error:
+        logger.exception("Error: %s", error.__class__.__name__)
+        return 1
+
+    except Exception as error:
+        logger.exception("Error: %s", error.__class__.__name__)
         return 2
 
 

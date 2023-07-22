@@ -309,7 +309,7 @@ class TextItem:
             "bottom_left_x",
             "bottom_left_y",
         ]
-        with open(path, "w", newline="", encoding="utf8") as file_path:
+        with path.open("w", newline="", encoding="utf8") as file_path:
             writer = csv.DictWriter(file_path, fields)
             writer.writeheader()
             sorted_items = sorted(
@@ -333,7 +333,7 @@ class TextItem:
         logger.debug("Loading OCR output items.")
         count = 0
 
-        with open(path, encoding="utf8") as file_path:
+        with path.open(encoding="utf8") as file_path:
             reader = csv.DictReader(file_path)
             for row in reader:
                 line_number = row.get("line_number", "").strip()

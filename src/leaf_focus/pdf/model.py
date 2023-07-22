@@ -1,11 +1,14 @@
 """PDF processing models."""
+from __future__ import annotations
 
 import dataclasses
 import logging
-import pathlib
 import platform
 import typing
-from datetime import datetime
+
+if typing.TYPE_CHECKING:
+    import pathlib
+    from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +17,7 @@ logger = logging.getLogger(__name__)
 class XpdfArgs:
     """xpdf arguments common to all commands."""
 
-    owner_password: typing.Optional[str] = dataclasses.field(
+    owner_password: str | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-opw", "cmd_type": "single"}},
         default=None,
     )
@@ -25,7 +28,7 @@ class XpdfArgs:
     -opw <string>          : owner password (for encrypted files)
     """
 
-    user_password: typing.Optional[str] = dataclasses.field(
+    user_password: str | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-upw", "cmd_type": "single"}},
         default=None,
     )
@@ -35,7 +38,7 @@ class XpdfArgs:
     -upw <string>          : user password (for encrypted files)
     """
 
-    first_page: typing.Optional[int] = dataclasses.field(
+    first_page: int | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-f", "cmd_type": "single"}},
         default=None,
     )
@@ -45,7 +48,7 @@ class XpdfArgs:
     -f <int>               : first page to convert
     """
 
-    last_page: typing.Optional[int] = dataclasses.field(
+    last_page: int | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-l", "cmd_type": "single"}},
         default=None,
     )
@@ -55,7 +58,7 @@ class XpdfArgs:
     -l <int>               : last page to convert
     """
 
-    use_verbose: typing.Optional[bool] = dataclasses.field(
+    use_verbose: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-verbose", "cmd_type": "bool"}},
         default=False,
     )
@@ -65,7 +68,7 @@ class XpdfArgs:
     -verbose               : print per-page status information
     """
 
-    config_file: typing.Optional[pathlib.Path] = dataclasses.field(
+    config_file: pathlib.Path | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-cfg", "cmd_type": "single"}},
         default=None,
     )
@@ -75,7 +78,7 @@ class XpdfArgs:
     -cfg <string>     : configuration file to use in place of .xpdfrc
     """
 
-    program_info: typing.Optional[bool] = dataclasses.field(
+    program_info: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-v", "cmd_type": "bool"}},
         default=False,
     )
@@ -90,7 +93,7 @@ class XpdfArgs:
 class XpdfInfoArgs(XpdfArgs):
     """Arguments for xpdf pdfinfo program."""
 
-    include_page_bounding_boxes: typing.Optional[bool] = dataclasses.field(
+    include_page_bounding_boxes: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-box", "cmd_type": "bool"}},
         default=False,
     )
@@ -101,7 +104,7 @@ class XpdfInfoArgs(XpdfArgs):
     -box              : print the page bounding boxes
     """
 
-    include_metadata: typing.Optional[bool] = dataclasses.field(
+    include_metadata: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-meta", "cmd_type": "bool"}},
         default=False,
     )
@@ -112,7 +115,7 @@ class XpdfInfoArgs(XpdfArgs):
     -meta             : print the document metadata (XML)
     """
 
-    include_raw_dates: typing.Optional[bool] = dataclasses.field(
+    include_raw_dates: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-rawdates", "cmd_type": "bool"}},
         default=False,
     )
@@ -122,7 +125,7 @@ class XpdfInfoArgs(XpdfArgs):
     -rawdates         : print the undecoded date strings directly from the PDF file
     """
 
-    encoding: typing.Optional[str] = dataclasses.field(
+    encoding: str | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-enc", "cmd_type": "single"}},
         default="Latin1",
     )
@@ -140,74 +143,74 @@ class XpdfInfoResult:
     """Result from xpdf pdfinfo program."""
 
     # pdf info
-    title: typing.Optional[str] = dataclasses.field(
+    title: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Title"}},
     )
-    subject: typing.Optional[str] = dataclasses.field(
+    subject: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Subject"}},
     )
-    keywords: typing.Optional[str] = dataclasses.field(
+    keywords: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Keywords"}},
     )
-    author: typing.Optional[str] = dataclasses.field(
+    author: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Author"}},
     )
-    creator: typing.Optional[str] = dataclasses.field(
+    creator: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Creator"}},
     )
-    producer: typing.Optional[str] = dataclasses.field(
+    producer: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Producer"}},
     )
-    creation_date: typing.Optional[datetime] = dataclasses.field(
+    creation_date: datetime | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "CreationDate"}},
     )
-    modification_date: typing.Optional[datetime] = dataclasses.field(
+    modification_date: datetime | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "ModDate"}},
     )
 
     # addtional info
-    tagged: typing.Optional[bool] = dataclasses.field(
+    tagged: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Tagged"}},
     )
-    form: typing.Optional[str] = dataclasses.field(
+    form: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Form"}},
     )
-    pages: typing.Optional[int] = dataclasses.field(
+    pages: int | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Pages"}},
     )
-    encrypted: typing.Optional[bool] = dataclasses.field(
+    encrypted: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Encrypted"}},
     )
-    page_size: typing.Optional[str] = dataclasses.field(
+    page_size: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Page size"}},
     )
-    media_box: typing.Optional[str] = dataclasses.field(
+    media_box: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "MediaBox"}},
     )
-    crop_box: typing.Optional[str] = dataclasses.field(
+    crop_box: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "CropBox"}},
     )
-    bleed_box: typing.Optional[str] = dataclasses.field(
+    bleed_box: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "BleedBox"}},
     )
-    trim_box: typing.Optional[str] = dataclasses.field(
+    trim_box: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "TrimBox"}},
     )
-    art_box: typing.Optional[str] = dataclasses.field(
+    art_box: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "ArtBox"}},
     )
-    file_size_bytes: typing.Optional[int] = dataclasses.field(
+    file_size_bytes: int | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "File size"}},
     )
-    optimized: typing.Optional[bool] = dataclasses.field(
+    optimized: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Optimized"}},
     )
-    pdf_version: typing.Optional[str] = dataclasses.field(
+    pdf_version: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "PDF version"}},
     )
 
     # xml metadata
-    metadata: typing.Optional[dict] = dataclasses.field(
+    metadata: dict | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Metadata"}},
     )
 
@@ -216,7 +219,7 @@ class XpdfInfoResult:
 class XpdfTextArgs(XpdfArgs):
     """Arguments for xpdf pdftotext program."""
 
-    use_original_layout: typing.Optional[bool] = dataclasses.field(
+    use_original_layout: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-layout", "cmd_type": "bool"}},
         default=False,
     )
@@ -226,7 +229,7 @@ class XpdfTextArgs(XpdfArgs):
     -layout                : maintain original physical layout
     """
 
-    use_simple_layout: typing.Optional[bool] = dataclasses.field(
+    use_simple_layout: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-simple", "cmd_type": "bool"}},
         default=False,
     )
@@ -238,7 +241,7 @@ class XpdfTextArgs(XpdfArgs):
     -simple                : simple one-column page layout
     """
 
-    use_simple2_layout: typing.Optional[bool] = dataclasses.field(
+    use_simple2_layout: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-simple2", "cmd_type": "bool"}},
         default=False,
     )
@@ -249,7 +252,7 @@ class XpdfTextArgs(XpdfArgs):
     -simple2               : simple one-column page layout, version 2
     """
 
-    use_table_layout: typing.Optional[bool] = dataclasses.field(
+    use_table_layout: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-table", "cmd_type": "bool"}},
         default=False,
     )
@@ -263,7 +266,7 @@ class XpdfTextArgs(XpdfArgs):
     -table                 : similar to -layout, but optimized for tables
     """
 
-    use_line_printer: typing.Optional[bool] = dataclasses.field(
+    use_line_printer: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-lineprinter", "cmd_type": "bool"}},
         default=False,
     )
@@ -280,7 +283,7 @@ class XpdfTextArgs(XpdfArgs):
     -lineprinter           : use strict fixed-pitch/height layout
     """
 
-    use_raw_string_order: typing.Optional[bool] = dataclasses.field(
+    use_raw_string_order: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-raw", "cmd_type": "bool"}},
         default=False,
     )
@@ -291,7 +294,7 @@ class XpdfTextArgs(XpdfArgs):
     -raw                   : keep strings in content stream order
     """
 
-    use_text_clip: typing.Optional[bool] = dataclasses.field(
+    use_text_clip: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-clip", "cmd_type": "bool"}},
         default=False,
     )
@@ -303,7 +306,7 @@ class XpdfTextArgs(XpdfArgs):
     -clip                  : separate clipped text
     """
 
-    use_no_diag: typing.Optional[bool] = dataclasses.field(
+    use_no_diag: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-nodiag", "cmd_type": "bool"}},
         default=False,
     )
@@ -315,7 +318,7 @@ class XpdfTextArgs(XpdfArgs):
     -nodiag                : discard diagonal text
     """
 
-    use_no_page_break: typing.Optional[bool] = dataclasses.field(
+    use_no_page_break: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-nopgbrk", "cmd_type": "bool"}},
         default=False,
     )
@@ -326,7 +329,7 @@ class XpdfTextArgs(XpdfArgs):
     -nopgbrk               : don't insert a page break at the end of each page
     """
 
-    use_bom: typing.Optional[bool] = dataclasses.field(
+    use_bom: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-nom", "cmd_type": "bool"}},
         default=False,
     )
@@ -336,7 +339,7 @@ class XpdfTextArgs(XpdfArgs):
     -bom                   : insert a Unicode BOM at the start of the text file
     """
 
-    use_verbose: typing.Optional[bool] = dataclasses.field(
+    use_verbose: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-verbose", "cmd_type": "bool"}},
         default=False,
     )
@@ -346,7 +349,7 @@ class XpdfTextArgs(XpdfArgs):
     -verbose               : print per-page status information
     """
 
-    fixed_text_number: typing.Optional[int] = dataclasses.field(
+    fixed_text_number: int | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-fixed", "cmd_type": "single"}},
         default=None,
     )
@@ -358,7 +361,7 @@ class XpdfTextArgs(XpdfArgs):
     -fixed <number>        : assume fixed-pitch (or tabular) text
     """
 
-    line_space_number: typing.Optional[int] = dataclasses.field(
+    line_space_number: int | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-linespacing", "cmd_type": "single"}},
         default=None,
     )
@@ -369,7 +372,7 @@ class XpdfTextArgs(XpdfArgs):
     -linespacing <number>  : fixed line spacing for LinePrinter mode
     """
 
-    line_end_type: typing.Optional[str] = dataclasses.field(
+    line_end_type: str | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-eol", "cmd_type": "single"}},
         default=None,
     )
@@ -379,7 +382,7 @@ class XpdfTextArgs(XpdfArgs):
     -eol <string>          : output end-of-line convention (unix, dos, or mac)
     """
 
-    margin_left_number: typing.Optional[int] = dataclasses.field(
+    margin_left_number: int | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-marginl", "cmd_type": "single"}},
         default=0,
     )
@@ -392,7 +395,7 @@ class XpdfTextArgs(XpdfArgs):
     -marginl <number>      : left page margin
     """
 
-    margin_right_number: typing.Optional[int] = dataclasses.field(
+    margin_right_number: int | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-marginr", "cmd_type": "single"}},
         default=0,
     )
@@ -405,7 +408,7 @@ class XpdfTextArgs(XpdfArgs):
     -marginr <number>      : right page margin
     """
 
-    margin_topnumber: typing.Optional[int] = dataclasses.field(
+    margin_topnumber: int | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-margint", "cmd_type": "single"}},
         default=0,
     )
@@ -418,7 +421,7 @@ class XpdfTextArgs(XpdfArgs):
     -margint <number>      : top page margin
     """
 
-    margin_bottom_number: typing.Optional[int] = dataclasses.field(
+    margin_bottom_number: int | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-marginb", "cmd_type": "single"}},
         default=0,
     )
@@ -461,7 +464,7 @@ class XpdfTextResult:
 class XpdfImageArgs(XpdfArgs):
     """Arguments for xpdf pdftopng program."""
 
-    resolution: typing.Optional[int] = dataclasses.field(
+    resolution: int | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-r", "cmd_type": "single"}},
         default=150,
     )
@@ -470,7 +473,7 @@ class XpdfImageArgs(XpdfArgs):
 
     -r <number>       : resolution, in DPI (default is 150)
     """
-    use_monochrome: typing.Optional[bool] = dataclasses.field(
+    use_monochrome: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-mono", "cmd_type": "bool"}},
         default=False,
     )
@@ -480,7 +483,7 @@ class XpdfImageArgs(XpdfArgs):
     -mono             : generate a monochrome PNG file
     """
 
-    use_grayscale: typing.Optional[bool] = dataclasses.field(
+    use_grayscale: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-gray", "cmd_type": "bool"}},
         default=False,
     )
@@ -489,7 +492,7 @@ class XpdfImageArgs(XpdfArgs):
 
     -gray             : generate a grayscale PNG file
     """
-    use_alpha_channel: typing.Optional[bool] = dataclasses.field(
+    use_alpha_channel: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-alpha", "cmd_type": "bool"}},
         default=False,
     )
@@ -502,7 +505,7 @@ class XpdfImageArgs(XpdfArgs):
     -alpha            : include an alpha channel in the PNG file
     """
 
-    rotation: typing.Optional[int] = dataclasses.field(
+    rotation: int | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-rot", "cmd_type": "single"}},
         default=None,
     )
@@ -512,7 +515,7 @@ class XpdfImageArgs(XpdfArgs):
     -rot <int>        : set page rotation: 0, 90, 180, or 270
     """
 
-    free_type: typing.Optional[str] = dataclasses.field(
+    free_type: str | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-freetype", "cmd_type": "single"}},
         default="yes",
     )
@@ -522,7 +525,7 @@ class XpdfImageArgs(XpdfArgs):
 
     -freetype <string>: enable FreeType font rasterizer: yes, no
     """
-    anti_aliasing: typing.Optional[str] = dataclasses.field(
+    anti_aliasing: str | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-aa", "cmd_type": "single"}},
         default="yes",
     )
@@ -532,7 +535,7 @@ class XpdfImageArgs(XpdfArgs):
 
     -aa <string>      : enable font anti-aliasing: yes, no
     """
-    vector_anti_aliasing: typing.Optional[str] = dataclasses.field(
+    vector_anti_aliasing: str | None = dataclasses.field(
         metadata={"leaf_focus": {"cmd": "-aaVector", "cmd_type": "single"}},
         default="yes",
     )

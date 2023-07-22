@@ -4,6 +4,7 @@ from __future__ import annotations
 import dataclasses
 import datetime
 import json
+import logging
 import platform
 import re
 import typing
@@ -16,6 +17,8 @@ if typing.TYPE_CHECKING:
 
 from importlib_metadata import PackageNotFoundError, distribution
 from importlib_resources import as_file, files
+
+logger = logging.getLogger(__name__)
 
 
 def get_name_dash() -> str:
@@ -32,9 +35,11 @@ def get_version() -> str | None:
     """Get the package version."""
     try:
         dist = distribution(get_name_dash())
-        return dist.version
     except PackageNotFoundError:
         pass
+
+    else:
+        return dist.version
 
     try:
         with as_file(files(get_name_under()).joinpath("cli.py")) as file_path:
@@ -55,11 +60,11 @@ def parse_date(value: str) -> datetime.datetime | None:
         try:
             return datetime.datetime.strptime(value, fmt)
         except ValueError:
-            pass
+            logger.debug("Value '%s' did not match date format '%s'.", value, fmt)
     return None
 
 
-def validate(name: str, value, expected: list) -> None:
+def validate(name: str, value, expected: typing.Iterable[str]) -> None:
     """Validate that a value is one of the expected values."""
     if value is not None and value not in expected:
         opts = ", ".join(sorted([str(i) for i in expected]))
@@ -68,6 +73,8 @@ def validate(name: str, value, expected: list) -> None:
 
 
 class ValidatePathMethod(Enum):
+    """Options for how to validate a path."""
+
     NO_OPINION = 0
     MUST_EXIST = 1
 
@@ -88,10 +95,32 @@ def validate_path(
         else:
             abs_path = value.absolute()
 
-        return abs_path
     except Exception as error:
         msg = f"Invalid path '{value}'."
         raise LeafFocusError(msg) from error
+
+    else:
+        return abs_path
+
+
+def validate_pages(first_page: int | None, last_page: int | None) -> None:
+    """Validate the page range.
+
+    Args:
+        first_page: The first page.
+        last_page: The last page.
+
+    Returns:
+        None
+    """
+    if first_page is None or last_page is None:
+        return
+    if first_page > last_page:
+        msg = (
+            f"First page ({first_page}) must be less than or equal "
+            f"to last page ({last_page})."
+        )
+        raise LeafFocusError(msg)
 
 
 def select_exe(value: pathlib.Path) -> pathlib.Path:
@@ -227,10 +256,8 @@ def xml_to_element(element: Element) -> XmlElement:
     tag = element.tag
     text = element.text
     tail = element.tail
-    children = []
 
-    for child in element:
-        children.append(xml_to_element(child))
+    children = [xml_to_element(child) for child in element]
 
     tag_ns, tag_name = xml_tag_ns(tag)
 

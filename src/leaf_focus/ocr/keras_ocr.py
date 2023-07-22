@@ -1,13 +1,17 @@
 """OCR using keras-ocr."""
+from __future__ import annotations
+
 import logging
 import os
-import pathlib
 import typing
-
-import numpy as np
 
 from leaf_focus import utils
 from leaf_focus.ocr import model
+
+if typing.TYPE_CHECKING:
+    import pathlib
+
+    import numpy as np
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +46,7 @@ class OpticalCharacterRecognition:
         }
         os.environ["TF_CPP_MIN_LOG_LEVEL"] = tf_log_level_map.get(log_level, "1")
 
-        import tensorflow as tf  # pylint: disable=import-outside-toplevel
+        import tensorflow as tf
 
         # also set the tf logger level
 
@@ -53,10 +57,10 @@ class OpticalCharacterRecognition:
         logger.info("GPUs in use: '%s'.", gpus)
 
         try:
-            import keras_ocr  # pylint: disable=import-outside-toplevel
+            import keras_ocr
         except ModuleNotFoundError as error:
             msg = "Cannot run ocr on this Python version."
-            logger.error(msg)
+            logger.exception(msg)
             raise utils.LeafFocusError(msg) from error
 
         # TODO: allow specifying path to weights files for detector
@@ -87,7 +91,7 @@ class OpticalCharacterRecognition:
     def engine_run(
         self,
         image_file: pathlib.Path,
-    ) -> typing.Tuple[typing.List, typing.Any]:
+    ) -> tuple[list, typing.Any]:
         """Run the recognition engine.
 
         Args:
@@ -98,7 +102,7 @@ class OpticalCharacterRecognition:
                 and list of recognition results.
         """
         try:
-            import keras_ocr  # pylint: disable=import-outside-toplevel
+            import keras_ocr
         except ModuleNotFoundError as error:
             msg = "Cannot run ocr on this Python version."
             logger.error(msg)
@@ -116,8 +120,8 @@ class OpticalCharacterRecognition:
 
     def engine_annotate(
         self,
-        image: typing.Optional[np.ndarray],
-        predictions: typing.List[typing.Tuple[typing.Any, typing.Any]],
+        image: np.ndarray | None,
+        predictions: list[tuple[typing.Any, typing.Any]],
         axis,
     ) -> None:
         """Run the annotation engine.
@@ -131,7 +135,7 @@ class OpticalCharacterRecognition:
             None
         """
         try:
-            import keras_ocr  # pylint: disable=import-outside-toplevel
+            import keras_ocr
         except ModuleNotFoundError as error:
             msg = "Cannot run ocr on this Python version."
             logger.error(msg)
@@ -209,8 +213,8 @@ class OpticalCharacterRecognition:
     def save_figure(
         self,
         annotation_file: pathlib.Path,
-        image: typing.Optional[np.ndarray],
-        predictions: typing.List[typing.Tuple[typing.Any, typing.Any]],
+        image: np.ndarray | None,
+        predictions: list[tuple[typing.Any, typing.Any]],
     ) -> None:
         """Save the annotated image.
 
@@ -236,8 +240,8 @@ class OpticalCharacterRecognition:
 
         logger.info("Saving OCR image to '%s'.", annotation_file)
 
-        import matplotlib as mpl  # pylint: disable=import-outside-toplevel
-        from matplotlib import pyplot as plt  # pylint: disable=import-outside-toplevel
+        import matplotlib as mpl
+        from matplotlib import pyplot as plt
 
         mpl.use("agg")
 
@@ -252,8 +256,8 @@ class OpticalCharacterRecognition:
 
     def convert_predictions(
         self,
-        predictions: typing.List[typing.Tuple[typing.Any, typing.Any]],
-    ) -> typing.List[typing.List[model.TextItem]]:
+        predictions: list[tuple[typing.Any, typing.Any]],
+    ) -> list[list[model.TextItem]]:
         """Convert predictions to items.
 
         Args:

@@ -1,5 +1,14 @@
 # Change log
 
+## [v0.6.2](https://github.com/anotherbyte-net/leaf-focus/releases/tag/v0.6.2)
+
+[full change log](https://github.com/anotherbyte-net/leaf-focus/compare/v0.6.1...v0.6.2)
+
+- Validate first page and last page
+- Additional tests for first page and last page
+- Linter changes
+- Improved contribution docs
+
 ## [v0.6.1](https://github.com/anotherbyte-net/leaf-focus/releases/tag/v0.6.1)
 
 [full change log](https://github.com/anotherbyte-net/leaf-focus/compare/v0.6.0...v0.6.1)

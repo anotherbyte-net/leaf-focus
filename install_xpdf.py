@@ -1,4 +1,5 @@
 """Download and extract the xpdf tools."""
+from __future__ import annotations
 
 import argparse
 import dataclasses
@@ -9,7 +10,6 @@ import subprocess
 import sys
 import tarfile
 import tempfile
-import typing
 import zipfile
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
@@ -126,10 +126,14 @@ class XpdfInstall:
         file_name = parsed_path.name
         return file_name
 
-    def _download_file(self, file_url: str, file_path: pathlib.Path):
+    def _download_file(self, file_url: str, file_path: pathlib.Path) -> None:
+        if not file_url or not file_url.startswith("https"):
+            msg = "Invalid file url: %s"
+            raise ValueError(msg, file_url)
+
         r = urlopen(Request(file_url))
         try:
-            with open(file_path, "wb") as f:
+            with file_path.open("wb") as f:
                 shutil.copyfileobj(r, f)
         finally:
             r.close()
@@ -209,7 +213,7 @@ class XpdfInstall:
         return str_path
 
 
-def main(args: typing.Optional[typing.List[str]] = None) -> int:
+def main(args: list[str] | None = None) -> int:
     """Download and extract the xpdf tools."""
     if args is None:
         args = sys.argv[1:]

@@ -1,18 +1,20 @@
 import os
 import pathlib
 import platform
+import re
 import subprocess
-from importlib_resources import files, as_file
 from subprocess import CompletedProcess
 
 import pytest
-
 from helper import (
     check_skip_slow,
     check_skip_slow_msg,
     check_skip_xpdf_exe_dir,
     check_skip_xpdf_exe_dir_msg,
 )
+from importlib_resources import as_file, files
+
+from leaf_focus import utils
 from leaf_focus.pdf.model import XpdfImageArgs
 from leaf_focus.pdf.xpdf import XpdfProgram
 
@@ -47,8 +49,51 @@ def test_xpdf_image_with_exe(capsys, caplog, resource_example1, tmp_path):
     assert caplog.record_tuples == []
 
 
+@pytest.mark.skipif(check_skip_xpdf_exe_dir(), reason=check_skip_xpdf_exe_dir_msg)
+@pytest.mark.skipif(check_skip_slow(), reason=check_skip_slow_msg)
+def test_xpdf_image_valid_pgs_with_exe(capsys, caplog, resource_example1, tmp_path):
+    package = resource_example1.package
+    package_path = files(package)
+    first_page = 3
+    last_page = 25
+    count_pages = 23
+    pdf = resource_example1.pdf_name
+    with as_file(package_path.joinpath(pdf)) as p:
+        pdf_path = p
+
+    output_path = tmp_path / "output-dir"
+    output_path.mkdir(exist_ok=True, parents=True)
+
+    exe_dir = pathlib.Path(os.getenv("TEST_XPDF_EXE_DIR"))
+
+    prog = XpdfProgram(exe_dir)
+    args = XpdfImageArgs(first_page=first_page, last_page=last_page)
+    result = prog.image(pdf_path, output_path, args)
+
+    assert result.output_dir
+    assert len(result.output_files) == count_pages
+
+    output_contents = set()
+    for index, output_file in enumerate(result.output_files):
+        assert output_file.name.endswith(f"-{index + first_page:06}.png")
+
+        output_content = output_file.read_bytes()
+        assert output_content not in output_contents
+        output_contents.add(output_content)
+
+    stdout, stderr = capsys.readouterr()
+    assert stdout == ""
+    assert stderr == ""
+
+    assert caplog.record_tuples == []
+
+
 def test_xpdf_image_without_exe(
-    capsys, caplog, resource_example1, tmp_path, monkeypatch
+    capsys,
+    caplog,
+    resource_example1,
+    tmp_path,
+    monkeypatch,
 ):
     package = resource_example1.package
     package_path = files(package)
@@ -86,7 +131,8 @@ def test_xpdf_image_without_exe(
                 stdout="",
                 stderr="Config Error: No display font for 'Symbol'\nConfig Error: No display font for 'ZapfDingbats'\n",
             )
-        raise ValueError(f"Unknown cmd '{cmd}'")
+        msg = f"Unknown cmd '{cmd}'"
+        raise ValueError(msg)
 
     monkeypatch.setattr(subprocess, "run", mock_subprocess_run)
 
@@ -101,5 +147,36 @@ def test_xpdf_image_without_exe(
     assert stderr == ""
 
     assert caplog.record_tuples == [
-        ("leaf_focus.pdf.xpdf", 30, "No page images found.")
+        ("leaf_focus.pdf.xpdf", 30, "No page images found."),
     ]
+
+
+@pytest.mark.skipif(check_skip_xpdf_exe_dir(), reason=check_skip_xpdf_exe_dir_msg)
+@pytest.mark.skipif(check_skip_slow(), reason=check_skip_slow_msg)
+def test_xpdf_image_invalid_pgs_with_exe(capsys, caplog, resource_example1, tmp_path):
+    package = resource_example1.package
+    package_path = files(package)
+    first_page = 6
+    last_page = 5
+    pdf = resource_example1.pdf_name
+    with as_file(package_path.joinpath(pdf)) as p:
+        pdf_path = p
+
+    output_path = tmp_path / "output-dir"
+    output_path.mkdir(exist_ok=True, parents=True)
+
+    exe_dir = pathlib.Path(os.getenv("TEST_XPDF_EXE_DIR"))
+
+    prog = XpdfProgram(exe_dir)
+    args = XpdfImageArgs(first_page=first_page, last_page=last_page)
+    with pytest.raises(
+        utils.LeafFocusError,
+        match=re.escape("First page (6) must be less than or equal to last page (5)."),
+    ):
+        prog.image(pdf_path, output_path, args)
+
+    stdout, stderr = capsys.readouterr()
+    assert stdout == ""
+    assert stderr == ""
+
+    assert caplog.record_tuples == []

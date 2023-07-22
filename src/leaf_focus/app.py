@@ -1,8 +1,9 @@
 """Main application."""
+from __future__ import annotations
+
 import dataclasses
 import datetime
 import logging
-import pathlib
 import typing
 
 from leaf_focus import utils
@@ -11,6 +12,9 @@ from leaf_focus.ocr import model as ocr_model
 from leaf_focus.pdf import model as pdf_model
 from leaf_focus.pdf import xpdf
 from leaf_focus.utils import ValidatePathMethod
+
+if typing.TYPE_CHECKING:
+    import pathlib
 
 logger = logging.getLogger(__name__)
 
@@ -25,10 +29,10 @@ class AppArgs:
     output_dir: pathlib.Path
     """path to the output directory to save text files"""
 
-    first_page: typing.Optional[int] = None
+    first_page: int | None = None
     """the first pdf page to process"""
 
-    last_page: typing.Optional[int] = None
+    last_page: int | None = None
     """the last pdf page to process"""
 
     save_page_images: bool = False
@@ -37,7 +41,7 @@ class AppArgs:
     run_ocr: bool = False
     """run OCR over each page of the pdf"""
 
-    log_level: typing.Optional[str] = None
+    log_level: str | None = None
     """the log level"""
 
 
@@ -64,7 +68,7 @@ class App:
         Returns:
             bool: True if the text extraction succeeded, otherwise false.
         """
-        timestamp_start = datetime.datetime.utcnow()
+        timestamp_start = datetime.datetime.now(tz=datetime.timezone.utc)
         logger.info("Starting leaf-focus")
 
         input_pdf = utils.validate_path(
@@ -106,7 +110,7 @@ class App:
         if app_args.run_ocr and xpdf_image:
             list(self.pdf_ocr(xpdf_image, app_args))
 
-        timestamp_finish = datetime.datetime.utcnow()
+        timestamp_finish = datetime.datetime.now(tz=datetime.timezone.utc)
         program_duration = timestamp_finish - timestamp_start
         logger.info("Finished (duration %s)", program_duration)
         return True

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 13.1.1"/>
+    <meta name="generator" content="pdoc 14.0.0"/>
     <title>leaf_focus.ocr.model API documentation</title>
 
     <style>/*! * Bootstrap Reboot v5.0.0 (https://getbootstrap.com/) * Copyright 2011-2021 The Bootstrap Authors * Copyright 2011-2021 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */*,::after,::before{box-sizing:border-box}@media (prefers-reduced-motion:no-preference){:root{scroll-behavior:smooth}}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-size:1rem;font-weight:400;line-height:1.5;color:#212529;background-color:#fff;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}hr{margin:1rem 0;color:inherit;background-color:currentColor;border:0;opacity:.25}hr:not([size]){height:1px}h1,h2,h3,h4,h5,h6{margin-top:0;margin-bottom:.5rem;font-weight:500;line-height:1.2}h1{font-size:calc(1.375rem + 1.5vw)}@media (min-width:1200px){h1{font-size:2.5rem}}h2{font-size:calc(1.325rem + .9vw)}@media (min-width:1200px){h2{font-size:2rem}}h3{font-size:calc(1.3rem + .6vw)}@media (min-width:1200px){h3{font-size:1.75rem}}h4{font-size:calc(1.275rem + .3vw)}@media (min-width:1200px){h4{font-size:1.5rem}}h5{font-size:1.25rem}h6{font-size:1rem}p{margin-top:0;margin-bottom:1rem}abbr[data-bs-original-title],abbr[title]{-webkit-text-decoration:underline dotted;text-decoration:underline dotted;cursor:help;-webkit-text-decoration-skip-ink:none;text-decoration-skip-ink:none}address{margin-bottom:1rem;font-style:normal;line-height:inherit}ol,ul{padding-left:2rem}dl,ol,ul{margin-top:0;margin-bottom:1rem}ol ol,ol ul,ul ol,ul ul{margin-bottom:0}dt{font-weight:700}dd{margin-bottom:.5rem;margin-left:0}blockquote{margin:0 0 1rem}b,strong{font-weight:bolder}small{font-size:.875em}mark{padding:.2em;background-color:#fcf8e3}sub,sup{position:relative;font-size:.75em;line-height:0;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}a{color:#0d6efd;text-decoration:underline}a:hover{color:#0a58ca}a:not([href]):not([class]),a:not([href]):not([class]):hover{color:inherit;text-decoration:none}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:1em;direction:ltr;unicode-bidi:bidi-override}pre{display:block;margin-top:0;margin-bottom:1rem;overflow:auto;font-size:.875em}pre code{font-size:inherit;color:inherit;word-break:normal}code{font-size:.875em;color:#d63384;word-wrap:break-word}a>code{color:inherit}kbd{padding:.2rem .4rem;font-size:.875em;color:#fff;background-color:#212529;border-radius:.2rem}kbd kbd{padding:0;font-size:1em;font-weight:700}figure{margin:0 0 1rem}img,svg{vertical-align:middle}table{caption-side:bottom;border-collapse:collapse}caption{padding-top:.5rem;padding-bottom:.5rem;color:#6c757d;text-align:left}th{text-align:inherit;text-align:-webkit-match-parent}tbody,td,tfoot,th,thead,tr{border-color:inherit;border-style:solid;border-width:0}label{display:inline-block}button{border-radius:0}button:focus:not(:focus-visible){outline:0}button,input,optgroup,select,textarea{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button,select{text-transform:none}[role=button]{cursor:pointer}select{word-wrap:normal}select:disabled{opacity:1}[list]::-webkit-calendar-picker-indicator{display:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]:not(:disabled),[type=reset]:not(:disabled),[type=submit]:not(:disabled),button:not(:disabled){cursor:pointer}::-moz-focus-inner{padding:0;border-style:none}textarea{resize:vertical}fieldset{min-width:0;padding:0;margin:0;border:0}legend{float:left;width:100%;padding:0;margin-bottom:.5rem;font-size:calc(1.275rem + .3vw);line-height:inherit}@media (min-width:1200px){legend{font-size:1.5rem}}legend+*{clear:left}::-webkit-datetime-edit-day-field,::-webkit-datetime-edit-fields-wrapper,::-webkit-datetime-edit-hour-field,::-webkit-datetime-edit-minute,::-webkit-datetime-edit-month-field,::-webkit-datetime-edit-text,::-webkit-datetime-edit-year-field{padding:0}::-webkit-inner-spin-button{height:auto}[type=search]{outline-offset:-2px;-webkit-appearance:textfield}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-color-swatch-wrapper{padding:0}::file-selector-button{font:inherit}::-webkit-file-upload-button{font:inherit;-webkit-appearance:button}output{display:inline-block}iframe{border:0}summary{display:list-item;cursor:pointer}progress{vertical-align:baseline}[hidden]{display:none!important}</style>
@@ -31,6 +31,9 @@
             <h2>API Documentation</h2>
                 <ul class="memberlist">
             <li>
+                    <a class="variable" href="#logger">logger</a>
+            </li>
+            <li>
                     <a class="class" href="#TextItem">TextItem</a>
                             <ul class="memberlist">
                         <li>
@@ -38,6 +41,36 @@
                         </li>
                         <li>
                                 <a class="variable" href="#TextItem.text">text</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TextItem.top_left_x">top_left_x</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TextItem.top_left_y">top_left_y</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TextItem.top_right_x">top_right_x</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TextItem.top_right_y">top_right_y</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TextItem.bottom_right_x">bottom_right_x</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TextItem.bottom_right_y">bottom_right_y</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TextItem.bottom_left_x">bottom_left_x</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TextItem.bottom_left_y">bottom_left_y</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TextItem.line_number">line_number</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#TextItem.line_order">line_order</a>
                         </li>
                         <li>
                                 <a class="variable" href="#TextItem.top_left">top_left</a>
@@ -117,6 +150,18 @@
                         <li>
                                 <a class="function" href="#KerasOcrResult.__init__">KerasOcrResult</a>
                         </li>
+                        <li>
+                                <a class="variable" href="#KerasOcrResult.output_dir">output_dir</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#KerasOcrResult.annotations_file">annotations_file</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#KerasOcrResult.predictions_file">predictions_file</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#KerasOcrResult.items">items</a>
+                        </li>
                 </ul>
 
             </li>
@@ -160,10 +205,10 @@
 </span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>
 </span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="k">class</span> <span class="nc">TextItem</span><span class="p">:</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>    <span class="sd">&quot;&quot;&quot;One found text item (could be a word or phrase) in an image.&quot;&quot;&quot;</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;One found text item (could be a word or phrase) in an image.&quot;&quot;&quot;</span>
 </span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>
 </span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>    <span class="sd">&quot;&quot;&quot;The recognised text.&quot;&quot;&quot;</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The recognised text.&quot;&quot;&quot;</span>
 </span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>
 </span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a>    <span class="n">top_left_x</span><span class="p">:</span> <span class="nb">float</span>
 </span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a>    <span class="n">top_left_y</span><span class="p">:</span> <span class="nb">float</span>
@@ -182,7 +227,7 @@
 </span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>    <span class="nd">@property</span>
 </span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>    <span class="k">def</span> <span class="nf">top_left</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>        <span class="sd">&quot;&quot;&quot;Get the top left point.</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the top left point.</span>
 </span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>
 </span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a><span class="sd">        Returns:</span>
 </span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="sd">            The x and y coordinates.</span>
@@ -191,7 +236,7 @@
 </span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>    <span class="nd">@property</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>    <span class="k">def</span> <span class="nf">top_right</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>        <span class="sd">&quot;&quot;&quot;Get the top right point.</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the top right point.</span>
 </span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>
 </span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="sd">        Returns:</span>
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="sd">            The x and y coordinates.</span>
@@ -200,7 +245,7 @@
 </span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>
 </span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>    <span class="nd">@property</span>
 </span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>    <span class="k">def</span> <span class="nf">bottom_right</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>        <span class="sd">&quot;&quot;&quot;Get the bottom right point.</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the bottom right point.</span>
 </span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>
 </span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd">        Returns:</span>
 </span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a><span class="sd">             The x and y coordinates.</span>
@@ -209,7 +254,7 @@
 </span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>
 </span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>    <span class="nd">@property</span>
 </span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>    <span class="k">def</span> <span class="nf">bottom_left</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>        <span class="sd">&quot;&quot;&quot;Get the bottom left point.</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the bottom left point.</span>
 </span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>
 </span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="sd">        Returns:</span>
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="sd">            The x and y coordinates.</span>
@@ -218,7 +263,7 @@
 </span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>    <span class="nd">@property</span>
 </span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>    <span class="k">def</span> <span class="nf">top_length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>        <span class="sd">&quot;&quot;&quot;Get the length of the top side.</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the length of the top side.</span>
 </span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>
 </span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">        Returns:</span>
 </span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="sd">            float: The length.</span>
@@ -232,7 +277,7 @@
 </span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>
 </span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>    <span class="nd">@property</span>
 </span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>    <span class="k">def</span> <span class="nf">left_length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>        <span class="sd">&quot;&quot;&quot;Get the length of the left side.</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the length of the left side.</span>
 </span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>
 </span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">        Returns:</span>
 </span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd">            float: The length.</span>
@@ -246,7 +291,7 @@
 </span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>
 </span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>    <span class="nd">@property</span>
 </span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>    <span class="k">def</span> <span class="nf">line_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>        <span class="sd">&quot;&quot;&quot;Line bounds from top of text to bottom of text.&quot;&quot;&quot;</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Line bounds from top of text to bottom of text.&quot;&quot;&quot;</span>
 </span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>        <span class="n">top_bound</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
 </span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>            <span class="p">[</span>
 </span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">top_left_y</span><span class="p">,</span>
@@ -266,7 +311,7 @@
 </span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>        <span class="k">return</span> <span class="n">top_bound</span><span class="p">,</span> <span class="n">bottom_bound</span>
 </span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>
 </span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>    <span class="k">def</span> <span class="nf">is_same_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">TextItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>        <span class="sd">&quot;&quot;&quot;Check if the vertical midpoints of this item and another item overlap.</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the vertical midpoints of this item and another item overlap.</span>
 </span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>
 </span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="sd">        Calculated as the midpoint +- 1/3 of the height of the text.</span>
 </span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>
@@ -296,7 +341,7 @@
 </span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>
 </span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>    <span class="nd">@property</span>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>    <span class="k">def</span> <span class="nf">slope_top_left_right</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>        <span class="sd">&quot;&quot;&quot;Get the top slope from the left to the right.</span>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the top slope from the left to the right.</span>
 </span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>
 </span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="sd">        Returns:</span>
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="sd">            float: The slope.</span>
@@ -310,7 +355,7 @@
 </span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>
 </span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>    <span class="nd">@property</span>
 </span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    <span class="k">def</span> <span class="nf">slope_top_right_left</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>        <span class="sd">&quot;&quot;&quot;Get the top slope from the right to the left.</span>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the top slope from the right to the left.</span>
 </span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>
 </span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="sd">        Returns:</span>
 </span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a><span class="sd">            float: The slope.</span>
@@ -324,7 +369,7 @@
 </span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>
 </span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>    <span class="nd">@property</span>
 </span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>    <span class="k">def</span> <span class="nf">slope_left_top_bottom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a>        <span class="sd">&quot;&quot;&quot;Get the left slope from the top to the bottom.</span>
+</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the left slope from the top to the bottom.</span>
 </span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>
 </span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="sd">        Returns:</span>
 </span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="sd">            float: The slope.</span>
@@ -338,7 +383,7 @@
 </span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>
 </span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a>    <span class="nd">@property</span>
 </span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>    <span class="k">def</span> <span class="nf">slope_left_bottom_top</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>        <span class="sd">&quot;&quot;&quot;Get the left slope from the bottom to the top.</span>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the left slope from the bottom to the top.</span>
 </span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>
 </span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a><span class="sd">        Returns:</span>
 </span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a><span class="sd">            float: The slope.</span>
@@ -352,7 +397,7 @@
 </span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>
 </span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>    <span class="nd">@property</span>
 </span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>    <span class="k">def</span> <span class="nf">slope_bottom_left_right</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>        <span class="sd">&quot;&quot;&quot;Get the bottom slope from the left to the right.</span>
+</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the bottom slope from the left to the right.</span>
 </span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a>
 </span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a><span class="sd">        Returns:</span>
 </span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a><span class="sd">            float: The slope.</span>
@@ -366,7 +411,7 @@
 </span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>
 </span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>    <span class="nd">@property</span>
 </span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a>    <span class="k">def</span> <span class="nf">slope_bottom_right_left</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>        <span class="sd">&quot;&quot;&quot;Get the bottom slope from the right to the left.</span>
+</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the bottom slope from the right to the left.</span>
 </span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a>
 </span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a><span class="sd">        Returns:</span>
 </span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a><span class="sd">            float: The slope.</span>
@@ -380,7 +425,7 @@
 </span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a>
 </span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a>    <span class="nd">@property</span>
 </span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a>    <span class="k">def</span> <span class="nf">slope_right_top_bottom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>        <span class="sd">&quot;&quot;&quot;Get the right slope from the top to the bottom.</span>
+</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the right slope from the top to the bottom.</span>
 </span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>
 </span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a><span class="sd">        Returns:</span>
 </span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a><span class="sd">            float: The slope.</span>
@@ -394,7 +439,7 @@
 </span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>
 </span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>    <span class="nd">@property</span>
 </span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>    <span class="k">def</span> <span class="nf">slope_right_bottom_top</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a>        <span class="sd">&quot;&quot;&quot;Get the right slope from the bottom to the top.</span>
+</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the right slope from the bottom to the top.</span>
 </span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a>
 </span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a><span class="sd">        Returns:</span>
 </span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a><span class="sd">            float: The slope.</span>
@@ -408,7 +453,7 @@
 </span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a>
 </span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a>    <span class="nd">@property</span>
 </span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a>    <span class="k">def</span> <span class="nf">is_horizontal_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a>        <span class="sd">&quot;&quot;&quot;Check whether the left-to-right slope is approximately horizontal.</span>
+</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check whether the left-to-right slope is approximately horizontal.</span>
 </span><span id="L-266"><a href="#L-266"><span class="linenos">266</span></a>
 </span><span id="L-267"><a href="#L-267"><span class="linenos">267</span></a><span class="sd">        Returns:</span>
 </span><span id="L-268"><a href="#L-268"><span class="linenos">268</span></a><span class="sd">            bool: True if the item is approximately horizontal.</span>
@@ -420,7 +465,7 @@
 </span><span id="L-274"><a href="#L-274"><span class="linenos">274</span></a>
 </span><span id="L-275"><a href="#L-275"><span class="linenos">275</span></a>    <span class="nd">@property</span>
 </span><span id="L-276"><a href="#L-276"><span class="linenos">276</span></a>    <span class="k">def</span> <span class="nf">is_vertical_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a>        <span class="sd">&quot;&quot;&quot;Check whether the top-to-bottom slope is approximately vertical.</span>
+</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check whether the top-to-bottom slope is approximately vertical.</span>
 </span><span id="L-278"><a href="#L-278"><span class="linenos">278</span></a>
 </span><span id="L-279"><a href="#L-279"><span class="linenos">279</span></a><span class="sd">        Returns:</span>
 </span><span id="L-280"><a href="#L-280"><span class="linenos">280</span></a><span class="sd">            bool: True if the item is approximately vertical.</span>
@@ -431,7 +476,7 @@
 </span><span id="L-285"><a href="#L-285"><span class="linenos">285</span></a>
 </span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a>    <span class="nd">@classmethod</span>
 </span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TextItem</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a>        <span class="sd">&quot;&quot;&quot;Save found text items to a file.</span>
+</span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Save found text items to a file.</span>
 </span><span id="L-289"><a href="#L-289"><span class="linenos">289</span></a>
 </span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a><span class="sd">        Args:</span>
 </span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a><span class="sd">            path: Write the items to this file.</span>
@@ -455,7 +500,7 @@
 </span><span id="L-309"><a href="#L-309"><span class="linenos">309</span></a>            <span class="s2">&quot;bottom_left_x&quot;</span><span class="p">,</span>
 </span><span id="L-310"><a href="#L-310"><span class="linenos">310</span></a>            <span class="s2">&quot;bottom_left_y&quot;</span><span class="p">,</span>
 </span><span id="L-311"><a href="#L-311"><span class="linenos">311</span></a>        <span class="p">]</span>
-</span><span id="L-312"><a href="#L-312"><span class="linenos">312</span></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
+</span><span id="L-312"><a href="#L-312"><span class="linenos">312</span></a>        <span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
 </span><span id="L-313"><a href="#L-313"><span class="linenos">313</span></a>            <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
 </span><span id="L-314"><a href="#L-314"><span class="linenos">314</span></a>            <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
 </span><span id="L-315"><a href="#L-315"><span class="linenos">315</span></a>            <span class="n">sorted_items</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
@@ -468,7 +513,7 @@
 </span><span id="L-322"><a href="#L-322"><span class="linenos">322</span></a>
 </span><span id="L-323"><a href="#L-323"><span class="linenos">323</span></a>    <span class="nd">@classmethod</span>
 </span><span id="L-324"><a href="#L-324"><span class="linenos">324</span></a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">[</span><span class="n">TextItem</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-</span><span id="L-325"><a href="#L-325"><span class="linenos">325</span></a>        <span class="sd">&quot;&quot;&quot;Load found text items from a file.</span>
+</span><span id="L-325"><a href="#L-325"><span class="linenos">325</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load found text items from a file.</span>
 </span><span id="L-326"><a href="#L-326"><span class="linenos">326</span></a>
 </span><span id="L-327"><a href="#L-327"><span class="linenos">327</span></a><span class="sd">        Args:</span>
 </span><span id="L-328"><a href="#L-328"><span class="linenos">328</span></a><span class="sd">            path: The path to the file containing items.</span>
@@ -479,7 +524,7 @@
 </span><span id="L-333"><a href="#L-333"><span class="linenos">333</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loading OCR output items.&quot;</span><span class="p">)</span>
 </span><span id="L-334"><a href="#L-334"><span class="linenos">334</span></a>        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span id="L-335"><a href="#L-335"><span class="linenos">335</span></a>
-</span><span id="L-336"><a href="#L-336"><span class="linenos">336</span></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
+</span><span id="L-336"><a href="#L-336"><span class="linenos">336</span></a>        <span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
 </span><span id="L-337"><a href="#L-337"><span class="linenos">337</span></a>            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 </span><span id="L-338"><a href="#L-338"><span class="linenos">338</span></a>            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
 </span><span id="L-339"><a href="#L-339"><span class="linenos">339</span></a>                <span class="n">line_number</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;line_number&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -511,7 +556,7 @@
 </span><span id="L-365"><a href="#L-365"><span class="linenos">365</span></a>        <span class="bp">cls</span><span class="p">,</span>
 </span><span id="L-366"><a href="#L-366"><span class="linenos">366</span></a>        <span class="n">prediction</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span>
 </span><span id="L-367"><a href="#L-367"><span class="linenos">367</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TextItem</span><span class="p">:</span>
-</span><span id="L-368"><a href="#L-368"><span class="linenos">368</span></a>        <span class="sd">&quot;&quot;&quot;Convert from (text, box) to item.</span>
+</span><span id="L-368"><a href="#L-368"><span class="linenos">368</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert from (text, box) to item.</span>
 </span><span id="L-369"><a href="#L-369"><span class="linenos">369</span></a>
 </span><span id="L-370"><a href="#L-370"><span class="linenos">370</span></a><span class="sd">        Box is (top left, top right, bottom right, bottom left).</span>
 </span><span id="L-371"><a href="#L-371"><span class="linenos">371</span></a><span class="sd">        Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].</span>
@@ -545,7 +590,7 @@
 </span><span id="L-399"><a href="#L-399"><span class="linenos">399</span></a>        <span class="bp">cls</span><span class="p">,</span>
 </span><span id="L-400"><a href="#L-400"><span class="linenos">400</span></a>        <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TextItem</span><span class="p">],</span>
 </span><span id="L-401"><a href="#L-401"><span class="linenos">401</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">TextItem</span><span class="p">]]:</span>
-</span><span id="L-402"><a href="#L-402"><span class="linenos">402</span></a>        <span class="sd">&quot;&quot;&quot;Put items into lines of text (top -&gt; bottom, left -&gt; right).&quot;&quot;&quot;</span>
+</span><span id="L-402"><a href="#L-402"><span class="linenos">402</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Put items into lines of text (top -&gt; bottom, left -&gt; right).&quot;&quot;&quot;</span>
 </span><span id="L-403"><a href="#L-403"><span class="linenos">403</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
 </span><span id="L-404"><a href="#L-404"><span class="linenos">404</span></a>            <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="L-405"><a href="#L-405"><span class="linenos">405</span></a>
@@ -596,7 +641,7 @@
 </span><span id="L-450"><a href="#L-450"><span class="linenos">450</span></a>            <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
 </span><span id="L-451"><a href="#L-451"><span class="linenos">451</span></a>        <span class="p">],</span>
 </span><span id="L-452"><a href="#L-452"><span class="linenos">452</span></a>    <span class="p">]:</span>
-</span><span id="L-453"><a href="#L-453"><span class="linenos">453</span></a>        <span class="sd">&quot;&quot;&quot;Convert to prediction format.&quot;&quot;&quot;</span>
+</span><span id="L-453"><a href="#L-453"><span class="linenos">453</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to prediction format.&quot;&quot;&quot;</span>
 </span><span id="L-454"><a href="#L-454"><span class="linenos">454</span></a>        <span class="k">return</span> <span class="p">(</span>
 </span><span id="L-455"><a href="#L-455"><span class="linenos">455</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
 </span><span id="L-456"><a href="#L-456"><span class="linenos">456</span></a>            <span class="p">(</span>
@@ -608,7 +653,7 @@
 </span><span id="L-462"><a href="#L-462"><span class="linenos">462</span></a>        <span class="p">)</span>
 </span><span id="L-463"><a href="#L-463"><span class="linenos">463</span></a>
 </span><span id="L-464"><a href="#L-464"><span class="linenos">464</span></a>    <span class="k">def</span> <span class="nf">_slope</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pt_x1</span><span class="p">,</span> <span class="n">pt_y1</span><span class="p">,</span> <span class="n">pt_x2</span><span class="p">,</span> <span class="n">pt_y2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-465"><a href="#L-465"><span class="linenos">465</span></a>        <span class="sd">&quot;&quot;&quot;Get the slope of a line.&quot;&quot;&quot;</span>
+</span><span id="L-465"><a href="#L-465"><span class="linenos">465</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the slope of a line.&quot;&quot;&quot;</span>
 </span><span id="L-466"><a href="#L-466"><span class="linenos">466</span></a>        <span class="n">y_diff</span> <span class="o">=</span> <span class="n">pt_y2</span> <span class="o">-</span> <span class="n">pt_y1</span>
 </span><span id="L-467"><a href="#L-467"><span class="linenos">467</span></a>        <span class="n">x_diff</span> <span class="o">=</span> <span class="n">pt_x2</span> <span class="o">-</span> <span class="n">pt_x1</span>
 </span><span id="L-468"><a href="#L-468"><span class="linenos">468</span></a>        <span class="k">try</span><span class="p">:</span>
@@ -617,15 +662,15 @@
 </span><span id="L-471"><a href="#L-471"><span class="linenos">471</span></a>            <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">y_diff</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>
 </span><span id="L-472"><a href="#L-472"><span class="linenos">472</span></a>
 </span><span id="L-473"><a href="#L-473"><span class="linenos">473</span></a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-474"><a href="#L-474"><span class="linenos">474</span></a>        <span class="sd">&quot;&quot;&quot;Convert to a string.&quot;&quot;&quot;</span>
-</span><span id="L-475"><a href="#L-475"><span class="linenos">475</span></a>        <span class="n">line_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">line_number</span> <span class="ow">or</span> <span class="mi">0</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">line_order</span><span class="si">}</span><span class="s2">)&quot;</span>
+</span><span id="L-474"><a href="#L-474"><span class="linenos">474</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to a string.&quot;&quot;&quot;</span>
+</span><span id="L-475"><a href="#L-475"><span class="linenos">475</span></a>        <span class="n">line_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">line_number</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="mi">0</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">line_order</span><span class="si">}</span><span class="s2">)&quot;</span>
 </span><span id="L-476"><a href="#L-476"><span class="linenos">476</span></a>        <span class="n">pos_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[top left:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">top_left</span><span class="si">}</span><span class="s2">, top slope: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">slope_top_left_right</span><span class="si">}</span><span class="s2">]&quot;</span>
 </span><span id="L-477"><a href="#L-477"><span class="linenos">477</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">line_info</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">pos_info</span><span class="si">}</span><span class="s2">&quot;</span>
 </span><span id="L-478"><a href="#L-478"><span class="linenos">478</span></a>
 </span><span id="L-479"><a href="#L-479"><span class="linenos">479</span></a>
 </span><span id="L-480"><a href="#L-480"><span class="linenos">480</span></a><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 </span><span id="L-481"><a href="#L-481"><span class="linenos">481</span></a><span class="k">class</span> <span class="nc">KerasOcrResult</span><span class="p">:</span>
-</span><span id="L-482"><a href="#L-482"><span class="linenos">482</span></a>    <span class="sd">&quot;&quot;&quot;Result from running keras-ocr.&quot;&quot;&quot;</span>
+</span><span id="L-482"><a href="#L-482"><span class="linenos">482</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Result from running keras-ocr.&quot;&quot;&quot;</span>
 </span><span id="L-483"><a href="#L-483"><span class="linenos">483</span></a>
 </span><span id="L-484"><a href="#L-484"><span class="linenos">484</span></a>    <span class="n">output_dir</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>
 </span><span id="L-485"><a href="#L-485"><span class="linenos">485</span></a>    <span class="n">annotations_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>
@@ -635,6 +680,18 @@
 
 
             </section>
+                <section id="logger">
+                    <div class="attr variable">
+            <span class="name">logger</span>        =
+<span class="default_value">&lt;Logger <a href="">leaf_focus.ocr.model</a> (WARNING)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#logger"></a>
+    
+    
+
+                </section>
                 <section id="TextItem">
                             <input id="TextItem-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
@@ -649,10 +706,10 @@
     <a class="headerlink" href="#TextItem"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="TextItem-16"><a href="#TextItem-16"><span class="linenos"> 16</span></a><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 </span><span id="TextItem-17"><a href="#TextItem-17"><span class="linenos"> 17</span></a><span class="k">class</span> <span class="nc">TextItem</span><span class="p">:</span>
-</span><span id="TextItem-18"><a href="#TextItem-18"><span class="linenos"> 18</span></a>    <span class="sd">&quot;&quot;&quot;One found text item (could be a word or phrase) in an image.&quot;&quot;&quot;</span>
+</span><span id="TextItem-18"><a href="#TextItem-18"><span class="linenos"> 18</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;One found text item (could be a word or phrase) in an image.&quot;&quot;&quot;</span>
 </span><span id="TextItem-19"><a href="#TextItem-19"><span class="linenos"> 19</span></a>
 </span><span id="TextItem-20"><a href="#TextItem-20"><span class="linenos"> 20</span></a>    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="TextItem-21"><a href="#TextItem-21"><span class="linenos"> 21</span></a>    <span class="sd">&quot;&quot;&quot;The recognised text.&quot;&quot;&quot;</span>
+</span><span id="TextItem-21"><a href="#TextItem-21"><span class="linenos"> 21</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The recognised text.&quot;&quot;&quot;</span>
 </span><span id="TextItem-22"><a href="#TextItem-22"><span class="linenos"> 22</span></a>
 </span><span id="TextItem-23"><a href="#TextItem-23"><span class="linenos"> 23</span></a>    <span class="n">top_left_x</span><span class="p">:</span> <span class="nb">float</span>
 </span><span id="TextItem-24"><a href="#TextItem-24"><span class="linenos"> 24</span></a>    <span class="n">top_left_y</span><span class="p">:</span> <span class="nb">float</span>
@@ -671,7 +728,7 @@
 </span><span id="TextItem-37"><a href="#TextItem-37"><span class="linenos"> 37</span></a>
 </span><span id="TextItem-38"><a href="#TextItem-38"><span class="linenos"> 38</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-39"><a href="#TextItem-39"><span class="linenos"> 39</span></a>    <span class="k">def</span> <span class="nf">top_left</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-</span><span id="TextItem-40"><a href="#TextItem-40"><span class="linenos"> 40</span></a>        <span class="sd">&quot;&quot;&quot;Get the top left point.</span>
+</span><span id="TextItem-40"><a href="#TextItem-40"><span class="linenos"> 40</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the top left point.</span>
 </span><span id="TextItem-41"><a href="#TextItem-41"><span class="linenos"> 41</span></a>
 </span><span id="TextItem-42"><a href="#TextItem-42"><span class="linenos"> 42</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-43"><a href="#TextItem-43"><span class="linenos"> 43</span></a><span class="sd">            The x and y coordinates.</span>
@@ -680,7 +737,7 @@
 </span><span id="TextItem-46"><a href="#TextItem-46"><span class="linenos"> 46</span></a>
 </span><span id="TextItem-47"><a href="#TextItem-47"><span class="linenos"> 47</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-48"><a href="#TextItem-48"><span class="linenos"> 48</span></a>    <span class="k">def</span> <span class="nf">top_right</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-</span><span id="TextItem-49"><a href="#TextItem-49"><span class="linenos"> 49</span></a>        <span class="sd">&quot;&quot;&quot;Get the top right point.</span>
+</span><span id="TextItem-49"><a href="#TextItem-49"><span class="linenos"> 49</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the top right point.</span>
 </span><span id="TextItem-50"><a href="#TextItem-50"><span class="linenos"> 50</span></a>
 </span><span id="TextItem-51"><a href="#TextItem-51"><span class="linenos"> 51</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-52"><a href="#TextItem-52"><span class="linenos"> 52</span></a><span class="sd">            The x and y coordinates.</span>
@@ -689,7 +746,7 @@
 </span><span id="TextItem-55"><a href="#TextItem-55"><span class="linenos"> 55</span></a>
 </span><span id="TextItem-56"><a href="#TextItem-56"><span class="linenos"> 56</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-57"><a href="#TextItem-57"><span class="linenos"> 57</span></a>    <span class="k">def</span> <span class="nf">bottom_right</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-</span><span id="TextItem-58"><a href="#TextItem-58"><span class="linenos"> 58</span></a>        <span class="sd">&quot;&quot;&quot;Get the bottom right point.</span>
+</span><span id="TextItem-58"><a href="#TextItem-58"><span class="linenos"> 58</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the bottom right point.</span>
 </span><span id="TextItem-59"><a href="#TextItem-59"><span class="linenos"> 59</span></a>
 </span><span id="TextItem-60"><a href="#TextItem-60"><span class="linenos"> 60</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-61"><a href="#TextItem-61"><span class="linenos"> 61</span></a><span class="sd">             The x and y coordinates.</span>
@@ -698,7 +755,7 @@
 </span><span id="TextItem-64"><a href="#TextItem-64"><span class="linenos"> 64</span></a>
 </span><span id="TextItem-65"><a href="#TextItem-65"><span class="linenos"> 65</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-66"><a href="#TextItem-66"><span class="linenos"> 66</span></a>    <span class="k">def</span> <span class="nf">bottom_left</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-</span><span id="TextItem-67"><a href="#TextItem-67"><span class="linenos"> 67</span></a>        <span class="sd">&quot;&quot;&quot;Get the bottom left point.</span>
+</span><span id="TextItem-67"><a href="#TextItem-67"><span class="linenos"> 67</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the bottom left point.</span>
 </span><span id="TextItem-68"><a href="#TextItem-68"><span class="linenos"> 68</span></a>
 </span><span id="TextItem-69"><a href="#TextItem-69"><span class="linenos"> 69</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-70"><a href="#TextItem-70"><span class="linenos"> 70</span></a><span class="sd">            The x and y coordinates.</span>
@@ -707,7 +764,7 @@
 </span><span id="TextItem-73"><a href="#TextItem-73"><span class="linenos"> 73</span></a>
 </span><span id="TextItem-74"><a href="#TextItem-74"><span class="linenos"> 74</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-75"><a href="#TextItem-75"><span class="linenos"> 75</span></a>    <span class="k">def</span> <span class="nf">top_length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="TextItem-76"><a href="#TextItem-76"><span class="linenos"> 76</span></a>        <span class="sd">&quot;&quot;&quot;Get the length of the top side.</span>
+</span><span id="TextItem-76"><a href="#TextItem-76"><span class="linenos"> 76</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the length of the top side.</span>
 </span><span id="TextItem-77"><a href="#TextItem-77"><span class="linenos"> 77</span></a>
 </span><span id="TextItem-78"><a href="#TextItem-78"><span class="linenos"> 78</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-79"><a href="#TextItem-79"><span class="linenos"> 79</span></a><span class="sd">            float: The length.</span>
@@ -721,7 +778,7 @@
 </span><span id="TextItem-87"><a href="#TextItem-87"><span class="linenos"> 87</span></a>
 </span><span id="TextItem-88"><a href="#TextItem-88"><span class="linenos"> 88</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-89"><a href="#TextItem-89"><span class="linenos"> 89</span></a>    <span class="k">def</span> <span class="nf">left_length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="TextItem-90"><a href="#TextItem-90"><span class="linenos"> 90</span></a>        <span class="sd">&quot;&quot;&quot;Get the length of the left side.</span>
+</span><span id="TextItem-90"><a href="#TextItem-90"><span class="linenos"> 90</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the length of the left side.</span>
 </span><span id="TextItem-91"><a href="#TextItem-91"><span class="linenos"> 91</span></a>
 </span><span id="TextItem-92"><a href="#TextItem-92"><span class="linenos"> 92</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-93"><a href="#TextItem-93"><span class="linenos"> 93</span></a><span class="sd">            float: The length.</span>
@@ -735,7 +792,7 @@
 </span><span id="TextItem-101"><a href="#TextItem-101"><span class="linenos">101</span></a>
 </span><span id="TextItem-102"><a href="#TextItem-102"><span class="linenos">102</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-103"><a href="#TextItem-103"><span class="linenos">103</span></a>    <span class="k">def</span> <span class="nf">line_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-</span><span id="TextItem-104"><a href="#TextItem-104"><span class="linenos">104</span></a>        <span class="sd">&quot;&quot;&quot;Line bounds from top of text to bottom of text.&quot;&quot;&quot;</span>
+</span><span id="TextItem-104"><a href="#TextItem-104"><span class="linenos">104</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Line bounds from top of text to bottom of text.&quot;&quot;&quot;</span>
 </span><span id="TextItem-105"><a href="#TextItem-105"><span class="linenos">105</span></a>        <span class="n">top_bound</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
 </span><span id="TextItem-106"><a href="#TextItem-106"><span class="linenos">106</span></a>            <span class="p">[</span>
 </span><span id="TextItem-107"><a href="#TextItem-107"><span class="linenos">107</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">top_left_y</span><span class="p">,</span>
@@ -755,7 +812,7 @@
 </span><span id="TextItem-121"><a href="#TextItem-121"><span class="linenos">121</span></a>        <span class="k">return</span> <span class="n">top_bound</span><span class="p">,</span> <span class="n">bottom_bound</span>
 </span><span id="TextItem-122"><a href="#TextItem-122"><span class="linenos">122</span></a>
 </span><span id="TextItem-123"><a href="#TextItem-123"><span class="linenos">123</span></a>    <span class="k">def</span> <span class="nf">is_same_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">TextItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="TextItem-124"><a href="#TextItem-124"><span class="linenos">124</span></a>        <span class="sd">&quot;&quot;&quot;Check if the vertical midpoints of this item and another item overlap.</span>
+</span><span id="TextItem-124"><a href="#TextItem-124"><span class="linenos">124</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the vertical midpoints of this item and another item overlap.</span>
 </span><span id="TextItem-125"><a href="#TextItem-125"><span class="linenos">125</span></a>
 </span><span id="TextItem-126"><a href="#TextItem-126"><span class="linenos">126</span></a><span class="sd">        Calculated as the midpoint +- 1/3 of the height of the text.</span>
 </span><span id="TextItem-127"><a href="#TextItem-127"><span class="linenos">127</span></a>
@@ -785,7 +842,7 @@
 </span><span id="TextItem-151"><a href="#TextItem-151"><span class="linenos">151</span></a>
 </span><span id="TextItem-152"><a href="#TextItem-152"><span class="linenos">152</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-153"><a href="#TextItem-153"><span class="linenos">153</span></a>    <span class="k">def</span> <span class="nf">slope_top_left_right</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="TextItem-154"><a href="#TextItem-154"><span class="linenos">154</span></a>        <span class="sd">&quot;&quot;&quot;Get the top slope from the left to the right.</span>
+</span><span id="TextItem-154"><a href="#TextItem-154"><span class="linenos">154</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the top slope from the left to the right.</span>
 </span><span id="TextItem-155"><a href="#TextItem-155"><span class="linenos">155</span></a>
 </span><span id="TextItem-156"><a href="#TextItem-156"><span class="linenos">156</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-157"><a href="#TextItem-157"><span class="linenos">157</span></a><span class="sd">            float: The slope.</span>
@@ -799,7 +856,7 @@
 </span><span id="TextItem-165"><a href="#TextItem-165"><span class="linenos">165</span></a>
 </span><span id="TextItem-166"><a href="#TextItem-166"><span class="linenos">166</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-167"><a href="#TextItem-167"><span class="linenos">167</span></a>    <span class="k">def</span> <span class="nf">slope_top_right_left</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="TextItem-168"><a href="#TextItem-168"><span class="linenos">168</span></a>        <span class="sd">&quot;&quot;&quot;Get the top slope from the right to the left.</span>
+</span><span id="TextItem-168"><a href="#TextItem-168"><span class="linenos">168</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the top slope from the right to the left.</span>
 </span><span id="TextItem-169"><a href="#TextItem-169"><span class="linenos">169</span></a>
 </span><span id="TextItem-170"><a href="#TextItem-170"><span class="linenos">170</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-171"><a href="#TextItem-171"><span class="linenos">171</span></a><span class="sd">            float: The slope.</span>
@@ -813,7 +870,7 @@
 </span><span id="TextItem-179"><a href="#TextItem-179"><span class="linenos">179</span></a>
 </span><span id="TextItem-180"><a href="#TextItem-180"><span class="linenos">180</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-181"><a href="#TextItem-181"><span class="linenos">181</span></a>    <span class="k">def</span> <span class="nf">slope_left_top_bottom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="TextItem-182"><a href="#TextItem-182"><span class="linenos">182</span></a>        <span class="sd">&quot;&quot;&quot;Get the left slope from the top to the bottom.</span>
+</span><span id="TextItem-182"><a href="#TextItem-182"><span class="linenos">182</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the left slope from the top to the bottom.</span>
 </span><span id="TextItem-183"><a href="#TextItem-183"><span class="linenos">183</span></a>
 </span><span id="TextItem-184"><a href="#TextItem-184"><span class="linenos">184</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-185"><a href="#TextItem-185"><span class="linenos">185</span></a><span class="sd">            float: The slope.</span>
@@ -827,7 +884,7 @@
 </span><span id="TextItem-193"><a href="#TextItem-193"><span class="linenos">193</span></a>
 </span><span id="TextItem-194"><a href="#TextItem-194"><span class="linenos">194</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-195"><a href="#TextItem-195"><span class="linenos">195</span></a>    <span class="k">def</span> <span class="nf">slope_left_bottom_top</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="TextItem-196"><a href="#TextItem-196"><span class="linenos">196</span></a>        <span class="sd">&quot;&quot;&quot;Get the left slope from the bottom to the top.</span>
+</span><span id="TextItem-196"><a href="#TextItem-196"><span class="linenos">196</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the left slope from the bottom to the top.</span>
 </span><span id="TextItem-197"><a href="#TextItem-197"><span class="linenos">197</span></a>
 </span><span id="TextItem-198"><a href="#TextItem-198"><span class="linenos">198</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-199"><a href="#TextItem-199"><span class="linenos">199</span></a><span class="sd">            float: The slope.</span>
@@ -841,7 +898,7 @@
 </span><span id="TextItem-207"><a href="#TextItem-207"><span class="linenos">207</span></a>
 </span><span id="TextItem-208"><a href="#TextItem-208"><span class="linenos">208</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-209"><a href="#TextItem-209"><span class="linenos">209</span></a>    <span class="k">def</span> <span class="nf">slope_bottom_left_right</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="TextItem-210"><a href="#TextItem-210"><span class="linenos">210</span></a>        <span class="sd">&quot;&quot;&quot;Get the bottom slope from the left to the right.</span>
+</span><span id="TextItem-210"><a href="#TextItem-210"><span class="linenos">210</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the bottom slope from the left to the right.</span>
 </span><span id="TextItem-211"><a href="#TextItem-211"><span class="linenos">211</span></a>
 </span><span id="TextItem-212"><a href="#TextItem-212"><span class="linenos">212</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-213"><a href="#TextItem-213"><span class="linenos">213</span></a><span class="sd">            float: The slope.</span>
@@ -855,7 +912,7 @@
 </span><span id="TextItem-221"><a href="#TextItem-221"><span class="linenos">221</span></a>
 </span><span id="TextItem-222"><a href="#TextItem-222"><span class="linenos">222</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-223"><a href="#TextItem-223"><span class="linenos">223</span></a>    <span class="k">def</span> <span class="nf">slope_bottom_right_left</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="TextItem-224"><a href="#TextItem-224"><span class="linenos">224</span></a>        <span class="sd">&quot;&quot;&quot;Get the bottom slope from the right to the left.</span>
+</span><span id="TextItem-224"><a href="#TextItem-224"><span class="linenos">224</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the bottom slope from the right to the left.</span>
 </span><span id="TextItem-225"><a href="#TextItem-225"><span class="linenos">225</span></a>
 </span><span id="TextItem-226"><a href="#TextItem-226"><span class="linenos">226</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-227"><a href="#TextItem-227"><span class="linenos">227</span></a><span class="sd">            float: The slope.</span>
@@ -869,7 +926,7 @@
 </span><span id="TextItem-235"><a href="#TextItem-235"><span class="linenos">235</span></a>
 </span><span id="TextItem-236"><a href="#TextItem-236"><span class="linenos">236</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-237"><a href="#TextItem-237"><span class="linenos">237</span></a>    <span class="k">def</span> <span class="nf">slope_right_top_bottom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="TextItem-238"><a href="#TextItem-238"><span class="linenos">238</span></a>        <span class="sd">&quot;&quot;&quot;Get the right slope from the top to the bottom.</span>
+</span><span id="TextItem-238"><a href="#TextItem-238"><span class="linenos">238</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the right slope from the top to the bottom.</span>
 </span><span id="TextItem-239"><a href="#TextItem-239"><span class="linenos">239</span></a>
 </span><span id="TextItem-240"><a href="#TextItem-240"><span class="linenos">240</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-241"><a href="#TextItem-241"><span class="linenos">241</span></a><span class="sd">            float: The slope.</span>
@@ -883,7 +940,7 @@
 </span><span id="TextItem-249"><a href="#TextItem-249"><span class="linenos">249</span></a>
 </span><span id="TextItem-250"><a href="#TextItem-250"><span class="linenos">250</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-251"><a href="#TextItem-251"><span class="linenos">251</span></a>    <span class="k">def</span> <span class="nf">slope_right_bottom_top</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="TextItem-252"><a href="#TextItem-252"><span class="linenos">252</span></a>        <span class="sd">&quot;&quot;&quot;Get the right slope from the bottom to the top.</span>
+</span><span id="TextItem-252"><a href="#TextItem-252"><span class="linenos">252</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the right slope from the bottom to the top.</span>
 </span><span id="TextItem-253"><a href="#TextItem-253"><span class="linenos">253</span></a>
 </span><span id="TextItem-254"><a href="#TextItem-254"><span class="linenos">254</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-255"><a href="#TextItem-255"><span class="linenos">255</span></a><span class="sd">            float: The slope.</span>
@@ -897,7 +954,7 @@
 </span><span id="TextItem-263"><a href="#TextItem-263"><span class="linenos">263</span></a>
 </span><span id="TextItem-264"><a href="#TextItem-264"><span class="linenos">264</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-265"><a href="#TextItem-265"><span class="linenos">265</span></a>    <span class="k">def</span> <span class="nf">is_horizontal_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="TextItem-266"><a href="#TextItem-266"><span class="linenos">266</span></a>        <span class="sd">&quot;&quot;&quot;Check whether the left-to-right slope is approximately horizontal.</span>
+</span><span id="TextItem-266"><a href="#TextItem-266"><span class="linenos">266</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check whether the left-to-right slope is approximately horizontal.</span>
 </span><span id="TextItem-267"><a href="#TextItem-267"><span class="linenos">267</span></a>
 </span><span id="TextItem-268"><a href="#TextItem-268"><span class="linenos">268</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-269"><a href="#TextItem-269"><span class="linenos">269</span></a><span class="sd">            bool: True if the item is approximately horizontal.</span>
@@ -909,7 +966,7 @@
 </span><span id="TextItem-275"><a href="#TextItem-275"><span class="linenos">275</span></a>
 </span><span id="TextItem-276"><a href="#TextItem-276"><span class="linenos">276</span></a>    <span class="nd">@property</span>
 </span><span id="TextItem-277"><a href="#TextItem-277"><span class="linenos">277</span></a>    <span class="k">def</span> <span class="nf">is_vertical_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="TextItem-278"><a href="#TextItem-278"><span class="linenos">278</span></a>        <span class="sd">&quot;&quot;&quot;Check whether the top-to-bottom slope is approximately vertical.</span>
+</span><span id="TextItem-278"><a href="#TextItem-278"><span class="linenos">278</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check whether the top-to-bottom slope is approximately vertical.</span>
 </span><span id="TextItem-279"><a href="#TextItem-279"><span class="linenos">279</span></a>
 </span><span id="TextItem-280"><a href="#TextItem-280"><span class="linenos">280</span></a><span class="sd">        Returns:</span>
 </span><span id="TextItem-281"><a href="#TextItem-281"><span class="linenos">281</span></a><span class="sd">            bool: True if the item is approximately vertical.</span>
@@ -920,7 +977,7 @@
 </span><span id="TextItem-286"><a href="#TextItem-286"><span class="linenos">286</span></a>
 </span><span id="TextItem-287"><a href="#TextItem-287"><span class="linenos">287</span></a>    <span class="nd">@classmethod</span>
 </span><span id="TextItem-288"><a href="#TextItem-288"><span class="linenos">288</span></a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TextItem</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="TextItem-289"><a href="#TextItem-289"><span class="linenos">289</span></a>        <span class="sd">&quot;&quot;&quot;Save found text items to a file.</span>
+</span><span id="TextItem-289"><a href="#TextItem-289"><span class="linenos">289</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Save found text items to a file.</span>
 </span><span id="TextItem-290"><a href="#TextItem-290"><span class="linenos">290</span></a>
 </span><span id="TextItem-291"><a href="#TextItem-291"><span class="linenos">291</span></a><span class="sd">        Args:</span>
 </span><span id="TextItem-292"><a href="#TextItem-292"><span class="linenos">292</span></a><span class="sd">            path: Write the items to this file.</span>
@@ -944,7 +1001,7 @@
 </span><span id="TextItem-310"><a href="#TextItem-310"><span class="linenos">310</span></a>            <span class="s2">&quot;bottom_left_x&quot;</span><span class="p">,</span>
 </span><span id="TextItem-311"><a href="#TextItem-311"><span class="linenos">311</span></a>            <span class="s2">&quot;bottom_left_y&quot;</span><span class="p">,</span>
 </span><span id="TextItem-312"><a href="#TextItem-312"><span class="linenos">312</span></a>        <span class="p">]</span>
-</span><span id="TextItem-313"><a href="#TextItem-313"><span class="linenos">313</span></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
+</span><span id="TextItem-313"><a href="#TextItem-313"><span class="linenos">313</span></a>        <span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
 </span><span id="TextItem-314"><a href="#TextItem-314"><span class="linenos">314</span></a>            <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
 </span><span id="TextItem-315"><a href="#TextItem-315"><span class="linenos">315</span></a>            <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
 </span><span id="TextItem-316"><a href="#TextItem-316"><span class="linenos">316</span></a>            <span class="n">sorted_items</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
@@ -957,7 +1014,7 @@
 </span><span id="TextItem-323"><a href="#TextItem-323"><span class="linenos">323</span></a>
 </span><span id="TextItem-324"><a href="#TextItem-324"><span class="linenos">324</span></a>    <span class="nd">@classmethod</span>
 </span><span id="TextItem-325"><a href="#TextItem-325"><span class="linenos">325</span></a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">[</span><span class="n">TextItem</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-</span><span id="TextItem-326"><a href="#TextItem-326"><span class="linenos">326</span></a>        <span class="sd">&quot;&quot;&quot;Load found text items from a file.</span>
+</span><span id="TextItem-326"><a href="#TextItem-326"><span class="linenos">326</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load found text items from a file.</span>
 </span><span id="TextItem-327"><a href="#TextItem-327"><span class="linenos">327</span></a>
 </span><span id="TextItem-328"><a href="#TextItem-328"><span class="linenos">328</span></a><span class="sd">        Args:</span>
 </span><span id="TextItem-329"><a href="#TextItem-329"><span class="linenos">329</span></a><span class="sd">            path: The path to the file containing items.</span>
@@ -968,7 +1025,7 @@
 </span><span id="TextItem-334"><a href="#TextItem-334"><span class="linenos">334</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loading OCR output items.&quot;</span><span class="p">)</span>
 </span><span id="TextItem-335"><a href="#TextItem-335"><span class="linenos">335</span></a>        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span id="TextItem-336"><a href="#TextItem-336"><span class="linenos">336</span></a>
-</span><span id="TextItem-337"><a href="#TextItem-337"><span class="linenos">337</span></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
+</span><span id="TextItem-337"><a href="#TextItem-337"><span class="linenos">337</span></a>        <span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
 </span><span id="TextItem-338"><a href="#TextItem-338"><span class="linenos">338</span></a>            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 </span><span id="TextItem-339"><a href="#TextItem-339"><span class="linenos">339</span></a>            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
 </span><span id="TextItem-340"><a href="#TextItem-340"><span class="linenos">340</span></a>                <span class="n">line_number</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;line_number&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -1000,7 +1057,7 @@
 </span><span id="TextItem-366"><a href="#TextItem-366"><span class="linenos">366</span></a>        <span class="bp">cls</span><span class="p">,</span>
 </span><span id="TextItem-367"><a href="#TextItem-367"><span class="linenos">367</span></a>        <span class="n">prediction</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span>
 </span><span id="TextItem-368"><a href="#TextItem-368"><span class="linenos">368</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TextItem</span><span class="p">:</span>
-</span><span id="TextItem-369"><a href="#TextItem-369"><span class="linenos">369</span></a>        <span class="sd">&quot;&quot;&quot;Convert from (text, box) to item.</span>
+</span><span id="TextItem-369"><a href="#TextItem-369"><span class="linenos">369</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert from (text, box) to item.</span>
 </span><span id="TextItem-370"><a href="#TextItem-370"><span class="linenos">370</span></a>
 </span><span id="TextItem-371"><a href="#TextItem-371"><span class="linenos">371</span></a><span class="sd">        Box is (top left, top right, bottom right, bottom left).</span>
 </span><span id="TextItem-372"><a href="#TextItem-372"><span class="linenos">372</span></a><span class="sd">        Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].</span>
@@ -1034,7 +1091,7 @@
 </span><span id="TextItem-400"><a href="#TextItem-400"><span class="linenos">400</span></a>        <span class="bp">cls</span><span class="p">,</span>
 </span><span id="TextItem-401"><a href="#TextItem-401"><span class="linenos">401</span></a>        <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TextItem</span><span class="p">],</span>
 </span><span id="TextItem-402"><a href="#TextItem-402"><span class="linenos">402</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">TextItem</span><span class="p">]]:</span>
-</span><span id="TextItem-403"><a href="#TextItem-403"><span class="linenos">403</span></a>        <span class="sd">&quot;&quot;&quot;Put items into lines of text (top -&gt; bottom, left -&gt; right).&quot;&quot;&quot;</span>
+</span><span id="TextItem-403"><a href="#TextItem-403"><span class="linenos">403</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Put items into lines of text (top -&gt; bottom, left -&gt; right).&quot;&quot;&quot;</span>
 </span><span id="TextItem-404"><a href="#TextItem-404"><span class="linenos">404</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
 </span><span id="TextItem-405"><a href="#TextItem-405"><span class="linenos">405</span></a>            <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="TextItem-406"><a href="#TextItem-406"><span class="linenos">406</span></a>
@@ -1085,7 +1142,7 @@
 </span><span id="TextItem-451"><a href="#TextItem-451"><span class="linenos">451</span></a>            <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
 </span><span id="TextItem-452"><a href="#TextItem-452"><span class="linenos">452</span></a>        <span class="p">],</span>
 </span><span id="TextItem-453"><a href="#TextItem-453"><span class="linenos">453</span></a>    <span class="p">]:</span>
-</span><span id="TextItem-454"><a href="#TextItem-454"><span class="linenos">454</span></a>        <span class="sd">&quot;&quot;&quot;Convert to prediction format.&quot;&quot;&quot;</span>
+</span><span id="TextItem-454"><a href="#TextItem-454"><span class="linenos">454</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to prediction format.&quot;&quot;&quot;</span>
 </span><span id="TextItem-455"><a href="#TextItem-455"><span class="linenos">455</span></a>        <span class="k">return</span> <span class="p">(</span>
 </span><span id="TextItem-456"><a href="#TextItem-456"><span class="linenos">456</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
 </span><span id="TextItem-457"><a href="#TextItem-457"><span class="linenos">457</span></a>            <span class="p">(</span>
@@ -1097,7 +1154,7 @@
 </span><span id="TextItem-463"><a href="#TextItem-463"><span class="linenos">463</span></a>        <span class="p">)</span>
 </span><span id="TextItem-464"><a href="#TextItem-464"><span class="linenos">464</span></a>
 </span><span id="TextItem-465"><a href="#TextItem-465"><span class="linenos">465</span></a>    <span class="k">def</span> <span class="nf">_slope</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pt_x1</span><span class="p">,</span> <span class="n">pt_y1</span><span class="p">,</span> <span class="n">pt_x2</span><span class="p">,</span> <span class="n">pt_y2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="TextItem-466"><a href="#TextItem-466"><span class="linenos">466</span></a>        <span class="sd">&quot;&quot;&quot;Get the slope of a line.&quot;&quot;&quot;</span>
+</span><span id="TextItem-466"><a href="#TextItem-466"><span class="linenos">466</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the slope of a line.&quot;&quot;&quot;</span>
 </span><span id="TextItem-467"><a href="#TextItem-467"><span class="linenos">467</span></a>        <span class="n">y_diff</span> <span class="o">=</span> <span class="n">pt_y2</span> <span class="o">-</span> <span class="n">pt_y1</span>
 </span><span id="TextItem-468"><a href="#TextItem-468"><span class="linenos">468</span></a>        <span class="n">x_diff</span> <span class="o">=</span> <span class="n">pt_x2</span> <span class="o">-</span> <span class="n">pt_x1</span>
 </span><span id="TextItem-469"><a href="#TextItem-469"><span class="linenos">469</span></a>        <span class="k">try</span><span class="p">:</span>
@@ -1106,8 +1163,8 @@
 </span><span id="TextItem-472"><a href="#TextItem-472"><span class="linenos">472</span></a>            <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">y_diff</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>
 </span><span id="TextItem-473"><a href="#TextItem-473"><span class="linenos">473</span></a>
 </span><span id="TextItem-474"><a href="#TextItem-474"><span class="linenos">474</span></a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="TextItem-475"><a href="#TextItem-475"><span class="linenos">475</span></a>        <span class="sd">&quot;&quot;&quot;Convert to a string.&quot;&quot;&quot;</span>
-</span><span id="TextItem-476"><a href="#TextItem-476"><span class="linenos">476</span></a>        <span class="n">line_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">line_number</span> <span class="ow">or</span> <span class="mi">0</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">line_order</span><span class="si">}</span><span class="s2">)&quot;</span>
+</span><span id="TextItem-475"><a href="#TextItem-475"><span class="linenos">475</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to a string.&quot;&quot;&quot;</span>
+</span><span id="TextItem-476"><a href="#TextItem-476"><span class="linenos">476</span></a>        <span class="n">line_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">line_number</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="mi">0</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">line_order</span><span class="si">}</span><span class="s2">)&quot;</span>
 </span><span id="TextItem-477"><a href="#TextItem-477"><span class="linenos">477</span></a>        <span class="n">pos_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[top left:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">top_left</span><span class="si">}</span><span class="s2">, top slope: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">slope_top_left_right</span><span class="si">}</span><span class="s2">]&quot;</span>
 </span><span id="TextItem-478"><a href="#TextItem-478"><span class="linenos">478</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">line_info</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">pos_info</span><span class="si">}</span><span class="s2">&quot;</span>
 </span></pre></div>
@@ -1140,6 +1197,118 @@
             <div class="docstring"><p>The recognised text.</p>
 </div>
 
+
+                            </div>
+                            <div id="TextItem.top_left_x" class="classattr">
+                                <div class="attr variable">
+            <span class="name">top_left_x</span><span class="annotation">: float</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TextItem.top_left_x"></a>
+    
+    
+
+                            </div>
+                            <div id="TextItem.top_left_y" class="classattr">
+                                <div class="attr variable">
+            <span class="name">top_left_y</span><span class="annotation">: float</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TextItem.top_left_y"></a>
+    
+    
+
+                            </div>
+                            <div id="TextItem.top_right_x" class="classattr">
+                                <div class="attr variable">
+            <span class="name">top_right_x</span><span class="annotation">: float</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TextItem.top_right_x"></a>
+    
+    
+
+                            </div>
+                            <div id="TextItem.top_right_y" class="classattr">
+                                <div class="attr variable">
+            <span class="name">top_right_y</span><span class="annotation">: float</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TextItem.top_right_y"></a>
+    
+    
+
+                            </div>
+                            <div id="TextItem.bottom_right_x" class="classattr">
+                                <div class="attr variable">
+            <span class="name">bottom_right_x</span><span class="annotation">: float</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TextItem.bottom_right_x"></a>
+    
+    
+
+                            </div>
+                            <div id="TextItem.bottom_right_y" class="classattr">
+                                <div class="attr variable">
+            <span class="name">bottom_right_y</span><span class="annotation">: float</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TextItem.bottom_right_y"></a>
+    
+    
+
+                            </div>
+                            <div id="TextItem.bottom_left_x" class="classattr">
+                                <div class="attr variable">
+            <span class="name">bottom_left_x</span><span class="annotation">: float</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TextItem.bottom_left_x"></a>
+    
+    
+
+                            </div>
+                            <div id="TextItem.bottom_left_y" class="classattr">
+                                <div class="attr variable">
+            <span class="name">bottom_left_y</span><span class="annotation">: float</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TextItem.bottom_left_y"></a>
+    
+    
+
+                            </div>
+                            <div id="TextItem.line_number" class="classattr">
+                                <div class="attr variable">
+            <span class="name">line_number</span><span class="annotation">: int | None</span>        =
+<span class="default_value">None</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TextItem.line_number"></a>
+    
+    
+
+                            </div>
+                            <div id="TextItem.line_order" class="classattr">
+                                <div class="attr variable">
+            <span class="name">line_order</span><span class="annotation">: int | None</span>        =
+<span class="default_value">None</span>
+
+        
+    </div>
+    <a class="headerlink" href="#TextItem.line_order"></a>
+    
+    
 
                             </div>
                             <div id="TextItem.top_left" class="classattr">
@@ -1281,7 +1450,7 @@
     </div>
     <a class="headerlink" href="#TextItem.is_same_line"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="TextItem.is_same_line-123"><a href="#TextItem.is_same_line-123"><span class="linenos">123</span></a>    <span class="k">def</span> <span class="nf">is_same_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">TextItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="TextItem.is_same_line-124"><a href="#TextItem.is_same_line-124"><span class="linenos">124</span></a>        <span class="sd">&quot;&quot;&quot;Check if the vertical midpoints of this item and another item overlap.</span>
+</span><span id="TextItem.is_same_line-124"><a href="#TextItem.is_same_line-124"><span class="linenos">124</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the vertical midpoints of this item and another item overlap.</span>
 </span><span id="TextItem.is_same_line-125"><a href="#TextItem.is_same_line-125"><span class="linenos">125</span></a>
 </span><span id="TextItem.is_same_line-126"><a href="#TextItem.is_same_line-126"><span class="linenos">126</span></a><span class="sd">        Calculated as the midpoint +- 1/3 of the height of the text.</span>
 </span><span id="TextItem.is_same_line-127"><a href="#TextItem.is_same_line-127"><span class="linenos">127</span></a>
@@ -1534,7 +1703,7 @@
     <a class="headerlink" href="#TextItem.save"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="TextItem.save-287"><a href="#TextItem.save-287"><span class="linenos">287</span></a>    <span class="nd">@classmethod</span>
 </span><span id="TextItem.save-288"><a href="#TextItem.save-288"><span class="linenos">288</span></a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TextItem</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="TextItem.save-289"><a href="#TextItem.save-289"><span class="linenos">289</span></a>        <span class="sd">&quot;&quot;&quot;Save found text items to a file.</span>
+</span><span id="TextItem.save-289"><a href="#TextItem.save-289"><span class="linenos">289</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Save found text items to a file.</span>
 </span><span id="TextItem.save-290"><a href="#TextItem.save-290"><span class="linenos">290</span></a>
 </span><span id="TextItem.save-291"><a href="#TextItem.save-291"><span class="linenos">291</span></a><span class="sd">        Args:</span>
 </span><span id="TextItem.save-292"><a href="#TextItem.save-292"><span class="linenos">292</span></a><span class="sd">            path: Write the items to this file.</span>
@@ -1558,7 +1727,7 @@
 </span><span id="TextItem.save-310"><a href="#TextItem.save-310"><span class="linenos">310</span></a>            <span class="s2">&quot;bottom_left_x&quot;</span><span class="p">,</span>
 </span><span id="TextItem.save-311"><a href="#TextItem.save-311"><span class="linenos">311</span></a>            <span class="s2">&quot;bottom_left_y&quot;</span><span class="p">,</span>
 </span><span id="TextItem.save-312"><a href="#TextItem.save-312"><span class="linenos">312</span></a>        <span class="p">]</span>
-</span><span id="TextItem.save-313"><a href="#TextItem.save-313"><span class="linenos">313</span></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
+</span><span id="TextItem.save-313"><a href="#TextItem.save-313"><span class="linenos">313</span></a>        <span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
 </span><span id="TextItem.save-314"><a href="#TextItem.save-314"><span class="linenos">314</span></a>            <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
 </span><span id="TextItem.save-315"><a href="#TextItem.save-315"><span class="linenos">315</span></a>            <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
 </span><span id="TextItem.save-316"><a href="#TextItem.save-316"><span class="linenos">316</span></a>            <span class="n">sorted_items</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
@@ -1603,7 +1772,7 @@
     <a class="headerlink" href="#TextItem.load"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="TextItem.load-324"><a href="#TextItem.load-324"><span class="linenos">324</span></a>    <span class="nd">@classmethod</span>
 </span><span id="TextItem.load-325"><a href="#TextItem.load-325"><span class="linenos">325</span></a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">[</span><span class="n">TextItem</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-</span><span id="TextItem.load-326"><a href="#TextItem.load-326"><span class="linenos">326</span></a>        <span class="sd">&quot;&quot;&quot;Load found text items from a file.</span>
+</span><span id="TextItem.load-326"><a href="#TextItem.load-326"><span class="linenos">326</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load found text items from a file.</span>
 </span><span id="TextItem.load-327"><a href="#TextItem.load-327"><span class="linenos">327</span></a>
 </span><span id="TextItem.load-328"><a href="#TextItem.load-328"><span class="linenos">328</span></a><span class="sd">        Args:</span>
 </span><span id="TextItem.load-329"><a href="#TextItem.load-329"><span class="linenos">329</span></a><span class="sd">            path: The path to the file containing items.</span>
@@ -1614,7 +1783,7 @@
 </span><span id="TextItem.load-334"><a href="#TextItem.load-334"><span class="linenos">334</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loading OCR output items.&quot;</span><span class="p">)</span>
 </span><span id="TextItem.load-335"><a href="#TextItem.load-335"><span class="linenos">335</span></a>        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span id="TextItem.load-336"><a href="#TextItem.load-336"><span class="linenos">336</span></a>
-</span><span id="TextItem.load-337"><a href="#TextItem.load-337"><span class="linenos">337</span></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
+</span><span id="TextItem.load-337"><a href="#TextItem.load-337"><span class="linenos">337</span></a>        <span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>
 </span><span id="TextItem.load-338"><a href="#TextItem.load-338"><span class="linenos">338</span></a>            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 </span><span id="TextItem.load-339"><a href="#TextItem.load-339"><span class="linenos">339</span></a>            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
 </span><span id="TextItem.load-340"><a href="#TextItem.load-340"><span class="linenos">340</span></a>                <span class="n">line_number</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;line_number&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -1677,7 +1846,7 @@
 </span><span id="TextItem.from_prediction-366"><a href="#TextItem.from_prediction-366"><span class="linenos">366</span></a>        <span class="bp">cls</span><span class="p">,</span>
 </span><span id="TextItem.from_prediction-367"><a href="#TextItem.from_prediction-367"><span class="linenos">367</span></a>        <span class="n">prediction</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span>
 </span><span id="TextItem.from_prediction-368"><a href="#TextItem.from_prediction-368"><span class="linenos">368</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TextItem</span><span class="p">:</span>
-</span><span id="TextItem.from_prediction-369"><a href="#TextItem.from_prediction-369"><span class="linenos">369</span></a>        <span class="sd">&quot;&quot;&quot;Convert from (text, box) to item.</span>
+</span><span id="TextItem.from_prediction-369"><a href="#TextItem.from_prediction-369"><span class="linenos">369</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert from (text, box) to item.</span>
 </span><span id="TextItem.from_prediction-370"><a href="#TextItem.from_prediction-370"><span class="linenos">370</span></a>
 </span><span id="TextItem.from_prediction-371"><a href="#TextItem.from_prediction-371"><span class="linenos">371</span></a><span class="sd">        Box is (top left, top right, bottom right, bottom left).</span>
 </span><span id="TextItem.from_prediction-372"><a href="#TextItem.from_prediction-372"><span class="linenos">372</span></a><span class="sd">        Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].</span>
@@ -1745,7 +1914,7 @@ Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].<
 </span><span id="TextItem.order_text_lines-400"><a href="#TextItem.order_text_lines-400"><span class="linenos">400</span></a>        <span class="bp">cls</span><span class="p">,</span>
 </span><span id="TextItem.order_text_lines-401"><a href="#TextItem.order_text_lines-401"><span class="linenos">401</span></a>        <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TextItem</span><span class="p">],</span>
 </span><span id="TextItem.order_text_lines-402"><a href="#TextItem.order_text_lines-402"><span class="linenos">402</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">TextItem</span><span class="p">]]:</span>
-</span><span id="TextItem.order_text_lines-403"><a href="#TextItem.order_text_lines-403"><span class="linenos">403</span></a>        <span class="sd">&quot;&quot;&quot;Put items into lines of text (top -&gt; bottom, left -&gt; right).&quot;&quot;&quot;</span>
+</span><span id="TextItem.order_text_lines-403"><a href="#TextItem.order_text_lines-403"><span class="linenos">403</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Put items into lines of text (top -&gt; bottom, left -&gt; right).&quot;&quot;&quot;</span>
 </span><span id="TextItem.order_text_lines-404"><a href="#TextItem.order_text_lines-404"><span class="linenos">404</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
 </span><span id="TextItem.order_text_lines-405"><a href="#TextItem.order_text_lines-405"><span class="linenos">405</span></a>            <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="TextItem.order_text_lines-406"><a href="#TextItem.order_text_lines-406"><span class="linenos">406</span></a>
@@ -1819,7 +1988,7 @@ Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].<
     <a class="headerlink" href="#KerasOcrResult"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="KerasOcrResult-481"><a href="#KerasOcrResult-481"><span class="linenos">481</span></a><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 </span><span id="KerasOcrResult-482"><a href="#KerasOcrResult-482"><span class="linenos">482</span></a><span class="k">class</span> <span class="nc">KerasOcrResult</span><span class="p">:</span>
-</span><span id="KerasOcrResult-483"><a href="#KerasOcrResult-483"><span class="linenos">483</span></a>    <span class="sd">&quot;&quot;&quot;Result from running keras-ocr.&quot;&quot;&quot;</span>
+</span><span id="KerasOcrResult-483"><a href="#KerasOcrResult-483"><span class="linenos">483</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Result from running keras-ocr.&quot;&quot;&quot;</span>
 </span><span id="KerasOcrResult-484"><a href="#KerasOcrResult-484"><span class="linenos">484</span></a>
 </span><span id="KerasOcrResult-485"><a href="#KerasOcrResult-485"><span class="linenos">485</span></a>    <span class="n">output_dir</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>
 </span><span id="KerasOcrResult-486"><a href="#KerasOcrResult-486"><span class="linenos">486</span></a>    <span class="n">annotations_file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span>
@@ -1840,6 +2009,50 @@ Its structure is [[startX,startY], [endX,startY], [endX,endY], [startX, endY]].<
         
     </div>
     <a class="headerlink" href="#KerasOcrResult.__init__"></a>
+    
+    
+
+                            </div>
+                            <div id="KerasOcrResult.output_dir" class="classattr">
+                                <div class="attr variable">
+            <span class="name">output_dir</span><span class="annotation">: pathlib.Path</span>
+
+        
+    </div>
+    <a class="headerlink" href="#KerasOcrResult.output_dir"></a>
+    
+    
+
+                            </div>
+                            <div id="KerasOcrResult.annotations_file" class="classattr">
+                                <div class="attr variable">
+            <span class="name">annotations_file</span><span class="annotation">: pathlib.Path</span>
+
+        
+    </div>
+    <a class="headerlink" href="#KerasOcrResult.annotations_file"></a>
+    
+    
+
+                            </div>
+                            <div id="KerasOcrResult.predictions_file" class="classattr">
+                                <div class="attr variable">
+            <span class="name">predictions_file</span><span class="annotation">: pathlib.Path</span>
+
+        
+    </div>
+    <a class="headerlink" href="#KerasOcrResult.predictions_file"></a>
+    
+    
+
+                            </div>
+                            <div id="KerasOcrResult.items" class="classattr">
+                                <div class="attr variable">
+            <span class="name">items</span><span class="annotation">: list[list[<a href="#TextItem">leaf_focus.ocr.model.TextItem</a>]]</span>
+
+        
+    </div>
+    <a class="headerlink" href="#KerasOcrResult.items"></a>
     
     
 

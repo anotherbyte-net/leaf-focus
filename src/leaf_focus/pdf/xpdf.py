@@ -20,19 +20,19 @@ logger = logging.getLogger(__name__)
 class XpdfProgram:
     """Interact with xpdf tools."""
 
-    OPTS_TEXT_ENCODING = [
+    OPTS_TEXT_ENCODING: tuple = (
         "Latin1",
         "ASCII7",
         "Symbol",
         "ZapfDingbats",
         "UTF-8",
         "UCS-2",
-    ]
-    OPTS_TEXT_LINE_ENDING = ["unix", "dos", "mac"]
-    OPTS_IMAGE_ROTATION = [0, 90, 180, 270]
-    OPTS_IMAGE_FREETYPE = ["yes", "no"]
-    OPTS_IMAGE_ANTI_ALIAS = ["yes", "no"]
-    OPTS_IMAGE_VEC_ANTI_ALIAS = ["yes", "no"]
+    )
+    OPTS_TEXT_LINE_ENDING: tuple = ("unix", "dos", "mac")
+    OPTS_IMAGE_ROTATION: tuple = (0, 90, 180, 270)
+    OPTS_IMAGE_FREETYPE: tuple = ("yes", "no")
+    OPTS_IMAGE_ANTI_ALIAS: tuple = ("yes", "no")
+    OPTS_IMAGE_VEC_ANTI_ALIAS: tuple = ("yes", "no")
 
     def __init__(self, directory: pathlib.Path) -> None:
         """Create a new xpdf program class to interact with xpdf tools.
@@ -61,6 +61,8 @@ class XpdfProgram:
         # validation
         enc = xpdf_args.encoding
         utils.validate("text encoding", enc, self.OPTS_TEXT_ENCODING)
+
+        utils.validate_pages(xpdf_args.first_page, xpdf_args.last_page)
 
         if not pdf_path.exists():
             msg = f"Pdf file not found '{pdf_path}'."
@@ -95,44 +97,10 @@ class XpdfProgram:
         )
         lines = result.stdout.splitlines()
 
-        fields_map = {
-            field.metadata.get("leaf_focus", {}).get("name"): field
-            for field in dataclasses.fields(model.XpdfInfoResult)
-        }
-        metadata_line_index: int | None = None
-
-        data: dict[str, typing.Any] = {i.name: None for i in fields_map.values()}
-        for index, line in enumerate(lines):
-            if line.startswith("Metadata:"):
-                metadata_line_index = index
-                break
-
-            value: typing.Any = None
-            key, value = line.split(":", maxsplit=1)
-            key = key.strip()
-
-            field = fields_map.get(key)
-            if not field:
-                raise ValueError(f"Unknown pdf info key '{key}' in '{pdf_path}'.")
-
-            data_key = field.name
-            if data.get(data_key) is not None:
-                raise ValueError(f"Duplicate pdf info key '{key}' in '{pdf_path}'.")
-
-            if field.type == str or str in typing.get_args(field.type):
-                value = value.strip()
-            elif field.type == datetime or datetime in typing.get_args(field.type):
-                value = utils.parse_date(value.strip())
-            elif field.type == bool or bool in typing.get_args(field.type):
-                value = value.strip().lower() == "yes"
-            elif field.type == int or int in typing.get_args(field.type):
-                if data_key == "file_size_bytes":
-                    value = value.replace(" bytes", "")
-                value = int(value.strip().lower())
-            else:
-                raise ValueError(f"Unknown key '{key}' type '{field.type}'")
-
-            data[data_key] = value
+        metadata_line_index, data = self.build_field_metadata(
+            pdf_path,
+            lines,
+        )
 
         # metadata
         if metadata_line_index is not None:
@@ -168,6 +136,8 @@ class XpdfProgram:
         # validation
         eol = xpdf_args.line_end_type
         utils.validate("end of line", eol, self.OPTS_TEXT_LINE_ENDING)
+
+        utils.validate_pages(xpdf_args.first_page, xpdf_args.last_page)
 
         if not pdf_path.exists():
             msg = f"Pdf file not found '{pdf_path}'."
@@ -256,6 +226,8 @@ class XpdfProgram:
             self.OPTS_IMAGE_VEC_ANTI_ALIAS,
         )
 
+        utils.validate_pages(xpdf_args.first_page, xpdf_args.last_page)
+
         if not pdf_path.exists():
             msg = f"Pdf file not found '{pdf_path}'."
             raise utils.LeafFocusError(msg) from FileNotFoundError(str(pdf_path))
@@ -317,7 +289,7 @@ class XpdfProgram:
             output_files=output_files,
         )
 
-    def build_cmd(self, tool_args):
+    def build_cmd(self, tool_args) -> list[str]:
         """Build the command arguments from a data class."""
         arg_class = tool_args.__class__
         cmd_args = []
@@ -343,7 +315,10 @@ class XpdfProgram:
             # add the arg
             if cmd_type == "bool":
                 if value is not None and value is not True and value is not False:
-                    msg = f"Argument '{name}' must be None, True, or False, not '{value}'."
+                    msg = (
+                        f"Argument '{name}' must be None, True, or False, "
+                        f"not '{value}'."
+                    )
                     raise ValueError(msg)
 
                 if value is True:
@@ -354,7 +329,9 @@ class XpdfProgram:
                     cmd_args.extend([str(cmd_key), str(value)])
                 elif field_default != value:
                     cmd_args.extend([str(cmd_key), str(value)])
-
+                else:
+                    # no need to add cmd
+                    pass
             else:
                 msg = (
                     f"Argument '{name}' has unknown cmd_type '{cmd_type}'. "
@@ -388,3 +365,58 @@ class XpdfProgram:
             logger.warning("No page images found.")
 
         return output_files
+
+    def build_field_metadata(
+        self,
+        pdf_path: pathlib.Path,
+        lines: typing.Iterable[str],
+    ) -> tuple[int | None, dict[str, typing.Any]]:
+        fields_map = {
+            field.metadata.get("leaf_focus", {}).get("name"): field
+            for field in dataclasses.fields(model.XpdfInfoResult)
+        }
+        metadata_line_index: int | None = None
+
+        data: dict[str, typing.Any] = {i.name: None for i in fields_map.values()}
+        for index, line in enumerate(lines):
+            if line.startswith("Metadata:"):
+                metadata_line_index = index
+                break
+
+            value: typing.Any = None
+            key, value = line.split(":", maxsplit=1)
+            key = key.strip()
+
+            field = fields_map.get(key)
+            if not field:
+                msg = f"Unknown pdf info key '{key}' in '{pdf_path}'."
+                raise utils.LeafFocusError(msg)
+
+            data_key = field.name
+            if data.get(data_key) is not None:
+                msg = f"Duplicate pdf info key '{key}' in '{pdf_path}'."
+                raise utils.LeafFocusError(msg)
+
+            typing_arg = typing.get_args(field.type)
+            types_str = [str, "str", "str | None"]
+            types_bool = [bool, "bool", "bool | None"]
+            types_int = [int, "int", "int | None"]
+            types_datetime = [datetime, "datetime", "datetime | None"]
+
+            if field.type in types_str or str in typing_arg:
+                value = value.strip()
+            elif field.type in types_datetime or datetime in typing_arg:
+                value = utils.parse_date(value.strip())
+            elif field.type in types_bool or bool in typing_arg:
+                value = value.strip().lower() == "yes"
+            elif field.type in types_int or int in typing_arg:
+                if data_key == "file_size_bytes":
+                    value = value.replace(" bytes", "")
+                value = int(value.strip().lower())
+            else:
+                msg = f"Unknown key '{key}' type '{field.type}'"
+                raise ValueError(msg)
+
+            data[data_key] = value
+
+        return metadata_line_index, data

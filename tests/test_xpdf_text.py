@@ -1,6 +1,7 @@
 import os
 import pathlib
 import platform
+import re
 import subprocess
 from subprocess import CompletedProcess
 
@@ -8,6 +9,7 @@ import pytest
 from helper import check_skip_xpdf_exe_dir, check_skip_xpdf_exe_dir_msg
 from importlib_resources import as_file, files
 
+from leaf_focus import utils
 from leaf_focus.pdf.model import XpdfTextArgs
 from leaf_focus.pdf.xpdf import XpdfProgram
 
@@ -33,10 +35,53 @@ def test_xpdf_text_with_exe(capsys, caplog, resource_example1, tmp_path):
         use_simple2_layout=True,
     )
     result = prog.text(pdf_path, output_path, args)
+    content = result.output_path.read_text(encoding="windows-1252")
+    assert content.startswith("Release 450 Driver for Windows, Version")
 
-    assert result.output_path.read_text(encoding="windows-1252").startswith(
-        "Release 450 Driver for Windows, Version",
+    content_pages = [i.strip() for i in content.split("\f") if i]
+    assert len(content_pages) == 42
+
+    stdout, stderr = capsys.readouterr()
+    assert stdout == ""
+    assert stderr == ""
+
+    assert caplog.record_tuples == []
+
+
+@pytest.mark.skipif(check_skip_xpdf_exe_dir(), reason=check_skip_xpdf_exe_dir_msg)
+def test_xpdf_text_valid_pgs_with_exe(capsys, caplog, resource_example1, tmp_path):
+    package = resource_example1.package
+    package_path = files(package)
+    first_page = 3
+    last_page = 25
+    count_pages = 23
+    pdf = resource_example1.pdf_name
+    with as_file(package_path.joinpath(pdf)) as p:
+        pdf_path = p
+
+    output_path = tmp_path / "output-dir"
+    output_path.mkdir(exist_ok=True, parents=True)
+
+    exe_dir = pathlib.Path(os.getenv("TEST_XPDF_EXE_DIR"))
+
+    prog = XpdfProgram(exe_dir)
+    args = XpdfTextArgs(
+        line_end_type="dos",
+        use_verbose=True,
+        use_simple2_layout=True,
+        first_page=first_page,
+        last_page=last_page,
     )
+    result = prog.text(pdf_path, output_path, args)
+
+    content = result.output_path.read_text(encoding="windows-1252")
+    content_pages = [i.strip() for i in content.split("\f") if i]
+    assert len(content_pages) == count_pages
+
+    output_contents = set()
+    for content_page in content_pages:
+        assert content_page not in output_contents
+        output_contents.add(content_page)
 
     stdout, stderr = capsys.readouterr()
     assert stdout == ""
@@ -109,6 +154,42 @@ def test_xpdf_text_without_exe(
     result = prog.text(pdf_path, output_path, args)
 
     assert result.output_path.name == output_file
+
+    stdout, stderr = capsys.readouterr()
+    assert stdout == ""
+    assert stderr == ""
+
+    assert caplog.record_tuples == []
+
+
+@pytest.mark.skipif(check_skip_xpdf_exe_dir(), reason=check_skip_xpdf_exe_dir_msg)
+def test_xpdf_text_invalid_pgs_with_exe(capsys, caplog, resource_example1, tmp_path):
+    package = resource_example1.package
+    package_path = files(package)
+    first_page = 6
+    last_page = 5
+    pdf = resource_example1.pdf_name
+    with as_file(package_path.joinpath(pdf)) as p:
+        pdf_path = p
+
+    output_path = tmp_path / "output-dir"
+    output_path.mkdir(exist_ok=True, parents=True)
+
+    exe_dir = pathlib.Path(os.getenv("TEST_XPDF_EXE_DIR"))
+
+    prog = XpdfProgram(exe_dir)
+    args = XpdfTextArgs(
+        line_end_type="dos",
+        use_verbose=True,
+        use_simple2_layout=True,
+        first_page=first_page,
+        last_page=last_page,
+    )
+    with pytest.raises(
+        utils.LeafFocusError,
+        match=re.escape("First page (6) must be less than or equal to last page (5)."),
+    ):
+        prog.text(pdf_path, output_path, args)
 
     stdout, stderr = capsys.readouterr()
     assert stdout == ""
