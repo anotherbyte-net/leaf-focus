@@ -74,7 +74,7 @@ def test_xpdf_image_valid_pgs_with_exe(capsys, caplog, resource_example1, tmp_pa
     assert len(result.output_files) == count_pages
 
     output_contents = set()
-    for index, output_file in enumerate(result.output_files):
+    for index, output_file in enumerate(sorted(result.output_files)):
         assert output_file.name.endswith(f"-{index + first_page:06}.png")
 
         output_content = output_file.read_bytes()
