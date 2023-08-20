@@ -107,7 +107,8 @@ Then create a new virtual environment, install the dependencies from the main Py
 Make sure to install the dependencies from the main PyPI, as the packages on Test PyPI are not the same.
 
 ```bash
-deactivate
+# in a new terminal
+cd leaf-focus
 rm -rf .venv-test
 python -m venv .venv-test
 source .venv-test/bin/activate
