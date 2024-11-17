@@ -1,4 +1,5 @@
 include VERSION
 include requirements.txt
+include install_xpdf.py
 include tests/conftest.py tests/helpers.py
 recursive-include tests/resources *

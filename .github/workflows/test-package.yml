@@ -12,10 +12,6 @@ on:
 env:
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_PYTHON_VERSION_WARNING: "1"
-  xpdf_gpg_key: 'gpg-key.txt'
-  xpdf_gpg_sig: 'xpdf-tools-linux-4.05.tar.gz.sig'
-  xpdf_bin_comp: 'xpdf-tools-linux-4.05.tar.gz'
-  xpdf_tools_dir: 'xpdf-tools-linux-4.05'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -85,7 +81,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .xpdf/download
-          key: ${{ runner.os }}-${{ hashFiles('**/.xpdf/download/${{ env.xpdf_gpg_key }}', '**/.xpdf/download/${{ env.xpdf_gpg_sig }}', '**/.xpdf/download/${{ env.xpdf_bin_comp }}') }}
+          key: >
+            ${{ runner.os }}-xpdf-
+            ${{ hashFiles('**/.xpdf/download/gpg-key.txt', '**/.xpdf/download/xpdf-tools-linux-4.05.tar.gz.sig', '**/.xpdf/download/xpdf-tools-linux-4.05.tar.gz') }}
 
       - name: Install Ubuntu dependencies
         if: matrix.os == 'ubuntu'
@@ -93,9 +91,9 @@ jobs:
           python install_xpdf.py
             --download-dir=.xpdf/download
             --install-dir=.xpdf/install
-            --gpg-key-url=https://www.xpdfreader.com/${{ env.xpdf_gpg_key }}
-            --file-sig-url=https://dl.xpdfreader.com/${{ env.xpdf_gpg_sig }}
-            --file-comp-url=https://dl.xpdfreader.com/${{ env.xpdf_bin_comp }}
+            --gpg-key-url=https://www.xpdfreader.com/gpg-key.txt
+            --file-sig-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz.sig
+            --file-comp-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz
 
       - name: Install Windows dependencies
         if: matrix.os == 'windows'
@@ -103,14 +101,14 @@ jobs:
           python install_xpdf.py
             --download-dir=.xpdf/download
             --install-dir=.xpdf/install
-            --gpg-key-url=https://www.xpdfreader.com/${{ env.xpdf_gpg_key }}
-            --file-sig-url=https://dl.xpdfreader.com/${{ env.xpdf_gpg_sig }}
-            --file-comp-url=https://dl.xpdfreader.com/${{ env.xpdf_bin_comp }}
+            --gpg-key-url=https://www.xpdfreader.com/gpg-key.txt
+            --file-sig-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz.sig
+            --file-comp-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz
 
       - name: Run tests
         run: |
           export TEST_INCLUDE_SLOW=true
-          export TEST_XPDF_EXE_DIR=.xpdf/install/${{ env.xpdf_tools_dir }}/bin64
+          export TEST_XPDF_EXE_DIR=.xpdf/install/xpdf-tools-linux-4.05/bin64
           pipx run tox run --installpkg dist/*.whl -f py${PYTHON//./}-tests
 
       - name: Upload coverage data
