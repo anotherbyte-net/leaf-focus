@@ -81,9 +81,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .xpdf/download
-          key: >
+          key: ${{ runner.os }}-xpdf-${{ hashFiles('**/.xpdf/download/gpg-key.txt', '**/.xpdf/download/xpdf-tools-linux-4.05.tar.gz.sig', '**/.xpdf/download/xpdf-tools-linux-4.05.tar.gz') }}
+          restore-keys: |
             ${{ runner.os }}-xpdf-
-            ${{ hashFiles('**/.xpdf/download/gpg-key.txt', '**/.xpdf/download/xpdf-tools-linux-4.05.tar.gz.sig', '**/.xpdf/download/xpdf-tools-linux-4.05.tar.gz') }}
 
       - name: Install Ubuntu dependencies
         if: matrix.os == 'ubuntu'
@@ -147,7 +147,7 @@ jobs:
       - name: Combine coverage and fail if under expected percentage
         run: |
           # Install coverage packages
-          pip install coverage
+          pip install coverage[toml]
 
           # Combine the coverage from each Python version
           coverage combine
