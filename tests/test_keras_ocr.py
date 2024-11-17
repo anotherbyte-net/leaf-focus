@@ -1,13 +1,13 @@
 import pathlib
-import sys
-import typing
-from importlib_resources import as_file, files
 
 import pytest
-from hypothesis import given, strategies as st
 
-from helper import check_skip_slow, check_skip_slow_msg, keras_max_version_minor
-from leaf_focus import utils
+from beartype import typing
+from hypothesis import given
+from hypothesis import strategies as st
+from importlib_resources import as_file, files
+
+from helper import check_skip_slow, check_skip_slow_msg
 from leaf_focus.ocr.keras_ocr import OpticalCharacterRecognition
 from leaf_focus.ocr.model import TextItem
 
@@ -26,39 +26,36 @@ def test_keras_ocr_image_with_tensorflow(capsys, caplog, resource_example1, tmp_
 
     prog = OpticalCharacterRecognition()
 
-    if sys.version_info.major == 3 and sys.version_info.minor > keras_max_version_minor:
-        with pytest.raises(
-            utils.LeafFocusError, match="Cannot run ocr on this Python version."
-        ):
-            prog.recognise_text(image_file, output_path)
+    result = prog.recognise_text(image_file, output_path)
+    expected_lines = 33
+    expected_items = 300
+    assert len(result.items) == expected_lines
+    assert len([item for line in result.items for item in line]) == expected_items
 
-    else:
-        result = prog.recognise_text(image_file, output_path)
-        expected_lines = 33
-        expected_items = 300
-        assert len(result.items) == expected_lines
-        assert len([item for line in result.items for item in line]) == expected_items
+    loaded_items = list(TextItem.load(result.predictions_file))
+    loaded_items = TextItem.order_text_lines(loaded_items)
 
-        loaded_items = list(TextItem.load(result.predictions_file))
-        loaded_items = TextItem.order_text_lines(loaded_items)
+    assert len(loaded_items) == expected_lines
+    assert len([item for line in loaded_items for item in line]) == expected_items
 
-        assert len(loaded_items) == expected_lines
-        assert len([item for line in loaded_items for item in line]) == expected_items
+    stdout, stderr = capsys.readouterr()
 
-        stdout, stderr = capsys.readouterr()
+    assert "craft_mlt_25k.h5" in stdout
+    assert "crnn_kurapan.h5" in stdout
 
-        assert "craft_mlt_25k.h5" in stdout
-        assert "crnn_kurapan.h5" in stdout
+    assert stderr == ""
 
-        assert stderr == ""
-
-        assert caplog.record_tuples == [
-            ("leaf_focus.ocr.keras_ocr", 30, "Creating keras ocr processing engine.")
-        ]
+    assert caplog.record_tuples == [
+        ("leaf_focus.ocr.keras_ocr", 30, "Creating keras ocr processing engine."),
+    ]
 
 
 def test_keras_ocr_image_without_tensorflow(
-    capsys, caplog, resource_example1, tmp_path, monkeypatch
+    capsys,
+    caplog,
+    resource_example1,
+    tmp_path,
+    monkeypatch,
 ):
     package = resource_example1.package
     package_path = files(package)
@@ -80,58 +77,50 @@ def test_keras_ocr_image_without_tensorflow(
 
     prog = OpticalCharacterRecognition()
 
-    if sys.version_info.major == 3 and sys.version_info.minor > keras_max_version_minor:
-        with pytest.raises(
-            utils.LeafFocusError, match="Cannot run ocr on this Python version."
-        ):
-            prog.recognise_text(image_file, output_path)
+    def mock_engine_create():
+        pass
 
-    else:
+    monkeypatch.setattr(prog, "engine_create", mock_engine_create)
 
-        def mock_engine_create():
-            pass
+    def mock_engine_run(image_path: pathlib.Path):
+        import cv2
 
-        monkeypatch.setattr(prog, "engine_create", mock_engine_create)
+        image = cv2.imread(str(image_path))
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-        def mock_engine_run(image_path: pathlib.Path):
-            import cv2
+        prediction_groups = TextItem.load(pred_file)
+        prediction_groups = [i.to_prediction for i in prediction_groups]
+        return [image], [prediction_groups]
 
-            image = cv2.imread(str(image_path))
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    monkeypatch.setattr(prog, "engine_run", mock_engine_run)
 
-            prediction_groups = TextItem.load(pred_file)
-            prediction_groups = [i.to_prediction for i in prediction_groups]
-            return [image], [prediction_groups]
+    def mock_engine_annotate(image, predictions, axis):
+        pass
 
-        monkeypatch.setattr(prog, "engine_run", mock_engine_run)
+    monkeypatch.setattr(prog, "engine_annotate", mock_engine_annotate)
 
-        def mock_engine_annotate(image, predictions, axis):
-            pass
+    result = prog.recognise_text(image_file, output_path)
+    expected_lines = 33
+    expected_items = 300
+    assert len(result.items) == expected_lines
+    assert len([item for line in result.items for item in line]) == expected_items
 
-        monkeypatch.setattr(prog, "engine_annotate", mock_engine_annotate)
+    loaded_items = list(TextItem.load(result.predictions_file))
+    loaded_items = TextItem.order_text_lines(loaded_items)
 
-        result = prog.recognise_text(image_file, output_path)
-        expected_lines = 33
-        expected_items = 300
-        assert len(result.items) == expected_lines
-        assert len([item for line in result.items for item in line]) == expected_items
+    assert len(loaded_items) == expected_lines
+    assert len([item for line in loaded_items for item in line]) == expected_items
 
-        loaded_items = list(TextItem.load(result.predictions_file))
-        loaded_items = TextItem.order_text_lines(loaded_items)
+    stdout, stderr = capsys.readouterr()
 
-        assert len(loaded_items) == expected_lines
-        assert len([item for line in loaded_items for item in line]) == expected_items
+    assert stdout == ""
+    assert stderr == ""
 
-        stdout, stderr = capsys.readouterr()
+    output_annotated_png = output_path / anno_file.name
+    assert output_annotated_png.exists()
+    assert output_annotated_png.stat().st_size > 0
 
-        assert stdout == ""
-        assert stderr == ""
-
-        output_annotated_png = output_path / anno_file.name
-        assert output_annotated_png.exists()
-        assert output_annotated_png.stat().st_size > 0
-
-        assert caplog.record_tuples == []
+    assert caplog.record_tuples == []
 
 
 @given(
@@ -185,8 +174,8 @@ def test_fuzz_TextItem(
                 typing.Tuple[float, float],
                 typing.Tuple[float, float],
             ],
-        ]
-    )
+        ],
+    ),
 )
 def test_fuzz_TextItem_from_prediction(prediction):
     TextItem.from_prediction(prediction=prediction)
@@ -214,9 +203,9 @@ def test_fuzz_TextItem_from_prediction(prediction):
                 bottom_left_y=st.floats(),
                 line_number=st.one_of(st.none(), st.one_of(st.none(), st.integers())),
                 line_order=st.one_of(st.none(), st.one_of(st.none(), st.integers())),
-            )
-        )
-    )
+            ),
+        ),
+    ),
 )
 def test_fuzz_TextItem_order_text_lines(items):
     TextItem.order_text_lines(items=items)

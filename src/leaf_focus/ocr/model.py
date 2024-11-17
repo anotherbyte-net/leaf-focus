@@ -1,17 +1,22 @@
 """Models for OCR processing."""
+
 from __future__ import annotations
 
 import csv
 import dataclasses
 import logging
 import math
-import typing
+import pathlib
 
-if typing.TYPE_CHECKING:
-    import pathlib
+import numpy as np
+
+from beartype import beartype, typing
+
+
 logger = logging.getLogger(__name__)
 
 
+@beartype
 @dataclasses.dataclass
 class TextItem:
     """One found text item (could be a word or phrase) in an image."""
@@ -19,23 +24,23 @@ class TextItem:
     text: str
     """The recognised text."""
 
-    top_left_x: float
-    top_left_y: float
+    top_left_x: float | np.float32
+    top_left_y: float | np.float32
 
-    top_right_x: float
-    top_right_y: float
+    top_right_x: float | np.float32
+    top_right_y: float | np.float32
 
-    bottom_right_x: float
-    bottom_right_y: float
+    bottom_right_x: float | np.float32
+    bottom_right_y: float | np.float32
 
-    bottom_left_x: float
-    bottom_left_y: float
+    bottom_left_x: float | np.float32
+    bottom_left_y: float | np.float32
 
     line_number: int | None = None
     line_order: int | None = None
 
     @property
-    def top_left(self) -> tuple[float, float]:
+    def top_left(self) -> tuple[float | np.float32, float | np.float32]:
         """Get the top left point.
 
         Returns:
@@ -44,7 +49,7 @@ class TextItem:
         return self.top_left_x, self.top_left_y
 
     @property
-    def top_right(self) -> tuple[float, float]:
+    def top_right(self) -> tuple[float | np.float32, float | np.float32]:
         """Get the top right point.
 
         Returns:
@@ -53,7 +58,7 @@ class TextItem:
         return self.top_right_x, self.top_right_y
 
     @property
-    def bottom_right(self) -> tuple[float, float]:
+    def bottom_right(self) -> tuple[float | np.float32, float | np.float32]:
         """Get the bottom right point.
 
         Returns:
@@ -62,7 +67,7 @@ class TextItem:
         return self.bottom_right_x, self.bottom_right_y
 
     @property
-    def bottom_left(self) -> tuple[float, float]:
+    def bottom_left(self) -> tuple[float | np.float32, float | np.float32]:
         """Get the bottom left point.
 
         Returns:
@@ -71,50 +76,50 @@ class TextItem:
         return self.bottom_left_x, self.bottom_left_y
 
     @property
-    def top_length(self) -> float:
+    def top_length(self) -> float | np.float32:
         """Get the length of the top side.
 
         Returns:
             float: The length.
         """
         # Get the length of the hypotenuse side.
-        side1 = abs(self.top_right_x - self.top_left_x)
-        side2 = abs(self.top_right_y - self.top_left_y)
+        side1 = abs(float(self.top_right_x) - float(self.top_left_x))
+        side2 = abs(float(self.top_right_y) - float(self.top_left_y))
         if side2 == 0:
             return side1
         return math.sqrt(pow(side1, 2) + pow(side2, 2))
 
     @property
-    def left_length(self) -> float:
+    def left_length(self) -> float | np.float32:
         """Get the length of the left side.
 
         Returns:
             float: The length.
         """
         # Get the length of the hypotenuse side.
-        side1 = abs(self.top_left_y - self.bottom_left_y)
-        side2 = abs(self.top_left_x - self.bottom_left_x)
+        side1 = abs(float(self.top_left_y) - float(self.bottom_left_y))
+        side2 = abs(float(self.top_left_x) - float(self.bottom_left_x))
         if side2 == 0:
             return side1
         return math.sqrt(pow(side1, 2) + pow(side2, 2))
 
     @property
-    def line_bounds(self) -> tuple[float, float]:
+    def line_bounds(self) -> tuple[float | np.float32, float | np.float32]:
         """Line bounds from top of text to bottom of text."""
         top_bound = min(
             [
-                self.top_left_y,
-                self.top_right_y,
-                self.bottom_left_y,
-                self.bottom_right_y,
+                float(self.top_left_y),
+                float(self.top_right_y),
+                float(self.bottom_left_y),
+                float(self.bottom_right_y),
             ],
         )
         bottom_bound = max(
             [
-                self.top_left_y,
-                self.top_right_y,
-                self.bottom_left_y,
-                self.bottom_right_y,
+                float(self.top_left_y),
+                float(self.top_right_y),
+                float(self.bottom_left_y),
+                float(self.bottom_right_y),
             ],
         )
         return top_bound, bottom_bound
@@ -146,10 +151,10 @@ class TextItem:
         other_top += other_third
         other_bottom -= other_third
 
-        return self_top <= other_bottom and other_top <= self_bottom
+        return bool(self_top <= other_bottom and other_top <= self_bottom)
 
     @property
-    def slope_top_left_right(self) -> float:
+    def slope_top_left_right(self) -> float | np.float32:
         """Get the top slope from the left to the right.
 
         Returns:
@@ -163,7 +168,7 @@ class TextItem:
         )
 
     @property
-    def slope_top_right_left(self) -> float:
+    def slope_top_right_left(self) -> float | np.float32:
         """Get the top slope from the right to the left.
 
         Returns:
@@ -177,7 +182,7 @@ class TextItem:
         )
 
     @property
-    def slope_left_top_bottom(self) -> float:
+    def slope_left_top_bottom(self) -> float | np.float32:
         """Get the left slope from the top to the bottom.
 
         Returns:
@@ -191,7 +196,7 @@ class TextItem:
         )
 
     @property
-    def slope_left_bottom_top(self) -> float:
+    def slope_left_bottom_top(self) -> float | np.float32:
         """Get the left slope from the bottom to the top.
 
         Returns:
@@ -205,7 +210,7 @@ class TextItem:
         )
 
     @property
-    def slope_bottom_left_right(self) -> float:
+    def slope_bottom_left_right(self) -> float | np.float32:
         """Get the bottom slope from the left to the right.
 
         Returns:
@@ -219,7 +224,7 @@ class TextItem:
         )
 
     @property
-    def slope_bottom_right_left(self) -> float:
+    def slope_bottom_right_left(self) -> float | np.float32:
         """Get the bottom slope from the right to the left.
 
         Returns:
@@ -233,7 +238,7 @@ class TextItem:
         )
 
     @property
-    def slope_right_top_bottom(self) -> float:
+    def slope_right_top_bottom(self) -> float | np.float32:
         """Get the right slope from the top to the bottom.
 
         Returns:
@@ -247,7 +252,7 @@ class TextItem:
         )
 
     @property
-    def slope_right_bottom_top(self) -> float:
+    def slope_right_bottom_top(self) -> float | np.float32:
         """Get the right slope from the bottom to the top.
 
         Returns:
@@ -270,7 +275,7 @@ class TextItem:
         # -0.1 -> 0.1 is strictly horizontal
         # give a bit of buffer
         buffer = 0.09
-        return -buffer <= self.slope_top_left_right <= buffer
+        return bool(-buffer <= self.slope_top_left_right <= buffer)
 
     @property
     def is_vertical_level(self) -> bool:
@@ -281,7 +286,7 @@ class TextItem:
         """
         # -0.1 -> 0.1 is strictly vertical
         # give a bit of buffer
-        return self.slope_left_top_bottom == math.inf
+        return bool(self.slope_left_top_bottom == math.inf)
 
     @classmethod
     def save(cls, path: pathlib.Path, items: list[TextItem]) -> None:
@@ -376,11 +381,14 @@ class TextItem:
         Returns:
             TextItem: A text item representing the recognised text.
         """
-        text, (
-            (top_left_x, top_left_y),
-            (top_right_x, top_right_y),
-            (bottom_right_x, bottom_right_y),
-            (bottom_left_x, bottom_left_y),
+        (
+            text,
+            (
+                (top_left_x, top_left_y),
+                (top_right_x, top_right_y),
+                (bottom_right_x, bottom_right_y),
+                (bottom_left_x, bottom_left_y),
+            ),
         ) = prediction
         return TextItem(
             text=text,
@@ -412,10 +420,7 @@ class TextItem:
                 # exclude items that are too sloped
                 continue
 
-            if len(current_line) < 1:
-                current_line.append(item)
-
-            elif any(item.is_same_line(i) for i in current_line):
+            if len(current_line) < 1 or any(item.is_same_line(i) for i in current_line):
                 current_line.append(item)
 
             elif len(current_line) > 0:
@@ -444,10 +449,10 @@ class TextItem:
     ) -> tuple[
         str,
         tuple[
-            tuple[float, float],
-            tuple[float, float],
-            tuple[float, float],
-            tuple[float, float],
+            tuple[float | np.float32, float | np.float32],
+            tuple[float | np.float32, float | np.float32],
+            tuple[float | np.float32, float | np.float32],
+            tuple[float | np.float32, float | np.float32],
         ],
     ]:
         """Convert to prediction format."""
@@ -461,7 +466,13 @@ class TextItem:
             ),
         )
 
-    def _slope(self, pt_x1, pt_y1, pt_x2, pt_y2) -> float:
+    def _slope(
+        self,
+        pt_x1: float | np.float32,
+        pt_y1: float | np.float32,
+        pt_x2: float | np.float32,
+        pt_y2: float | np.float32,
+    ) -> float | np.float32:
         """Get the slope of a line."""
         y_diff = pt_y2 - pt_y1
         x_diff = pt_x2 - pt_x1
@@ -477,6 +488,7 @@ class TextItem:
         return f"{self.text} {line_info} {pos_info}"
 
 
+@beartype
 @dataclasses.dataclass
 class KerasOcrResult:
     """Result from running keras-ocr."""

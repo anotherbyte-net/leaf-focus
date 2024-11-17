@@ -1,11 +1,11 @@
 import os
 import pathlib
-import typing
+
+from beartype import typing
 
 from leaf_focus.pdf.model import XpdfTextArgs
 from leaf_focus.utils import str_norm
 
-keras_max_version_minor = 11
 
 check_skip_xpdf_exe_dir_msg = (
     "This test requires xpdf executables, "

@@ -1,14 +1,15 @@
+# SPDX-License-Identifier: Apache-2.0
+
 [build-system]
-requires = [
-    "setuptools>=67.0.0",
-]
+requires = ["setuptools>=67.0.0", "wheel", "setuptools-git-versioning>=2.0,<3"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "leaf-focus"
 description = "Extract structured text from pdf files."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
+keywords = ["pdf", "extract", "structured", "text"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: Apache Software License",
@@ -18,12 +19,10 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Scientific/Engineering :: Information Analysis",
+    "Intended Audience :: End Users/Desktop",
     "Topic :: Utilities",
 ]
 dynamic = [
@@ -42,125 +41,155 @@ dynamic = [
 leaf-focus = 'leaf_focus.cli:main'
 
 [tool.setuptools.packages.find]
-where = [
-    "src",
-]
+where = ["src"]
 # include and exclude accept strings representing glob patterns.
-include = [
-    "leaf_focus*",
-]
+include = ["leaf_focus*"]
 
 [tool.setuptools.dynamic]
-version = { file = [
-    "VERSION",
-] }
-dependencies = { file = [
-    "requirements.txt",
-] }
+dependencies = { file = ["requirements.in"] }
 
-[tool.setuptools.dynamic.optional-dependencies]
-dev = { file = [
-    "requirements-dev.txt",
-] }
+[tool.setuptools-git-versioning]
+enabled = true
+version_file = "VERSION"
+count_commits_from_version_file = true
+dev_template = "{tag}.dev{ccount}"
+dirty_template = "{tag}.dev{ccount}"
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-ra --quiet"
-pythonpath = [
-    "src",
-]
-testpaths = [
-    "tests",
-]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+pythonpath = ["src"]
+testpaths = "tests"
+xfail_strict = true
 
 [tool.coverage.run]
-# "Specifying the source option enables coverage.py to report on unexecuted files,
-# since it can search the source tree for files that haven’t been measured at all."
-source = [
-    'src',
-]
-omit = [
-    '*/site-packages/*',
-    'tests/*',
-]
+parallel = true
+branch = true
+source = ['leaf_focus']
+
+[tool.coverage.paths]
+source = ["src", ".tox/py*/**/site-packages"]
 
 [tool.coverage.report]
-skip_empty = true
+show_missing = true
+skip_covered = true
 
 [tool.coverage.html]
-directory = "coverage-html"
+skip_covered = true
+skip_empty = true
 
-[tool.isort]
-profile = "black"
-src_paths = [
-    "src",
-]
+[tool.ruff.lint.isort]
+lines-between-types = 1
+lines-after-imports = 2
 
 [tool.tox]
-legacy_tox_ini = """
-[tox]
-isolated_build = True
-envlist = py38,py39,py310,py311
+requires = ["tox>=4.19"]
+env_list = [
+    "py310-tests",
+    "coverage-report",
+    "py310-lint-style",
+    "lint-docs",
+    "docs",
+    "pip-compile",
+]
 
-[testenv]
-#recreate = true
-deps =
-    -r requirements.txt
-    -r requirements-dev.txt
-allowlist_externals =
-    echo
-pass_env =
-    TEST_XPDF_EXE_DIR
-    TEST_INCLUDE_SLOW
-commands =
-    echo "::group::Show app help"
-    leaf-focus --version
-    leaf-focus --help
-    echo "::endgroup::"
-    echo "::group::Test coverage"
-    python -X dev -m coverage run -m pytest --doctest-modules
-    echo "::endgroup::"
-    echo "::group::Coverage report"
-    -python -X dev -m coverage report
-    echo "::endgroup::"
-    echo "::group::Linter - mypy"
-    -python -X dev -m mypy src
-    echo "::endgroup::"
-    echo "::group::Linter - black"
-    -python -X dev -m black --check src
-    echo "::endgroup::"
-    echo "::group::Linter - ruff"
-    -python -X dev -m ruff check .
-    echo "::endgroup::"
-    echo "::group::Linter - pylint"
-    -python -X dev -m pylint src
-    echo "::endgroup::"
-    echo "::group::Build"
-    python -m build --sdist --wheel --outdir build/dist-test/{env_name}/ .
-    echo "::endgroup::"
-"""
+[tool.tox.env_run_base]
+package = "wheel"
+wheel_build_env = ".pkg"
+
+[tool.tox.env_run_base.setenv]
+#TEST_INCLUDE_SLOW = 'true'
+#TEST_XPDF_EXE_DIR = '.xpdf/install/xpdf-tools-win-4.05/bin64'
+
+[tool.tox.env.py310-tests]
+deps = ["pytest", "pytest-mock", "pytest-cov", "hypothesis"]
+commands = [
+    #    ["pip", "list"],
+    ["python", "-X", "dev", "-m", "coverage", "run", "-m", "pytest", "{posargs}"],
+]
+
+
+[tool.tox.env.coverage-report]
+deps = ["coverage[toml]"]
+parallel_show_output = true
+commands = [
+    ["coverage", "combine"],
+    ["coverage", "report", "--fail-under=70"]
+]
+
+[tool.tox.env.py310-lint-style]
+deps = ["ruff", "mypy", "types-dateparser", "types-PyYAML", "types-requests", "types-backports", "types-urllib3"]
+commands = [
+    ["ruff", "check", "--fix", "--exit-non-zero-on-fix", "src", "tests"],
+    ["ruff", "format", "--check", "--diff", "src", "tests"],
+    ["mypy", "src"],
+]
+
+[tool.tox.env.lint-docs]
+deps = ["interrogate", "codespell"]
+commands = [
+    ["interrogate", "-vv", "--fail-under", "90", "src"],
+    ["codespell", "--quiet-level", "0", "--summary", "--check-filenames", "--write-changes", "--skip", "*.pyc,*.png,*.pdf,*.txt,*.csv,*.json", "src", "tests"]
+]
+
+[tool.tox.env.docs]
+deps = ["pdoc"]
+commands = [
+    ["pdoc",
+        "--docformat", "google",
+        "--edit-url", "leaf_focus=https://github.com/anotherbyte-net/leaf-focus/blob/main/src/leaf_focus/",
+        "--search", "--show-source",
+        "--output-directory", "docs",
+        "./src/leaf_focus"
+    ]
+]
+
+[tool.tox.env.pip-compile]
+deps = ["pip-tools"]
+commands = [
+    ["pip-compile", "--generate-hashes", "-o", "requirements.txt", "pyproject.toml"],
+]
 
 [tool.mypy]
+strict = true
+pretty = true
 ignore_missing_imports = true
 check_untyped_defs = true
 no_implicit_optional = true
+show_error_codes = true
 
 [tool.ruff]
 line-length = 88
 show-fixes = true
-src = ["src"]
-exclude = [".venv", "tests"]
-select = [
-    "ALL"
-]
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["ALL"]
 ignore = [
-    "ANN101", # Missing type annotation for `self` in method
-    "ANN102", # Missing type annotation for `cls` in classmethod
-    "ERA001", # commented-out-code
-    "RET504", # Unnecessary variable assignment before `return` statement
-    "TD002", # Missing author in TODO; try: `# TODO(<author_name>): ...`
-    "TD003", # Missing issue link on the line following this TODO
+    "TRY300", # don't want to move returns to else block
+    "RET504", # assignments before return can be useful
+    "ERA001", # ignore commented code
+    "TD", # don't worry about todos format
+    "FIX002", # todos are ok
+    "TCH003", # imports for types are needed when using beartype(?)
+    "TCH002", # imports for types are needed when using beartype(?)
+    "COM812",
+    "ISC001",
 ]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "S", # lots of things not usually allowed can be used in test code
+    "ANN", # don't worry about typing in tests
+    "D", # ignore docstrings in tests
+    "ARG001", # ignore unused args in tests
+    "PLR2004", # ignore magic values in tests
+    "E501", # ignore line too long in tests
+    "N802", # ignore function name case in tests
+    "TRY003", # ignore exception style in tests
+    "EM102", # ignore exception style in tests
+    "PLR0913", # don't worry about the number of arguments in a function in tests
+]

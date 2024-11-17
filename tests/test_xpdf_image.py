@@ -3,17 +3,19 @@ import pathlib
 import platform
 import re
 import subprocess
+
 from subprocess import CompletedProcess
 
 import pytest
+
+from importlib_resources import as_file, files
+
 from helper import (
     check_skip_slow,
     check_skip_slow_msg,
     check_skip_xpdf_exe_dir,
     check_skip_xpdf_exe_dir_msg,
 )
-from importlib_resources import as_file, files
-
 from leaf_focus import utils
 from leaf_focus.pdf.model import XpdfImageArgs
 from leaf_focus.pdf.xpdf import XpdfProgram

@@ -1,4 +1,5 @@
 """Command line for leaf focus."""
+
 from __future__ import annotations
 
 import argparse
@@ -6,9 +7,12 @@ import logging
 import pathlib
 import sys
 
+from beartype import beartype
+
 from leaf_focus import app, utils
 
 
+@beartype
 def main(args: list[str] | None = None) -> int:
     """Run as a command line program.
 

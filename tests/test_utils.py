@@ -1,13 +1,17 @@
 # This test code was written by the `hypothesis.extra.ghostwriter` module
 # and is provided under the Creative Commons Zero public domain dedication.
 import pathlib
+
 from collections import ChainMap
 from pathlib import Path
 
 import pytest
-from hypothesis import given, strategies as st
+
+from hypothesis import given
+from hypothesis import strategies as st
 
 from leaf_focus import utils
+from leaf_focus.utils import ValidatePathMethod
 
 
 # TODO
@@ -26,7 +30,11 @@ def test_fuzz_validate(name, value, expected):
         utils.validate(name=name, value=value, expected=expected)
 
 
-@given(name=st.text(), value=st.builds(pathlib.Path), must_exist=st.booleans())
+@given(
+    name=st.text(),
+    value=st.builds(pathlib.Path),
+    must_exist=st.sampled_from(ValidatePathMethod),
+)
 def test_fuzz_validate_path(name, value, must_exist):
     assert utils.validate_path(name=name, value=value, must_exist=must_exist)
 

@@ -2,48 +2,83 @@ name: Test Package
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PIP_NO_PYTHON_VERSION_WARNING: "1"
+  xpdf_gpg_key: 'gpg-key.txt'
+  xpdf_gpg_sig: 'xpdf-tools-linux-4.05.tar.gz.sig'
+  xpdf_bin_comp: 'xpdf-tools-linux-4.05.tar.gz'
+  xpdf_tools_dir: 'xpdf-tools-linux-4.05'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  xpdf_gpg_key: 'gpg-key.txt'
-  xpdf_gpg_sig: 'xpdf-tools-linux-4.04.tar.gz.sig'
-  xpdf_bin_comp: 'xpdf-tools-linux-4.04.tar.gz'
-  xpdf_tools_dir: 'xpdf-tools-linux-4.04'
+permissions: { }
 
 jobs:
-  test_lint:
-    name: Test and lint
+  build-package:
+    name: Build package
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: [ "3.8", "3.9", "3.10", "3.11" ]
-    permissions:
-      contents: read
-      pull-requests: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: hynek/build-and-inspect-python-package@v2
+        id: baipp
+
+    outputs:
+      # Used to define the matrix for tests below. The value is based on
+      # packaging metadata (trove classifiers).
+      python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_array }}
+
+  tests:
+    name: Test on ${{ matrix.os }} using Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}-latest
+    needs: build-package
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # TODO: add tests for 'Windows' and 'macOS'.
+        os:
+          - ubuntu
+        # - windows
+        # Created by the build-and-inspect-python-package action above.
+        python-version: ${{ fromJson(needs.build-package.outputs.python-versions) }}
+
+    env:
+      PYTHON: ${{ matrix.python-version }}
+
+    steps:
+      - name: Download pre-built packages
+        uses: actions/download-artifact@v4
+        with:
+          name: Packages
+          path: dist
+
+      - name: Extract pre-built package
+        run: |
+          tar xf dist/*.tar.gz --strip-components=1
+          rm -rf src
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-
-      - name: Install dependencies
-        run: |
-          echo "::group::Pip dependencies"
-          python -m pip install --upgrade pip setuptools wheel
-          python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
-          echo "::endgroup::"
+          allow-prereleases: true
 
       - name: Cache xpdf tools
         id: cache-xpdf
@@ -52,23 +87,128 @@ jobs:
           path: .xpdf/download
           key: ${{ runner.os }}-${{ hashFiles('**/.xpdf/download/${{ env.xpdf_gpg_key }}', '**/.xpdf/download/${{ env.xpdf_gpg_sig }}', '**/.xpdf/download/${{ env.xpdf_bin_comp }}') }}
 
-      - name: Set up xpdf tools
-        run: |
-          echo "::group::xpdf tools"
-          python install_xpdf.py \
-            --download-dir=.xpdf/download \
-            --install-dir=.xpdf/install \
-            --gpg-key-url=https://www.xpdfreader.com/${{ env.xpdf_gpg_key }} \
-            --file-sig-url=https://dl.xpdfreader.com/${{ env.xpdf_gpg_sig }} \
+      - name: Install Ubuntu dependencies
+        if: matrix.os == 'ubuntu'
+        run: >
+          python install_xpdf.py
+            --download-dir=.xpdf/download
+            --install-dir=.xpdf/install
+            --gpg-key-url=https://www.xpdfreader.com/${{ env.xpdf_gpg_key }}
+            --file-sig-url=https://dl.xpdfreader.com/${{ env.xpdf_gpg_sig }}
             --file-comp-url=https://dl.xpdfreader.com/${{ env.xpdf_bin_comp }}
-          echo "::endgroup::"
 
-      # run tests using tox
-      # https://tox.wiki/en/latest/config.html#conf-basepython
-      # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#running-tests-with-tox
-      - name: Run tox
+      - name: Install Windows dependencies
+        if: matrix.os == 'windows'
+        run: >
+          python install_xpdf.py
+            --download-dir=.xpdf/download
+            --install-dir=.xpdf/install
+            --gpg-key-url=https://www.xpdfreader.com/${{ env.xpdf_gpg_key }}
+            --file-sig-url=https://dl.xpdfreader.com/${{ env.xpdf_gpg_sig }}
+            --file-comp-url=https://dl.xpdfreader.com/${{ env.xpdf_bin_comp }}
+
+      - name: Run tests
         run: |
           export TEST_INCLUDE_SLOW=true
           export TEST_XPDF_EXE_DIR=.xpdf/install/${{ env.xpdf_tools_dir }}/bin64
-          python -X dev -m tox -e py
+          pipx run tox run --installpkg dist/*.whl -f py${PYTHON//./}-tests
+
+      - name: Upload coverage data
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-data-${{ matrix.os }}-${{ matrix.python-version }}
+          path: .coverage.*
+          include-hidden-files: true
+          if-no-files-found: ignore
+
+  coverage:
+    name: Check test coverage
+    runs-on: ubuntu-latest
+    needs: tests
+    if: always()
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.10
+          cache: pip
+          allow-prereleases: true
+
+      - name: Download coverage data
+        uses: actions/download-artifact@v4
+        with:
+          pattern: coverage-data-*
+          merge-multiple: true
+
+      - name: Combine coverage and fail if under expected percentage
+        run: |
+          # Install coverage packages
+          pip install coverage
+
+          # Combine the coverage from each Python version
+          coverage combine
+          
+          # Generate the html coverage report
+          coverage html --skip-covered --skip-empty
+
+          # Generate the markdown coverage report to the GitHub step summary
+          coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+
+          # Generate the coverage report and fail if under expected percentage
+          coverage report --fail-under=70
+
+      - name: Upload HTML report if coverage under expected percentage
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report
+          path: htmlcov
+        if: ${{ failure() }}
+
+  lint:
+    name: Run linters
+    runs-on: ubuntu-latest
+    needs:
+      - build-package
+      - tests
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu
+        # - windows
+        python-version: [ "3.10" ]
+
+    env:
+      PYTHON: ${{ matrix.python-version }}
+
+    steps:
+      - name: Download pre-built packages
+        uses: actions/download-artifact@v4
+        with:
+          name: Packages
+          path: dist
+
+      - name: Extract pre-built package
+        run: tar xf dist/*.tar.gz --strip-components=1
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          allow-prereleases: true
+
+      - name: Lint style
+        run: pipx run tox run --installpkg dist/*.whl -f py${PYTHON//./}-lint-style
+
+      - name: Lint docs
+        if: matrix.python-version == '3.10'
+        run: pipx run tox run --installpkg dist/*.whl -e lint-docs
 

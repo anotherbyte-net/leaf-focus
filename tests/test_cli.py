@@ -1,5 +1,6 @@
 import logging
 import shutil
+
 from importlib_resources import as_file, files
 
 from leaf_focus.cli import main
@@ -50,7 +51,7 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
             "22",
             "--log-level",
             "debug",
-        ]
+        ],
     )
 
     stdout, stderr = capsys.readouterr()
@@ -61,6 +62,18 @@ def test_cli_pdf_ocr_existing_files(capsys, caplog, tmp_path, resource_example1)
         ("leaf_focus.app", 20, "Starting leaf-focus"),
         ("leaf_focus.app", 20, f"Using output directory '{output_dir}'."),
         ("leaf_focus.pdf.xpdf", 20, "Loading existing pdf info file."),
+        (
+            "leaf_focus.utils",
+            10,
+            "Value '2020-08-13T11:09:00Z' did not match date format '%a %b %d "
+            "%H:%M:%S %Y'.",
+        ),
+        (
+            "leaf_focus.utils",
+            10,
+            "Value '2020-08-14T14:58:43Z' did not match date format '%a %b %d "
+            "%H:%M:%S %Y'.",
+        ),
         (
             "leaf_focus.pdf.xpdf",
             20,

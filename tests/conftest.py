@@ -10,7 +10,7 @@ def resource_example1():
         prefix="452.06-win10-win8-win7-release-notes",
         metadata={
             "attributes": {
-                "xmptk": "Adobe XMP Core 5.6-c017 91.164374, 2020/03/05-20:41:30"
+                "xmptk": "Adobe XMP Core 5.6-c017 91.164374, 2020/03/05-20:41:30",
             },
             "children": [
                 {
@@ -37,10 +37,10 @@ def resource_example1():
                                                     "attributes": {"lang": "x-default"},
                                                     "name": "li",
                                                     "value": "BkNVR450_Win7.book",
-                                                }
+                                                },
                                             ],
                                             "name": "Alt",
-                                        }
+                                        },
                                     ],
                                     "name": "title",
                                 },
@@ -48,16 +48,16 @@ def resource_example1():
                                     "children": [
                                         {
                                             "children": [
-                                                {"name": "li", "value": "ccampa"}
+                                                {"name": "li", "value": "ccampa"},
                                             ],
                                             "name": "Seq",
-                                        }
+                                        },
                                     ],
                                     "name": "creator",
                                 },
                                 {
                                     "name": "Producer",
-                                    "value": "Acrobat Distiller 20.0 " "(Windows)",
+                                    "value": "Acrobat Distiller 20.0 (Windows)",
                                 },
                                 {
                                     "name": "DocumentID",
@@ -69,10 +69,10 @@ def resource_example1():
                                 },
                             ],
                             "name": "Description",
-                        }
+                        },
                     ],
                     "name": "RDF",
-                }
+                },
             ],
             "name": "xmpmeta",
         },

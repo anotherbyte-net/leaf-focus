@@ -1,21 +1,23 @@
 """OCR using keras-ocr."""
+
 from __future__ import annotations
 
 import logging
 import os
-import typing
+import pathlib
+
+import numpy as np
+
+from beartype import beartype, typing
 
 from leaf_focus import utils
 from leaf_focus.ocr import model
 
-if typing.TYPE_CHECKING:
-    import pathlib
-
-    import numpy as np
 
 logger = logging.getLogger(__name__)
 
 
+@beartype
 class OpticalCharacterRecognition:
     """OCR implementation using keras-ocr."""
 
@@ -56,12 +58,7 @@ class OpticalCharacterRecognition:
         gpus = tf.config.list_physical_devices("GPU")
         logger.info("GPUs in use: '%s'.", gpus)
 
-        try:
-            import keras_ocr
-        except ModuleNotFoundError as error:
-            msg = "Cannot run ocr on this Python version."
-            logger.exception(msg)
-            raise utils.LeafFocusError(msg) from error
+        import keras_ocr
 
         # TODO: allow specifying path to weights files for detector
         # detector_weights_path = ""
@@ -91,7 +88,7 @@ class OpticalCharacterRecognition:
     def engine_run(
         self,
         image_file: pathlib.Path,
-    ) -> tuple[list, typing.Any]:
+    ) -> tuple[list[typing.Any], typing.Any]:
         """Run the recognition engine.
 
         Args:
@@ -101,12 +98,7 @@ class OpticalCharacterRecognition:
             typing.Tuple[typing.List, typing.Any]: The list of images
                 and list of recognition results.
         """
-        try:
-            import keras_ocr
-        except ModuleNotFoundError as error:
-            msg = "Cannot run ocr on this Python version."
-            logger.error(msg)
-            raise utils.LeafFocusError(msg) from error
+        import keras_ocr
 
         self.engine_create()
 
@@ -118,11 +110,11 @@ class OpticalCharacterRecognition:
         images = [keras_ocr.tools.read(str(image_file))]
         return images, self._pipeline.recognize(images)
 
-    def engine_annotate(
+    def engine_annotate(  # type: ignore [no-untyped-def]
         self,
-        image: np.ndarray | None,
+        image: np.ndarray | None,  # type: ignore [type-arg]
         predictions: list[tuple[typing.Any, typing.Any]],
-        axis,
+        axis,  # noqa: ANN001
     ) -> None:
         """Run the annotation engine.
 
@@ -134,12 +126,7 @@ class OpticalCharacterRecognition:
         Returns:
             None
         """
-        try:
-            import keras_ocr
-        except ModuleNotFoundError as error:
-            msg = "Cannot run ocr on this Python version."
-            logger.error(msg)
-            raise utils.LeafFocusError(msg) from error
+        import keras_ocr
 
         keras_ocr.tools.drawAnnotations(image=image, predictions=predictions, ax=axis)
 
@@ -201,7 +188,7 @@ class OpticalCharacterRecognition:
         images, prediction_groups = self.engine_run(image_file)
 
         # Plot and save the predictions
-        for image, predictions in zip(images, prediction_groups):
+        for image, predictions in zip(images, prediction_groups, strict=False):
             self.save_figure(annotations_file, image, predictions)
 
             items = self.convert_predictions(predictions)
@@ -213,7 +200,7 @@ class OpticalCharacterRecognition:
     def save_figure(
         self,
         annotation_file: pathlib.Path,
-        image: np.ndarray | None,
+        image: np.ndarray | None,  # type: ignore [type-arg]
         predictions: list[tuple[typing.Any, typing.Any]],
     ) -> None:
         """Save the annotated image.
@@ -241,6 +228,7 @@ class OpticalCharacterRecognition:
         logger.info("Saving OCR image to '%s'.", annotation_file)
 
         import matplotlib as mpl
+
         from matplotlib import pyplot as plt
 
         mpl.use("agg")
@@ -269,9 +257,9 @@ class OpticalCharacterRecognition:
         if not predictions:
             predictions = []
 
-        items = []
-        for prediction in predictions:
-            items.append(model.TextItem.from_prediction(prediction))
+        items = [
+            model.TextItem.from_prediction(prediction) for prediction in predictions
+        ]
 
         # order_text_lines sets the line number and line order
         line_items = model.TextItem.order_text_lines(items)
@@ -304,7 +292,7 @@ class OpticalCharacterRecognition:
         items_list = list(items)
         model.TextItem.save(items_file, items_list)
 
-    def _build_name(self, prefix: str, middle: str, suffix: str):
+    def _build_name(self, prefix: str, middle: str, suffix: str) -> str:
         """Build the file name.
 
         Args:

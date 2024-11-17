@@ -10,75 +10,52 @@ concurrency:
 
 jobs:
   analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
+    name: "Analyze ${{ matrix.os }} / ${{ matrix.python-version }}"
+    runs-on: ${{ matrix.os }}-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ Ubuntu ]
+        language: [ "python" ]
+        python-version: [ "3.10" ]
+
     permissions:
       actions: read
       contents: read
       security-events: write
 
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ "python" ]
-        python-version: [ "3.11" ]
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+          allow-prereleases: true
 
       - name: Install dependencies
         run: |
           echo "::group::Pip dependencies"
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
+          python -m pip install --upgrade -r requirements.txt
           python -m pip install .
           echo "::endgroup::"
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
-          setup-python-dependencies: false
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
 
       - name: Run pip audit
-        uses: pypa/gh-action-pip-audit@v1.0.8
+        uses: pypa/gh-action-pip-audit@v1.1.0
         continue-on-error: true
         with:
-          inputs: requirements.txt requirements-dev.txt
-
-      - name: Install snyk to check for vulnerabilities
-        uses: snyk/actions/setup@master
-
-      - name: Run Snyk over the runtime dependencies
-        run: snyk test --sarif-file-output=snyk-requirements-${{ matrix.python-version }}.sarif --command=python --file=requirements.txt --package-manager=pip --skip-unresolved
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-      - name: Upload Snyk runtime dependencies scan result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk-requirements-${{ matrix.python-version }}.sarif
-          category: requirements-runtime-${{ matrix.python-version }}
-
-      - name: Run Snyk over the development dependencies
-        run: snyk test --sarif-file-output=snyk-requirements-dev-${{ matrix.python-version }}.sarif --command=python --file=requirements-dev.txt --package-manager=pip --skip-unresolved
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-      - name: Upload Snyk development dependencies scan result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk-requirements-dev-${{ matrix.python-version }}.sarif
-          category: requirements-dev-${{ matrix.python-version }}
+          inputs: requirements.txt

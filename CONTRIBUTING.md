@@ -1,5 +1,6 @@
 # Leaf focus contributing guide
 
+
 ## Development
 
 Create a virtual environment:
@@ -11,30 +12,27 @@ python -m venv .venv
 Install runtime dependencies and development dependencies:
 
 ```bash
-# Windows MINGW64
-source .venv/Scripts/activate
+# Windows
+.venv\Scripts\activate.ps1
 
 # Linux
 source .venv/bin/activate
 
-# Any
-
 # install dependencies
-python -m pip install --upgrade pip setuptools wheel
-python -m pip install --upgrade -r requirements-dev.txt -r requirements.txt
+python -m pip install --upgrade pip tox build
+```
 
-# check for outdated packages
-pip list --outdated
+If you change the dependencies, re-generate the `requirements.txt` file:
+
+```bash
+python -X dev -m tox run -e pip-compile
 ```
 
 ## Run tests and linters
 
 Run the tests and linters with multiple python versions using tox.
 
-If the pip dependencies have changed, it might be necessary to 
-(un)comment `recreate = true` in the tox section in `pyproject.toml`.
-
-To run using all available python versions:
+Install dependencies:
 
 ```bash
 # Windows
@@ -42,26 +40,25 @@ python install_xpdf.py \
 --download-dir=.xpdf/download \
 --install-dir=.xpdf/install \
 --gpg-key-url=https://www.xpdfreader.com/gpg-key.txt \
---file-sig-url=https://dl.xpdfreader.com/xpdf-tools-win-4.04.zip.sig \
---file-comp-url=https://dl.xpdfreader.com/xpdf-tools-win-4.04.zip
-
-# Windows
-export TEST_XPDF_EXE_DIR=.xpdf/install/xpdf-tools-win-4.04/bin64
+--file-sig-url=https://dl.xpdfreader.com/xpdf-tools-win-4.05.zip.sig \
+--file-comp-url=https://dl.xpdfreader.com/xpdf-tools-win-4.05.zip
 
 # Linux
 python install_xpdf.py \
 --download-dir=.xpdf/download \
 --install-dir=.xpdf/install \
 --gpg-key-url=https://www.xpdfreader.com/gpg-key.txt \
---file-sig-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.04.tar.gz.sig \
---file-comp-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.04.tar.gz
+--file-sig-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz.sig \
+--file-comp-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz
+```
 
-# Linux
-export TEST_XPDF_EXE_DIR=.xpdf/install/xpdf-tools-linux-4.04/bin64
+To run using all available python versions:
 
-# Any
-export TEST_INCLUDE_SLOW=true
-python -X dev -m tox
+```bash
+python -X dev -m tox run -e py310-tests
+python -X dev -m tox run -e coverage-report
+python -X dev -m tox run -e py310-lint-style
+python -X dev -m tox run -e lint-docs
 ```
 
 To run using the active python:
@@ -70,19 +67,7 @@ To run using the active python:
 python -X dev -m tox -e py
 ```
 
-## Generate docs
-
-Generate the docs using pdoc3:
-
-```bash
-pdoc --docformat google \
-  --edit-url leaf_focus=https://github.com/anotherbyte-net/leaf-focus/blob/main/src/leaf_focus/ \
-  --search --show-source \
-  --output-directory docs \
-  ./src/leaf_focus
-```
-
-## Create and upload release
+## Test a release locally
 
 Generate the distribution package archives.
 
@@ -90,38 +75,19 @@ Generate the distribution package archives.
 python -X dev -m build
 ```
 
-Upload archives to Test PyPI first.
+Then create a new virtual environment, install the dependencies, and install from the local wheelTest PyPI.
 
 ```bash
-python -X dev -m twine upload --repository testpypi dist/*
-```
-
-When uploading:
-
-- for username, use `__token__`
-- for password, [create a token](https://test.pypi.org/manage/account/#api-tokens)
-
-Go to the [test project page](https://test.pypi.org/project/leaf-focus) and check that it looks ok.
-
-Then create a new virtual environment, install the dependencies from the main PyPI, and install from Test PyPI.
-Make sure to install the dependencies from the main PyPI, as the packages on Test PyPI are not the same.
-
-```bash
-# in a new terminal
-cd leaf-focus
 rm -rf .venv-test
 python -m venv .venv-test
 source .venv-test/bin/activate
-python -m pip install --upgrade pip setuptools wheel
-python -m pip install --upgrade -r requirements.txt
 
-export LEAF_FOCUS_VERSION='0.6.2'
-pip install --index-url https://test.pypi.org/simple/ --no-deps leaf-focus==$LEAF_FOCUS_VERSION
-# or
-pip install dist/leaf_focus-$LEAF_FOCUS_VERSION-py3-none-any.whl
+python -m pip install --upgrade pip
+
+pip install dist/*.whl
 ```
 
-Test the installed package.
+## Test the installed package
 
 ```bash
 leaf-focus --version
@@ -130,24 +96,43 @@ leaf-focus --help
 # Windows
 leaf-focus tests/resources/example1/452.06-win10-win8-win7-release-notes.pdf \
   .pypi-test/ --ocr \
-  --exe-dir .xpdf/install/xpdf-tools-win-4.04/bin64
+  --exe-dir .xpdf/install/xpdf-tools-win-4.05/bin64
 
 # Linux
 leaf-focus tests/resources/example1/452.06-win10-win8-win7-release-notes.pdf \
   .pypi-test/ --ocr \
-  --exe-dir .xpdf/install/xpdf-tools-linux-4.04/bin64
+  --exe-dir .xpdf/install/xpdf-tools-linux-4.05/bin64
 ```
 
-If the package seems to work as expected, upload it to the live PyPI.
+## Test a release from Test PyPI
+
+If the package seems to work as expected, push changes to the `main` branch.
+
+The `pypi-package.yml` GitHub Actions workflow will deploy a release to Test PyPI.
+
+Then follow the same process as testing a release locally, except install from Test PyPI.
 
 ```bash
-python -X dev -m twine upload dist/*
+rm -rf .venv-test
+python -m venv .venv-test
+source .venv-test/bin/activate
+
+python -m pip install --upgrade pip
+
+# use the requirements file to install dependencies from the production PyPI,
+# as the packages may not be on Test PyPI, or they might be different (potentially malicious!) packages.
+python -m pip install --upgrade -r requirements.txt
+
+pip install --index-url https://test.pypi.org/simple/ --no-deps leaf-focus==$LEAF_FOCUS_VERSION
 ```
 
-When uploading:
+Go to the [test project page](https://test.pypi.org/project/leaf-focus) and check that it looks ok.
 
-- for username, use `__token__`
-- for password, [create a token](https://pypi.org/manage/account/#api-tokens)
+## Create a release to PyPI
+
+Create a tag on the `main` branch.
+
+The `pypi-package.yml` GitHub Actions workflow will deploy a release to PyPI.
 
 Go to the [live project page](https://pypi.org/project/leaf-focus) and check that it looks ok.
 

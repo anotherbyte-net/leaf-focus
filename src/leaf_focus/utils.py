@@ -1,36 +1,40 @@
 """Small utility functions."""
+
 from __future__ import annotations
 
 import dataclasses
-import datetime
 import json
 import logging
+import pathlib
 import platform
 import re
-import typing
 import unicodedata
+
+from datetime import date, datetime, time, timezone
 from enum import Enum
+from xml.etree.ElementTree import Element
 
-if typing.TYPE_CHECKING:
-    import pathlib
-    from xml.etree.ElementTree import Element
-
+from beartype import beartype, typing
 from importlib_metadata import PackageNotFoundError, distribution
 from importlib_resources import as_file, files
+
 
 logger = logging.getLogger(__name__)
 
 
+@beartype
 def get_name_dash() -> str:
     """Get the package name with word separated by dashes."""
     return "leaf-focus"
 
 
+@beartype
 def get_name_under() -> str:
     """Get the package name with word separated by underscores."""
     return "leaf_focus"
 
 
+@beartype
 def get_version() -> str | None:
     """Get the package version."""
     try:
@@ -39,32 +43,39 @@ def get_version() -> str | None:
         pass
 
     else:
-        return dist.version
+        return str(dist.version)
 
     try:
         with as_file(files(get_name_under()).joinpath("cli.py")) as file_path:
-            return (file_path.parent.parent.parent / "VERSION").read_text().strip()
+            version_text = (file_path.parent.parent.parent / "VERSION").read_text()
+            return str(version_text.strip())
     except FileNotFoundError:
         pass
 
     return None
 
 
-def parse_date(value: str) -> datetime.datetime | None:
+@beartype
+def parse_date(value: str) -> datetime | None:
     """Parse a date from a string."""
     formats = [
         # e.g. 'Thu Aug 13 11:09:00 2020'
         "%a %b %d %H:%M:%S %Y",
+        # e.g. '2011-11-04T00:05:23Z'
+        "%Y-%m-%dT%H:%M:%SZ",
     ]
     for fmt in formats:
         try:
-            return datetime.datetime.strptime(value, fmt)
-        except ValueError:
+            return datetime.strptime(value, fmt).replace(tzinfo=timezone.utc)
+        except ValueError:  # noqa: PERF203
             logger.debug("Value '%s' did not match date format '%s'.", value, fmt)
     return None
 
 
-def validate(name: str, value, expected: typing.Iterable[str]) -> None:
+@beartype
+def validate(
+    name: str, value: str | int | None, expected: typing.Iterable[str | int | None]
+) -> None:
     """Validate that a value is one of the expected values."""
     if value is not None and value not in expected:
         opts = ", ".join(sorted([str(i) for i in expected]))
@@ -72,6 +83,7 @@ def validate(name: str, value, expected: typing.Iterable[str]) -> None:
         raise LeafFocusError(msg)
 
 
+@beartype
 class ValidatePathMethod(Enum):
     """Options for how to validate a path."""
 
@@ -79,6 +91,7 @@ class ValidatePathMethod(Enum):
     MUST_EXIST = 1
 
 
+@beartype
 def validate_path(
     name: str,
     value: pathlib.Path,
@@ -103,6 +116,7 @@ def validate_path(
         return abs_path
 
 
+@beartype
 def validate_pages(first_page: int | None, last_page: int | None) -> None:
     """Validate the page range.
 
@@ -123,6 +137,7 @@ def validate_pages(first_page: int | None, last_page: int | None) -> None:
         raise LeafFocusError(msg)
 
 
+@beartype
 def select_exe(value: pathlib.Path) -> pathlib.Path:
     """Select the executable path based on the platform."""
     if platform.system() == "Windows":
@@ -135,6 +150,7 @@ def select_exe(value: pathlib.Path) -> pathlib.Path:
     return value
 
 
+@beartype
 def output_root(
     input_file: pathlib.Path,
     output_type: str,
@@ -158,6 +174,7 @@ _slug_re_1 = re.compile(r"[^\w\s-]")
 _slug_re_2 = re.compile(r"[-\s]+")
 
 
+@beartype
 def str_norm(value: str) -> str:
     """Normalise a string into the 'slug' format."""
     separator = "-"
@@ -172,20 +189,25 @@ def str_norm(value: str) -> str:
     return result
 
 
-# 45206-win10-win8-win7-release-notes-page-image-gray-000022.png
+class IsDataclass(typing.Protocol):
+    """A protocol to allow typing for dataclasses."""
+
+    __dataclass_fields__: typing.ClassVar[dict[str, typing.Any]]
 
 
+@beartype
 class CustomJsonEncoder(json.JSONEncoder):
     """A custom json encoder."""
 
-    def default(self, o: typing.Any) -> typing.Any:
+    def default(self, o: IsDataclass | datetime | date | time) -> str | typing.Any:
         """Conversion used by default."""
-        if isinstance(o, (datetime.datetime, datetime.date, datetime.time)):
+        if isinstance(o, datetime | date | time):
             return o.isoformat()
 
         return super().default(o)
 
 
+@beartype
 @dataclasses.dataclass
 class XmlElement:
     """A simple xml element.
@@ -200,7 +222,7 @@ class XmlElement:
     tail: str
     children: typing.Collection[XmlElement]
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, typing.Any]:
         """Convert xml element to a dict."""
         result: dict[str, typing.Any] = {"name": self.tag.strip()}
 
@@ -208,7 +230,7 @@ class XmlElement:
         if value:
             result["value"] = value
 
-        attributes = {k.strip(): (v or "").strip() for n, k, v, in self.attrib}
+        attributes = {k.strip(): (v or "").strip() for n, k, v in self.attrib}
         if attributes:
             result["attributes"] = attributes
 
@@ -250,6 +272,7 @@ class XmlElement:
         return f"<{tag1}{attrib}>{text}{children}{tag2}{tail}"
 
 
+@beartype
 def xml_to_element(element: Element) -> XmlElement:
     """Convert xml into nested dicts."""
     attrib = element.attrib or {}
@@ -278,6 +301,7 @@ def xml_to_element(element: Element) -> XmlElement:
     return item
 
 
+@beartype
 def xml_tag_ns(value: str) -> tuple[str, str]:
     """Get the XML namespace and name.
 
@@ -297,5 +321,6 @@ def xml_tag_ns(value: str) -> tuple[str, str]:
     return name_space, name
 
 
+@beartype
 class LeafFocusError(Exception):
     """A custom error for leaf focus."""

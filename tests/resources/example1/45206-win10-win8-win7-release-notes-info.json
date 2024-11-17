@@ -5,8 +5,8 @@
   "author": "ccampa",
   "creator": "FrameMaker 2019.0.4",
   "producer": "Acrobat Distiller 20.0 (Windows)",
-  "creation_date": "2020-08-13T11:09:00",
-  "modification_date": "2020-08-14T14:58:43",
+  "creation_date": "2020-08-13T11:09:00Z",
+  "modification_date": "2020-08-14T14:58:43Z",
   "tagged": false,
   "form": "none",
   "pages": 42,
@@ -20,6 +20,7 @@
   "file_size_bytes": 275855,
   "optimized": true,
   "pdf_version": "1.5",
+  "javascript": "no",
   "metadata": {
     "name": "xmpmeta",
     "attributes": {

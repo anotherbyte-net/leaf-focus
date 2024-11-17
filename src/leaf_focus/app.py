@@ -1,10 +1,13 @@
 """Main application."""
+
 from __future__ import annotations
 
 import dataclasses
 import datetime
 import logging
-import typing
+import pathlib
+
+from beartype import beartype, typing
 
 from leaf_focus import utils
 from leaf_focus.ocr import keras_ocr
@@ -13,12 +16,11 @@ from leaf_focus.pdf import model as pdf_model
 from leaf_focus.pdf import xpdf
 from leaf_focus.utils import ValidatePathMethod
 
-if typing.TYPE_CHECKING:
-    import pathlib
 
 logger = logging.getLogger(__name__)
 
 
+@beartype
 @dataclasses.dataclass
 class AppArgs:
     """Arguments for running the application."""
@@ -45,6 +47,7 @@ class AppArgs:
     """the log level"""
 
 
+@beartype
 class App:
     """The main application."""
 

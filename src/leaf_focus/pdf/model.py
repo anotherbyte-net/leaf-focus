@@ -1,18 +1,21 @@
 """PDF processing models."""
+
 from __future__ import annotations
 
 import dataclasses
 import logging
+import pathlib
 import platform
-import typing
 
-if typing.TYPE_CHECKING:
-    import pathlib
-    from datetime import datetime
+from datetime import datetime
+
+from beartype import beartype, typing
+
 
 logger = logging.getLogger(__name__)
 
 
+@beartype
 @dataclasses.dataclass
 class XpdfArgs:
     """xpdf arguments common to all commands."""
@@ -89,6 +92,7 @@ class XpdfArgs:
     """
 
 
+@beartype
 @dataclasses.dataclass
 class XpdfInfoArgs(XpdfArgs):
     """Arguments for xpdf pdfinfo program."""
@@ -138,6 +142,7 @@ class XpdfInfoArgs(XpdfArgs):
     """
 
 
+@beartype
 @dataclasses.dataclass
 class XpdfInfoResult:
     """Result from xpdf pdfinfo program."""
@@ -168,7 +173,7 @@ class XpdfInfoResult:
         metadata={"leaf_focus": {"name": "ModDate"}},
     )
 
-    # addtional info
+    # additional info
     tagged: bool | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Tagged"}},
     )
@@ -208,13 +213,17 @@ class XpdfInfoResult:
     pdf_version: str | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "PDF version"}},
     )
+    javascript: str | None = dataclasses.field(
+        metadata={"leaf_focus": {"name": "JavaScript"}},
+    )
 
     # xml metadata
-    metadata: dict | None = dataclasses.field(
+    metadata: dict[str, typing.Any] | None = dataclasses.field(
         metadata={"leaf_focus": {"name": "Metadata"}},
     )
 
 
+@beartype
 @dataclasses.dataclass
 class XpdfTextArgs(XpdfArgs):
     """Arguments for xpdf pdftotext program."""
@@ -451,6 +460,7 @@ class XpdfTextArgs(XpdfArgs):
         return opts[plat]
 
 
+@beartype
 @dataclasses.dataclass
 class XpdfTextResult:
     """Result for xpdf pdftotext program."""
@@ -460,6 +470,7 @@ class XpdfTextResult:
     stderr: typing.Collection[str] = dataclasses.field(default_factory=list)
 
 
+@beartype
 @dataclasses.dataclass
 class XpdfImageArgs(XpdfArgs):
     """Arguments for xpdf pdftopng program."""
@@ -547,6 +558,7 @@ class XpdfImageArgs(XpdfArgs):
     """
 
 
+@beartype
 @dataclasses.dataclass
 class XpdfImageResult:
     """Result for xpdf pdftopng program."""

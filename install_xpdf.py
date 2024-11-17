@@ -1,4 +1,5 @@
 """Download and extract the xpdf tools."""
+
 from __future__ import annotations
 
 import argparse
@@ -208,7 +209,7 @@ class XpdfInstall:
 
     def _path_to_str(self, path: pathlib.Path) -> str:
         posix_path = pathlib.PurePosixPath(path)
-        str_path = str(posix_path).replace(":\\/", "/")
+        str_path = str(posix_path).replace(":/", "/").replace(":\\/", "/")
         str_path = "/" + str_path[0].lower() + str_path[1:]
         return str_path
 

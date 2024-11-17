@@ -1,4 +1,5 @@
 """Text extraction from pdf using xpdf tools."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -6,21 +7,24 @@ import json
 import logging
 import pathlib
 import subprocess
-import typing
+
 from datetime import datetime
 
+from beartype import beartype, typing
 from defusedxml import ElementTree
 
 from leaf_focus import utils
 from leaf_focus.pdf import model
 
+
 logger = logging.getLogger(__name__)
 
 
+@beartype
 class XpdfProgram:
     """Interact with xpdf tools."""
 
-    OPTS_TEXT_ENCODING: tuple = (
+    OPTS_TEXT_ENCODING: tuple[str, str, str, str, str, str] = (
         "Latin1",
         "ASCII7",
         "Symbol",
@@ -28,11 +32,11 @@ class XpdfProgram:
         "UTF-8",
         "UCS-2",
     )
-    OPTS_TEXT_LINE_ENDING: tuple = ("unix", "dos", "mac")
-    OPTS_IMAGE_ROTATION: tuple = (0, 90, 180, 270)
-    OPTS_IMAGE_FREETYPE: tuple = ("yes", "no")
-    OPTS_IMAGE_ANTI_ALIAS: tuple = ("yes", "no")
-    OPTS_IMAGE_VEC_ANTI_ALIAS: tuple = ("yes", "no")
+    OPTS_TEXT_LINE_ENDING: tuple[str, str, str] = ("unix", "dos", "mac")
+    OPTS_IMAGE_ROTATION: tuple[int, int, int, int] = (0, 90, 180, 270)
+    OPTS_IMAGE_FREETYPE: tuple[str, str] = ("yes", "no")
+    OPTS_IMAGE_ANTI_ALIAS: tuple[str, str] = ("yes", "no")
+    OPTS_IMAGE_VEC_ANTI_ALIAS: tuple[str, str] = ("yes", "no")
 
     def __init__(self, directory: pathlib.Path) -> None:
         """Create a new xpdf program class to interact with xpdf tools.
@@ -74,7 +78,12 @@ class XpdfProgram:
         if output_file.exists():
             logger.info("Loading existing pdf info file.")
             with pathlib.Path.open(output_file, encoding="utf-8") as info_file:
-                return model.XpdfInfoResult(**json.load(info_file))
+                data = json.load(info_file)
+                data["creation_date"] = utils.parse_date(data.get("creation_date"))
+                data["modification_date"] = utils.parse_date(
+                    data.get("modification_date")
+                )
+                return model.XpdfInfoResult(**data)
 
         logger.info("Extracting pdf info and saving to file.")
 
@@ -88,7 +97,7 @@ class XpdfProgram:
         cmd.append(str(pdf_path.resolve()))
 
         # execute program
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S603
             cmd,
             capture_output=True,
             check=True,
@@ -177,7 +186,7 @@ class XpdfProgram:
         cmd.extend([*cmd_args, str(pdf_path), str(output_file)])
 
         # execute program
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S603
             cmd,
             capture_output=True,
             check=True,
@@ -270,7 +279,7 @@ class XpdfProgram:
         cmd.extend([*cmd_args, str(pdf_path), str(output_dir)])
 
         # execute program
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S603
             cmd,
             capture_output=True,
             check=True,
@@ -289,7 +298,7 @@ class XpdfProgram:
             output_files=output_files,
         )
 
-    def build_cmd(self, tool_args) -> list[str]:
+    def build_cmd(self, tool_args: model.XpdfArgs) -> list[str]:
         """Build the command arguments from a data class."""
         arg_class = tool_args.__class__
         cmd_args = []
@@ -325,9 +334,11 @@ class XpdfProgram:
                     cmd_args.extend([str(cmd_key)])
 
             elif cmd_type == "single":
-                if field_default is None and value is not None:
-                    cmd_args.extend([str(cmd_key), str(value)])
-                elif field_default != value:
+                if (
+                    field_default is None
+                    and value is not None
+                    or field_default != value
+                ):
                     cmd_args.extend([str(cmd_key), str(value)])
                 else:
                     # no need to add cmd
@@ -371,6 +382,7 @@ class XpdfProgram:
         pdf_path: pathlib.Path,
         lines: typing.Iterable[str],
     ) -> tuple[int | None, dict[str, typing.Any]]:
+        """Build metadata for a field."""
         fields_map = {
             field.metadata.get("leaf_focus", {}).get("name"): field
             for field in dataclasses.fields(model.XpdfInfoResult)
@@ -389,7 +401,7 @@ class XpdfProgram:
 
             field = fields_map.get(key)
             if not field:
-                msg = f"Unknown pdf info key '{key}' in '{pdf_path}'."
+                msg = f"Unknown pdf info key '{key}' value '{value}' in '{pdf_path}'."
                 raise utils.LeafFocusError(msg)
 
             data_key = field.name
