@@ -89,21 +89,21 @@ jobs:
         if: matrix.os == 'ubuntu'
         run: >
           python install_xpdf.py
-            --download-dir=.xpdf/download
-            --install-dir=.xpdf/install
-            --gpg-key-url=https://www.xpdfreader.com/gpg-key.txt
-            --file-sig-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz.sig
-            --file-comp-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz
+          --download-dir=.xpdf/download
+          --install-dir=.xpdf/install
+          --gpg-key-url=https://www.xpdfreader.com/gpg-key.txt
+          --file-sig-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz.sig
+          --file-comp-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz
 
       - name: Install Windows dependencies
         if: matrix.os == 'windows'
         run: >
           python install_xpdf.py
-            --download-dir=.xpdf/download
-            --install-dir=.xpdf/install
-            --gpg-key-url=https://www.xpdfreader.com/gpg-key.txt
-            --file-sig-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz.sig
-            --file-comp-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz
+          --download-dir=.xpdf/download
+          --install-dir=.xpdf/install
+          --gpg-key-url=https://www.xpdfreader.com/gpg-key.txt
+          --file-sig-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz.sig
+          --file-comp-url=https://dl.xpdfreader.com/xpdf-tools-linux-4.05.tar.gz
 
       - name: Run tests
         run: |
