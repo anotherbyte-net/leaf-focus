@@ -477,9 +477,8 @@ keras-applications==1.0.8 \
     --hash=sha256:5579f9a12bcde9748f4a12233925a59b93b73ae6947409ff34aa2ba258189fe5 \
     --hash=sha256:df4323692b8c1174af821bf906f1e442e63fa7589bf0f1230a0b6bdc5a810c95
     # via efficientnet
-# WARNING: pip install will require the following package to be hashed.
-# Consider using a hashable URL like https://github.com/jazzband/pip-tools/archive/SOMECOMMIT.zip
-keras-ocr @ git+https://github.com/faustomorales/keras-ocr.git@e8d34a46f07d50158e1d86d6c617e99bfe99e2f8
+keras-ocr @ https://github.com/faustomorales/keras-ocr/archive/e8d34a46f07d50158e1d86d6c617e99bfe99e2f8.zip \
+    --hash=sha256:0604b59b9f784ed74a43f9e472bf90a4f12c2a3897be89e61d6083e69dbf3488
     # via leaf-focus (pyproject.toml)
 keras-preprocessing==1.1.2 \
     --hash=sha256:7b82029b130ff61cc99b55f3bd27427df4838576838c5b2f65940e4fcec99a7b \
