@@ -1,6 +1,6 @@
 # ocr
 keras-ocr @ https://github.com/faustomorales/keras-ocr/archive/e8d34a46f07d50158e1d86d6c617e99bfe99e2f8.zip
-tensorflow==2.9.0
+tensorflow==2.9.3
 numpy==1.23.0
 matplotlib==3.6.0
 
