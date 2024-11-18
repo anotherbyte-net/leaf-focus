@@ -17,7 +17,7 @@ astunparse==1.6.3 \
 beartype==0.19.0 \
     --hash=sha256:33b2694eda0daf052eb2aff623ed9a8a586703bbf0a90bbc475a83bbf427f699 \
     --hash=sha256:de42dfc1ba5c3710fde6c3002e3bd2cad236ed4d2aabe876345ab0b4234a6573
-    # via leaf-focus (pyproject.toml)
+    # via -r requirements.in
 cachetools==5.5.0 \
     --hash=sha256:02134e8439cdc2ffb62023ce1debca2944c3f289d66bb17ead3ab3dede74b292 \
     --hash=sha256:2cc24fb4cbe39633fb7badd9db9ca6295d766d9c2995f245725a46715d050f2a
@@ -133,10 +133,6 @@ charset-normalizer==3.4.0 \
     --hash=sha256:fe9f97feb71aa9896b81973a7bbada8c49501dc73e58a10fcef6663af95e5079 \
     --hash=sha256:ffc519621dce0c767e96b9c53f09c5d215578e10b02c285809f76509a3931482
     # via requests
-colorama==0.4.6 \
-    --hash=sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44 \
-    --hash=sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6
-    # via tqdm
 contourpy==1.3.1 \
     --hash=sha256:041b640d4ec01922083645a94bb3b2e777e6b626788f4095cf21abbe266413c1 \
     --hash=sha256:05e806338bfeaa006acbdeba0ad681a10be63b26e1b17317bfac3c5d98f36cda \
@@ -200,7 +196,7 @@ cycler==0.12.1 \
 defusedxml==0.7.1 \
     --hash=sha256:1bb3032db185915b62d7c6209c5a8792be6a32ab2fedacc84e01b52c51aa3e69 \
     --hash=sha256:a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61
-    # via leaf-focus (pyproject.toml)
+    # via -r requirements.in
 editdistance==0.8.1 \
     --hash=sha256:0247e7a1e9c66ea75211a97e725366bff19a52aac2c838ed5f90025630e976dd \
     --hash=sha256:04e229d6f4ce0c12abc9f4cd4023a5b5fa9620226e0207b119c3c2778b036250 \
@@ -465,11 +461,11 @@ imgaug==0.4.0 \
 importlib-metadata==8.5.0 \
     --hash=sha256:45e54197d28b7a7f1559e60b95e7c567032b602131fbd588f1497f47880aa68b \
     --hash=sha256:71522656f0abace1d072b9e5481a48f07c138e00f079c38c8f883823f9c26bd7
-    # via leaf-focus (pyproject.toml)
+    # via -r requirements.in
 importlib-resources==6.4.5 \
     --hash=sha256:980862a1d16c9e147a59603677fa2aa5fd82b87f223b6cb870695bcfce830065 \
     --hash=sha256:ac29d5f956f01d5e4bb63102a5a19957f1b9175e45649977264a1416783bb717
-    # via leaf-focus (pyproject.toml)
+    # via -r requirements.in
 keras==2.9.0 \
     --hash=sha256:55911256f89cfc9343c9fbe4b61ec45a2d33d89729cbe1ab9dcacf8b07b8b6ab
     # via tensorflow
@@ -479,7 +475,7 @@ keras-applications==1.0.8 \
     # via efficientnet
 keras-ocr @ https://github.com/faustomorales/keras-ocr/archive/e8d34a46f07d50158e1d86d6c617e99bfe99e2f8.zip \
     --hash=sha256:0604b59b9f784ed74a43f9e472bf90a4f12c2a3897be89e61d6083e69dbf3488
-    # via leaf-focus (pyproject.toml)
+    # via -r requirements.in
 keras-preprocessing==1.1.2 \
     --hash=sha256:7b82029b130ff61cc99b55f3bd27427df4838576838c5b2f65940e4fcec99a7b \
     --hash=sha256:add82567c50c8bc648c14195bf544a5ce7c1f76761536956c3d2978970179ef3
@@ -726,8 +722,8 @@ matplotlib==3.6.0 \
     --hash=sha256:f1954d71cdf15c19e7f3bf2235a4fe1600ba42f34d472c9495bcf54d75a43e4e \
     --hash=sha256:fbbceb0a0dfe9213f6314510665a32ef25fe29b50657567cd00115fbfcb3b20d
     # via
+    #   -r requirements.in
     #   imgaug
-    #   leaf-focus (pyproject.toml)
 networkx==3.4.2 \
     --hash=sha256:307c3669428c5362aab27c8a1260aa8f47c4e91d3891f48be0141738d8d053e1 \
     --hash=sha256:df5d4365b724cf81b8c6a7312509d0c22386097011ad1abe274afd5e9d3bbc5f
@@ -756,13 +752,13 @@ numpy==1.23.0 \
     --hash=sha256:fc431493df245f3c627c0c05c2bd134535e7929dbe2e602b80e42bf52ff760bc \
     --hash=sha256:fe8b9683eb26d2c4d5db32cd29b38fdcf8381324ab48313b5b69088e0e355379
     # via
+    #   -r requirements.in
     #   contourpy
     #   h5py
     #   imageio
     #   imgaug
     #   keras-applications
     #   keras-preprocessing
-    #   leaf-focus (pyproject.toml)
     #   matplotlib
     #   opencv-python
     #   scikit-image
@@ -1111,20 +1107,20 @@ tensorboard-data-server==0.6.1 \
 tensorboard-plugin-wit==1.8.1 \
     --hash=sha256:ff26bdd583d155aa951ee3b152b3d0cffae8005dc697f72b44a8e8c2a77a8cbe
     # via tensorboard
-tensorflow==2.9.0 \
-    --hash=sha256:2125efb61952821b69446875ccccf8cdcc6c838c21224f70668b51965a0cdf91 \
-    --hash=sha256:4ffe5c36e45552d98ff1b0a7edfa7592626e307515affbb11924bf48da40989a \
-    --hash=sha256:6b049df845b08c76e36f420a93f071895cc1de9bdfc09df8bd3712bc8c9eafd4 \
-    --hash=sha256:6bf4f872a246bff9993b800acabe3daeca647f6dfa62acc58ce6c90ab7f5596e \
-    --hash=sha256:71bcbd327dc8ba664190e78dcdfc94f839e558c08ffc55e4930ac1fdd05b4246 \
-    --hash=sha256:92f48fa903ac5cad7bbd8231b10f34d4369ca62dd5f0c7ca975603056e466cd3 \
-    --hash=sha256:bb17b23d96588c97869b58fd874887ea7e25efa69d80122f5a6d1a26e8cb897e \
-    --hash=sha256:c93690a4abe2c3d804c035e1f51721a87fd60097459e783dce93600f399e1073 \
-    --hash=sha256:d7a73577f7b5cac106b9b9c8fc1c2e6dec4a2e5890328eef3b6ce6a58d5fcaee \
-    --hash=sha256:dd2eb802a254b6a120c64843c4b727e7dc0fc412055a1542ad792dbb358da27d \
-    --hash=sha256:e41c998e1e865baabd58fb30d4536282af894931218e2f6dda2ab0aad57af7d1 \
-    --hash=sha256:f9167b594af16becdf882a6d9a44851cde7fa8e9619a07f8c10a9d8eb31ead1d
-    # via leaf-focus (pyproject.toml)
+tensorflow==2.9.3 \
+    --hash=sha256:0bfe69d67a2c866b531fa82ea01eda7e40efee31b95bbae2c58f47dfe0a5e1f8 \
+    --hash=sha256:179a25c046f8a7bd77b581061d004055c325db58b3cf9f59fe2edbf750f0c317 \
+    --hash=sha256:1ecae730c2b59b7bdf7665398e49f68c9a8a99b5496e5e74393ad5166f4a4c0a \
+    --hash=sha256:285aaa51f553105584c831dfd20ec8f3f9fedcb0a729e575422dd5b314d5cc5e \
+    --hash=sha256:437d0044d6a9537ffd0ded41c9a87a6ee80d4cde9232c616c61727bba28cbe9f \
+    --hash=sha256:6d310d595444d24f6e0c356ab81bcc4433d21068e5717c43ee938712de7da3f4 \
+    --hash=sha256:75574a99ef5e73d5b125cfeb5f186cbec72f56aadc7c510f3321cc8f8d6b7708 \
+    --hash=sha256:89d381ff033fce14787fd9db54d45eea90ebbe69528cd4a0a1ab60b25dc3ff61 \
+    --hash=sha256:95800a95285c9e522324aa77917584cf95a46b1186894783e126d73bb4e0e057 \
+    --hash=sha256:b3877a01c6d459ff13e616709ff9c08956a97e3b9defbebfffd49f4b2dc33428 \
+    --hash=sha256:b9b4221547d4375353d5bff2a50659685ade665f00315d1cde5053f0b7975bfe \
+    --hash=sha256:f234d7660a334a5e0f241a4214754f6d496990c49e992b8e0e65491446c0a41d
+    # via -r requirements.in
 tensorflow-estimator==2.9.0 \
     --hash=sha256:e9762bb302f51bc1eb2f35d19f0190a6a2d809d754d5def788c4328fe3746744
     # via tensorflow
@@ -1165,7 +1161,7 @@ typing-extensions==4.12.2 \
     --hash=sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d \
     --hash=sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8
     # via
-    #   leaf-focus (pyproject.toml)
+    #   -r requirements.in
     #   tensorflow
 urllib3==2.2.3 \
     --hash=sha256:ca899ca043dcb1bafa3e262d73aa25c465bfb49e0bd9dd5d59f1d0acba2f8fac \
